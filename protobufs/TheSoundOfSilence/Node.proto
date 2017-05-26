@@ -1,0 +1,31 @@
+package Devialet.AudioSource;
+
+message NodeId {
+
+ enum Type {
+  Album = 1;
+  Artist = 2;
+  Category = 3;
+  Playlist = 4;
+  Track = 5;
+  Subcategory = 6;
+  Collection = 7;
+ }
+ required bytes id = 1;
+ required uint32 type = 2;
+}
+
+message NodeIds {
+ repeated NodeId nodeIds = 1;
+}
+
+message Node {
+ required NodeId nodeId = 1;
+ required string name = 2;
+ optional bool cachable = 3 [default = true];
+}
+
+message Nodes {
+ repeated Node nodes = 1;
+}
+

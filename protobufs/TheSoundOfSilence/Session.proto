@@ -1,0 +1,19 @@
+package Devialet.AudioSource;
+
+import "TheSoundOfSilence/Picture.proto";
+
+message SessionId {
+ required bytes id = 1;
+}
+
+message Session {
+ required bytes id = 1;
+ required string name = 2;
+ required string serviceInstanceId = 3;
+ required Picture picture = 4;
+}
+
+message Sessions {
+ repeated Session sessions = 1;
+}
+

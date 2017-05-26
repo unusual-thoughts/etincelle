@@ -1,0 +1,137 @@
+package Devialet.AudioSource;
+
+import "CallMeMaybe/CallMeMaybe.proto";
+import "CallMeMaybe/CommonMessages.proto";
+import "TheSoundOfSilence/Album.proto";
+import "TheSoundOfSilence/Artist.proto";
+import "TheSoundOfSilence/Category.proto";
+import "TheSoundOfSilence/Collection.proto";
+import "TheSoundOfSilence/Node.proto";
+import "TheSoundOfSilence/Picture.proto";
+import "TheSoundOfSilence/Playlist.proto";
+import "TheSoundOfSilence/Session.proto";
+import "TheSoundOfSilence/Source.proto";
+import "TheSoundOfSilence/Subcategory.proto";
+import "TheSoundOfSilence/Track.proto";
+import "TheSoundOfSilence/TrackDetails.proto";
+
+message OnlineSourceError {
+
+ enum Code {
+  AlreadyConnected = 1;
+  NeedUpdate = 2;
+  NetworkConnection = 3;
+  NotConnected = 4;
+  ServiceUnavailable = 5;
+ }
+}
+
+message OnlineSourceAvailableMethods {
+ required bool isSearchable = 1;
+ required bool hasAutocomplete = 2;
+ required bool hasBatchMode = 3;
+ optional bool supportPlaylistManagement = 4 [default = false];
+}
+
+message CredentialsLoginRequest {
+ required string login = 1;
+ required string password = 2;
+}
+
+message OAuthLoginRequest {
+ required bytes redirectUrl = 1;
+}
+
+message AuthenticationMethods {
+
+ enum Method {
+  Credentials = 0;
+  OAuth = 1;
+ }
+ repeated uint32 supportedMethods = 1;
+ optional bytes oAuthUrl = 2;
+}
+
+message RegistrationUrl {
+ required bool isRegistrationActive = 1;
+ required string registrationUrl = 2;
+}
+
+message AvailableReply {
+ required bool isAvailable = 1;
+ optional uint32 errorCode = 2;
+}
+
+message LoginReply {
+ required Session session = 1;
+}
+
+message LogoutRequest {
+ required bytes sessionId = 1;
+}
+
+message SearchRequest {
+ required string query = 1;
+ required uint32 type = 2;
+ required uint32 offset = 3;
+ required uint32 size = 4;
+}
+
+message AutocompleteRequest {
+ required string query = 1;
+ required uint32 size = 2;
+}
+
+message PictureIdRequest {
+ required NodeId nodeId = 1;
+ required uint32 size = 2;
+}
+
+message CollectionRequest {
+ required NodeId nodeId = 1;
+ required int32 offset = 2;
+ required int32 limit = 3;
+}
+
+message SubcategoryRequest {
+ required bytes id = 1;
+ required uint32 type = 2;
+ optional uint32 offset = 3 [default = 0];
+ optional uint32 limit = 4 [default = 10];
+}
+
+message TrackDetailsRequest {
+ required NodeId nodeId = 1;
+ required uint32 size = 2;
+}
+
+message TracksDetailsRequest {
+ repeated NodeId nodeId = 1;
+ required uint32 size = 2;
+}
+
+message UserAccountInfo {
+ required bool canPlay = 1;
+ required bool canPreview = 2;
+}
+
+message GetSupportedFavoritesReply {
+ repeated uint32 favoritesTypes = 1;
+}
+
+message UpdatePlaylistRequest {
+ repeated NodeId trackIds = 1;
+ required NodeId playlistId = 2;
+ repeated uint32 indices = 3;
+}
+
+message CreatePlaylistRequest {
+ required string title = 1;
+ repeated NodeId nodeIds = 2;
+}
+
+message IsTrackInPlaylistRequest {
+ required NodeId trackId = 1;
+ required NodeId playlistId = 2;
+}
+

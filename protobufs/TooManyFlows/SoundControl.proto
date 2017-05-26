@@ -1,0 +1,70 @@
+package Devialet.TooManyFlows;
+
+import "CallMeMaybe/CallMeMaybe.proto";
+import "CallMeMaybe/CommonMessages.proto";
+import "TooManyFlows/Identifier.proto";
+
+message Mute {
+ required bool enabled = 1;
+}
+
+message GroupMute {
+ required GroupId groupId = 1;
+ required Mute mute = 2;
+}
+
+message RendererMute {
+ required RendererId rendererId = 1;
+ required Mute mute = 2;
+}
+
+message NightMode {
+ required bool enabled = 1;
+}
+
+message GroupNightMode {
+ required GroupId groupId = 1;
+ required NightMode nightMode = 2;
+}
+
+message RendererNightMode {
+ required RendererId rendererId = 1;
+ required NightMode nightMode = 2;
+}
+
+message Volume {
+ required double value = 1;
+}
+
+message GroupVolume {
+ required GroupId groupId = 1;
+ required Volume volume = 2;
+}
+
+message RendererVolume {
+ required RendererId rendererId = 1;
+ required Volume volume = 2;
+}
+
+message Properties {
+ required Mute mute = 1;
+ required NightMode nightMode = 2;
+ required Volume volume = 3;
+}
+
+message GroupProperties {
+ required GroupId groupId = 1;
+ required Properties properties = 2;
+}
+
+message RendererProperties {
+ required RendererId rendererId = 1;
+ required Properties properties = 2;
+}
+
+message AllProperties {
+ required Properties bouquet = 1;
+ repeated GroupProperties groups = 2;
+ repeated RendererProperties renderers = 3;
+}
+

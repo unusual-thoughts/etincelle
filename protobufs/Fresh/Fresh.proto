@@ -1,0 +1,42 @@
+package Devialet.Fresh;
+
+import "CallMeMaybe/CallMeMaybe.proto";
+import "CallMeMaybe/CommonMessages.proto";
+
+message UpdateInfo {
+ required string id = 1;
+ required bool isValid = 2;
+ required bool isMajor = 3;
+ required string toVersion = 4;
+ required bytes changelog = 5;
+}
+
+message DeviceUpdateInfo {
+ required string deviceSerialNumber = 1;
+ required string deviceProductType = 2;
+ required UpdateInfo updateInfo = 3;
+}
+
+message DeviceUpdateInfoList {
+ repeated DeviceUpdateInfo infos = 1;
+}
+
+message InstallUpdateRequest {
+ required UpdateInfo info = 1;
+ required int32 delay = 2;
+}
+
+message UpdateDownloadProgress {
+ required int64 progress = 1;
+ required int64 total = 2;
+}
+
+message UpdateErrors {
+
+ enum Codes {
+  UpdaterIsBusy = 1;
+  NoValidUpdate = 2;
+  RemoteUpdaterFailed = 3;
+ }
+}
+

@@ -1,0 +1,15 @@
+package Devialet.AudioSource;
+
+import "TheSoundOfSilence/Picture.proto";
+import "TheSoundOfSilence/Track.proto";
+
+message TrackDetails {
+ required Track track = 1;
+ required PictureId pictureId = 2;
+ required Picture picture = 3;
+}
+
+message TracksDetails {
+ repeated TrackDetails tracksDetails = 1;
+}
+

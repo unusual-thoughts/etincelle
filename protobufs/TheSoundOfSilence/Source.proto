@@ -1,0 +1,29 @@
+package Devialet.AudioSource;
+
+import "CallMeMaybe/CallMeMaybe.proto";
+import "CallMeMaybe/CommonMessages.proto";
+import "TheSoundOfSilence/Picture.proto";
+import "TheSoundOfSilence/Session.proto";
+
+message SourceError {
+
+ enum Code {
+  InternalError = 1;
+  NotSupported = 2;
+  PermissionDenied = 3;
+  ObjectNotAvailable = 4;
+ }
+}
+
+message Enabled {
+ required bool value = 1;
+}
+
+message Id {
+ required bytes id = 1;
+}
+
+message Uri {
+ required string uri = 1;
+}
+

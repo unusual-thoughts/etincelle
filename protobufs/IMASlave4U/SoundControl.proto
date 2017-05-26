@@ -1,0 +1,5 @@
+package Devialet.IMASlave4U;
+
+import "CallMeMaybe/CallMeMaybe.proto";
+import "CallMeMaybe/CommonMessages.proto";
+
