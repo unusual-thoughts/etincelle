@@ -38,31 +38,27 @@ def decode_packet(packet, magic):
     decoded = []
     for section in sections:
         i = 0
-        obj = {"subsections": [sub.hex() for sub in section]}
+        obj = {} #{"subsections": [sub.hex() for sub in section]}
 
-        if len(section) >= 3:
-            if len(section[i]) != 0:
-                obj.setdefault('error', []).append("Weird, subsection {}/{} of length {} instead of {}".format(
-                    i, len(section), len(section[i]), 0))
+        if len(section[i]) != 0:
+            obj.setdefault('error', []).append("Weird, subsection {}/{} of length {} instead of {}".format(
+                i, len(section), len(section[i]), 0))
+        i += 1
+
+        if len(section) == 5 and len(section[i]) == 16 and len(section[i+1]) == 0:
+            obj['uid'] = section[i].hex() #struct.unpack('>BBL', section_header)
+            # elif :
+            #     obj.setdefault('error', []).append("Weird, subsections {}/{} and {}/{} are length {} and {} instead of 16 and 0".format(
+            #         i, len(section), i+1, len(section), len(section[i]), len(section[i+1])))
+            i += 2
+        
+        while i < len(section):
+            obj.setdefault('protobufs', []).append(decode_protobuf(section[i]))
             i += 1
-
-            if len(section) == 5 and len(section[i]) == 16 and len(section[i+1]) == 0:
-                obj['uid'] = section[i].hex() #struct.unpack('>BBL', section_header)
-                # elif :
-                #     obj.setdefault('error', []).append("Weird, subsections {}/{} and {}/{} are length {} and {} instead of 16 and 0".format(
-                #         i, len(section), i+1, len(section), len(section[i]), len(section[i+1])))
-                i += 2
-            
-            while i < len(section):
-                obj.setdefault('protobufs', []).append(decode_protobuf(section[i]))
-                i += 1
-
-        else:
-            obj.setdefault('error', []).append("Weird number of subsections {}".format(len(section)))
 
         decoded.append(obj)
 
-    return {'raw_subsections': raw_subsections, 'decoded': decoded} #decoded
+    return decoded #{'raw_subsections': raw_subsections, 'decoded': decoded} #decoded
 
 def is_whole_packet(packet, magic):
     section_header = packet.read(6)
