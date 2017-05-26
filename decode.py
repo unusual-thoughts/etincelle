@@ -102,7 +102,7 @@ def decode_capture(filename):
                 'data': file.read(length)
             }
             # print(packet['direction'], packet['data'].hex())
-
+            print(last_packet_whole)
             if not last_packet_whole:
                 packets[-1]['data'] += packet['data']
                 packets[-1]['merged'] += 1
@@ -120,11 +120,9 @@ def decode_capture(filename):
 
             header = file.read(16)
 
-        print(len(packets))
         for packet in packets:
             packet.update(decode_packet(BytesIO(packet.pop('data'))))
 
-        print(len(packets))
         return packets
 
 def decode_session(dirname):
