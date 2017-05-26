@@ -18,45 +18,51 @@ def decode_protobuf(data):
 def decode_packet(packet, magic):
     section_header = packet.read(6)
     firstbyte = magic
-    sections = [[]]
+    new_section = True
+    sections = []
+    raw_subsections = []
 
     while len(section_header) == 6 and firstbyte == magic:
-        firstbyte, end_section, section_length = struct.unpack('>BBL', section_header)
-        end_section = not end_section
-        section = packet.read(section_length)
+        firstbyte, same_section, subsection_length = struct.unpack('>BBL', section_header)
+        subsection = packet.read(subsection_length)
+        raw_subsections.append([same_section, subsection.hex()])
 
-        sections[-1].append(section)
-        if end_section:
-            sections.append([])
+        if new_section:
+            sections.append([subsection])
+        else:
+            sections[-1].append(subsection)           
 
         section_header = packet.read(6)
+        new_section = not same_section
 
     decoded = []
     for section in sections:
         i = 0
-        obj = {'error': []}
+        obj = {"subsections": [sub.hex() for sub in section]}
 
         if len(section) >= 3:
-            if len(section) == 5:
-                if len(section[i]) == 0 and len(section[i+1]) == 16:
-                    obj['uid'] = sections[i] #struct.unpack('>BBL', section_header)
-                else:
-                    obj['error'].append("Weird, subsections {}/{} and {}/{} are length {} and {} instead of 0 and 16".format(
-                        i, len(section), i+1, len(section), len(section[i]), len(section[i+1])))
-                i +=2
             if len(section[i]) != 0:
-                obj['error'].append("Weird, subsection {}/{} of length {} instead of {}".format(
+                obj.setdefault('error', []).append("Weird, subsection {}/{} of length {} instead of {}".format(
                     i, len(section), len(section[i]), 0))
             i += 1
-            obj["protobuf0"] = decode_protobuf(section[i])
-            i += 1
-            obj["protobuf1"] = decode_protobuf(section[i])
+
+            if len(section) == 5 and len(section[i]) == 16 and len(section[i+1]) == 0:
+                obj['uid'] = section[i].hex() #struct.unpack('>BBL', section_header)
+                # elif :
+                #     obj.setdefault('error', []).append("Weird, subsections {}/{} and {}/{} are length {} and {} instead of 16 and 0".format(
+                #         i, len(section), i+1, len(section), len(section[i]), len(section[i+1])))
+                i += 2
+            
+            while i < len(section):
+                obj.setdefault('protobufs', []).append(decode_protobuf(section[i]))
+                i += 1
 
         else:
-            obj['error'].append("Unknown number of subsections {}".format(len(section)))
+            obj.setdefault('error', []).append("Weird number of subsections {}".format(len(section)))
+
         decoded.append(obj)
 
-    return {'sections': sections, 'decoded': decoded}
+    return {'raw_subsections': raw_subsections, 'decoded': decoded} #decoded
 
 def is_whole_packet(packet, magic):
     section_header = packet.read(6)
