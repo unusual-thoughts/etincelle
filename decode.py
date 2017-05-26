@@ -4,6 +4,7 @@ from datetime import datetime
 from io import BytesIO
 import subprocess
 from pprint import pprint
+import pickle
 
 magics = [0xc2, 0xc3]
 
@@ -83,7 +84,7 @@ def is_whole_packet(packet):
 
         field_header = packet.read(6)
 
-    return (field_length == len(field) and len(field_header) == 6)
+    return (field_length == len(field) and len(field_header) == 0)
 
 def decode_capture(filename):
     with open(filename, 'rb') as file:
@@ -102,7 +103,6 @@ def decode_capture(filename):
                 'data': file.read(length)
             }
             # print(packet['direction'], packet['data'].hex())
-            print(last_packet_whole)
             if not last_packet_whole:
                 packets[-1]['data'] += packet['data']
                 packets[-1]['merged'] += 1
@@ -128,18 +128,16 @@ def decode_capture(filename):
 def decode_session(dirname):
     session = {
         'name': dirname,
-        'captures': []
-    }
-
-    for capture in os.listdir(dirname):
-        packets = decode_capture(os.path.join(dirname, capture))
-        session['captures'].append({
+        'captures': [{
             'name': capture,
             'port': re.match('^[0-9]+_([0-9]+).dat$', capture).group(1),
-            'start_time': packets[0]['time'],
-            'packets': packets
-        })
+            'start_time': datetime.fromtimestamp(int(re.match('^([0-9]+)_[0-9]+.dat$', capture).group(1))/1000),
+            'packets': decode_capture(os.path.join(dirname, capture))
+        } for capture in sorted(os.listdir(dirname))]
+    }
+
     session['start_time'] = min(capture['start_time'] for capture in session['captures'])
+    session['number_of_captures'] = len(session['captures'])
 
     return session
 
@@ -149,4 +147,7 @@ def decode_sessions(number_of_sessions):
 # print('')
 # print(sys.argv[1])
 # pprint(decode_session(sys.argv[1]))
-pprint(decode_sessions(5))
+#pprint(decode_sessions(5))
+
+dump_file = open('all_decoded.pickle', 'wb')
+pickle.dump(decode_sessions(5), dump_file)
