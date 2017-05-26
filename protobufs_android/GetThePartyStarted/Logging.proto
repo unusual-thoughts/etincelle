@@ -1,0 +1,10 @@
+package Devialet.GetThePartyStarted;
+
+import "CallMeMaybe/CallMeMaybe.proto";
+import "CallMeMaybe/CommonMessages.proto";
+
+message UploadLogsRequest {
+ required string installationId = 1;
+ required int64 timestamp = 2;
+}
+

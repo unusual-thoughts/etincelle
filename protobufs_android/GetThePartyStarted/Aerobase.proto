@@ -1,0 +1,33 @@
+package Devialet.GetThePartyStarted.Aerobase;
+
+import "CallMeMaybe/CallMeMaybe.proto";
+import "CallMeMaybe/CommonMessages.proto";
+import "GetThePartyStarted/GetThePartyStarted.proto";
+
+message SetupStep {
+
+ enum Step {
+  InvalidStep = 0;
+  InitialStep = 1;
+  ConfigureSetupNetworkStep = 2;
+  WaitForUserStep = 3;
+  WaitForSlavesStep = 4;
+  AssociateSlavesStep = 5;
+  WaitForSlaveAssociationStep = 6;
+  AssociatingSlaveStep = 7;
+  ConfiguringSlavesStep = 8;
+  ConfigureProductionNetworkStep = 9;
+  WaitForConfiguredSlavesStep = 10;
+  AllSlavesConfiguredStep = 11;
+  ConfigureTopologyStep = 12;
+  ConfigureServicesStep = 13;
+  CompleteStep = 14;
+ }
+ required uint32 step = 1;
+}
+
+message SetTopologyConfigurationRequest {
+ required bytes masterId = 1;
+ required bytes data = 2;
+}
+

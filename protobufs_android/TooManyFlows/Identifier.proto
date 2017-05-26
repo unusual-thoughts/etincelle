@@ -1,0 +1,18 @@
+package Devialet.TooManyFlows;
+
+message BouquetId {
+ required bytes id = 1;
+}
+
+message GroupId {
+ required bytes id = 1;
+}
+
+message PlayerId {
+ required bytes id = 1;
+}
+
+message RendererId {
+ required bytes id = 1;
+}
+

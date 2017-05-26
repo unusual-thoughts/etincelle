@@ -1,0 +1,37 @@
+package Devialet.SpotifyConnect;
+
+import "CallMeMaybe/CallMeMaybe.proto";
+import "CallMeMaybe/CommonMessages.proto";
+import "TheSoundOfSilence/LiveSource.proto";
+
+message ZeroConfApiRequest {
+
+ enum Method {
+  Invalid = 0;
+  Get = 1;
+  Post = 2;
+ }
+ required uint32 method = 1;
+ required string url = 2;
+ required bytes body = 3;
+}
+
+message ZeroConfApiReply {
+
+ enum StatusCode {
+  Ok = 0;
+  Bad = 1;
+  Unknown = 2;
+  NotImplemented = 3;
+  LoginFailed = 4;
+  MissingAction = 5;
+  InvalidAction = 6;
+  InvalidArguments = 7;
+  NoSpotifySession = 8;
+  SpotifyError = 9;
+ }
+ required uint32 statusCode = 1;
+ required uint32 lastError = 2;
+ required bytes body = 3;
+}
+

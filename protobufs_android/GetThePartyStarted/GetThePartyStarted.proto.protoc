@@ -1,0 +1,86 @@
+
++GetThePartyStarted/GetThePartyStarted.protoDevialet.GetThePartyStartedCallMeMaybe/CallMeMaybe.proto CallMeMaybe/CommonMessages.proto"ç
+ConfigurationErrors"v
+Codes
+PowerActionFailed
+SetupActionFailed
+NoUpdateAvailable
+UpdaterIsBusy
+UpdateCheckFailed"r
+
+DeviceInfo
+productType (	
+serialNumber (	
+softwareVersion (	 
+wiredInterfaceMacAddress (	"d
+SetupErrors"U
+Codes
+InvalidSetupToken
+InvalidOperationForState
+ConfigurationFailed"
+
+SetupToken
+masterId (",
+	SlaveInfo
+
+id (
+productType (	"G
+SlaveInfoList6
+slaves (2&.Devialet.GetThePartyStarted.SlaveInfo"Y
+StartSetupRequest
+masterId (
+locale (	
+countryCode (	
+force ("Â
+WiFiNetwork
+devialetOwned (
+priority (
+securityMode (
+ssid (	
+wpaPassphrase (	
+wpaPreSharedKey (
+wepKey ("I
+SecurityMode
+NoneMode
+WepMode
+
+WpaPskMode
+
+WpaEapMode"d
+WiFiConfigurationData
+enabled (:
+networks (2(.Devialet.GetThePartyStarted.WiFiNetwork"4
+PlcConfigurationData
+enabled (
+key ("ï
+ConfigurationData@
+wifi (22.Devialet.GetThePartyStarted.WiFiConfigurationData>
+plc (21.Devialet.GetThePartyStarted.PlcConfigurationData"è
+SetConfigurationRequest6
+token (2'.Devialet.GetThePartyStarted.SetupToken<
+data (2..Devialet.GetThePartyStarted.ConfigurationData2Ù
+ConfigurationH
+powerStandby.Devialet.CallMeMaybe.Empty.Devialet.CallMeMaybe.EmptyH
+powerSuspend.Devialet.CallMeMaybe.Empty.Devialet.CallMeMaybe.EmptyD
+powerOff.Devialet.CallMeMaybe.Empty.Devialet.CallMeMaybe.EmptyG
+powerReboot.Devialet.CallMeMaybe.Empty.Devialet.CallMeMaybe.EmptyG
+enableSetup.Devialet.CallMeMaybe.Empty.Devialet.CallMeMaybe.EmptyJ
+resetToFactory.Devialet.CallMeMaybe.Empty.Devialet.CallMeMaybe.EmptyJ
+checkForUpdate.Devialet.CallMeMaybe.Empty.Devialet.CallMeMaybe.EmptyﬁíM⁄
+/com.devialet.getthepartystarted.configuration-05Devialet.GetThePartyStarted.ConfigurationErrors.Codes"p
+6
+&Devialet.GetThePartyStarted.DeviceInfo
+deviceInfo 
+6
+!Devialet.CallMeMaybe.BoolPropertyupdateAvailable2Î
+SetupY
+
+startSetup..Devialet.GetThePartyStarted.StartSetupRequest.Devialet.CallMeMaybe.EmptyS
+cancelSetup'.Devialet.GetThePartyStarted.SetupToken.Devialet.CallMeMaybe.EmptyU
+completeSetup'.Devialet.GetThePartyStarted.SetupToken.Devialet.CallMeMaybe.Empty[íMX
+'com.devialet.getthepartystarted.setup-0-Devialet.GetThePartyStarted.SetupErrors.Codes2¶
+SlaveDeviceSetupëíMç
+/com.devialet.getthepartystarted.setup-0.slave-0!Devialet.GetThePartyStarted.Setup"7
+5
+%Devialet.GetThePartyStarted.SlaveInfo
+deviceInfo 

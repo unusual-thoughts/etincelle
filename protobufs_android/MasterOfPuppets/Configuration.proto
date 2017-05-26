@@ -1,0 +1,86 @@
+package Devialet.MasterOfPuppets;
+
+import "CallMeMaybe/CallMeMaybe.proto";
+import "CallMeMaybe/CommonMessages.proto";
+
+message GroupId {
+ required bytes id = 1;
+}
+
+message BouquetId {
+ required bytes id = 1;
+}
+
+message RendererId {
+ required bytes id = 1;
+}
+
+message NodeRenderer {
+ required RendererId rendererId = 1;
+ required string name = 2;
+ required bool isActivated = 3;
+}
+
+message NodeGroup {
+ required GroupId groupId = 1;
+ required string name = 2;
+ repeated NodeRenderer renderers = 3;
+}
+
+message NodeBouquet {
+ required BouquetId bouquetId = 1;
+ repeated NodeGroup groups = 2;
+}
+
+message NodeRoot {
+ repeated NodeBouquet bouquets = 1;
+}
+
+message AddGroupQuery {
+ required string name = 1;
+ required BouquetId bouquetId = 2;
+}
+
+message AddRendererQuery {
+ required RendererId rendererId = 1;
+ required string name = 2;
+ required GroupId groupId = 3;
+}
+
+message MoveGroupQuery {
+ required GroupId groupId = 1;
+ required BouquetId newBouquetId = 2;
+}
+
+message MoveRendererQuery {
+ required RendererId rendererId = 1;
+ required GroupId newGroupId = 2;
+}
+
+message RenameQuery {
+ required bytes id = 1;
+ required string name = 2;
+}
+
+message BouquetAddedNotification {
+ required BouquetId bouquetId = 1;
+}
+
+message GroupAddedNotification {
+ required BouquetId parentId = 1;
+ required GroupId id = 2;
+ required string name = 3;
+}
+
+message RendererAddedNotification {
+ required GroupId parentId = 1;
+ required RendererId id = 2;
+ required string name = 3;
+ required bool isActivated = 4;
+}
+
+message StateNotification {
+ required RendererId rendererId = 1;
+ required bool isActivated = 2;
+}
+
