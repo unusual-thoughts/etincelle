@@ -5,25 +5,58 @@ from io import BytesIO
 import subprocess
 from pprint import pprint
 
+def decode_protobuf(data):
+    process = subprocess.Popen(['protoc', '--decode_raw'], stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+    process.stdin.write(data)
+    process.stdin.close()
+    ret = process.wait()
+    if ret == 0:
+        return process.stdout.read().decode()
+    else:
+        return'Failed parsing: ' + ' '.join('{:02x}'.format(x) for x in data)
+
 def decode_packet(packet, magic):
     section_header = packet.read(6)
     firstbyte = magic
-    sections = []
-    same_section = False
+    sections = [[]]
 
     while len(section_header) == 6 and firstbyte == magic:
-        firstbyte, same_section, section_length = struct.unpack('>BBL', section_header)
+        firstbyte, end_section, section_length = struct.unpack('>BBL', section_header)
+        end_section = not end_section
         section = packet.read(section_length)
 
-
-        sections.append({
-            "is_protobuf": is_notprotobuf,
-            "data": section
-        })
+        sections[-1].append(section)
+        if end_section:
+            sections.append([])
 
         section_header = packet.read(6)
 
-    return sections
+    decoded = []
+    for section in sections:
+        i = 0
+        obj = {'error': []}
+
+        if len(section) >= 3:
+            if len(section) == 5:
+                if len(section[i]) == 0 and len(section[i+1]) == 16:
+                    obj['uid'] = sections[i] #struct.unpack('>BBL', section_header)
+                else:
+                    obj['error'].append("Weird, subsections {}/{} and {}/{} are length {} and {} instead of 0 and 16".format(
+                        i, len(section), i+1, len(section), len(section[i]), len(section[i+1])))
+                i +=2
+            if len(section[i]) != 0:
+                obj['error'].append("Weird, subsection {}/{} of length {} instead of {}".format(
+                    i, len(section), len(section[i]), 0))
+            i += 1
+            obj["protobuf0"] = decode_protobuf(section[i])
+            i += 1
+            obj["protobuf1"] = decode_protobuf(section[i])
+
+        else:
+            obj['error'].append("Unknown number of subsections {}".format(len(section)))
+        decoded.append(obj)
+
+    return {'sections': sections, 'decoded': decoded}
 
 def is_whole_packet(packet, magic):
     section_header = packet.read(6)
@@ -91,7 +124,7 @@ decoded = [ {
     "decoded": decode_packet(BytesIO(packet["data"]), packet["data"][0])
 } for packet in packets ]
 
-# pprint(decoded)
+pprint(decoded)
 # print()
 # print(packets)
 
@@ -114,21 +147,21 @@ decoded = [ {
 
 #     return
 
-for packet in decoded:
-    for section in packet['decoded']:
-        if len(section['data']): #section['is_protobuf'] and 
-            process = subprocess.Popen(['protoc', '--decode_raw'], stdin=subprocess.PIPE, stdout=subprocess.PIPE)
-            process.stdin.write(section['data'])
-            process.stdin.close()
-            ret = process.wait()
-            if ret == 0:
-                section['data'] = process.stdout.read().decode()
-            else:
-                section['data'] = 'Failed parsing: ' + ' '.join('{:02x}'.format(x) for x in section['data'])
+# for packet in decoded:
+#     for section in packet['decoded']:
+#         if len(section['data']): #section['is_protobuf'] and 
+#             process = subprocess.Popen(['protoc', '--decode_raw'], stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+#             process.stdin.write(section['data'])
+#             process.stdin.close()
+#             ret = process.wait()
+#             if ret == 0:
+#                 section['data'] = process.stdout.read().decode()
+#             else:
+#                 section['data'] = 'Failed parsing: ' + ' '.join('{:02x}'.format(x) for x in section['data'])
             # print(protod.decode())
             # print()
         # else:
         #     print("HEX"+section['data'].hex())
         #     section['data'] = ' '.join('{:02x}'.format(x) for x in section['data'])
 
-pprint(decoded)
+# pprint(decoded)
