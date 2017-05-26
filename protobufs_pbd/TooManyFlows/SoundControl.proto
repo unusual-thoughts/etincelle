@@ -1,0 +1,109 @@
+// Reversed by pbd (https://github.com/rsc-dev/pbd)
+package Devialet.TooManyFlows;
+import "CallMeMaybe/CommonMessages.proto";
+import "TooManyFlows/Identifier.proto";
+
+message Mute {
+	required bool enabled = 1 ;
+}
+
+message GroupMute {
+	required .Devialet.TooManyFlows.GroupId groupId = 1 ;
+	required .Devialet.TooManyFlows.Mute mute = 2 ;
+}
+
+message RendererMute {
+	required .Devialet.TooManyFlows.RendererId rendererId = 1 ;
+	required .Devialet.TooManyFlows.Mute mute = 2 ;
+}
+
+message NightMode {
+	required bool enabled = 1 ;
+}
+
+message GroupNightMode {
+	required .Devialet.TooManyFlows.GroupId groupId = 1 ;
+	required .Devialet.TooManyFlows.NightMode nightMode = 2 ;
+}
+
+message RendererNightMode {
+	required .Devialet.TooManyFlows.RendererId rendererId = 1 ;
+	required .Devialet.TooManyFlows.NightMode nightMode = 2 ;
+}
+
+message Volume {
+	required double value = 1 ;
+}
+
+message GroupVolume {
+	required .Devialet.TooManyFlows.GroupId groupId = 1 ;
+	required .Devialet.TooManyFlows.Volume volume = 2 ;
+}
+
+message RendererVolume {
+	required .Devialet.TooManyFlows.RendererId rendererId = 1 ;
+	required .Devialet.TooManyFlows.Volume volume = 2 ;
+}
+
+message Properties {
+	required .Devialet.TooManyFlows.Mute mute = 1 ;
+	required .Devialet.TooManyFlows.NightMode nightMode = 2 ;
+	required .Devialet.TooManyFlows.Volume volume = 3 ;
+}
+
+message GroupProperties {
+	required .Devialet.TooManyFlows.GroupId groupId = 1 ;
+	required .Devialet.TooManyFlows.Properties properties = 2 ;
+}
+
+message RendererProperties {
+	required .Devialet.TooManyFlows.RendererId rendererId = 1 ;
+	required .Devialet.TooManyFlows.Properties properties = 2 ;
+}
+
+message AllProperties {
+	required .Devialet.TooManyFlows.Properties bouquet = 1 ;
+	repeated .Devialet.TooManyFlows.GroupProperties groups = 2 ;
+	repeated .Devialet.TooManyFlows.RendererProperties renderers = 3 ;
+}
+
+service SoundControl {
+	rpc setBouquetMute(.Devialet.TooManyFlows.Mute) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc setGroupMute(.Devialet.TooManyFlows.GroupMute) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc setRendererMute(.Devialet.TooManyFlows.RendererMute) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc setBouquetNightMode(.Devialet.TooManyFlows.NightMode) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc setGroupNightMode(.Devialet.TooManyFlows.GroupNightMode) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc setRendererNightMode(.Devialet.TooManyFlows.RendererNightMode) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc setBouquetVolume(.Devialet.TooManyFlows.Volume) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc setGroupVolume(.Devialet.TooManyFlows.GroupVolume) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc setRendererVolume(.Devialet.TooManyFlows.RendererVolume) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc bouquetMuteChanged(.Devialet.TooManyFlows.Mute) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc groupMuteChanged(.Devialet.TooManyFlows.GroupMute) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc rendererMuteChanged(.Devialet.TooManyFlows.RendererMute) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc bouquetNightModeChanged(.Devialet.TooManyFlows.NightMode) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc groupNightModeChanged(.Devialet.TooManyFlows.GroupNightMode) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc rendererNightModeChanged(.Devialet.TooManyFlows.RendererNightMode) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc bouquetVolumeChanged(.Devialet.TooManyFlows.Volume) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc groupVolumeChanged(.Devialet.TooManyFlows.GroupVolume) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc rendererVolumeChanged(.Devialet.TooManyFlows.RendererVolume) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc setBouquetVolumeByDelta(.Devialet.CallMeMaybe.DoubleProperty) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+}

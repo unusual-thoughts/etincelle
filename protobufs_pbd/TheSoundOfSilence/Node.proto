@@ -1,0 +1,31 @@
+// Reversed by pbd (https://github.com/rsc-dev/pbd)
+package Devialet.AudioSource;
+
+message NodeId {
+	required bytes id = 1 ;
+	required uint32 type = 2 ;
+	
+	enum Type {
+		Album = 1;
+		Artist = 2;
+		Category = 3;
+		Playlist = 4;
+		Track = 5;
+		Subcategory = 6;
+		Collection = 7;
+	}
+}
+
+message NodeIds {
+	repeated .Devialet.AudioSource.NodeId nodeIds = 1 ;
+}
+
+message Node {
+	required .Devialet.AudioSource.NodeId nodeId = 1 ;
+	required string name = 2 ;
+	optional bool cachable = 3 [default = true];
+}
+
+message Nodes {
+	repeated .Devialet.AudioSource.Node nodes = 1 ;
+}

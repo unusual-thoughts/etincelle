@@ -1,0 +1,8 @@
+// Reversed by pbd (https://github.com/rsc-dev/pbd)
+package Devialet.LeftAlone;
+
+message FakeMsg {
+}
+
+service Configuration {
+}

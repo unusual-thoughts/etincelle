@@ -1,0 +1,93 @@
+// Reversed by pbd (https://github.com/rsc-dev/pbd)
+package Devialet.CallMeMaybe;
+
+message Empty {
+}
+
+message BaseError {
+	
+	enum Code {
+		NoError = 0;
+		BadArgument = 1;
+		UnknownError = 2;
+		InvalidRequest = 3;
+		InvalidResponse = 4;
+		NetworkError = 5;
+		UnparsableResult = 6;
+		ClientDisconnected = 7;
+		ClientReset = 8;
+		ServiceRemoved = 9;
+		CallCanceled = 10;
+		CallTimedOut = 11;
+		CallFailed = 12;
+		ConnectionError = 13;
+	}
+	
+	enum MaxCode {
+		MAX_ERROR = 13;
+	}
+}
+
+message DoubleProperty {
+	required double value = 1 ;
+}
+
+message FloatProperty {
+	required float value = 1 ;
+}
+
+message Int32Property {
+	required int32 value = 1 ;
+}
+
+message Int64Property {
+	required int64 value = 1 ;
+}
+
+message UInt32Property {
+	required uint32 value = 1 ;
+}
+
+message UInt64Property {
+	required uint64 value = 1 ;
+}
+
+message SInt32Property {
+	required sint32 value = 1 ;
+}
+
+message SInt64Property {
+	required sint64 value = 1 ;
+}
+
+message Fixed32Property {
+	required fixed32 value = 1 ;
+}
+
+message Fixed64Property {
+	required fixed64 value = 1 ;
+}
+
+message SFixed32Property {
+	required sfixed32 value = 1 ;
+}
+
+message SFixed64Property {
+	required sfixed64 value = 1 ;
+}
+
+message BoolProperty {
+	required bool value = 1 ;
+}
+
+message StringProperty {
+	required string value = 1 ;
+}
+
+message StringListProperty {
+	repeated string values = 1 ;
+}
+
+message BytesProperty {
+	required bytes value = 1 ;
+}

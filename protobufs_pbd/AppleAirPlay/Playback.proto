@@ -1,0 +1,25 @@
+// Reversed by pbd (https://github.com/rsc-dev/pbd)
+package Devialet.AppleAirPlay;
+import "CallMeMaybe/CommonMessages.proto";
+
+message Dummy {
+}
+
+service Playback {
+	rpc play(.Devialet.CallMeMaybe.Empty) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc pause(.Devialet.CallMeMaybe.Empty) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc next(.Devialet.CallMeMaybe.Empty) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc previous(.Devialet.CallMeMaybe.Empty) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc toggleRepeat(.Devialet.CallMeMaybe.Empty) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc toggleShuffle(.Devialet.CallMeMaybe.Empty) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc stop(.Devialet.CallMeMaybe.Empty) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc togglePause(.Devialet.CallMeMaybe.Empty) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+}

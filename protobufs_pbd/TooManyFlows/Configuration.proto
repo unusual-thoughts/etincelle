@@ -1,0 +1,35 @@
+// Reversed by pbd (https://github.com/rsc-dev/pbd)
+package Devialet.TooManyFlows;
+import "CallMeMaybe/CommonMessages.proto";
+import "TooManyFlows/Identifier.proto";
+
+message AddRendererQuery {
+	required .Devialet.TooManyFlows.GroupId groupId = 1 ;
+	required .Devialet.TooManyFlows.RendererId rendererId = 2 ;
+}
+
+message ConfigurationError {
+	
+	enum Code {
+		LinkRendererFailed = 1;
+		UnlinkRendererFailed = 2;
+		BouquetIsEmpty = 3;
+	}
+}
+
+service Configuration {
+	rpc addPlayer(.Devialet.TooManyFlows.PlayerId) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc addRenderer(.Devialet.TooManyFlows.AddRendererQuery) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc removePlayer(.Devialet.TooManyFlows.PlayerId) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc removeRenderer(.Devialet.TooManyFlows.RendererId) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc reset(.Devialet.CallMeMaybe.Empty) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc autoSwitch(.Devialet.CallMeMaybe.Empty) returns (.Devialet.CallMeMaybe.BoolProperty) {
+	}
+	rpc setAutoSwitch(.Devialet.CallMeMaybe.BoolProperty) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+}

@@ -1,0 +1,91 @@
+// Reversed by pbd (https://github.com/rsc-dev/pbd)
+package Devialet.SaveMe;
+import "CallMeMaybe/CommonMessages.proto";
+
+message SavePlaylistError {
+	
+	enum Code {
+		FileFailedUpdate = 1;
+		IdPlaylistUnknown = 2;
+		TrackNotFoundInPlaylist = 3;
+	}
+}
+
+message Track {
+	required string url = 1 ;
+}
+
+message PlaylistMsg {
+	required bytes id = 1 ;
+	required string name = 2 ;
+	repeated .Devialet.SaveMe.Track tracks = 3 ;
+	required uint32 creationDate = 4 ;
+	required uint32 lastUpdateDate = 5 ;
+}
+
+message TrackInPlaylist {
+	required .Devialet.SaveMe.Track track = 1 ;
+	required uint32 index = 2 ;
+}
+
+message CreatePlaylist {
+	required string name = 1 ;
+	repeated .Devialet.SaveMe.Track tracks = 2 ;
+	required uint32 date = 3 ;
+}
+
+message PlaylistSaved {
+	repeated .Devialet.SaveMe.PlaylistMsg playlists = 1 ;
+}
+
+message PlaylistContent {
+	repeated .Devialet.SaveMe.TrackInPlaylist tracks = 1 ;
+}
+
+message ModifyTracks {
+	required bytes playlistId = 1 ;
+	required uint32 index = 2 ;
+	repeated .Devialet.SaveMe.Track tracks = 3 ;
+	required uint32 date = 4 ;
+}
+
+message ModifyOneTrack {
+	required bytes playlistId = 1 ;
+	required .Devialet.SaveMe.TrackInPlaylist track = 2 ;
+	required uint32 date = 3 ;
+}
+
+message ModifyPlaylistName {
+	required bytes playlistId = 1 ;
+	required string name = 2 ;
+	required uint32 date = 3 ;
+}
+
+service SavePlaylist {
+	rpc create(.Devialet.SaveMe.CreatePlaylist) returns (.Devialet.CallMeMaybe.BytesProperty) {
+	}
+	rpc remove(.Devialet.CallMeMaybe.BytesProperty) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc clear(.Devialet.CallMeMaybe.Empty) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc tracks(.Devialet.CallMeMaybe.BytesProperty) returns (.Devialet.SaveMe.PlaylistContent) {
+	}
+	rpc addTracks(.Devialet.SaveMe.ModifyTracks) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc removeTrack(.Devialet.SaveMe.ModifyOneTrack) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc edit(.Devialet.SaveMe.ModifyPlaylistName) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc playlistAdded(.Devialet.SaveMe.PlaylistMsg) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc playlistRemoved(.Devialet.CallMeMaybe.BytesProperty) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc cleared(.Devialet.CallMeMaybe.Empty) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc tracksAdded(.Devialet.SaveMe.ModifyTracks) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc trackRemoved(.Devialet.SaveMe.ModifyOneTrack) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc playlistEdited(.Devialet.SaveMe.ModifyPlaylistName) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+}

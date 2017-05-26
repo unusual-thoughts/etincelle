@@ -1,0 +1,36 @@
+// Reversed by pbd (https://github.com/rsc-dev/pbd)
+package Devialet.TooManyFlows;
+import "CallMeMaybe/CommonMessages.proto";
+
+message TrackMsg {
+	required uint32 index = 1 ;
+	required string url = 2 ;
+}
+
+message TracksMsg {
+	repeated .Devialet.TooManyFlows.TrackMsg tracks = 1 ;
+}
+
+message MoveMsg {
+	required .Devialet.TooManyFlows.TrackMsg first = 1 ;
+	required .Devialet.TooManyFlows.TrackMsg second = 2 ;
+}
+
+service Playlist {
+	rpc clear(.Devialet.CallMeMaybe.Empty) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc insert(.Devialet.TooManyFlows.TracksMsg) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc move(.Devialet.TooManyFlows.MoveMsg) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc remove(.Devialet.TooManyFlows.TracksMsg) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc cleared(.Devialet.CallMeMaybe.Empty) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc tracksAdded(.Devialet.TooManyFlows.TracksMsg) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc trackMoved(.Devialet.TooManyFlows.MoveMsg) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc tracksRemoved(.Devialet.TooManyFlows.TracksMsg) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+}

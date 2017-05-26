@@ -1,0 +1,60 @@
+// Reversed by pbd (https://github.com/rsc-dev/pbd)
+package Devialet.AudioSource;
+import "CallMeMaybe/CommonMessages.proto";
+import "TheSoundOfSilence/Session.proto";
+import "TheSoundOfSilence/Picture.proto";
+
+message InputTypeMsg {
+	required uint32 type = 1 ;
+	
+	enum InputType {
+		NotDefinedType = 0;
+		TVType = 1;
+		CDPlayerType = 2;
+		DVDBDPlayerType = 3;
+		ComputerType = 4;
+		GamingConsoleType = 5;
+		MediaCenterType = 6;
+		TurntableType = 7;
+	}
+}
+
+message LiveSourceStateMsg {
+	required uint32 state = 1 ;
+	
+	enum State {
+		Ready = 1;
+		Playing = 2;
+		Stopped = 3;
+		Paused = 4;
+	}
+}
+
+message LiveSourceAvailableMethods {
+	required bool hasInputTypeId = 1 ;
+	required bool isNameUserEditable = 2 ;
+	required bool isSelectable = 3 ;
+	optional bool allowToDisableAutoSwitch = 4 [default = true];
+}
+
+message LoadSessionQuery {
+	required string name = 1 ;
+}
+
+message UnloadSessionQuery {
+	required .Devialet.AudioSource.SessionId sessionId = 1 ;
+}
+
+service LiveSourceSession {
+	rpc picture(.Devialet.CallMeMaybe.Empty) returns (.Devialet.AudioSource.Picture) {
+	}
+	rpc defaultVolume(.Devialet.CallMeMaybe.Empty) returns (.Devialet.CallMeMaybe.DoubleProperty) {
+	}
+}
+
+service LiveSource {
+	rpc loadSession(.Devialet.AudioSource.LoadSessionQuery) returns (.Devialet.AudioSource.Session) {
+	}
+	rpc unloadSession(.Devialet.AudioSource.UnloadSessionQuery) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+}

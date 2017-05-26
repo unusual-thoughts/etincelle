@@ -1,0 +1,14 @@
+// Reversed by pbd (https://github.com/rsc-dev/pbd)
+package Devialet.AudioSource;
+import "TheSoundOfSilence/Track.proto";
+import "TheSoundOfSilence/Picture.proto";
+
+message TrackDetails {
+	required .Devialet.AudioSource.Track track = 1 ;
+	required .Devialet.AudioSource.PictureId pictureId = 2 ;
+	required .Devialet.AudioSource.Picture picture = 3 ;
+}
+
+message TracksDetails {
+	repeated .Devialet.AudioSource.TrackDetails tracksDetails = 1 ;
+}

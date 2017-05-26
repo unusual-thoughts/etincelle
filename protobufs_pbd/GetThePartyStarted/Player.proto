@@ -1,0 +1,102 @@
+// Reversed by pbd (https://github.com/rsc-dev/pbd)
+package Devialet.GetThePartyStarted.Player;
+import "CallMeMaybe/CommonMessages.proto";
+import "GetThePartyStarted/GetThePartyStarted.proto";
+
+message WiFiNetwork {
+	required string ssid = 1 ;
+	required int32 securityMode = 2 ;
+	required int32 signal = 3 ;
+	
+	enum SecurityMode {
+		NoneMode = 0;
+		WepMode = 1;
+		WpaMode = 2;
+	}
+}
+
+message ListWiFiNetworksReply {
+	repeated .Devialet.GetThePartyStarted.Player.WiFiNetwork networks = 1 ;
+}
+
+message EnableStandaloneAccessPointRequest {
+	required string ssid = 1 ;
+	required string passphrase = 2 ;
+}
+
+message SetupStep {
+	required uint32 step = 1 ;
+	
+	enum Step {
+		InvalidStep = 0;
+		WaitingForSetup = 1;
+		ConnectedToProductionNetwork = 2;
+		BouquetConfiguration = 3;
+		ServicesConfiguration = 4;
+		Complete = 5;
+	}
+}
+
+message OpticalModeParameters {
+	required .Devialet.GetThePartyStarted.SetupToken token = 1 ;
+	required uint32 channel = 2 ;
+	required uint32 volume = 4 ;
+	
+	enum Channel {
+		Left = 1;
+		Right = 2;
+		LeftAndRight = 3;
+	}
+}
+
+message StandaloneConfiguration {
+	required uint32 mode = 1 ;
+	
+	enum Mode {
+		OpticalMode = 1;
+		MotionDesign = 2;
+	}
+}
+
+message AppleWacAccessPointConfiguration {
+	required bytes appleCustomIE = 1 ;
+}
+
+message AppleWacWiFiNetworkConfiguration {
+	required string ssid = 1 ;
+	required bytes psk = 2 ;
+}
+
+service Configuration {
+}
+
+service Setup {
+	rpc startStandaloneSetup(.Devialet.GetThePartyStarted.StartSetupRequest) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc listWiFiNetworks(.Devialet.GetThePartyStarted.SetupToken) returns (.Devialet.GetThePartyStarted.Player.ListWiFiNetworksReply) {
+	}
+	rpc enableStandaloneAccessPoint(.Devialet.GetThePartyStarted.Player.EnableStandaloneAccessPointRequest) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc configureBouquet(.Devialet.GetThePartyStarted.SetupToken) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc configureServices(.Devialet.GetThePartyStarted.SetupToken) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc enableOpticalDirectMode(.Devialet.GetThePartyStarted.Player.OpticalModeParameters) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc enableMotionDesignMode(.Devialet.GetThePartyStarted.SetupToken) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc enableAppleWacAccessPoint(.Devialet.GetThePartyStarted.Player.AppleWacAccessPointConfiguration) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc disableAppleWacAccessPoint(.Devialet.CallMeMaybe.Empty) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc joinDestinationWiFiNetwork(.Devialet.GetThePartyStarted.Player.AppleWacWiFiNetworkConfiguration) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc destinationWiFiNetworkJoined(.Devialet.CallMeMaybe.Empty) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc wasDestinationWiFiNetworkJoined(.Devialet.CallMeMaybe.Empty) returns (.Devialet.CallMeMaybe.BoolProperty) {
+	}
+	rpc applyDeviceName(.Devialet.CallMeMaybe.StringProperty) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc completeConfiguration(.Devialet.CallMeMaybe.Empty) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+}

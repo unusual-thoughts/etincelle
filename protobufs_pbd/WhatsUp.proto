@@ -1,0 +1,134 @@
+// Reversed by pbd (https://github.com/rsc-dev/pbd)
+package Devialet.WhatsUp;
+import "CallMeMaybe/CommonMessages.proto";
+
+message RegistrarRegisterQuery {
+	required bytes serverId = 1 ;
+	required bool localOnly = 2 ;
+	required string endpoint = 3 ;
+	repeated string services = 4 ;
+}
+
+message RegistrarUnregisterQuery {
+	required bytes serverId = 1 ;
+}
+
+message RegistrarServicesQuery {
+	required bytes serverId = 1 ;
+	repeated string services = 2 ;
+}
+
+message RegistrarPingQuery {
+	required bytes serverId = 1 ;
+}
+
+message RegistrarErrors {
+	
+	enum Errors {
+		AlreadyRegistered = 0;
+		UnknownServer = 1;
+	}
+}
+
+message WhatsUpNetwork {
+	required string ip = 1 ;
+	required int32 prefix = 2 ;
+}
+
+message WhatsUpNetworkInterface {
+	required string name = 1 ;
+	required bool isPrivate = 2 ;
+	required int32 quality = 3 ;
+	required int32 priority = 4 ;
+	repeated .Devialet.WhatsUp.WhatsUpNetwork networks = 5 ;
+}
+
+message WhatsUpHost {
+	required bytes hostUid = 1 ;
+	required bool hasProxy = 2 ;
+	repeated .Devialet.WhatsUp.WhatsUpNetworkInterface interfaces = 3 ;
+}
+
+message WhatsUpHostsList {
+	repeated .Devialet.WhatsUp.WhatsUpHost hosts = 1 ;
+}
+
+message WhatsUpService {
+	required string name = 1 ;
+	required bytes hostUid = 2 ;
+	required bool localOnly = 3 ;
+	required string endpoint = 4 ;
+}
+
+message WhatsUpServicesList {
+	repeated .Devialet.WhatsUp.WhatsUpService services = 1 ;
+}
+
+message WhatsUpServicesUpdate {
+	repeated .Devialet.WhatsUp.WhatsUpService services = 1 ;
+	required uint32 reason = 2 ;
+}
+
+message WhatsUpServicesRemoval {
+	repeated .Devialet.WhatsUp.WhatsUpService services = 1 ;
+	required uint32 reason = 2 ;
+}
+
+message RegistryLookupHostQuery {
+	required bytes hostUid = 1 ;
+}
+
+message RegistryLookupHostReply {
+	repeated string addresses = 1 ;
+	repeated .Devialet.WhatsUp.WhatsUpNetworkInterface interfaces = 2 ;
+}
+
+message RegistryFindServicesQuery {
+	required string name = 1 ;
+}
+
+message RegistryNetworkConfigurationChangedNotification {
+	required .Devialet.WhatsUp.WhatsUpHost host = 1 ;
+}
+
+message RegistryHostUpdatedNotification {
+	required .Devialet.WhatsUp.WhatsUpHost host = 1 ;
+}
+
+service Registrar {
+	rpc registerServer(.Devialet.WhatsUp.RegistrarRegisterQuery) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc unregisterServer(.Devialet.WhatsUp.RegistrarUnregisterQuery) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc addServices(.Devialet.WhatsUp.RegistrarServicesQuery) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc removeServices(.Devialet.WhatsUp.RegistrarServicesQuery) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc ping(.Devialet.WhatsUp.RegistrarPingQuery) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc pingRequested(.Devialet.CallMeMaybe.Empty) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+}
+
+service Registry {
+	rpc getNetworkConfiguration(.Devialet.CallMeMaybe.Empty) returns (.Devialet.WhatsUp.WhatsUpHost) {
+	}
+	rpc listHosts(.Devialet.CallMeMaybe.Empty) returns (.Devialet.WhatsUp.WhatsUpHostsList) {
+	}
+	rpc lookupHost(.Devialet.WhatsUp.RegistryLookupHostQuery) returns (.Devialet.WhatsUp.RegistryLookupHostReply) {
+	}
+	rpc listServices(.Devialet.CallMeMaybe.Empty) returns (.Devialet.WhatsUp.WhatsUpServicesList) {
+	}
+	rpc findServices(.Devialet.WhatsUp.RegistryFindServicesQuery) returns (.Devialet.WhatsUp.WhatsUpServicesList) {
+	}
+	rpc networkConfigurationChanged(.Devialet.WhatsUp.RegistryNetworkConfigurationChangedNotification) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc hostUpdated(.Devialet.WhatsUp.RegistryHostUpdatedNotification) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc servicesAdded(.Devialet.WhatsUp.WhatsUpServicesList) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc servicesUpdated(.Devialet.WhatsUp.WhatsUpServicesUpdate) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc servicesRemoved(.Devialet.WhatsUp.WhatsUpServicesRemoval) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+}

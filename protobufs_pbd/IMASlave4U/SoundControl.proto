@@ -1,0 +1,5 @@
+// Reversed by pbd (https://github.com/rsc-dev/pbd)
+package Devialet.IMASlave4U;
+
+service SoundControl {
+}

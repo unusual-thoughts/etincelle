@@ -1,0 +1,8 @@
+// Reversed by pbd (https://github.com/rsc-dev/pbd)
+package Devialet.AudioSource;
+import "TheSoundOfSilence/Node.proto";
+
+message Subcategory {
+	required string name = 1 ;
+	repeated .Devialet.AudioSource.Node nodes = 2 ;
+}

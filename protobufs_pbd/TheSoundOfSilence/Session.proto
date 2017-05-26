@@ -1,0 +1,18 @@
+// Reversed by pbd (https://github.com/rsc-dev/pbd)
+package Devialet.AudioSource;
+import "TheSoundOfSilence/Picture.proto";
+
+message SessionId {
+	required bytes id = 1 ;
+}
+
+message Session {
+	required bytes id = 1 ;
+	required string name = 2 ;
+	required string serviceInstanceId = 3 ;
+	required .Devialet.AudioSource.Picture picture = 4 ;
+}
+
+message Sessions {
+	repeated .Devialet.AudioSource.Session sessions = 1 ;
+}

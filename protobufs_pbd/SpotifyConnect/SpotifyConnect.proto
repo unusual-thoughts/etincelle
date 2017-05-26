@@ -1,0 +1,55 @@
+// Reversed by pbd (https://github.com/rsc-dev/pbd)
+package Devialet.SpotifyConnect;
+import "CallMeMaybe/CommonMessages.proto";
+
+message ZeroConfApiRequest {
+	required uint32 method = 1 ;
+	required string url = 2 ;
+	required bytes body = 3 ;
+	
+	enum Method {
+		Invalid = 0;
+		Get = 1;
+		Post = 2;
+	}
+}
+
+message ZeroConfApiReply {
+	required uint32 statusCode = 1 ;
+	required uint32 lastError = 2 ;
+	required bytes body = 3 ;
+	
+	enum StatusCode {
+		Ok = 0;
+		Bad = 1;
+		Unknown = 2;
+		NotImplemented = 3;
+		LoginFailed = 4;
+		MissingAction = 5;
+		InvalidAction = 6;
+		InvalidArguments = 7;
+		NoSpotifySession = 8;
+		SpotifyError = 9;
+	}
+}
+
+service Agent {
+	rpc handleZeroConfApiRequest(.Devialet.SpotifyConnect.ZeroConfApiRequest) returns (.Devialet.SpotifyConnect.ZeroConfApiReply) {
+	}
+	rpc setBouquetId(.Devialet.CallMeMaybe.BytesProperty) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc play(.Devialet.CallMeMaybe.Empty) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc pause(.Devialet.CallMeMaybe.Empty) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc next(.Devialet.CallMeMaybe.Empty) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc previous(.Devialet.CallMeMaybe.Empty) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc repeat(.Devialet.CallMeMaybe.BoolProperty) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc shuffle(.Devialet.CallMeMaybe.BoolProperty) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc seek(.Devialet.CallMeMaybe.UInt32Property) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+}

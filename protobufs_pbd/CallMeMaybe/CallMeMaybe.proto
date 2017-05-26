@@ -1,0 +1,36 @@
+// Reversed by pbd (https://github.com/rsc-dev/pbd)
+package Devialet.CallMeMaybe;
+
+message FieldOptions {
+	optional bool logValue = 1 [default = true];
+}
+
+message ServiceProperty {
+	required string type = 1 ;
+	required string name = 2 ;
+	optional bool readOnly = 3 [default = false];
+	optional bool constant = 4 [default = false];
+	optional bool logUpdate = 5 [default = true];
+}
+
+message ServiceProperties {
+	repeated .Devialet.CallMeMaybe.ServiceProperty property = 1 ;
+}
+
+message ServiceOptions {
+	required string serviceName = 1 ;
+	optional string baseService = 2 ;
+	optional string errorEnumName = 3 ;
+	optional .Devialet.CallMeMaybe.ServiceProperties properties = 4 ;
+}
+
+message MethodOptions {
+	optional bool isNotification = 1 [default = false];
+	optional bool isAsync = 2 [default = false];
+	optional int32 defaultTimeout = 3 [default = 500];
+	optional bool isLoggingEnabled = 4 [default = true];
+}
+
+message EnumValueOptions {
+	optional string description = 1 ;
+}

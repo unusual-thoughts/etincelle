@@ -1,0 +1,22 @@
+// Reversed by pbd (https://github.com/rsc-dev/pbd)
+package Devialet.TooManyFlows;
+import "CallMeMaybe/CommonMessages.proto";
+
+message UrlMsg {
+	required string url = 1 ;
+}
+
+message UrlsMsg {
+	repeated .Devialet.TooManyFlows.UrlMsg tracks = 1 ;
+}
+
+service History {
+	rpc clear(.Devialet.CallMeMaybe.Empty) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc cleared(.Devialet.CallMeMaybe.Empty) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc trackPopped(.Devialet.CallMeMaybe.Empty) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc trackPushed(.Devialet.TooManyFlows.UrlMsg) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+}

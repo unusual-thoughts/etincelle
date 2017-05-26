@@ -1,0 +1,61 @@
+// Reversed by pbd (https://github.com/rsc-dev/pbd)
+package Devialet.Fresh;
+import "CallMeMaybe/CommonMessages.proto";
+
+message UpdateInfo {
+	required string id = 1 ;
+	required bool isValid = 2 ;
+	required bool isMajor = 3 ;
+	required string toVersion = 4 ;
+	required bytes changelog = 5 ;
+}
+
+message DeviceUpdateInfo {
+	required string deviceSerialNumber = 1 ;
+	required string deviceProductType = 2 ;
+	required .Devialet.Fresh.UpdateInfo updateInfo = 3 ;
+}
+
+message DeviceUpdateInfoList {
+	repeated .Devialet.Fresh.DeviceUpdateInfo infos = 1 ;
+}
+
+message InstallUpdateRequest {
+	required .Devialet.Fresh.UpdateInfo info = 1 ;
+	required int32 delay = 2 ;
+}
+
+message UpdateDownloadProgress {
+	required int64 progress = 1 ;
+	required int64 total = 2 ;
+}
+
+message UpdateErrors {
+	
+	enum Codes {
+		UpdaterIsBusy = 1;
+		NoValidUpdate = 2;
+		RemoteUpdaterFailed = 3;
+	}
+}
+
+service Update {
+	rpc checkForUpdate(.Devialet.CallMeMaybe.Empty) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc downloadUpdate(.Devialet.CallMeMaybe.Empty) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc installUpdate(.Devialet.Fresh.InstallUpdateRequest) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc cancelUpdateInstallation(.Devialet.CallMeMaybe.Empty) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc updateDownloadProgress(.Devialet.Fresh.UpdateDownloadProgress) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc updateDownloadFailed(.Devialet.CallMeMaybe.Empty) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+}
+
+service SlaveUpdate {
+}
+
+service MasterUpdate {
+}

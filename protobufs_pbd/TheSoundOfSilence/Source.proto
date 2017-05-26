@@ -1,0 +1,48 @@
+// Reversed by pbd (https://github.com/rsc-dev/pbd)
+package Devialet.AudioSource;
+import "CallMeMaybe/CommonMessages.proto";
+import "TheSoundOfSilence/Session.proto";
+import "TheSoundOfSilence/Picture.proto";
+
+message SourceError {
+	
+	enum Code {
+		InternalError = 1;
+		NotSupported = 2;
+		PermissionDenied = 3;
+		ObjectNotAvailable = 4;
+	}
+}
+
+message Enabled {
+	required bool value = 1 ;
+}
+
+message Id {
+	required bytes id = 1 ;
+}
+
+message Uri {
+	required string uri = 1 ;
+}
+
+service SourceSession {
+	rpc uri(.Devialet.AudioSource.Id) returns (.Devialet.AudioSource.Uri) {
+	}
+}
+
+service ConfigureSource {
+	rpc setEnabled(.Devialet.AudioSource.Enabled) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+}
+
+service Source {
+	rpc logo(.Devialet.CallMeMaybe.Empty) returns (.Devialet.AudioSource.Picture) {
+	}
+	rpc sessionAdded(.Devialet.AudioSource.Session) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc sessionRemoved(.Devialet.AudioSource.SessionId) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc bigLogo(.Devialet.CallMeMaybe.Empty) returns (.Devialet.AudioSource.Picture) {
+	}
+}
