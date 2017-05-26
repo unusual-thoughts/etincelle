@@ -9,17 +9,20 @@ def decode_packet(packet, magic):
     section_header = packet.read(6)
     firstbyte = magic
     sections = []
+    same_section = False
 
     while len(section_header) == 6 and firstbyte == magic:
-        firstbyte, is_notprotobuf, section_length = struct.unpack('>BBL', section_header)
+        firstbyte, same_section, section_length = struct.unpack('>BBL', section_header)
         section = packet.read(section_length)
+
+
         sections.append({
-            "is_protobuf": not is_notprotobuf,
+            "is_protobuf": is_notprotobuf,
             "data": section
         })
 
         section_header = packet.read(6)
-        
+
     return sections
 
 def is_whole_packet(packet, magic):
@@ -31,10 +34,11 @@ def is_whole_packet(packet, magic):
         section = packet.read(section_length)
 
         section_header = packet.read(6)
-        
+
     return (section_length == len(section))
 
-# print('') 
+print('')
+print(sys.argv[1])
 
 packets = []
 
@@ -49,24 +53,28 @@ with open(sys.argv[1], 'rb') as file:
         #print(datetime.fromtimestamp(tstamp/1000))
         content = file.read(length)
         #print(''.join('{:02x}'.format(x) for x in content))
-        
-        if not last_packet_whole or content[:6] == b'\xc2\x01\x00\x00\x00\x00' or content[:6] == b'\xc3\x01\x00\x00\x00\x00':
+
+        if not last_packet_whole:
+            magic = packets[-1]["data"][0]
+            packets[-1]["data"] += content
+
+            last_packet_whole = is_whole_packet(BytesIO(packets[-1]["data"]), magic)
+            print("Split packet id={}, len={}".format(len(packets), len(content)))
+
+        elif content[:6] == b'\xc2\x01\x00\x00\x00\x00' or content[:6] == b'\xc3\x01\x00\x00\x00\x00':
             magic = content[0]
-            if last_packet_whole:
-                packets.append({
-                    "time": tstamp,
-                    "direction": direction,
-                    "data": content 
-                })
-            else:
-                packets[-1]["data"] += content
+            packets.append({
+                "time": tstamp,
+                "direction": direction,
+                "data": content
+            })
 
             last_packet_whole = is_whole_packet(BytesIO(content), magic)
             if not last_packet_whole:
                 print("Split packet id={}, len={}".format(len(packets), len(content)))
 
         else:
-            print("Unknown packet #{}: {}...".format(len(packets), content[:10].hex()))
+            print("Unknown packet #{}: {}... (len={})".format(len(packets), ' '.join('{:02x}'.format(x) for x in content[:16]), len(content)))
             # print('{:03d} {} {} {}'.format(id, '->' if direction else '<-', length, sys.argv[1]))
             # print(''.join('{:02x}'.format(x) for x in content[:10]))
         #print(length, direction)
@@ -74,15 +82,16 @@ with open(sys.argv[1], 'rb') as file:
         header = file.read(16)
 
 
-    print(len(packets))
+    # print(len(packets))
 
 decoded = [ {
     "time": packet["time"],
     "direction": packet["direction"],
+    "magic": packet["data"][0],
     "decoded": decode_packet(BytesIO(packet["data"]), packet["data"][0])
 } for packet in packets ]
 
-pprint(decoded)
+# pprint(decoded)
 # print()
 # print(packets)
 
@@ -93,9 +102,9 @@ pprint(decoded)
 #         print('* {}/{}'.format(i, len(packet)))
 #         print(''.join('{:02x}'.format(x) for x in packet[i:i+6]))
 #         magic, is_notprotobuf, section_length = struct.unpack('>ccL', packet[i:i+6])
-        
+
 #         i += section_length + 6
-        
+
 #         # print(packet[i+2:i+6])
 #     print('* {}/{}'.format(i, len(packet)))
 #     print(''.join('{:02x}'.format(x) for x in packet[i:]))
@@ -107,12 +116,19 @@ pprint(decoded)
 
 for packet in decoded:
     for section in packet['decoded']:
-        if section['is_protobuf'] and len(section['data']):
+        if len(section['data']): #section['is_protobuf'] and 
             process = subprocess.Popen(['protoc', '--decode_raw'], stdin=subprocess.PIPE, stdout=subprocess.PIPE)
             process.stdin.write(section['data'])
             process.stdin.close()
-            process.wait()
-            protod = process.stdout.read()
-            print(protod.decode())
-            print()
+            ret = process.wait()
+            if ret == 0:
+                section['data'] = process.stdout.read().decode()
+            else:
+                section['data'] = 'Failed parsing: ' + ' '.join('{:02x}'.format(x) for x in section['data'])
+            # print(protod.decode())
+            # print()
+        # else:
+        #     print("HEX"+section['data'].hex())
+        #     section['data'] = ' '.join('{:02x}'.format(x) for x in section['data'])
 
+pprint(decoded)
