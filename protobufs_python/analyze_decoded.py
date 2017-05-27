@@ -3,9 +3,6 @@ from collections import Counter
 from pprint import pprint
 from protobuf_to_dict import protobuf_to_dict
 
-# import RPCMessages_pb2
-# import CallMeMaybe.CallMeMaybe_pb2
-
 import SaveMe.SaveMe_pb2
 import WhatsUp_pb2
 import google.protobuf.descriptor_pb2
@@ -47,8 +44,6 @@ import GetThePartyStarted.Player_pb2
 import GetThePartyStarted.GetThePartyStarted_pb2
 import GetThePartyStarted.Logging_pb2
 import GetThePartyStarted.Aerobase_pb2
-
-
 
 all_msgs = [
     {
@@ -881,12 +876,10 @@ all_msgs = [
     }
 ]
 
-
-
-
 dump_file = open('../all_decoded.pickle', 'rb')
 sessions = pickle.load(dump_file)
 
+# Show stats about ports in each session
 # pprint([{
 #           "session": session['name'],
 #           "port_stats": sorted(Counter([
@@ -894,97 +887,30 @@ sessions = pickle.load(dump_file)
 #           ]).items())
 #       } for session in sessions])
 
-# pprint([session['captures'][0]['packets'][:3] for session in sessions])
-
-req = RPCMessages_pb2.Request()
-reply = RPCMessages_pb2.Reply()
-
-conn_req = RPCMessages_pb2.ConnectionRequest()
-conn_reply = RPCMessages_pb2.ConnectionReply()
-
 # Direction == 0 is from Spark to Phantom
-# for packet in [
-#         packet for packet in sessions[0]['captures'][0]['packets'] if packet['direction'] == 0 
-#     ][:10]:
-#     for dec in packet['decoded']:
-#         # pprint(dec)
-#         for proto in dec['protobufs']:
-#             # pprint(proto)
-#             if proto['raw']:
-#                 req.ParseFromString(proto['raw'])
-#                 pprint(protobuf_to_dict(req))
-
-        # pprint( [ [ [
-        #           proto['protoc'] for proto in dec['protobufs']
-        #       ] for dec in packet['decoded']
-        #   ] for packet in [
-        #       packet for packet in sessions[0]['captures'][0]['packets'] if packet['direction'] == 1 
-        #   ][:3]
-        # ])
-
 outgoing_packets = [packet['decoded'] for packet in sessions[0]['captures'][0]['packets'] if packet['direction'] == 0]
 incoming_packets = [packet['decoded'] for packet in sessions[0]['captures'][0]['packets'] if packet['direction'] == 1]
 
-# pprint(outgoing_packets)
+def read_protobuf_raw_in_order(packets):
+    for packet in packets:
+        for section in packet:
+            for protobuf in section['protobufs']:
+                yield protobuf['raw']
 
-# First packet(s), first and only section, two protobufs each
-        # req.ParseFromString(outgoing_packets[0][0]['protobufs'][0]['raw'])
-        # pprint(protobuf_to_dict(req))
-
-        # reply.ParseFromString(incoming_packets[0][0]['protobufs'][0]['raw'])
-        # pprint(protobuf_to_dict(reply))
-
-
-        # conn_req.ParseFromString(outgoing_packets[0][0]['protobufs'][1]['raw'])
-        # pprint(protobuf_to_dict(conn_req))
-
-        # conn_reply.ParseFromString(incoming_packets[0][0]['protobufs'][1]['raw'])
-        # pprint(protobuf_to_dict(conn_reply))
-
-# Second packet(s), first and only section, 
-
+def interpret_as(raw_protobuf, proto_name):
+    for proto in all_msgs:
+        if proto['name'] == proto_name:
+            return protobuf_to_dict(proto['msg'].ParseFromString(raw_protobuf))
+    return None
 
 def full_len(d):
     if type(d) == dict:
-        # print("yay", len(d))
         return sum(full_len(v) for v in d.values())
     elif type(d) == list:
         return sum(full_len(v) for v in d)
     else:
         return 1
     
-
-# i=0
-# lengths = [0] * len(all_msgs)
-    # for i in range(len(all_msgs)):
-    #     try:
-    #         all_msgs[i]['msg'].ParseFromString(incoming_packets[0][0]['protobufs'][1]['raw'])
-    #         # print(test['name'])
-    #         # pprint(protobuf_to_dict(test['msg']))
-    #         # lengths[i] = len(protobuf_to_dict(test['msg']))
-    #         all_msgs[i]['length'] = full_len(protobuf_to_dict(all_msgs[i]['msg']))
-    #         # i+=1
-    #     except:
-    #         all_msgs[i]['length'] = -1
-    #         pass
-
-# print(i, len(all_msgs))
-# pprint(all_msgs)
-# pprint([protobuf_to_dict(test['msg']) for test in all_msgs if test['length'] > 2])
-
-# pprint([{'name': test['name'], 'length': test['length']} for test in sorted(all_msgs, key=lambda x:x['length']) if test['length'] > 1])
-
-# pprint([{'name': test['name'], 'length': test['length'], 'msg': protobuf_to_dict(test['msg'])} for test in sorted(all_msgs, key=lambda x:x['length']) if test['length'] > 1])
-# pprint([{test['name'], test['length']} for test in sorted(all_msgs, key=lambda x:x['length']) if test['length'] > 2])
-
-
-# pprint([{
-#     'name': test['name'],
-#     'length': test['length'],
-#     'msg': protobuf_to_dict(test['msg'])
-#     } for test in sorted(all_msgs, key=lambda x:x['length']) if test['length'] > 2 or test['length'] == max(result['length'] for result in all_msgs)])
-
-
 def heuristic_search(raw_protobuf, filter=""):
     for i in range(len(all_msgs)):
         if all_msgs[i]['name'].startswith(filter):
@@ -1004,23 +930,9 @@ def heuristic_search(raw_protobuf, filter=""):
         result['length'] for result in all_msgs
     )]
 
-
 # pprint(heuristic_search(incoming_packets[0][0]['protobufs'][1]['raw']))
 
-def read_protobuf_raw_in_order(packets):
-    for packet in packets:
-        for section in packet:
-            for protobuf in section['protobufs']:
-                yield protobuf['raw']
-
-# for packet_num in range(5):
-#     for section in incoming_packets[packet_num]:
-#         for protobuf in section['protobufs']:
-#             if protobuf['raw']:
-#                 pprint(heuristic_search(protobuf['raw'], filter="Devialet.CallMeMaybe"))
-#             else:
-#                 print("empty protobuf")
-
+# this may cut out some protobufs at the end (shortest of incoming or outgoing)
 for (incoming, outgoing) in zip(read_protobuf_raw_in_order(incoming_packets), read_protobuf_raw_in_order(outgoing_packets)):
     pprint({
         "0outgoing": heuristic_search(outgoing, filter="Devialet.CallMeMaybe") if outgoing else "empty protobuf",
