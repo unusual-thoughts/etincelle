@@ -1023,6 +1023,6 @@ def read_protobuf_raw_in_order(packets):
 
 for (incoming, outgoing) in zip(read_protobuf_raw_in_order(incoming_packets), read_protobuf_raw_in_order(outgoing_packets)):
     pprint({
-        "outgoing": heuristic_search(outgoing, filter="Devialet.CallMeMaybe") if outgoing else "empty protobuf",
-        "incoming": heuristic_search(incoming, filter="Devialet.CallMeMaybe") if incoming else "empty protobuf" 
+        "0outgoing": heuristic_search(outgoing, filter="Devialet.CallMeMaybe") if outgoing else "empty protobuf",
+        "1incoming": heuristic_search(incoming, filter="Devialet.CallMeMaybe") if incoming else "empty protobuf" 
     })
