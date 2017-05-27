@@ -1,5 +1,5 @@
 import pickle
-from collections import Counter
+# from collections import Counter
 from pprint import pprint
 from protobuf_to_dict import protobuf_to_dict
 # import itertools
@@ -8,17 +8,6 @@ from dvlt_messages import all_msgs
 from dvlt_services import all_services
 
 import RPCMessages_pb2
-
-dump_file = open('../all_decoded.pickle', 'rb')
-sessions = pickle.load(dump_file)
-
-# Show stats about ports in each session
-# pprint([{
-#           "session": session['name'],
-#           "port_stats": sorted(Counter([
-#               capture['port'] for capture in session['captures']
-#           ]).items())
-#       } for session in sessions])
 
 def read_protobuf_raw_in_order(packets):
     for packet in packets:
@@ -65,101 +54,136 @@ def heuristic_search(raw_protobuf, filter=""):
 
 # pprint(heuristic_search(incoming_packets[0][0]['protobufs'][1]['raw']))
 
+def rpc_walk(sessionId, captureId):
+    # Actually the iterator could be made to simply iterate over sections,
+    # as each section should correspond to a RPC request/reply, 
+    # with 2 protobufs each time
 
-# Direction == 0 is from Spark to Phantom
-outgoing_packets = [packet['decoded'] for packet in sessions[0]['captures'][0]['packets'] if packet['direction'] == 0]
-incoming_packets = [packet['decoded'] for packet in sessions[0]['captures'][0]['packets'] if packet['direction'] == 1]
+    # The "uid" parameter in the section, when present, 
+    # is apparently equal to the first member of a 4 element protobuf in the same section
 
-incoming_iterator = read_protobuf_raw_in_order(incoming_packets)
-outgoing_iterator = read_protobuf_raw_in_order(outgoing_packets)
+    # Direction == 0 is from Spark to Phantom
+    outgoing_packets = [packet['decoded'] for packet in sessions[sessionId]['captures'][captureId]['packets'] if packet['direction'] == 0]
+    incoming_packets = [packet['decoded'] for packet in sessions[sessionId]['captures'][captureId]['packets'] if packet['direction'] == 1]
 
-i = 0
-service_list = RPCMessages_pb2.ServicesList().services
+    incoming_iterator = read_protobuf_raw_in_order(incoming_packets)
+    outgoing_iterator = read_protobuf_raw_in_order(outgoing_packets)
 
-# this may cut out some protobufs at the end (shortest of incoming or outgoing)
-for (incoming, outgoing) in zip(incoming_iterator, outgoing_iterator):
-    possible_out = heuristic_search(outgoing, filter="Devialet.CallMeMaybe")
-    possible_in  = heuristic_search(incoming, filter="Devialet.CallMeMaybe")
+    i = 0
+    service_list = RPCMessages_pb2.ServicesList().services
 
-    if "Devialet.CallMeMaybe.Request" in [
-        x['name'] for x in possible_out] and "Devialet.CallMeMaybe.Reply" in [
-        x['name'] for x in possible_in]:
+    # this may cut out some protobufs at the end (shortest of incoming or outgoing)
+    for (incoming, outgoing) in zip(incoming_iterator, outgoing_iterator):
+        possible_out = heuristic_search(outgoing, filter="Devialet.CallMeMaybe")
+        possible_in  = heuristic_search(incoming, filter="Devialet.CallMeMaybe")
 
-        print("")
-        req = interpret_as(outgoing, "Devialet.CallMeMaybe.Request")
-        rep = interpret_as(incoming, "Devialet.CallMeMaybe.Reply")
+        if "Devialet.CallMeMaybe.Request" in [
+            x['name'] for x in possible_out] and "Devialet.CallMeMaybe.Reply" in [
+            x['name'] for x in possible_in]:
 
-        if rep.requestId != req.requestId:
-            print("Error: Inconstistent requestId, maybe protobufs not in lockstep")
+            print("")
+            req = interpret_as(outgoing, "Devialet.CallMeMaybe.Request")
+            rep = interpret_as(incoming, "Devialet.CallMeMaybe.Reply")
 
-        method = {}
-        service = {}
-        package = {}
+            if rep.requestId != req.requestId:
+                print("Error: Inconstistent requestId, maybe protobufs not in lockstep")
 
-        # if not(service_list):
-        if rep.serviceId == req.serviceId == 0 and not service_list:
-            # Assume initial service is CallmeMaybe.Connection, which is placed first
-            package = all_services[0]
-            service = package['services'][req.type]
-            method = service['methods'][req.subTypeId]
+            method = {}
+            service = {}
+            package = {}
 
-        elif rep.serviceId in [service.id for service in service_list]:
-            service_name = [service.name for service in service_list if service.id == rep.serviceId][0]
-            package_name = '.'.join(service_name.split('.')[1:-2])
-            service_name = '.'.join(service_name.split('.')[-2:-1])
-            # print(package_name, service_name)
-            
-            for p in all_services:
-                if p['package_name'].lower() == package_name:
-                    for s in p['services']:
-                        if s['name'].lower() == service_name:
-                            # for m in s['methods']:
-                            #     if m['name'] == 
-                            service = s
-                            package = p
-                            print('service {} from {} appears to correspond to type {}'.format(
-                                service_name, package_name, req.type
-                            ))
-                            method = service['methods'][req.subTypeId]
+            # if not(service_list):
+            if rep.serviceId == req.serviceId == 0 and not service_list:
+                # Assume initial service is CallmeMaybe.Connection, which is placed first
+                package = all_services[0]
+                service = package['services'][req.type]
+                method = service['methods'][req.subTypeId]
+
+            elif rep.serviceId in [service.id for service in service_list]:
+                service_name = [service.name for service in service_list if service.id == rep.serviceId][0]
+                package_name = '.'.join(service_name.split('.')[1:-2])
+                service_name = '.'.join(service_name.split('.')[-2:-1])
+                # print(package_name, service_name)
+                
+                for p in all_services:
+                    if p['package_name'].lower() == package_name:
+                        for s in p['services']:
+                            if s['name'].lower() == service_name:
+                                # for m in s['methods']:
+                                #     if m['name'] == 
+                                service = s
+                                package = p
+                                print('service {} from {} appears to correspond to type {}'.format(
+                                    service_name, package_name, req.type
+                                ))
+                                method = service['methods'][req.subTypeId]
+            else:
+                print("Unknown service ID {}".format(rep.serviceId))
+
+
+            # TODO: handle multipart
+            if rep.isMultipart:
+                print("WARNING multipart")
+                pprint(rep)
+
+
+            rpc_input = next(outgoing_iterator)
+            rpc_output = next(incoming_iterator)
+
+            try:
+                rpc_input_pb = interpret_as(rpc_input, method['input_type'])
+                rpc_output_pb = interpret_as(rpc_output, method['output_type'])
+                pprint({
+                    "package_name": package['package_name'],
+                    "service_name": service['name'],
+                    "rpc_name": method['name'],
+                    "rpc_input": protobuf_to_dict(rpc_input_pb),
+                    "rpc_output": protobuf_to_dict(rpc_output_pb),
+                    "rpc_input_type": method['input_type'],
+                    "rpc_output_type": method['output_type'],
+                })
+
+                if method['output_type'] == "Devialet.CallMeMaybe.ConnectionReply":
+                    service_list = rpc_output_pb.services
+
+            except KeyError:
+                pprint({
+                    "rpc_input_unknown": heuristic_search(rpc_input) if rpc_input else "empty protobuf",
+                    "rpc_output_unknown": heuristic_search(rpc_output) if rpc_output else "empty protobuf" 
+                })            
+                pass
+            except Exception as e:
+                print(type(e), e)
+
         else:
-            print("Unknown service ID {}".format(rep.serviceId))
-
-        pprint(rep)
-
-        # TODO: handle multipart
-        rpc_input = next(outgoing_iterator)
-        rpc_output = next(incoming_iterator)
-
-        try:
-            rpc_input_pb = interpret_as(rpc_input, method['input_type'])
-            rpc_output_pb = interpret_as(rpc_output, method['output_type'])
+            print("Looks like we are out of sync or something")
             pprint({
-                "package_name": package['package_name'],
-                "service_name": service['name'],
-                "rpc_name": method['name'],
-                "rpc_input": protobuf_to_dict(rpc_input_pb),
-                "rpc_output": protobuf_to_dict(rpc_output_pb),
-                "rpc_input_type": method['input_type'],
-                "rpc_output_type": method['output_type'],
+                "0outgoing": possible_out if outgoing else "empty protobuf",
+                "1incoming": possible_in if incoming else "empty protobuf" 
             })
 
-            if method['output_type'] == "Devialet.CallMeMaybe.ConnectionReply":
-                service_list = rpc_output_pb.services
+        i += 1
 
-        except KeyError:
-            pprint({
-                "rpc_input_unknown": heuristic_search(rpc_input) if rpc_input else "empty protobuf",
-                "rpc_output_unknown": heuristic_search(rpc_output) if rpc_output else "empty protobuf" 
-            })            
-            pass
-        except Exception as e:
-            print(type(e), e)
+    i = 0
+    for incoming in incoming_iterator:
+        i += 1
 
-    else:
-        print("Looks like we are out of sync or something")
-        pprint({
-            "0outgoing": possible_out if outgoing else "empty protobuf",
-            "1incoming": possible_in if incoming else "empty protobuf" 
-        })
+    if i != 0:
+        print("There were {} incoming packets remaining".format(i))
 
-    i += 1
+    i = 0
+    for outgoing in outgoing_iterator:
+        i += 1
+
+    if i != 0:
+        print("There were {} outgoing packets remaining".format(i))
+
+if __name__ == '__main__':
+
+    dump_file = open('../all_decoded.pickle', 'rb')
+    sessions = pickle.load(dump_file)
+
+
+    sessionId = 0
+    for captureId in range(len(sessions[sessionId]['captures'])):
+        rpc_walk(sessionId, captureId)

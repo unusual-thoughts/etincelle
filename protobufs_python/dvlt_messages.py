@@ -1,3 +1,45 @@
+import SaveMe.SaveMe_pb2
+import WhatsUp_pb2
+import google.protobuf.descriptor_pb2
+import MasterOfPuppets.Configuration_pb2
+import AppleAirPlay.Playback_pb2
+import LeftAlone.Configuration_pb2
+import TwerkIt.SoundDesign_pb2
+import TheSoundOfSilence.Playlist_pb2
+import TheSoundOfSilence.OnlineSource_pb2
+import TheSoundOfSilence.Artist_pb2
+import TheSoundOfSilence.LiveSource_pb2
+import TheSoundOfSilence.Session_pb2
+import TheSoundOfSilence.Subcategory_pb2
+import TheSoundOfSilence.Source_pb2
+import TheSoundOfSilence.Node_pb2
+import TheSoundOfSilence.TrackDetails_pb2
+import TheSoundOfSilence.Collection_pb2
+import TheSoundOfSilence.Picture_pb2
+import TheSoundOfSilence.Album_pb2
+import TheSoundOfSilence.Category_pb2
+import TheSoundOfSilence.Track_pb2
+import TooManyFlows.Playback_pb2
+import TooManyFlows.Playlist_pb2
+import TooManyFlows.History_pb2
+import TooManyFlows.SoundControl_pb2
+import TooManyFlows.Configuration_pb2
+import TooManyFlows.Metadata_pb2
+import TooManyFlows.SoundDesign_pb2
+import TooManyFlows.Identifier_pb2
+import Fresh.Fresh_pb2
+import IMASlave4U.SoundControl_pb2
+import IMASlave4U.Configuration_pb2
+import IMASlave4U.SoundDesign_pb2
+import RPCMessages_pb2
+import SpotifyConnect.SpotifyConnect_pb2
+import CallMeMaybe.CallMeMaybe_pb2
+import CallMeMaybe.CommonMessages_pb2
+import GetThePartyStarted.Player_pb2
+import GetThePartyStarted.GetThePartyStarted_pb2
+import GetThePartyStarted.Logging_pb2
+import GetThePartyStarted.Aerobase_pb2
+
 all_msgs = [
     {
         "msg": SaveMe.SaveMe_pb2.SavePlaylistError(),
