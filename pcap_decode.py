@@ -60,10 +60,6 @@ class PcapDecoder(DevialetDecoder):
                     if spark_port == spark_port2 and phantom_port == phantom_port2 and direction == 1 - direction2:
                         grouped_streams[-1].append((second_desc, self.sessions.pop(second_desc)))
 
-        # print(self.sessions)
-        # pprint(grouped_streams)
-                # print(stream_desc, self.get_direction(stream_desc))
-
         for group in grouped_streams:
             group_name = ''
             packet_list = []
@@ -72,7 +68,6 @@ class PcapDecoder(DevialetDecoder):
                 packet_list += stream
             self.sessions[group_name] = packet_list
 
-        print(self.sessions)
         session = {
             'name': self.filename,
             'captures': [{

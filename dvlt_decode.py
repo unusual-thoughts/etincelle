@@ -57,33 +57,36 @@ class DevialetDecoder:
         return obj
 
     def decode_packet(self, packet):
-        field_header = packet.read(6)
-        firstbyte = field_header[0]
         new_section = True
         sections = []
         ret = {'sections': []}
 
-        while len(field_header) == 6 and firstbyte in self.magics:
-            firstbyte, same_section, field_length = struct.unpack('>BBL', field_header)
-            field_data = packet.read(field_length)
-            field = { 'firstbyte': firstbyte, 'data': field_data }
-
-            if new_section:
-                sections.append([field])
-            else:
-                sections[-1].append(field)           
-
+        try:
             field_header = packet.read(6)
-            # when second byte of section header is 0, next field is part of new section
-            new_section = not same_section
+            firstbyte = field_header[0]
+            while len(field_header) == 6 and firstbyte in self.magics:
+                firstbyte, same_section, field_length = struct.unpack('>BBL', field_header)
+                field_data = packet.read(field_length)
+                field = { 'firstbyte': firstbyte, 'data': field_data }
 
-        rest = packet.read()
-        if len(field_header) != 0 or firstbyte not in self.magics or rest:
-             ret.setdefault('error', []).append('Found garbage at end of packet: header={} rest={}'.format(
-                field_header.hex(), ' '.join('{:02x}'.format(x) for x in rest)))
+                if new_section:
+                    sections.append([field])
+                else:
+                    sections[-1].append(field)           
 
-        for section in sections:
-            ret['sections'].append(self.decode_section(section))
+                field_header = packet.read(6)
+                # when second byte of section header is 0, next field is part of new section
+                new_section = not same_section
+
+            rest = packet.read()
+            if len(field_header) != 0 or firstbyte not in self.magics or rest:
+                 ret.setdefault('error', []).append('Found garbage at end of packet: header={} rest={}'.format(
+                    field_header.hex(), ' '.join('{:02x}'.format(x) for x in rest)))
+
+            for section in sections:
+                ret['sections'].append(self.decode_section(section))
+        except IndexError as e:
+            print("Error: Empty or too short packet: {} {}".format(type(e), e))
 
         return ret
 
@@ -134,7 +137,7 @@ class AndroidCaptureDecoder(DevialetDecoder):
         DevialetDecoder.__init__(self)
         self.dirs = dirs
 
-    def capture_iter(self, filename):
+    def packet_iter(self, filename):
         i = 0
         with open(filename, 'rb') as file:
             header = file.read(16)
@@ -159,7 +162,7 @@ class AndroidCaptureDecoder(DevialetDecoder):
                 'name': capture,
                 'port': re.match('^[0-9]+_([0-9]+).dat$', capture).group(1),
                 'start_time': datetime.fromtimestamp(int(re.match('^([0-9]+)_[0-9]+.dat$', capture).group(1))/1000),
-                'packets': self.decode_capture(self.capture_iter(os.path.join(dirname, capture)))
+                'packets': self.decode_capture(self.packet_iter(os.path.join(dirname, capture)))
             } for capture in sorted(os.listdir(dirname))]
         }
 
