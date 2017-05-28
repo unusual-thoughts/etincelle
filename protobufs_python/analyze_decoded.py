@@ -1,4 +1,4 @@
-import pickle
+import pickle, re
 # from collections import Counter
 from pprint import pprint
 from protobuf_to_dict import protobuf_to_dict
@@ -54,10 +54,30 @@ def heuristic_search(raw_protobuf, filter=""):
 
 # pprint(heuristic_search(incoming_packets[0][0]['protobufs'][1]['raw']))
 
+import subprocess
+def decode_protobuf(data):
+    process = subprocess.Popen(['protoc', '--decode_raw'], stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+    process.stdin.write(data)
+    process.stdin.close()
+    ret = process.wait()
+    if ret == 0:
+        return {
+            "raw": data,
+            "protoc": process.stdout.read().decode()
+        }
+    else:
+        return {
+            "raw": data,
+            "protoc": "",
+            "error": 'Failed to parse: ' + ' '.join('{:02x}'.format(x) for x in data)
+        }
+
 def rpc_walk(sessionId, captureId):
     # Actually the iterator could be made to simply iterate over sections,
     # as each section should correspond to a RPC request/reply, 
     # with 2 protobufs each time
+
+    # Yes this is probably the only way to correctly handle multiparts
 
     # The "uid" parameter in the section, when present, 
     # is apparently equal to the first member of a 4 element protobuf in the same section
@@ -82,8 +102,10 @@ def rpc_walk(sessionId, captureId):
             x['name'] for x in possible_in]:
 
             print("")
-            req = interpret_as(outgoing, "Devialet.CallMeMaybe.Request")
-            rep = interpret_as(incoming, "Devialet.CallMeMaybe.Reply")
+            req = RPCMessages_pb2.Request()
+            rep = RPCMessages_pb2.Reply()
+            req.CopyFrom(interpret_as(outgoing, "Devialet.CallMeMaybe.Request"))
+            rep.CopyFrom(interpret_as(incoming, "Devialet.CallMeMaybe.Reply"))
 
             if rep.requestId != req.requestId:
                 print("Error: Inconstistent requestId, maybe protobufs not in lockstep")
@@ -91,6 +113,7 @@ def rpc_walk(sessionId, captureId):
             method = {}
             service = {}
             package = {}
+            service_name = ""
 
             # if not(service_list):
             if rep.serviceId == req.serviceId == 0 and not service_list:
@@ -101,8 +124,12 @@ def rpc_walk(sessionId, captureId):
 
             elif rep.serviceId in [service.id for service in service_list]:
                 service_name = [service.name for service in service_list if service.id == rep.serviceId][0]
-                package_name = '.'.join(service_name.split('.')[1:-2])
-                service_name = '.'.join(service_name.split('.')[-2:-1])
+                # package_name = '.'.join(service_name.split('.')[1:-2])
+                # service_name = '.'.join(service_name.split('.')[-2:-1])
+                package_name, service_name = re.match(
+                    '^[^\.]+\.(.*?)(?:-0)?\.([^\.]+?)(?:-0)?\.[^\.]+$', service_name).groups()
+                # this isnt perferc, apparently sometimes more than one service: com.devialet.getthepartystarted.configuration-0.player-0.ece3ce2e
+
                 # print(package_name, service_name)
                 
                 for p in all_services:
@@ -116,50 +143,79 @@ def rpc_walk(sessionId, captureId):
                                 print('service {} from {} appears to correspond to type {}'.format(
                                     service_name, package_name, req.type
                                 ))
-                                method = service['methods'][req.subTypeId]
+                                try:
+                                    method = service['methods'][req.subTypeId]
+                                except IndexError:
+                                    print("Error: subTypeId {} too big for package {}, service {}".format(
+                                        req.subTypeId, package_name, service_name
+                                    ))
+                if package == {} or service == {}:
+                    print('Error: service "{}" or package "{}" not found in database'.format(service_name, package_name))
             else:
-                print("Unknown service ID {}".format(rep.serviceId))
+                print("Error: Unknown service ID {}".format(rep.serviceId))
 
 
             # TODO: handle multipart
             if rep.isMultipart:
-                print("WARNING multipart")
-                pprint(rep)
+                while rep.isMultipart:
+                    print("WARNING multipart")
+                    pprint(protobuf_to_dict(rep))
+                    rep = RPCMessages_pb2.Reply()
+                    try:
+                        new_incoming = next(incoming_iterator)
+                        rep.CopyFrom(interpret_as(new_incoming, "Devialet.CallMeMaybe.Reply"))
+                    except StopIteration:
+                        print("Error: ran out of incoming packets in multipart handling")
+                        pass
+            else:
+                try:
+                    rpc_input = next(outgoing_iterator)
+                except StopIteration:
+                    print("Error: ran out of outgoing packets for RPC input")
 
+                try:
+                    rpc_output = next(incoming_iterator)
+                except StopIteration:
+                    print("Error: ran out of incoming packets for RPC output")
 
-            rpc_input = next(outgoing_iterator)
-            rpc_output = next(incoming_iterator)
+                try:
+                    rpc_input_pb = interpret_as(rpc_input, method['input_type'])
+                    rpc_output_pb = interpret_as(rpc_output, method['output_type'])
+                    pprint({
+                        "package_name": package['package_name'],
+                        "service_name": service['name'],
+                        "rpc_name": method['name'],
+                        "rpc_input": protobuf_to_dict(rpc_input_pb),
+                        "rpc_output": protobuf_to_dict(rpc_output_pb),
+                        "rpc_input_type": method['input_type'],
+                        "rpc_output_type": method['output_type'],
+                    })
 
-            try:
-                rpc_input_pb = interpret_as(rpc_input, method['input_type'])
-                rpc_output_pb = interpret_as(rpc_output, method['output_type'])
-                pprint({
-                    "package_name": package['package_name'],
-                    "service_name": service['name'],
-                    "rpc_name": method['name'],
-                    "rpc_input": protobuf_to_dict(rpc_input_pb),
-                    "rpc_output": protobuf_to_dict(rpc_output_pb),
-                    "rpc_input_type": method['input_type'],
-                    "rpc_output_type": method['output_type'],
-                })
+                    if method['output_type'] == "Devialet.CallMeMaybe.ConnectionReply":
+                        service_list = rpc_output_pb.services
 
-                if method['output_type'] == "Devialet.CallMeMaybe.ConnectionReply":
-                    service_list = rpc_output_pb.services
-
-            except KeyError:
-                pprint({
-                    "rpc_input_unknown": heuristic_search(rpc_input) if rpc_input else "empty protobuf",
-                    "rpc_output_unknown": heuristic_search(rpc_output) if rpc_output else "empty protobuf" 
-                })            
-                pass
-            except Exception as e:
-                print(type(e), e)
+                except KeyError as e:
+                    # If method/service is empty, meaning that not found in database
+                    pprint({
+                        "rpc_input_unknown": heuristic_search(rpc_input) if rpc_input else "empty protobuf",
+                        "rpc_output_unknown": heuristic_search(rpc_output) if rpc_output else "empty protobuf",
+                        "service_name": service_name,
+                        "exception": [type(e), e],
+                        "raw_decode_input": decode_protobuf(rpc_input),
+                        "raw_decode_output": decode_protobuf(rpc_input),
+                        "service_list": service_list,
+                    })
+                    pass
+                except Exception as e:
+                    print(type(e), e)
 
         else:
             print("Looks like we are out of sync or something")
             pprint({
-                "0outgoing": possible_out if outgoing else "empty protobuf",
-                "1incoming": possible_in if incoming else "empty protobuf" 
+                "0utgoing": heuristic_search(outgoing, filter="Devialet") if outgoing else "empty protobuf",
+                "1ncoming": heuristic_search(incoming, filter="Devialet") if incoming else "empty protobuf",
+                "raw_decode_0utgoing": decode_protobuf(outgoing),
+                "raw_decode_1ncoming": decode_protobuf(incoming),
             })
 
         i += 1
@@ -169,14 +225,14 @@ def rpc_walk(sessionId, captureId):
         i += 1
 
     if i != 0:
-        print("There were {} incoming packets remaining".format(i))
+        print("Error: There were {} incoming packets remaining".format(i))
 
     i = 0
     for outgoing in outgoing_iterator:
         i += 1
 
     if i != 0:
-        print("There were {} outgoing packets remaining".format(i))
+        print("Error: There were {} outgoing packets remaining".format(i))
 
 if __name__ == '__main__':
 
@@ -186,4 +242,7 @@ if __name__ == '__main__':
 
     sessionId = 0
     for captureId in range(len(sessions[sessionId]['captures'])):
+        capture_without_packets = sessions[sessionId]['captures'][captureId].copy()
+        capture_without_packets['packets'] = []
+        print(capture_without_packets)
         rpc_walk(sessionId, captureId)
