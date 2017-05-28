@@ -20,6 +20,20 @@ sessions = pickle.load(dump_file)
 #           ]).items())
 #       } for session in sessions])
 
+# Show stats about magic, direction, and presence of UID
+number_of_uid = {
+    0xc2: {"incoming": {True: 0, False: 0}, "outgoing": {True: 0, False: 0}},
+    0xc3: {"incoming": {True: 0, False: 0}, "outgoing": {True: 0, False: 0}}
+}
+for session in sessions:
+    for capture in session['captures']:
+        for packet in capture['packets']:
+            for section in packet['decoded']:
+                number_of_uid[section['magic']]['incoming' if packet['direction'] else 'outgoing'][('uid' in section.keys())] += 1
+
+# UID is present if and only if magic is C3
+pprint(number_of_uid)
+
 # Show stats about number of protobufs
 number_of_protobufs_c2 = []
 number_of_protobufs_c3 = []
