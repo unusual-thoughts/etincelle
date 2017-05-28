@@ -28,7 +28,7 @@ number_of_uid = {
 for session in sessions:
     for capture in session['captures']:
         for packet in capture['packets']:
-            for section in packet['decoded']:
+            for section in packet['sections']:
                 number_of_uid[section['magic']]['incoming' if packet['direction'] else 'outgoing'][('uid' in section.keys())] += 1
 
 # UID is present if and only if magic is C3
@@ -40,7 +40,7 @@ number_of_protobufs_c3 = []
 for session in sessions:
     for capture in session['captures']:
         for packet in capture['packets']:
-            for section in packet['decoded']:
+            for section in packet['sections']:
                 if section['magic'] == 0xc2:
                     number_of_protobufs_c2.append(len(section['protobufs']))
                 elif section['magic'] == 0xc3:
@@ -60,7 +60,7 @@ for session in sessions:
         capture['nb_protobufs'] = []
         capture['packet_numbers'] = []
         for p, packet in enumerate(capture['packets']):
-            for section in packet['decoded']:
+            for section in packet['sections']:
                 if len(section['protobufs']) != 2:
                     capture['nb_protobufs'].append(len(section['protobufs']))
                     capture['packet_numbers'].append(p)

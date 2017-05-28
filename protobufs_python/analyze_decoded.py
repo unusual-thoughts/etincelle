@@ -142,8 +142,8 @@ def rpc_walk(sessionId, captureId):
     # is apparently equal to the first member of a 4 element protobuf in the same section
 
     # Direction == 0 is from Spark to Phantom
-    outgoing_packets = [packet['decoded'] for packet in sessions[sessionId]['captures'][captureId]['packets'] if packet['direction'] == 0]
-    incoming_packets = [packet['decoded'] for packet in sessions[sessionId]['captures'][captureId]['packets'] if packet['direction'] == 1]
+    outgoing_packets = [packet['sections'] for packet in sessions[sessionId]['captures'][captureId]['packets'] if packet['direction'] == 0]
+    incoming_packets = [packet['sections'] for packet in sessions[sessionId]['captures'][captureId]['packets'] if packet['direction'] == 1]
 
     incoming_iterator = read_protobuf_sections_in_order(incoming_packets)
     outgoing_iterator = read_protobuf_sections_in_order(outgoing_packets)
