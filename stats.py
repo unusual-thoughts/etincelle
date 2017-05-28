@@ -1,15 +1,8 @@
-import pickle
+import sys, pickle
 from collections import Counter
 from pprint import pprint
-# from protobuf_to_dict import protobuf_to_dict
-# import itertools
 
-# from dvlt_messages import all_msgs
-# from dvlt_services import all_services
-
-# import RPCMessages_pb2
-
-dump_file = open('../all_decoded.pickle', 'rb')
+dump_file = open(sys.argv[1], 'rb')
 sessions = pickle.load(dump_file)
 
 # Show stats about ports in each session
@@ -41,10 +34,13 @@ for session in sessions:
     for capture in session['captures']:
         for packet in capture['packets']:
             for section in packet['sections']:
-                if section['magic'] == 0xc2:
-                    number_of_protobufs_c2.append(len(section['protobufs']))
-                elif section['magic'] == 0xc3:
-                    number_of_protobufs_c3.append(len(section['protobufs']))
+                try:
+                    if section['magic'] == 0xc2:
+                        number_of_protobufs_c2.append(len(section['protobufs']))
+                    elif section['magic'] == 0xc3:
+                        number_of_protobufs_c3.append(len(section['protobufs']))
+                except:
+                    pass
 
 # All packets of magic C3 have exactly 2 protobufs
 # Packets of magic C2 have varying length, but usually 2
@@ -61,10 +57,13 @@ for session in sessions:
         capture['packet_numbers'] = []
         for p, packet in enumerate(capture['packets']):
             for section in packet['sections']:
-                if len(section['protobufs']) != 2:
-                    capture['nb_protobufs'].append(len(section['protobufs']))
-                    capture['packet_numbers'].append(p)
-                    # pprint(section)
+                try:
+                    if len(section['protobufs']) != 2:
+                        capture['nb_protobufs'].append(len(section['protobufs']))
+                        capture['packet_numbers'].append(p)
+                        # pprint(section)
+                except:
+                    pass
 
         capture['packets'] = []
         if capture['nb_protobufs']:
