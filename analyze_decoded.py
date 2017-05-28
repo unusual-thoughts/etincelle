@@ -1,4 +1,4 @@
-import pickle, re
+import pickle, re, sys
 # from collections import Counter
 from pprint import pprint
 from protobuf_to_dict import protobuf_to_dict
@@ -128,7 +128,7 @@ def find_method(rep, service_list):
     else:
         print("Error: Unknown service ID {}".format(rep.serviceId))
 
-    return (package, service, method)
+    return (service_name, package, service, method)
 
 
 def rpc_walk(sessionId, captureId):
@@ -171,7 +171,7 @@ def rpc_walk(sessionId, captureId):
                 rep.type, rep.subTypeId, rep.serviceId, req.type, req.subTypeId, req.serviceId,
             ))
 
-        package, service, method = find_method(rep, service_list)
+        service_name, package, service, method = find_method(rep, service_list)
 
         # TODO: handle multipart
         if rep.isMultipart:
@@ -220,14 +220,14 @@ def rpc_walk(sessionId, captureId):
             if incoming_section['magic'] == 0xC3:
                 rpc_decoded['uid'] = incoming_section['uid']
 
-            # pprint(rpc_decoded)
+            pprint(rpc_decoded)
         except KeyError as e:
             # If method/service is empty, meaning that not found in database
             print("Error: no package, service or method")
             pprint({
                 "rpc_input_unknown": heuristic_search(outgoing_section['protobufs'][1]['raw']),
                 "rpc_output_unknown": [heuristic_search(x['raw']) for x in incoming_section['protobufs'][1:]],
-                "service_name": [service.name for service in service_list if service.id == rep.serviceId][0],
+                "service_name": service_name,
                 "exception": [type(e), e],
                 "raw_decode_input": decode_protobuf(outgoing_section['protobufs'][1]['raw']),
                 "raw_decode_output": [decode_protobuf(x['raw']) for x in incoming_section['protobufs'][1:]],
@@ -254,7 +254,9 @@ def rpc_walk(sessionId, captureId):
 
 if __name__ == '__main__':
 
-    dump_file = open('../all_decoded.pickle', 'rb')
+    # dump_file = open('../all_decoded.pickle', 'rb')
+    dump_file = open(sys.argv[1], 'rb')
+
     sessions = pickle.load(dump_file)
 
 
