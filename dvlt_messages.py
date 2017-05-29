@@ -40,833 +40,250 @@ import GetThePartyStarted.GetThePartyStarted_pb2
 import GetThePartyStarted.Logging_pb2
 import GetThePartyStarted.Aerobase_pb2
 
-all_msgs = [
-    {
-        "msg": SaveMe.SaveMe_pb2.SavePlaylistError(),
-        "name": "Devialet.SaveMe.SavePlaylistError",
-    },
-    {
-        "msg": SaveMe.SaveMe_pb2.Track(),
-        "name": "Devialet.SaveMe.Track",
-    },
-    {
-        "msg": SaveMe.SaveMe_pb2.PlaylistMsg(),
-        "name": "Devialet.SaveMe.PlaylistMsg",
-    },
-    {
-        "msg": SaveMe.SaveMe_pb2.TrackInPlaylist(),
-        "name": "Devialet.SaveMe.TrackInPlaylist",
-    },
-    {
-        "msg": SaveMe.SaveMe_pb2.CreatePlaylist(),
-        "name": "Devialet.SaveMe.CreatePlaylist",
-    },
-    {
-        "msg": SaveMe.SaveMe_pb2.PlaylistSaved(),
-        "name": "Devialet.SaveMe.PlaylistSaved",
-    },
-    {
-        "msg": SaveMe.SaveMe_pb2.PlaylistContent(),
-        "name": "Devialet.SaveMe.PlaylistContent",
-    },
-    {
-        "msg": SaveMe.SaveMe_pb2.ModifyTracks(),
-        "name": "Devialet.SaveMe.ModifyTracks",
-    },
-    {
-        "msg": SaveMe.SaveMe_pb2.ModifyOneTrack(),
-        "name": "Devialet.SaveMe.ModifyOneTrack",
-    },
-    {
-        "msg": SaveMe.SaveMe_pb2.ModifyPlaylistName(),
-        "name": "Devialet.SaveMe.ModifyPlaylistName",
-    },
-    {
-        "msg": WhatsUp_pb2.RegistrarRegisterQuery(),
-        "name": "Devialet.WhatsUp.RegistrarRegisterQuery",
-    },
-    {
-        "msg": WhatsUp_pb2.RegistrarUnregisterQuery(),
-        "name": "Devialet.WhatsUp.RegistrarUnregisterQuery",
-    },
-    {
-        "msg": WhatsUp_pb2.RegistrarServicesQuery(),
-        "name": "Devialet.WhatsUp.RegistrarServicesQuery",
-    },
-    {
-        "msg": WhatsUp_pb2.RegistrarPingQuery(),
-        "name": "Devialet.WhatsUp.RegistrarPingQuery",
-    },
-    {
-        "msg": WhatsUp_pb2.RegistrarErrors(),
-        "name": "Devialet.WhatsUp.RegistrarErrors",
-    },
-    {
-        "msg": WhatsUp_pb2.WhatsUpNetwork(),
-        "name": "Devialet.WhatsUp.WhatsUpNetwork",
-    },
-    {
-        "msg": WhatsUp_pb2.WhatsUpNetworkInterface(),
-        "name": "Devialet.WhatsUp.WhatsUpNetworkInterface",
-    },
-    {
-        "msg": WhatsUp_pb2.WhatsUpHost(),
-        "name": "Devialet.WhatsUp.WhatsUpHost",
-    },
-    {
-        "msg": WhatsUp_pb2.WhatsUpHostsList(),
-        "name": "Devialet.WhatsUp.WhatsUpHostsList",
-    },
-    {
-        "msg": WhatsUp_pb2.WhatsUpService(),
-        "name": "Devialet.WhatsUp.WhatsUpService",
-    },
-    {
-        "msg": WhatsUp_pb2.WhatsUpServicesList(),
-        "name": "Devialet.WhatsUp.WhatsUpServicesList",
-    },
-    {
-        "msg": WhatsUp_pb2.WhatsUpServicesUpdate(),
-        "name": "Devialet.WhatsUp.WhatsUpServicesUpdate",
-    },
-    {
-        "msg": WhatsUp_pb2.WhatsUpServicesRemoval(),
-        "name": "Devialet.WhatsUp.WhatsUpServicesRemoval",
-    },
-    {
-        "msg": WhatsUp_pb2.RegistryLookupHostQuery(),
-        "name": "Devialet.WhatsUp.RegistryLookupHostQuery",
-    },
-    {
-        "msg": WhatsUp_pb2.RegistryLookupHostReply(),
-        "name": "Devialet.WhatsUp.RegistryLookupHostReply",
-    },
-    {
-        "msg": WhatsUp_pb2.RegistryFindServicesQuery(),
-        "name": "Devialet.WhatsUp.RegistryFindServicesQuery",
-    },
-    {
-        "msg": WhatsUp_pb2.RegistryNetworkConfigurationChangedNotification(),
-        "name": "Devialet.WhatsUp.RegistryNetworkConfigurationChangedNotification",
-    },
-    {
-        "msg": WhatsUp_pb2.RegistryHostUpdatedNotification(),
-        "name": "Devialet.WhatsUp.RegistryHostUpdatedNotification",
-    },
-    {
-        "msg": google.protobuf.descriptor_pb2.FileDescriptorSet(),
-        "name": "google.protobuf.FileDescriptorSet",
-    },
-    {
-        "msg": google.protobuf.descriptor_pb2.FileDescriptorProto(),
-        "name": "google.protobuf.FileDescriptorProto",
-    },
-    {
-        "msg": google.protobuf.descriptor_pb2.DescriptorProto(),
-        "name": "google.protobuf.DescriptorProto",
-    },
-    {
-        "msg": google.protobuf.descriptor_pb2.FieldDescriptorProto(),
-        "name": "google.protobuf.FieldDescriptorProto",
-    },
-    {
-        "msg": google.protobuf.descriptor_pb2.OneofDescriptorProto(),
-        "name": "google.protobuf.OneofDescriptorProto",
-    },
-    {
-        "msg": google.protobuf.descriptor_pb2.EnumDescriptorProto(),
-        "name": "google.protobuf.EnumDescriptorProto",
-    },
-    {
-        "msg": google.protobuf.descriptor_pb2.EnumValueDescriptorProto(),
-        "name": "google.protobuf.EnumValueDescriptorProto",
-    },
-    {
-        "msg": google.protobuf.descriptor_pb2.ServiceDescriptorProto(),
-        "name": "google.protobuf.ServiceDescriptorProto",
-    },
-    {
-        "msg": google.protobuf.descriptor_pb2.MethodDescriptorProto(),
-        "name": "google.protobuf.MethodDescriptorProto",
-    },
-    {
-        "msg": google.protobuf.descriptor_pb2.FileOptions(),
-        "name": "google.protobuf.FileOptions",
-    },
-    {
-        "msg": google.protobuf.descriptor_pb2.MessageOptions(),
-        "name": "google.protobuf.MessageOptions",
-    },
-    {
-        "msg": google.protobuf.descriptor_pb2.FieldOptions(),
-        "name": "google.protobuf.FieldOptions",
-    },
-    {
-        "msg": google.protobuf.descriptor_pb2.EnumOptions(),
-        "name": "google.protobuf.EnumOptions",
-    },
-    {
-        "msg": google.protobuf.descriptor_pb2.EnumValueOptions(),
-        "name": "google.protobuf.EnumValueOptions",
-    },
-    {
-        "msg": google.protobuf.descriptor_pb2.ServiceOptions(),
-        "name": "google.protobuf.ServiceOptions",
-    },
-    {
-        "msg": google.protobuf.descriptor_pb2.MethodOptions(),
-        "name": "google.protobuf.MethodOptions",
-    },
-    {
-        "msg": google.protobuf.descriptor_pb2.UninterpretedOption(),
-        "name": "google.protobuf.UninterpretedOption",
-    },
-    {
-        "msg": google.protobuf.descriptor_pb2.SourceCodeInfo(),
-        "name": "google.protobuf.SourceCodeInfo",
-    },
-    {
-        "msg": MasterOfPuppets.Configuration_pb2.GroupId(),
-        "name": "Devialet.MasterOfPuppets.GroupId",
-    },
-    {
-        "msg": MasterOfPuppets.Configuration_pb2.BouquetId(),
-        "name": "Devialet.MasterOfPuppets.BouquetId",
-    },
-    {
-        "msg": MasterOfPuppets.Configuration_pb2.RendererId(),
-        "name": "Devialet.MasterOfPuppets.RendererId",
-    },
-    {
-        "msg": MasterOfPuppets.Configuration_pb2.NodeRenderer(),
-        "name": "Devialet.MasterOfPuppets.NodeRenderer",
-    },
-    {
-        "msg": MasterOfPuppets.Configuration_pb2.NodeGroup(),
-        "name": "Devialet.MasterOfPuppets.NodeGroup",
-    },
-    {
-        "msg": MasterOfPuppets.Configuration_pb2.NodeBouquet(),
-        "name": "Devialet.MasterOfPuppets.NodeBouquet",
-    },
-    {
-        "msg": MasterOfPuppets.Configuration_pb2.NodeRoot(),
-        "name": "Devialet.MasterOfPuppets.NodeRoot",
-    },
-    {
-        "msg": MasterOfPuppets.Configuration_pb2.AddGroupQuery(),
-        "name": "Devialet.MasterOfPuppets.AddGroupQuery",
-    },
-    {
-        "msg": MasterOfPuppets.Configuration_pb2.AddRendererQuery(),
-        "name": "Devialet.MasterOfPuppets.AddRendererQuery",
-    },
-    {
-        "msg": MasterOfPuppets.Configuration_pb2.MoveGroupQuery(),
-        "name": "Devialet.MasterOfPuppets.MoveGroupQuery",
-    },
-    {
-        "msg": MasterOfPuppets.Configuration_pb2.MoveRendererQuery(),
-        "name": "Devialet.MasterOfPuppets.MoveRendererQuery",
-    },
-    {
-        "msg": MasterOfPuppets.Configuration_pb2.RenameQuery(),
-        "name": "Devialet.MasterOfPuppets.RenameQuery",
-    },
-    {
-        "msg": MasterOfPuppets.Configuration_pb2.BouquetAddedNotification(),
-        "name": "Devialet.MasterOfPuppets.BouquetAddedNotification",
-    },
-    {
-        "msg": MasterOfPuppets.Configuration_pb2.GroupAddedNotification(),
-        "name": "Devialet.MasterOfPuppets.GroupAddedNotification",
-    },
-    {
-        "msg": MasterOfPuppets.Configuration_pb2.RendererAddedNotification(),
-        "name": "Devialet.MasterOfPuppets.RendererAddedNotification",
-    },
-    {
-        "msg": MasterOfPuppets.Configuration_pb2.StateNotification(),
-        "name": "Devialet.MasterOfPuppets.StateNotification",
-    },
-    {
-        "msg": AppleAirPlay.Playback_pb2.Dummy(),
-        "name": "Devialet.AppleAirPlay.Dummy",
-    },
-    {
-        "msg": LeftAlone.Configuration_pb2.FakeMsg(),
-        "name": "Devialet.LeftAlone.FakeMsg",
-    },
-    {
-        "msg": TheSoundOfSilence.Playlist_pb2.Playlist(),
-        "name": "Devialet.AudioSource.Playlist",
-    },
-    {
-        "msg": TheSoundOfSilence.OnlineSource_pb2.OnlineSourceError(),
-        "name": "Devialet.AudioSource.OnlineSourceError",
-    },
-    {
-        "msg": TheSoundOfSilence.OnlineSource_pb2.OnlineSourceAvailableMethods(),
-        "name": "Devialet.AudioSource.OnlineSourceAvailableMethods",
-    },
-    {
-        "msg": TheSoundOfSilence.OnlineSource_pb2.CredentialsLoginRequest(),
-        "name": "Devialet.AudioSource.CredentialsLoginRequest",
-    },
-    {
-        "msg": TheSoundOfSilence.OnlineSource_pb2.OAuthLoginRequest(),
-        "name": "Devialet.AudioSource.OAuthLoginRequest",
-    },
-    {
-        "msg": TheSoundOfSilence.OnlineSource_pb2.AuthenticationMethods(),
-        "name": "Devialet.AudioSource.AuthenticationMethods",
-    },
-    {
-        "msg": TheSoundOfSilence.OnlineSource_pb2.RegistrationUrl(),
-        "name": "Devialet.AudioSource.RegistrationUrl",
-    },
-    {
-        "msg": TheSoundOfSilence.OnlineSource_pb2.AvailableReply(),
-        "name": "Devialet.AudioSource.AvailableReply",
-    },
-    {
-        "msg": TheSoundOfSilence.OnlineSource_pb2.LoginReply(),
-        "name": "Devialet.AudioSource.LoginReply",
-    },
-    {
-        "msg": TheSoundOfSilence.OnlineSource_pb2.LogoutRequest(),
-        "name": "Devialet.AudioSource.LogoutRequest",
-    },
-    {
-        "msg": TheSoundOfSilence.OnlineSource_pb2.SearchRequest(),
-        "name": "Devialet.AudioSource.SearchRequest",
-    },
-    {
-        "msg": TheSoundOfSilence.OnlineSource_pb2.AutocompleteRequest(),
-        "name": "Devialet.AudioSource.AutocompleteRequest",
-    },
-    {
-        "msg": TheSoundOfSilence.OnlineSource_pb2.PictureIdRequest(),
-        "name": "Devialet.AudioSource.PictureIdRequest",
-    },
-    {
-        "msg": TheSoundOfSilence.OnlineSource_pb2.CollectionRequest(),
-        "name": "Devialet.AudioSource.CollectionRequest",
-    },
-    {
-        "msg": TheSoundOfSilence.OnlineSource_pb2.SubcategoryRequest(),
-        "name": "Devialet.AudioSource.SubcategoryRequest",
-    },
-    {
-        "msg": TheSoundOfSilence.OnlineSource_pb2.TrackDetailsRequest(),
-        "name": "Devialet.AudioSource.TrackDetailsRequest",
-    },
-    {
-        "msg": TheSoundOfSilence.OnlineSource_pb2.TracksDetailsRequest(),
-        "name": "Devialet.AudioSource.TracksDetailsRequest",
-    },
-    {
-        "msg": TheSoundOfSilence.OnlineSource_pb2.UserAccountInfo(),
-        "name": "Devialet.AudioSource.UserAccountInfo",
-    },
-    {
-        "msg": TheSoundOfSilence.OnlineSource_pb2.GetSupportedFavoritesReply(),
-        "name": "Devialet.AudioSource.GetSupportedFavoritesReply",
-    },
-    {
-        "msg": TheSoundOfSilence.OnlineSource_pb2.UpdatePlaylistRequest(),
-        "name": "Devialet.AudioSource.UpdatePlaylistRequest",
-    },
-    {
-        "msg": TheSoundOfSilence.OnlineSource_pb2.CreatePlaylistRequest(),
-        "name": "Devialet.AudioSource.CreatePlaylistRequest",
-    },
-    {
-        "msg": TheSoundOfSilence.OnlineSource_pb2.IsTrackInPlaylistRequest(),
-        "name": "Devialet.AudioSource.IsTrackInPlaylistRequest",
-    },
-    {
-        "msg": TheSoundOfSilence.Artist_pb2.Artist(),
-        "name": "Devialet.AudioSource.Artist",
-    },
-    {
-        "msg": TheSoundOfSilence.LiveSource_pb2.InputTypeMsg(),
-        "name": "Devialet.AudioSource.InputTypeMsg",
-    },
-    {
-        "msg": TheSoundOfSilence.LiveSource_pb2.LiveSourceStateMsg(),
-        "name": "Devialet.AudioSource.LiveSourceStateMsg",
-    },
-    {
-        "msg": TheSoundOfSilence.LiveSource_pb2.LiveSourceAvailableMethods(),
-        "name": "Devialet.AudioSource.LiveSourceAvailableMethods",
-    },
-    {
-        "msg": TheSoundOfSilence.LiveSource_pb2.LoadSessionQuery(),
-        "name": "Devialet.AudioSource.LoadSessionQuery",
-    },
-    {
-        "msg": TheSoundOfSilence.LiveSource_pb2.UnloadSessionQuery(),
-        "name": "Devialet.AudioSource.UnloadSessionQuery",
-    },
-    {
-        "msg": TheSoundOfSilence.Session_pb2.SessionId(),
-        "name": "Devialet.AudioSource.SessionId",
-    },
-    {
-        "msg": TheSoundOfSilence.Session_pb2.Session(),
-        "name": "Devialet.AudioSource.Session",
-    },
-    {
-        "msg": TheSoundOfSilence.Session_pb2.Sessions(),
-        "name": "Devialet.AudioSource.Sessions",
-    },
-    {
-        "msg": TheSoundOfSilence.Subcategory_pb2.Subcategory(),
-        "name": "Devialet.AudioSource.Subcategory",
-    },
-    {
-        "msg": TheSoundOfSilence.Source_pb2.SourceError(),
-        "name": "Devialet.AudioSource.SourceError",
-    },
-    {
-        "msg": TheSoundOfSilence.Source_pb2.Enabled(),
-        "name": "Devialet.AudioSource.Enabled",
-    },
-    {
-        "msg": TheSoundOfSilence.Source_pb2.Id(),
-        "name": "Devialet.AudioSource.Id",
-    },
-    {
-        "msg": TheSoundOfSilence.Source_pb2.Uri(),
-        "name": "Devialet.AudioSource.Uri",
-    },
-    {
-        "msg": TheSoundOfSilence.Node_pb2.NodeId(),
-        "name": "Devialet.AudioSource.NodeId",
-    },
-    {
-        "msg": TheSoundOfSilence.Node_pb2.NodeIds(),
-        "name": "Devialet.AudioSource.NodeIds",
-    },
-    {
-        "msg": TheSoundOfSilence.Node_pb2.Node(),
-        "name": "Devialet.AudioSource.Node",
-    },
-    {
-        "msg": TheSoundOfSilence.Node_pb2.Nodes(),
-        "name": "Devialet.AudioSource.Nodes",
-    },
-    {
-        "msg": TheSoundOfSilence.TrackDetails_pb2.TrackDetails(),
-        "name": "Devialet.AudioSource.TrackDetails",
-    },
-    {
-        "msg": TheSoundOfSilence.TrackDetails_pb2.TracksDetails(),
-        "name": "Devialet.AudioSource.TracksDetails",
-    },
-    {
-        "msg": TheSoundOfSilence.Collection_pb2.Collection(),
-        "name": "Devialet.AudioSource.Collection",
-    },
-    {
-        "msg": TheSoundOfSilence.Picture_pb2.Picture(),
-        "name": "Devialet.AudioSource.Picture",
-    },
-    {
-        "msg": TheSoundOfSilence.Picture_pb2.PictureId(),
-        "name": "Devialet.AudioSource.PictureId",
-    },
-    {
-        "msg": TheSoundOfSilence.Album_pb2.Album(),
-        "name": "Devialet.AudioSource.Album",
-    },
-    {
-        "msg": TheSoundOfSilence.Category_pb2.Category(),
-        "name": "Devialet.AudioSource.Category",
-    },
-    {
-        "msg": TheSoundOfSilence.Track_pb2.Track(),
-        "name": "Devialet.AudioSource.Track",
-    },
-    {
-        "msg": TooManyFlows.Playback_pb2.IndexMsg(),
-        "name": "Devialet.TooManyFlows.IndexMsg",
-    },
-    {
-        "msg": TooManyFlows.Playback_pb2.ProgressionMsg(),
-        "name": "Devialet.TooManyFlows.ProgressionMsg",
-    },
-    {
-        "msg": TooManyFlows.Playback_pb2.StateMsg(),
-        "name": "Devialet.TooManyFlows.StateMsg",
-    },
-    {
-        "msg": TooManyFlows.Playback_pb2.SeekMsg(),
-        "name": "Devialet.TooManyFlows.SeekMsg",
-    },
-    {
-        "msg": TooManyFlows.Playback_pb2.PlaybackError(),
-        "name": "Devialet.TooManyFlows.PlaybackError",
-    },
-    {
-        "msg": TooManyFlows.Playlist_pb2.TrackMsg(),
-        "name": "Devialet.TooManyFlows.TrackMsg",
-    },
-    {
-        "msg": TooManyFlows.Playlist_pb2.TracksMsg(),
-        "name": "Devialet.TooManyFlows.TracksMsg",
-    },
-    {
-        "msg": TooManyFlows.Playlist_pb2.MoveMsg(),
-        "name": "Devialet.TooManyFlows.MoveMsg",
-    },
-    {
-        "msg": TooManyFlows.History_pb2.UrlMsg(),
-        "name": "Devialet.TooManyFlows.UrlMsg",
-    },
-    {
-        "msg": TooManyFlows.History_pb2.UrlsMsg(),
-        "name": "Devialet.TooManyFlows.UrlsMsg",
-    },
-    {
-        "msg": TooManyFlows.SoundControl_pb2.Mute(),
-        "name": "Devialet.TooManyFlows.Mute",
-    },
-    {
-        "msg": TooManyFlows.SoundControl_pb2.GroupMute(),
-        "name": "Devialet.TooManyFlows.GroupMute",
-    },
-    {
-        "msg": TooManyFlows.SoundControl_pb2.RendererMute(),
-        "name": "Devialet.TooManyFlows.RendererMute",
-    },
-    {
-        "msg": TooManyFlows.SoundControl_pb2.NightMode(),
-        "name": "Devialet.TooManyFlows.NightMode",
-    },
-    {
-        "msg": TooManyFlows.SoundControl_pb2.GroupNightMode(),
-        "name": "Devialet.TooManyFlows.GroupNightMode",
-    },
-    {
-        "msg": TooManyFlows.SoundControl_pb2.RendererNightMode(),
-        "name": "Devialet.TooManyFlows.RendererNightMode",
-    },
-    {
-        "msg": TooManyFlows.SoundControl_pb2.Volume(),
-        "name": "Devialet.TooManyFlows.Volume",
-    },
-    {
-        "msg": TooManyFlows.SoundControl_pb2.GroupVolume(),
-        "name": "Devialet.TooManyFlows.GroupVolume",
-    },
-    {
-        "msg": TooManyFlows.SoundControl_pb2.RendererVolume(),
-        "name": "Devialet.TooManyFlows.RendererVolume",
-    },
-    {
-        "msg": TooManyFlows.SoundControl_pb2.Properties(),
-        "name": "Devialet.TooManyFlows.Properties",
-    },
-    {
-        "msg": TooManyFlows.SoundControl_pb2.GroupProperties(),
-        "name": "Devialet.TooManyFlows.GroupProperties",
-    },
-    {
-        "msg": TooManyFlows.SoundControl_pb2.RendererProperties(),
-        "name": "Devialet.TooManyFlows.RendererProperties",
-    },
-    {
-        "msg": TooManyFlows.SoundControl_pb2.AllProperties(),
-        "name": "Devialet.TooManyFlows.AllProperties",
-    },
-    {
-        "msg": TooManyFlows.Configuration_pb2.AddRendererQuery(),
-        "name": "Devialet.TooManyFlows.AddRendererQuery",
-    },
-    {
-        "msg": TooManyFlows.Configuration_pb2.ConfigurationError(),
-        "name": "Devialet.TooManyFlows.ConfigurationError",
-    },
-    {
-        "msg": TooManyFlows.Identifier_pb2.BouquetId(),
-        "name": "Devialet.TooManyFlows.BouquetId",
-    },
-    {
-        "msg": TooManyFlows.Identifier_pb2.GroupId(),
-        "name": "Devialet.TooManyFlows.GroupId",
-    },
-    {
-        "msg": TooManyFlows.Identifier_pb2.PlayerId(),
-        "name": "Devialet.TooManyFlows.PlayerId",
-    },
-    {
-        "msg": TooManyFlows.Identifier_pb2.RendererId(),
-        "name": "Devialet.TooManyFlows.RendererId",
-    },
-    {
-        "msg": Fresh.Fresh_pb2.UpdateInfo(),
-        "name": "Devialet.Fresh.UpdateInfo",
-    },
-    {
-        "msg": Fresh.Fresh_pb2.DeviceUpdateInfo(),
-        "name": "Devialet.Fresh.DeviceUpdateInfo",
-    },
-    {
-        "msg": Fresh.Fresh_pb2.DeviceUpdateInfoList(),
-        "name": "Devialet.Fresh.DeviceUpdateInfoList",
-    },
-    {
-        "msg": Fresh.Fresh_pb2.InstallUpdateRequest(),
-        "name": "Devialet.Fresh.InstallUpdateRequest",
-    },
-    {
-        "msg": Fresh.Fresh_pb2.UpdateDownloadProgress(),
-        "name": "Devialet.Fresh.UpdateDownloadProgress",
-    },
-    {
-        "msg": Fresh.Fresh_pb2.UpdateErrors(),
-        "name": "Devialet.Fresh.UpdateErrors",
-    },
-    {
-        "msg": IMASlave4U.Configuration_pb2.AudioMode(),
-        "name": "Devialet.IMASlave4U.AudioMode",
-    },
-    {
-        "msg": IMASlave4U.Configuration_pb2.Property(),
-        "name": "Devialet.IMASlave4U.Property",
-    },
-    {
-        "msg": IMASlave4U.Configuration_pb2.Input(),
-        "name": "Devialet.IMASlave4U.Input",
-    },
-    {
-        "msg": RPCMessages_pb2.Request(),
-        "name": "Devialet.CallMeMaybe.Request",
-    },
-    {
-        "msg": RPCMessages_pb2.Reply(),
-        "name": "Devialet.CallMeMaybe.Reply",
-    },
-    {
-        "msg": RPCMessages_pb2.Event(),
-        "name": "Devialet.CallMeMaybe.Event",
-    },
-    {
-        "msg": RPCMessages_pb2.ConnectionRequest(),
-        "name": "Devialet.CallMeMaybe.ConnectionRequest",
-    },
-    {
-        "msg": RPCMessages_pb2.Service(),
-        "name": "Devialet.CallMeMaybe.Service",
-    },
-    {
-        "msg": RPCMessages_pb2.ServicesList(),
-        "name": "Devialet.CallMeMaybe.ServicesList",
-    },
-    {
-        "msg": RPCMessages_pb2.ConnectionReply(),
-        "name": "Devialet.CallMeMaybe.ConnectionReply",
-    },
-    {
-        "msg": RPCMessages_pb2.ConnectionErrors(),
-        "name": "Devialet.CallMeMaybe.ConnectionErrors",
-    },
-    {
-        "msg": SpotifyConnect.SpotifyConnect_pb2.ZeroConfApiRequest(),
-        "name": "Devialet.SpotifyConnect.ZeroConfApiRequest",
-    },
-    {
-        "msg": SpotifyConnect.SpotifyConnect_pb2.ZeroConfApiReply(),
-        "name": "Devialet.SpotifyConnect.ZeroConfApiReply",
-    },
-    {
-        "msg": CallMeMaybe.CallMeMaybe_pb2.FieldOptions(),
-        "name": "Devialet.CallMeMaybe.FieldOptions",
-    },
-    {
-        "msg": CallMeMaybe.CallMeMaybe_pb2.ServiceProperty(),
-        "name": "Devialet.CallMeMaybe.ServiceProperty",
-    },
-    {
-        "msg": CallMeMaybe.CallMeMaybe_pb2.ServiceProperties(),
-        "name": "Devialet.CallMeMaybe.ServiceProperties",
-    },
-    {
-        "msg": CallMeMaybe.CallMeMaybe_pb2.ServiceOptions(),
-        "name": "Devialet.CallMeMaybe.ServiceOptions",
-    },
-    {
-        "msg": CallMeMaybe.CallMeMaybe_pb2.MethodOptions(),
-        "name": "Devialet.CallMeMaybe.MethodOptions",
-    },
-    {
-        "msg": CallMeMaybe.CallMeMaybe_pb2.EnumValueOptions(),
-        "name": "Devialet.CallMeMaybe.EnumValueOptions",
-    },
-    {
-        "msg": CallMeMaybe.CommonMessages_pb2.Empty(),
-        "name": "Devialet.CallMeMaybe.Empty",
-    },
-    {
-        "msg": CallMeMaybe.CommonMessages_pb2.BaseError(),
-        "name": "Devialet.CallMeMaybe.BaseError",
-    },
-    {
-        "msg": CallMeMaybe.CommonMessages_pb2.DoubleProperty(),
-        "name": "Devialet.CallMeMaybe.DoubleProperty",
-    },
-    {
-        "msg": CallMeMaybe.CommonMessages_pb2.FloatProperty(),
-        "name": "Devialet.CallMeMaybe.FloatProperty",
-    },
-    {
-        "msg": CallMeMaybe.CommonMessages_pb2.Int32Property(),
-        "name": "Devialet.CallMeMaybe.Int32Property",
-    },
-    {
-        "msg": CallMeMaybe.CommonMessages_pb2.Int64Property(),
-        "name": "Devialet.CallMeMaybe.Int64Property",
-    },
-    {
-        "msg": CallMeMaybe.CommonMessages_pb2.UInt32Property(),
-        "name": "Devialet.CallMeMaybe.UInt32Property",
-    },
-    {
-        "msg": CallMeMaybe.CommonMessages_pb2.UInt64Property(),
-        "name": "Devialet.CallMeMaybe.UInt64Property",
-    },
-    {
-        "msg": CallMeMaybe.CommonMessages_pb2.SInt32Property(),
-        "name": "Devialet.CallMeMaybe.SInt32Property",
-    },
-    {
-        "msg": CallMeMaybe.CommonMessages_pb2.SInt64Property(),
-        "name": "Devialet.CallMeMaybe.SInt64Property",
-    },
-    {
-        "msg": CallMeMaybe.CommonMessages_pb2.Fixed32Property(),
-        "name": "Devialet.CallMeMaybe.Fixed32Property",
-    },
-    {
-        "msg": CallMeMaybe.CommonMessages_pb2.Fixed64Property(),
-        "name": "Devialet.CallMeMaybe.Fixed64Property",
-    },
-    {
-        "msg": CallMeMaybe.CommonMessages_pb2.SFixed32Property(),
-        "name": "Devialet.CallMeMaybe.SFixed32Property",
-    },
-    {
-        "msg": CallMeMaybe.CommonMessages_pb2.SFixed64Property(),
-        "name": "Devialet.CallMeMaybe.SFixed64Property",
-    },
-    {
-        "msg": CallMeMaybe.CommonMessages_pb2.BoolProperty(),
-        "name": "Devialet.CallMeMaybe.BoolProperty",
-    },
-    {
-        "msg": CallMeMaybe.CommonMessages_pb2.StringProperty(),
-        "name": "Devialet.CallMeMaybe.StringProperty",
-    },
-    {
-        "msg": CallMeMaybe.CommonMessages_pb2.StringListProperty(),
-        "name": "Devialet.CallMeMaybe.StringListProperty",
-    },
-    {
-        "msg": CallMeMaybe.CommonMessages_pb2.BytesProperty(),
-        "name": "Devialet.CallMeMaybe.BytesProperty",
-    },
-    {
-        "msg": GetThePartyStarted.Player_pb2.WiFiNetwork(),
-        "name": "Devialet.GetThePartyStarted.Player.WiFiNetwork",
-    },
-    {
-        "msg": GetThePartyStarted.Player_pb2.ListWiFiNetworksReply(),
-        "name": "Devialet.GetThePartyStarted.Player.ListWiFiNetworksReply",
-    },
-    {
-        "msg": GetThePartyStarted.Player_pb2.EnableStandaloneAccessPointRequest(),
-        "name": "Devialet.GetThePartyStarted.Player.EnableStandaloneAccessPointRequest",
-    },
-    {
-        "msg": GetThePartyStarted.Player_pb2.SetupStep(),
-        "name": "Devialet.GetThePartyStarted.Player.SetupStep",
-    },
-    {
-        "msg": GetThePartyStarted.Player_pb2.OpticalModeParameters(),
-        "name": "Devialet.GetThePartyStarted.Player.OpticalModeParameters",
-    },
-    {
-        "msg": GetThePartyStarted.Player_pb2.StandaloneConfiguration(),
-        "name": "Devialet.GetThePartyStarted.Player.StandaloneConfiguration",
-    },
-    {
-        "msg": GetThePartyStarted.Player_pb2.AppleWacAccessPointConfiguration(),
-        "name": "Devialet.GetThePartyStarted.Player.AppleWacAccessPointConfiguration",
-    },
-    {
-        "msg": GetThePartyStarted.Player_pb2.AppleWacWiFiNetworkConfiguration(),
-        "name": "Devialet.GetThePartyStarted.Player.AppleWacWiFiNetworkConfiguration",
-    },
-    {
-        "msg": GetThePartyStarted.GetThePartyStarted_pb2.ConfigurationErrors(),
-        "name": "Devialet.GetThePartyStarted.ConfigurationErrors",
-    },
-    {
-        "msg": GetThePartyStarted.GetThePartyStarted_pb2.DeviceInfo(),
-        "name": "Devialet.GetThePartyStarted.DeviceInfo",
-    },
-    {
-        "msg": GetThePartyStarted.GetThePartyStarted_pb2.SetupErrors(),
-        "name": "Devialet.GetThePartyStarted.SetupErrors",
-    },
-    {
-        "msg": GetThePartyStarted.GetThePartyStarted_pb2.SetupToken(),
-        "name": "Devialet.GetThePartyStarted.SetupToken",
-    },
-    {
-        "msg": GetThePartyStarted.GetThePartyStarted_pb2.SlaveInfo(),
-        "name": "Devialet.GetThePartyStarted.SlaveInfo",
-    },
-    {
-        "msg": GetThePartyStarted.GetThePartyStarted_pb2.SlaveInfoList(),
-        "name": "Devialet.GetThePartyStarted.SlaveInfoList",
-    },
-    {
-        "msg": GetThePartyStarted.GetThePartyStarted_pb2.StartSetupRequest(),
-        "name": "Devialet.GetThePartyStarted.StartSetupRequest",
-    },
-    {
-        "msg": GetThePartyStarted.GetThePartyStarted_pb2.WiFiNetwork(),
-        "name": "Devialet.GetThePartyStarted.WiFiNetwork",
-    },
-    {
-        "msg": GetThePartyStarted.GetThePartyStarted_pb2.WiFiConfigurationData(),
-        "name": "Devialet.GetThePartyStarted.WiFiConfigurationData",
-    },
-    {
-        "msg": GetThePartyStarted.GetThePartyStarted_pb2.PlcConfigurationData(),
-        "name": "Devialet.GetThePartyStarted.PlcConfigurationData",
-    },
-    {
-        "msg": GetThePartyStarted.GetThePartyStarted_pb2.ConfigurationData(),
-        "name": "Devialet.GetThePartyStarted.ConfigurationData",
-    },
-    {
-        "msg": GetThePartyStarted.GetThePartyStarted_pb2.SetConfigurationRequest(),
-        "name": "Devialet.GetThePartyStarted.SetConfigurationRequest",
-    },
-    {
-        "msg": GetThePartyStarted.Logging_pb2.UploadLogsRequest(),
-        "name": "Devialet.GetThePartyStarted.UploadLogsRequest",
-    },
-    {
-        "msg": GetThePartyStarted.Aerobase_pb2.SetupStep(),
-        "name": "Devialet.GetThePartyStarted.Aerobase.SetupStep",
-    },
-    {
-        "msg": GetThePartyStarted.Aerobase_pb2.SetTopologyConfigurationRequest(),
-        "name": "Devialet.GetThePartyStarted.Aerobase.SetTopologyConfigurationRequest",
-    }
-]
+def interpret_as(raw_protobuf, proto_name):
+    try:
+        ret = all_msgs[proto_name]()
+        ret.ParseFromString(raw_protobuf)
+        return ret
+    except:
+        pass
+    return None
+
+def full_len(d):
+    if type(d) == dict:
+        return 1 + sum(full_len(v) for v in d.values())
+    elif type(d) == list:
+        return 1 + sum(full_len(v) for v in d)
+    else:
+        return 1
+
+def heuristic_search(raw_protobuf, filter="", strict=True):
+    results = {}
+    if len(raw_protobuf) == 0:
+        return { "empty protobuf" }
+    for proto in all_msgs:
+        if proto.startswith(filter):
+            try:
+                tmp = all_msgs[proto]()
+                tmp.ParseFromString(raw_protobuf)
+                results[proto] = full_len(protobuf_to_dict(tmp))
+                if strict and len(tmp.FindInitializationErrors()) > 0:
+                    results[proto] = -1
+            except Exception as e:
+                # print("Error in heuristic:", type(e), e)
+                results[proto] = -1
+                # pass
+        else:
+            results[proto] = -1
+    return sorted([{proto: length} for (proto, length) in results.items() if length > 0 and (
+        length > 2 or length == max(results[x] for x in results))], key=lambda x:x[1]) 
+
+all_msgs = {
+    "Devialet.SaveMe.SavePlaylistError": SaveMe.SaveMe_pb2.SavePlaylistError,
+    "Devialet.SaveMe.Track": SaveMe.SaveMe_pb2.Track,
+    "Devialet.SaveMe.PlaylistMsg": SaveMe.SaveMe_pb2.PlaylistMsg,
+    "Devialet.SaveMe.TrackInPlaylist": SaveMe.SaveMe_pb2.TrackInPlaylist,
+    "Devialet.SaveMe.CreatePlaylist": SaveMe.SaveMe_pb2.CreatePlaylist,
+    "Devialet.SaveMe.PlaylistSaved": SaveMe.SaveMe_pb2.PlaylistSaved,
+    "Devialet.SaveMe.PlaylistContent": SaveMe.SaveMe_pb2.PlaylistContent,
+    "Devialet.SaveMe.ModifyTracks": SaveMe.SaveMe_pb2.ModifyTracks,
+    "Devialet.SaveMe.ModifyOneTrack": SaveMe.SaveMe_pb2.ModifyOneTrack,
+    "Devialet.SaveMe.ModifyPlaylistName": SaveMe.SaveMe_pb2.ModifyPlaylistName,
+    "Devialet.WhatsUp.RegistrarRegisterQuery": WhatsUp_pb2.RegistrarRegisterQuery,
+    "Devialet.WhatsUp.RegistrarUnregisterQuery": WhatsUp_pb2.RegistrarUnregisterQuery,
+    "Devialet.WhatsUp.RegistrarServicesQuery": WhatsUp_pb2.RegistrarServicesQuery,
+    "Devialet.WhatsUp.RegistrarPingQuery": WhatsUp_pb2.RegistrarPingQuery,
+    "Devialet.WhatsUp.RegistrarErrors": WhatsUp_pb2.RegistrarErrors,
+    "Devialet.WhatsUp.WhatsUpNetwork": WhatsUp_pb2.WhatsUpNetwork,
+    "Devialet.WhatsUp.WhatsUpNetworkInterface": WhatsUp_pb2.WhatsUpNetworkInterface,
+    "Devialet.WhatsUp.WhatsUpHost": WhatsUp_pb2.WhatsUpHost,
+    "Devialet.WhatsUp.WhatsUpHostsList": WhatsUp_pb2.WhatsUpHostsList,
+    "Devialet.WhatsUp.WhatsUpService": WhatsUp_pb2.WhatsUpService,
+    "Devialet.WhatsUp.WhatsUpServicesList": WhatsUp_pb2.WhatsUpServicesList,
+    "Devialet.WhatsUp.WhatsUpServicesUpdate": WhatsUp_pb2.WhatsUpServicesUpdate,
+    "Devialet.WhatsUp.WhatsUpServicesRemoval": WhatsUp_pb2.WhatsUpServicesRemoval,
+    "Devialet.WhatsUp.RegistryLookupHostQuery": WhatsUp_pb2.RegistryLookupHostQuery,
+    "Devialet.WhatsUp.RegistryLookupHostReply": WhatsUp_pb2.RegistryLookupHostReply,
+    "Devialet.WhatsUp.RegistryFindServicesQuery": WhatsUp_pb2.RegistryFindServicesQuery,
+    "Devialet.WhatsUp.RegistryNetworkConfigurationChangedNotification": WhatsUp_pb2.RegistryNetworkConfigurationChangedNotification,
+    "Devialet.WhatsUp.RegistryHostUpdatedNotification": WhatsUp_pb2.RegistryHostUpdatedNotification,
+    "google.protobuf.FileDescriptorSet": google.protobuf.descriptor_pb2.FileDescriptorSet,
+    "google.protobuf.FileDescriptorProto": google.protobuf.descriptor_pb2.FileDescriptorProto,
+    "google.protobuf.DescriptorProto": google.protobuf.descriptor_pb2.DescriptorProto,
+    "google.protobuf.FieldDescriptorProto": google.protobuf.descriptor_pb2.FieldDescriptorProto,
+    "google.protobuf.OneofDescriptorProto": google.protobuf.descriptor_pb2.OneofDescriptorProto,
+    "google.protobuf.EnumDescriptorProto": google.protobuf.descriptor_pb2.EnumDescriptorProto,
+    "google.protobuf.EnumValueDescriptorProto": google.protobuf.descriptor_pb2.EnumValueDescriptorProto,
+    "google.protobuf.ServiceDescriptorProto": google.protobuf.descriptor_pb2.ServiceDescriptorProto,
+    "google.protobuf.MethodDescriptorProto": google.protobuf.descriptor_pb2.MethodDescriptorProto,
+    "google.protobuf.FileOptions": google.protobuf.descriptor_pb2.FileOptions,
+    "google.protobuf.MessageOptions": google.protobuf.descriptor_pb2.MessageOptions,
+    "google.protobuf.FieldOptions": google.protobuf.descriptor_pb2.FieldOptions,
+    "google.protobuf.EnumOptions": google.protobuf.descriptor_pb2.EnumOptions,
+    "google.protobuf.EnumValueOptions": google.protobuf.descriptor_pb2.EnumValueOptions,
+    "google.protobuf.ServiceOptions": google.protobuf.descriptor_pb2.ServiceOptions,
+    "google.protobuf.MethodOptions": google.protobuf.descriptor_pb2.MethodOptions,
+    "google.protobuf.UninterpretedOption": google.protobuf.descriptor_pb2.UninterpretedOption,
+    "google.protobuf.SourceCodeInfo": google.protobuf.descriptor_pb2.SourceCodeInfo,
+    "Devialet.MasterOfPuppets.GroupId": MasterOfPuppets.Configuration_pb2.GroupId,
+    "Devialet.MasterOfPuppets.BouquetId": MasterOfPuppets.Configuration_pb2.BouquetId,
+    "Devialet.MasterOfPuppets.RendererId": MasterOfPuppets.Configuration_pb2.RendererId,
+    "Devialet.MasterOfPuppets.NodeRenderer": MasterOfPuppets.Configuration_pb2.NodeRenderer,
+    "Devialet.MasterOfPuppets.NodeGroup": MasterOfPuppets.Configuration_pb2.NodeGroup,
+    "Devialet.MasterOfPuppets.NodeBouquet": MasterOfPuppets.Configuration_pb2.NodeBouquet,
+    "Devialet.MasterOfPuppets.NodeRoot": MasterOfPuppets.Configuration_pb2.NodeRoot,
+    "Devialet.MasterOfPuppets.AddGroupQuery": MasterOfPuppets.Configuration_pb2.AddGroupQuery,
+    "Devialet.MasterOfPuppets.AddRendererQuery": MasterOfPuppets.Configuration_pb2.AddRendererQuery,
+    "Devialet.MasterOfPuppets.MoveGroupQuery": MasterOfPuppets.Configuration_pb2.MoveGroupQuery,
+    "Devialet.MasterOfPuppets.MoveRendererQuery": MasterOfPuppets.Configuration_pb2.MoveRendererQuery,
+    "Devialet.MasterOfPuppets.RenameQuery": MasterOfPuppets.Configuration_pb2.RenameQuery,
+    "Devialet.MasterOfPuppets.BouquetAddedNotification": MasterOfPuppets.Configuration_pb2.BouquetAddedNotification,
+    "Devialet.MasterOfPuppets.GroupAddedNotification": MasterOfPuppets.Configuration_pb2.GroupAddedNotification,
+    "Devialet.MasterOfPuppets.RendererAddedNotification": MasterOfPuppets.Configuration_pb2.RendererAddedNotification,
+    "Devialet.MasterOfPuppets.StateNotification": MasterOfPuppets.Configuration_pb2.StateNotification,
+    "Devialet.AppleAirPlay.Dummy": AppleAirPlay.Playback_pb2.Dummy,
+    "Devialet.LeftAlone.FakeMsg": LeftAlone.Configuration_pb2.FakeMsg,
+    "Devialet.AudioSource.Playlist": TheSoundOfSilence.Playlist_pb2.Playlist,
+    "Devialet.AudioSource.OnlineSourceError": TheSoundOfSilence.OnlineSource_pb2.OnlineSourceError,
+    "Devialet.AudioSource.OnlineSourceAvailableMethods": TheSoundOfSilence.OnlineSource_pb2.OnlineSourceAvailableMethods,
+    "Devialet.AudioSource.CredentialsLoginRequest": TheSoundOfSilence.OnlineSource_pb2.CredentialsLoginRequest,
+    "Devialet.AudioSource.OAuthLoginRequest": TheSoundOfSilence.OnlineSource_pb2.OAuthLoginRequest,
+    "Devialet.AudioSource.AuthenticationMethods": TheSoundOfSilence.OnlineSource_pb2.AuthenticationMethods,
+    "Devialet.AudioSource.RegistrationUrl": TheSoundOfSilence.OnlineSource_pb2.RegistrationUrl,
+    "Devialet.AudioSource.AvailableReply": TheSoundOfSilence.OnlineSource_pb2.AvailableReply,
+    "Devialet.AudioSource.LoginReply": TheSoundOfSilence.OnlineSource_pb2.LoginReply,
+    "Devialet.AudioSource.LogoutRequest": TheSoundOfSilence.OnlineSource_pb2.LogoutRequest,
+    "Devialet.AudioSource.SearchRequest": TheSoundOfSilence.OnlineSource_pb2.SearchRequest,
+    "Devialet.AudioSource.AutocompleteRequest": TheSoundOfSilence.OnlineSource_pb2.AutocompleteRequest,
+    "Devialet.AudioSource.PictureIdRequest": TheSoundOfSilence.OnlineSource_pb2.PictureIdRequest,
+    "Devialet.AudioSource.CollectionRequest": TheSoundOfSilence.OnlineSource_pb2.CollectionRequest,
+    "Devialet.AudioSource.SubcategoryRequest": TheSoundOfSilence.OnlineSource_pb2.SubcategoryRequest,
+    "Devialet.AudioSource.TrackDetailsRequest": TheSoundOfSilence.OnlineSource_pb2.TrackDetailsRequest,
+    "Devialet.AudioSource.TracksDetailsRequest": TheSoundOfSilence.OnlineSource_pb2.TracksDetailsRequest,
+    "Devialet.AudioSource.UserAccountInfo": TheSoundOfSilence.OnlineSource_pb2.UserAccountInfo,
+    "Devialet.AudioSource.GetSupportedFavoritesReply": TheSoundOfSilence.OnlineSource_pb2.GetSupportedFavoritesReply,
+    "Devialet.AudioSource.UpdatePlaylistRequest": TheSoundOfSilence.OnlineSource_pb2.UpdatePlaylistRequest,
+    "Devialet.AudioSource.CreatePlaylistRequest": TheSoundOfSilence.OnlineSource_pb2.CreatePlaylistRequest,
+    "Devialet.AudioSource.IsTrackInPlaylistRequest": TheSoundOfSilence.OnlineSource_pb2.IsTrackInPlaylistRequest,
+    "Devialet.AudioSource.Artist": TheSoundOfSilence.Artist_pb2.Artist,
+    "Devialet.AudioSource.InputTypeMsg": TheSoundOfSilence.LiveSource_pb2.InputTypeMsg,
+    "Devialet.AudioSource.LiveSourceStateMsg": TheSoundOfSilence.LiveSource_pb2.LiveSourceStateMsg,
+    "Devialet.AudioSource.LiveSourceAvailableMethods": TheSoundOfSilence.LiveSource_pb2.LiveSourceAvailableMethods,
+    "Devialet.AudioSource.LoadSessionQuery": TheSoundOfSilence.LiveSource_pb2.LoadSessionQuery,
+    "Devialet.AudioSource.UnloadSessionQuery": TheSoundOfSilence.LiveSource_pb2.UnloadSessionQuery,
+    "Devialet.AudioSource.SessionId": TheSoundOfSilence.Session_pb2.SessionId,
+    "Devialet.AudioSource.Session": TheSoundOfSilence.Session_pb2.Session,
+    "Devialet.AudioSource.Sessions": TheSoundOfSilence.Session_pb2.Sessions,
+    "Devialet.AudioSource.Subcategory": TheSoundOfSilence.Subcategory_pb2.Subcategory,
+    "Devialet.AudioSource.SourceError": TheSoundOfSilence.Source_pb2.SourceError,
+    "Devialet.AudioSource.Enabled": TheSoundOfSilence.Source_pb2.Enabled,
+    "Devialet.AudioSource.Id": TheSoundOfSilence.Source_pb2.Id,
+    "Devialet.AudioSource.Uri": TheSoundOfSilence.Source_pb2.Uri,
+    "Devialet.AudioSource.NodeId": TheSoundOfSilence.Node_pb2.NodeId,
+    "Devialet.AudioSource.NodeIds": TheSoundOfSilence.Node_pb2.NodeIds,
+    "Devialet.AudioSource.Node": TheSoundOfSilence.Node_pb2.Node,
+    "Devialet.AudioSource.Nodes": TheSoundOfSilence.Node_pb2.Nodes,
+    "Devialet.AudioSource.TrackDetails": TheSoundOfSilence.TrackDetails_pb2.TrackDetails,
+    "Devialet.AudioSource.TracksDetails": TheSoundOfSilence.TrackDetails_pb2.TracksDetails,
+    "Devialet.AudioSource.Collection": TheSoundOfSilence.Collection_pb2.Collection,
+    "Devialet.AudioSource.Picture": TheSoundOfSilence.Picture_pb2.Picture,
+    "Devialet.AudioSource.PictureId": TheSoundOfSilence.Picture_pb2.PictureId,
+    "Devialet.AudioSource.Album": TheSoundOfSilence.Album_pb2.Album,
+    "Devialet.AudioSource.Category": TheSoundOfSilence.Category_pb2.Category,
+    "Devialet.AudioSource.Track": TheSoundOfSilence.Track_pb2.Track,
+    "Devialet.TooManyFlows.IndexMsg": TooManyFlows.Playback_pb2.IndexMsg,
+    "Devialet.TooManyFlows.ProgressionMsg": TooManyFlows.Playback_pb2.ProgressionMsg,
+    "Devialet.TooManyFlows.StateMsg": TooManyFlows.Playback_pb2.StateMsg,
+    "Devialet.TooManyFlows.SeekMsg": TooManyFlows.Playback_pb2.SeekMsg,
+    "Devialet.TooManyFlows.PlaybackError": TooManyFlows.Playback_pb2.PlaybackError,
+    "Devialet.TooManyFlows.TrackMsg": TooManyFlows.Playlist_pb2.TrackMsg,
+    "Devialet.TooManyFlows.TracksMsg": TooManyFlows.Playlist_pb2.TracksMsg,
+    "Devialet.TooManyFlows.MoveMsg": TooManyFlows.Playlist_pb2.MoveMsg,
+    "Devialet.TooManyFlows.UrlMsg": TooManyFlows.History_pb2.UrlMsg,
+    "Devialet.TooManyFlows.UrlsMsg": TooManyFlows.History_pb2.UrlsMsg,
+    "Devialet.TooManyFlows.Mute": TooManyFlows.SoundControl_pb2.Mute,
+    "Devialet.TooManyFlows.GroupMute": TooManyFlows.SoundControl_pb2.GroupMute,
+    "Devialet.TooManyFlows.RendererMute": TooManyFlows.SoundControl_pb2.RendererMute,
+    "Devialet.TooManyFlows.NightMode": TooManyFlows.SoundControl_pb2.NightMode,
+    "Devialet.TooManyFlows.GroupNightMode": TooManyFlows.SoundControl_pb2.GroupNightMode,
+    "Devialet.TooManyFlows.RendererNightMode": TooManyFlows.SoundControl_pb2.RendererNightMode,
+    "Devialet.TooManyFlows.Volume": TooManyFlows.SoundControl_pb2.Volume,
+    "Devialet.TooManyFlows.GroupVolume": TooManyFlows.SoundControl_pb2.GroupVolume,
+    "Devialet.TooManyFlows.RendererVolume": TooManyFlows.SoundControl_pb2.RendererVolume,
+    "Devialet.TooManyFlows.Properties": TooManyFlows.SoundControl_pb2.Properties,
+    "Devialet.TooManyFlows.GroupProperties": TooManyFlows.SoundControl_pb2.GroupProperties,
+    "Devialet.TooManyFlows.RendererProperties": TooManyFlows.SoundControl_pb2.RendererProperties,
+    "Devialet.TooManyFlows.AllProperties": TooManyFlows.SoundControl_pb2.AllProperties,
+    "Devialet.TooManyFlows.AddRendererQuery": TooManyFlows.Configuration_pb2.AddRendererQuery,
+    "Devialet.TooManyFlows.ConfigurationError": TooManyFlows.Configuration_pb2.ConfigurationError,
+    "Devialet.TooManyFlows.BouquetId": TooManyFlows.Identifier_pb2.BouquetId,
+    "Devialet.TooManyFlows.GroupId": TooManyFlows.Identifier_pb2.GroupId,
+    "Devialet.TooManyFlows.PlayerId": TooManyFlows.Identifier_pb2.PlayerId,
+    "Devialet.TooManyFlows.RendererId": TooManyFlows.Identifier_pb2.RendererId,
+    "Devialet.Fresh.UpdateInfo": Fresh.Fresh_pb2.UpdateInfo,
+    "Devialet.Fresh.DeviceUpdateInfo": Fresh.Fresh_pb2.DeviceUpdateInfo,
+    "Devialet.Fresh.DeviceUpdateInfoList": Fresh.Fresh_pb2.DeviceUpdateInfoList,
+    "Devialet.Fresh.InstallUpdateRequest": Fresh.Fresh_pb2.InstallUpdateRequest,
+    "Devialet.Fresh.UpdateDownloadProgress": Fresh.Fresh_pb2.UpdateDownloadProgress,
+    "Devialet.Fresh.UpdateErrors": Fresh.Fresh_pb2.UpdateErrors,
+    "Devialet.IMASlave4U.AudioMode": IMASlave4U.Configuration_pb2.AudioMode,
+    "Devialet.IMASlave4U.Property": IMASlave4U.Configuration_pb2.Property,
+    "Devialet.IMASlave4U.Input": IMASlave4U.Configuration_pb2.Input,
+    "Devialet.CallMeMaybe.Request": RPCMessages_pb2.Request,
+    "Devialet.CallMeMaybe.Reply": RPCMessages_pb2.Reply,
+    "Devialet.CallMeMaybe.Event": RPCMessages_pb2.Event,
+    "Devialet.CallMeMaybe.ConnectionRequest": RPCMessages_pb2.ConnectionRequest,
+    "Devialet.CallMeMaybe.Service": RPCMessages_pb2.Service,
+    "Devialet.CallMeMaybe.ServicesList": RPCMessages_pb2.ServicesList,
+    "Devialet.CallMeMaybe.ConnectionReply": RPCMessages_pb2.ConnectionReply,
+    "Devialet.CallMeMaybe.ConnectionErrors": RPCMessages_pb2.ConnectionErrors,
+    "Devialet.SpotifyConnect.ZeroConfApiRequest": SpotifyConnect.SpotifyConnect_pb2.ZeroConfApiRequest,
+    "Devialet.SpotifyConnect.ZeroConfApiReply": SpotifyConnect.SpotifyConnect_pb2.ZeroConfApiReply,
+    "Devialet.CallMeMaybe.FieldOptions": CallMeMaybe.CallMeMaybe_pb2.FieldOptions,
+    "Devialet.CallMeMaybe.ServiceProperty": CallMeMaybe.CallMeMaybe_pb2.ServiceProperty,
+    "Devialet.CallMeMaybe.ServiceProperties": CallMeMaybe.CallMeMaybe_pb2.ServiceProperties,
+    "Devialet.CallMeMaybe.ServiceOptions": CallMeMaybe.CallMeMaybe_pb2.ServiceOptions,
+    "Devialet.CallMeMaybe.MethodOptions": CallMeMaybe.CallMeMaybe_pb2.MethodOptions,
+    "Devialet.CallMeMaybe.EnumValueOptions": CallMeMaybe.CallMeMaybe_pb2.EnumValueOptions,
+    "Devialet.CallMeMaybe.Empty": CallMeMaybe.CommonMessages_pb2.Empty,
+    "Devialet.CallMeMaybe.BaseError": CallMeMaybe.CommonMessages_pb2.BaseError,
+    "Devialet.CallMeMaybe.DoubleProperty": CallMeMaybe.CommonMessages_pb2.DoubleProperty,
+    "Devialet.CallMeMaybe.FloatProperty": CallMeMaybe.CommonMessages_pb2.FloatProperty,
+    "Devialet.CallMeMaybe.Int32Property": CallMeMaybe.CommonMessages_pb2.Int32Property,
+    "Devialet.CallMeMaybe.Int64Property": CallMeMaybe.CommonMessages_pb2.Int64Property,
+    "Devialet.CallMeMaybe.UInt32Property": CallMeMaybe.CommonMessages_pb2.UInt32Property,
+    "Devialet.CallMeMaybe.UInt64Property": CallMeMaybe.CommonMessages_pb2.UInt64Property,
+    "Devialet.CallMeMaybe.SInt32Property": CallMeMaybe.CommonMessages_pb2.SInt32Property,
+    "Devialet.CallMeMaybe.SInt64Property": CallMeMaybe.CommonMessages_pb2.SInt64Property,
+    "Devialet.CallMeMaybe.Fixed32Property": CallMeMaybe.CommonMessages_pb2.Fixed32Property,
+    "Devialet.CallMeMaybe.Fixed64Property": CallMeMaybe.CommonMessages_pb2.Fixed64Property,
+    "Devialet.CallMeMaybe.SFixed32Property": CallMeMaybe.CommonMessages_pb2.SFixed32Property,
+    "Devialet.CallMeMaybe.SFixed64Property": CallMeMaybe.CommonMessages_pb2.SFixed64Property,
+    "Devialet.CallMeMaybe.BoolProperty": CallMeMaybe.CommonMessages_pb2.BoolProperty,
+    "Devialet.CallMeMaybe.StringProperty": CallMeMaybe.CommonMessages_pb2.StringProperty,
+    "Devialet.CallMeMaybe.StringListProperty": CallMeMaybe.CommonMessages_pb2.StringListProperty,
+    "Devialet.CallMeMaybe.BytesProperty": CallMeMaybe.CommonMessages_pb2.BytesProperty,
+    "Devialet.GetThePartyStarted.Player.WiFiNetwork": GetThePartyStarted.Player_pb2.WiFiNetwork,
+    "Devialet.GetThePartyStarted.Player.ListWiFiNetworksReply": GetThePartyStarted.Player_pb2.ListWiFiNetworksReply,
+    "Devialet.GetThePartyStarted.Player.EnableStandaloneAccessPointRequest": GetThePartyStarted.Player_pb2.EnableStandaloneAccessPointRequest,
+    "Devialet.GetThePartyStarted.Player.SetupStep": GetThePartyStarted.Player_pb2.SetupStep,
+    "Devialet.GetThePartyStarted.Player.OpticalModeParameters": GetThePartyStarted.Player_pb2.OpticalModeParameters,
+    "Devialet.GetThePartyStarted.Player.StandaloneConfiguration": GetThePartyStarted.Player_pb2.StandaloneConfiguration,
+    "Devialet.GetThePartyStarted.Player.AppleWacAccessPointConfiguration": GetThePartyStarted.Player_pb2.AppleWacAccessPointConfiguration,
+    "Devialet.GetThePartyStarted.Player.AppleWacWiFiNetworkConfiguration": GetThePartyStarted.Player_pb2.AppleWacWiFiNetworkConfiguration,
+    "Devialet.GetThePartyStarted.ConfigurationErrors": GetThePartyStarted.GetThePartyStarted_pb2.ConfigurationErrors,
+    "Devialet.GetThePartyStarted.DeviceInfo": GetThePartyStarted.GetThePartyStarted_pb2.DeviceInfo,
+    "Devialet.GetThePartyStarted.SetupErrors": GetThePartyStarted.GetThePartyStarted_pb2.SetupErrors,
+    "Devialet.GetThePartyStarted.SetupToken": GetThePartyStarted.GetThePartyStarted_pb2.SetupToken,
+    "Devialet.GetThePartyStarted.SlaveInfo": GetThePartyStarted.GetThePartyStarted_pb2.SlaveInfo,
+    "Devialet.GetThePartyStarted.SlaveInfoList": GetThePartyStarted.GetThePartyStarted_pb2.SlaveInfoList,
+    "Devialet.GetThePartyStarted.StartSetupRequest": GetThePartyStarted.GetThePartyStarted_pb2.StartSetupRequest,
+    "Devialet.GetThePartyStarted.WiFiNetwork": GetThePartyStarted.GetThePartyStarted_pb2.WiFiNetwork,
+    "Devialet.GetThePartyStarted.WiFiConfigurationData": GetThePartyStarted.GetThePartyStarted_pb2.WiFiConfigurationData,
+    "Devialet.GetThePartyStarted.PlcConfigurationData": GetThePartyStarted.GetThePartyStarted_pb2.PlcConfigurationData,
+    "Devialet.GetThePartyStarted.ConfigurationData": GetThePartyStarted.GetThePartyStarted_pb2.ConfigurationData,
+    "Devialet.GetThePartyStarted.SetConfigurationRequest": GetThePartyStarted.GetThePartyStarted_pb2.SetConfigurationRequest,
+    "Devialet.GetThePartyStarted.UploadLogsRequest": GetThePartyStarted.Logging_pb2.UploadLogsRequest,
+    "Devialet.GetThePartyStarted.Aerobase.SetupStep": GetThePartyStarted.Aerobase_pb2.SetupStep,
+    "Devialet.GetThePartyStarted.Aerobase.SetTopologyConfigurationRequest": GetThePartyStarted.Aerobase_pb2.SetTopologyConfigurationRequest
+}

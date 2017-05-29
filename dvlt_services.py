@@ -1,3 +1,52 @@
+import re
+
+def find_method(rep, service_list):
+    method = {}
+    service = {}
+    package = {}
+    service_name = ""
+
+    # if not(service_list):
+    if rep.serviceId == 0 and not service_list:
+        # Assume initial service is CallmeMaybe.Connection, which is placed first
+        package = all_services[0]
+        service = package['services'][rep.type]
+        method = service['methods'][rep.subTypeId]
+
+    elif rep.serviceId in [service.id for service in service_list]:
+        service_name = [service.name for service in service_list if service.id == rep.serviceId][0]
+        # package_name = '.'.join(service_name.split('.')[1:-2])
+        # service_name = '.'.join(service_name.split('.')[-2:-1])
+        package_name, service_name = re.match(
+            '^[^\.]+\.(.*?)(?:-0)?\.([^\.]+?)(?:-0)?\.[^\.]+$', service_name).groups()
+        # this isnt perfect, apparently sometimes more than one service: com.devialet.getthepartystarted.configuration-0.player-0.ece3ce2e
+
+        # print(package_name, service_name)
+        
+        for p in all_services:
+            if p['package_name'].lower() == package_name:
+                for s in p['services']:
+                    if s['name'].lower() == service_name:
+                        # for m in s['methods']:
+                        #     if m['name'] == 
+                        service = s
+                        package = p
+                        print('service {} from {} appears to correspond to type {}'.format(
+                            service_name, package_name, rep.type
+                        ))
+                        try:
+                            method = service['methods'][rep.subTypeId]
+                        except IndexError:
+                            print("Error: subTypeId {} too big for package {}, service {}".format(
+                                rep.subTypeId, package_name, service_name
+                            ))
+        if package == {} or service == {}:
+            print('Error: service "{}" or package "{}" not found in database'.format(service_name, package_name))
+    else:
+        print("Error: Unknown service ID {}".format(rep.serviceId))
+
+    return (service_name, package, service, method)
+
 all_services = [
     # First one should always be CallMeMaybe
     {
