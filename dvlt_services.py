@@ -1,10 +1,10 @@
 import re
 
 def find_method(rep, service_list):
-    method = {}
-    service = {}
-    package = {}
-    service_name = ""
+    method = {'name': 'not found'}
+    service = {'name': 'not found'}
+    package = {'package_name': 'not found'}
+    service_name_full = ""
 
     # if not(service_list):
     if rep.serviceId == 0 and not service_list:
@@ -14,11 +14,11 @@ def find_method(rep, service_list):
         method = service['methods'][rep.subTypeId]
 
     elif rep.serviceId in [service.id for service in service_list]:
-        service_name = [service.name for service in service_list if service.id == rep.serviceId][0]
+        service_name_full = [service.name for service in service_list if service.id == rep.serviceId][0]
         # package_name = '.'.join(service_name.split('.')[1:-2])
         # service_name = '.'.join(service_name.split('.')[-2:-1])
         package_name, service_name = re.match(
-            '^[^\.]+\.(.*?)(?:-0)?\.([^\.]+?)(?:-0)?\.[^\.]+$', service_name).groups()
+            '^[^\.]+\.(.*?)(?:-0)?\.([^\.]+?)(?:-0)?\.[^\.]+$', service_name_full).groups()
         # this isnt perfect, apparently sometimes more than one service: com.devialet.getthepartystarted.configuration-0.player-0.ece3ce2e
 
         # print(package_name, service_name)
@@ -31,21 +31,21 @@ def find_method(rep, service_list):
                         #     if m['name'] == 
                         service = s
                         package = p
-                        print('service {} from {} appears to correspond to type {}'.format(
-                            service_name, package_name, rep.type
+                        print('service {} from {} appears to correspond to type {}, subtype {} ({})'.format(
+                            service_name, package_name, rep.type, rep.subTypeId, service_name_full
                         ))
                         try:
                             method = service['methods'][rep.subTypeId]
                         except IndexError:
-                            print("Error: subTypeId {} too big for package {}, service {}".format(
-                                rep.subTypeId, package_name, service_name
+                            print("Error: subTypeId {} too big for {} ({}->{})".format(
+                                rep.subTypeId, service_name_full, package_name, service_name
                             ))
         if package == {} or service == {}:
             print('Error: service "{}" or package "{}" not found in database'.format(service_name, package_name))
     else:
         print("Error: Unknown service ID {}".format(rep.serviceId))
 
-    return (service_name, package, service, method)
+    return (service_name_full, package, service, method)
 
 all_services = [
     # First one should always be CallMeMaybe

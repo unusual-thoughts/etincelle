@@ -40,6 +40,8 @@ import GetThePartyStarted.GetThePartyStarted_pb2
 import GetThePartyStarted.Logging_pb2
 import GetThePartyStarted.Aerobase_pb2
 
+from protobuf_to_dict import protobuf_to_dict
+
 def interpret_as(raw_protobuf, proto_name):
     try:
         ret = all_msgs[proto_name]()
@@ -57,7 +59,7 @@ def full_len(d):
     else:
         return 1
 
-def heuristic_search(raw_protobuf, filter="", strict=True):
+def heuristic_search(raw_protobuf, filter="", strict=False):
     results = {}
     if len(raw_protobuf) == 0:
         return { "empty protobuf" }
@@ -70,13 +72,14 @@ def heuristic_search(raw_protobuf, filter="", strict=True):
                 if strict and len(tmp.FindInitializationErrors()) > 0:
                     results[proto] = -1
             except Exception as e:
-                # print("Error in heuristic:", type(e), e)
+                # print("Error in heuristic:",    type(e), e)
                 results[proto] = -1
                 # pass
         else:
             results[proto] = -1
-    return sorted([{proto: length} for (proto, length) in results.items() if length > 0 and (
-        length > 2 or length == max(results[x] for x in results))], key=lambda x:x[1]) 
+    # return [[proto, length] for (proto, length) in results.items()]
+    return sorted([(proto, length) for (proto, length) in  results.items() if length > 2 and (length > 0 or length > max(results[x] for x in results)/2)
+        ], key=lambda x:x[1]) 
 
 all_msgs = {
     "Devialet.SaveMe.SavePlaylistError": SaveMe.SaveMe_pb2.SavePlaylistError,

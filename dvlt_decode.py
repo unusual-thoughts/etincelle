@@ -41,14 +41,14 @@ class DevialetSection:
             if len(raw_section[0]['data']) != 0:
                 self.warnings.append('Field 0 of length {} instead of 0'.format(
                     len(raw_section[0]['data'])))
-            
+
             i = 1
             # Extra field (+ delimiter) that doesnt decode into protobuf, some kind of uid?
             if self.magic == 0xC3:
-                self.uid = raw_section[i]['data'].hex()
+                self.uid = raw_section[i]['data']
                 i += 2
             else:
-                self.uid = ''
+                self.uid = b''
 
             # Remaining fields should all be protobufs
             for raw_field in raw_section[i:]:
@@ -143,115 +143,149 @@ class DevialetFlow:
         self.outgoing_buf.close()
 
     def rpc_walk(self):
-        # Each section should correspond to a RPC request/reply, 
+        # Each section should correspond to a RPC request/reply,
         # with 2 protobufs each time
 
         # The "uid" parameter in the section, when present (== when magic is C3, and only on incoming packets)
         # is apparently equal to the first member of a 4 element protobuf in the same section
 
         service_list = RPCMessages_pb2.ServicesList().services
+        incoming_iterator = iter(self.incoming_sections)
+        outgoing_iterator = iter(self.outgoing_sections)
 
         print("Walking {}".format(self.name))
         # this may cut out some protobufs at the end (shortest of incoming or outgoing)
-        for (incoming_section, outgoing_section) in zip(self.incoming_sections, self.outgoing_sections):
+        # for (incoming_section, outgoing_section) in zip(incoming_iterator, outgoing_iterator):
+        for incoming_section in incoming_iterator:
             print("")
             incoming_pb = incoming_section.raw_protobufs
-            outgoing_pb = outgoing_section.raw_protobufs
 
-            try:
-                req = interpret_as(outgoing_pb[0], "Devialet.CallMeMaybe.Request")
-                rep = interpret_as(incoming_pb[0], "Devialet.CallMeMaybe.Reply")
-            except:
-                print("Error: Looks like we are out of sync or something")
-                pprint({
-                    "0utgoing_notrequest": heuristic_search(outgoing_pb[0], filter="Devialet"),
-                    "1ncoming_notreply": heuristic_search(incoming_pb[0], filter="Devialet"),
-                    "raw_decode_0utgoing": raw_decode(outgoing),
-                    "raw_decode_1ncoming": raw_decode(incoming),
-                })
+            if incoming_section.magic == 0xC3:
+                # Event?
+                evt = interpret_as(incoming_pb[0], "Devialet.CallMeMaybe.Event")
+                service_name, package, service, method = find_method(evt, service_list)
 
-            if rep.requestId != req.requestId:
-                print("Error: Inconstistent requestId, maybe protobufs not in lockstep. requestId/type/subTypeId/serviceId: req:{}/{}/{}/{}, rep:'{}/{}/{}/{}".format(
-                    req.requestId.hex(), req.type, req.subTypeId, req.serviceId, rep.requestId.hex(), rep.type, rep.subTypeId, rep.serviceId,
+                print("Event service details: {} / {} -> {} {} {}".format(
+                    service_name, evt.subTypeId, package['package_name'], service['name'], method['name']))
+
+                print("out_time:{} in_time:{} evt:{} {}/{:>10d}/{:>12d}{:30s} {} E".format(
+                    outgoing_section.time, incoming_section.time,
+                    evt.serverId[:4].hex(), evt.type, evt.subTypeId, evt.serviceId,
+                    '',
+                    incoming_section.uid[:4].hex(),
+                    method['name'],
+                    # 'u' if incoming_section.uid else ' ',
+                ))
+            else:
+                outgoing_section = next(outgoing_iterator)
+                outgoing_pb = outgoing_section.raw_protobufs
+                try:
+                    req = interpret_as(outgoing_pb[0], "Devialet.CallMeMaybe.Request")
+                    rep = interpret_as(incoming_pb[0], "Devialet.CallMeMaybe.Reply")
+                except:
+                    print("Error: Looks like we are out of sync or something")
+                    pprint({
+                        "0utgoing_notrequest": heuristic_search(outgoing_pb[0], filter="Devialet"),
+                        "1ncoming_notreply": heuristic_search(incoming_pb[0], filter="Devialet"),
+                        "raw_decode_0utgoing": raw_decode(outgoing),
+                        "raw_decode_1ncoming": raw_decode(incoming),
+                    })
+
+                if rep.requestId != req.requestId:
+                    # print("Error: Inconstistent requestId, maybe protobufs not in lockstep. requestId/type/subTypeId/serviceId: req:{}/{}/{}/{}, rep:{}/{}/{}/{}".format(
+                    #     req.requestId.hex(), req.type, req.subTypeId, req.serviceId, rep.requestId.hex(), rep.type, rep.subTypeId, rep.serviceId,
+                    # ))
+                    print("Dropping request {}".format(req.requestId.hex()))
+                    try:
+                        next(outgoing_iterator)
+                    except StopIteration:
+                        pass
+
+                service_name, package, service, method = find_method(rep, service_list)
+
+                print("out_time:{} in_time:{} req:{}/{}/{:>10d}/{:>12d}, rep:{}/{}/{:>10d}/{:>12d} {}{}{}".format(
+                    outgoing_section.time, incoming_section.time,
+                    req.requestId[:4].hex(), req.type, req.subTypeId, req.serviceId, rep.requestId[:4].hex(), rep.type, rep.subTypeId, rep.serviceId,
+                    'M' if rep.isMultipart else ' ',
+                    ' ' if method['name'] == 'ping' else 'C' if method['name'] == 'openConnection' else '.',
+                    # 'u' if incoming_section.uid else ' ',
+                    '<' if rep.requestId != req.requestId else ' ',
                 ))
 
-            service_name, package, service, method = find_method(rep, service_list)
+                print("RPC service details: {} / {} -> {} {} {}".format(
+                    service_name, rep.subTypeId, package['package_name'], service['name'], method['name']))
 
-            # TODO: handle multipart
-            if rep.isMultipart:
-                print("WARNING multipart")
-                if len(incoming_pb) == 2:
-                    print("Error: multipart but only 2 incoming protobufs")
-                pprint(protobuf_to_dict(rep))
+                # TODO: handle multipart
+                if rep.isMultipart:
+                    print("WARNING multipart")
+                    if len(incoming_pb) == 2:
+                        print("Error: multipart but only 2 incoming protobufs")
+                    pprint(protobuf_to_dict(rep))
 
-            if len(incoming_pb) > 2 and not rep.isMultipart:
-                print("Error: we got more incoming protobufs than we should have, not Multipart")
+                if len(incoming_pb) > 2 and not rep.isMultipart:
+                    print("Error: we got more incoming protobufs than we should have, not Multipart")
 
-            if len(outgoing_pb) > 2:
-                print("Error: we got more than 2 outgoing protobufs")
+                if len(outgoing_pb) > 2:
+                    print("Error: we got more than 2 outgoing protobufs")
 
-            if len(outgoing_pb) < 2:
-                print("Error: we got less than 2 outgoing protobufs")
+                if len(outgoing_pb) < 2:
+                    print("Error: we got less than 2 outgoing protobufs")
 
-            if len(incoming_pb) < 2:
-                print("Error: we got less than 2 incoming protobufs")
+                if len(incoming_pb) < 2:
+                    print("Error: we got less than 2 incoming protobufs")
 
+                rpc_output = []
+                last_output = {'raw': b''}
+                try:
 
-            rpc_output = []
-            last_output = {'raw': b''}
-            try:
-                
-                for output_proto in incoming_pb[1:]:
-                
-                    rpc_input = interpret_as(outgoing_pb[1], method['input_type'])
-                    rpc_output.append(interpret_as(output_proto, method['output_type']))
+                    for output_proto in incoming_pb[1:]:
 
-                    if method['output_type'] == "Devialet.CallMeMaybe.ConnectionReply":
-                        service_list = rpc_output[0].services
+                        rpc_input = interpret_as(outgoing_pb[1], method['input_type'])
+                        rpc_output.append(interpret_as(output_proto, method['output_type']))
 
-                    last_output = output_proto
+                        if method['output_type'] == "Devialet.CallMeMaybe.ConnectionReply":
+                            service_list = rpc_output[0].services
 
-                rpc_decoded = {
-                    "package_name": package['package_name'],
-                    "service_name": service['name'],
-                    "rpc_name": method['name'],
-                    "rpc_input": protobuf_to_dict(rpc_input),
-                    "rpc_output": [ protobuf_to_dict(pb) for pb in rpc_output],
-                    "rpc_input_type": method['input_type'],
-                    "rpc_output_type": method['output_type'],
-                }
+                        last_output = output_proto
 
-                if incoming_section.magic == 0xC3:
-                    rpc_decoded['uid'] = incoming_section.uid
+                    rpc_decoded = {
+                        "package_name": package['package_name'],
+                        "service_name": service['name'],
+                        "rpc_name": method['name'],
+                        "rpc_input": protobuf_to_dict(rpc_input),
+                        "rpc_output": [ protobuf_to_dict(pb) for pb in rpc_output],
+                        "rpc_input_type": method['input_type'],
+                        "rpc_output_type": method['output_type'],
+                    }
 
-                # yield rpc_decoded
-                pprint(rpc_decoded)
-            except KeyError as e:
-                # If method/service is empty, meaning that not found in database
-                print("Error: no package, service or method")
-                pprint({
-                    "rpc_input_unknown": heuristic_search(outgoing_pb[1]),
-                    "rpc_output_unknown": [heuristic_search(x) for x in incoming_pb[1:]],
-                    "service_name": service_name,
-                    "exception": [type(e), e],
-                    "raw_decode_input": raw_decode(outgoing_pb[1]),
-                    "raw_decode_output": [raw_decode(x) for x in incoming_pb[1:]],
-                    "service_list": service_list,
-                    "magic": incoming_section.magic
-                })
-                pass
-            except Exception as e:
-                print("Error:", type(e), e)
+                    # yield rpc_decoded
+                    # pprint(rpc_decoded)
+                except KeyError as e:
+                    # If method/service is empty, meaning that not found in database
+                    print("Error: no package, service or method")
+                    pprint({
+                        "rpc_input_unknown": heuristic_search(outgoing_pb[1]),
+                        "rpc_output_unknown": [heuristic_search(x) for x in incoming_pb[1:]],
+                        "service_name": service_name,
+                        "exception": [type(e), e],
+                        "raw_decode_input": raw_decode(outgoing_pb[1]),
+                        "raw_decode_output": [raw_decode(x) for x in incoming_pb[1:]],
+                        "service_list": service_list,
+                        "magic": incoming_section.magic
+                    })
+                    pass
+                except Exception as e:
+                    print("Error:", type(e), e)
 
         i = 0
-        for incoming in self.incoming_sections:
+        for incoming in incoming_iterator:
             i += 1
 
         if i != 0:
             print("Error: There were {} incoming sections remaining".format(i))
 
         i = 0
-        for outgoing in self.outgoing_sections:
+        for outgoing in outgoing_iterator:
             i += 1
 
         if i != 0:
@@ -289,7 +323,7 @@ class AndroidFlows(DevialetManyFlows):
 
             for packet in self.packet_iter(os.path.join(self.dirname, capture)):
                 flow.decode(packet['data'], time=packet['time'], incoming=packet['direction'])
-        
+
         for key in self.flows:
             self.flows[key].close()
             self.flows[key].rpc_walk()
