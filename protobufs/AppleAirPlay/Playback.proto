@@ -1,8 +1,0 @@
-package Devialet.AppleAirPlay;
-
-import "CallMeMaybe/CallMeMaybe.proto";
-import "CallMeMaybe/CommonMessages.proto";
-
-message Dummy {
-}
-

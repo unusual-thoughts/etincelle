@@ -1,9 +1,0 @@
-package Devialet.AudioSource;
-
-import "TheSoundOfSilence/Node.proto";
-
-message Playlist {
- required string name = 1;
- required Node nodes = 2;
-}
-

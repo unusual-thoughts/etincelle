@@ -1,8 +1,0 @@
-package Devialet.LeftAlone;
-
-import "CallMeMaybe/CallMeMaybe.proto";
-import "CallMeMaybe/CommonMessages.proto";
-
-message FakeMsg {
-}
-

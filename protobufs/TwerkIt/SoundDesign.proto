@@ -1,5 +1,0 @@
-package Devialet.TwerkIt;
-
-import "CallMeMaybe/CallMeMaybe.proto";
-import "CallMeMaybe/CommonMessages.proto";
-

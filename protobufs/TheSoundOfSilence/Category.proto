@@ -1,9 +1,0 @@
-package Devialet.AudioSource;
-
-import "TheSoundOfSilence/Node.proto";
-
-message Category {
- required string name = 1;
- repeated Node nodes = 2;
-}
-
