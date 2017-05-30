@@ -88,4 +88,16 @@ service SavePlaylist {
 	}
 	rpc playlistEdited(.Devialet.SaveMe.ModifyPlaylistName) returns (.Devialet.CallMeMaybe.Empty) {
 	}
+	option (dvltServiceOptions) = {
+		serviceName: "com.devialet.saveme.savePlaylist"
+		errorEnumName: "Devialet.SaveMe.SavePlaylistError.Code"
+		properties {
+		  property {
+		    type: "PlaylistSaved"
+		    name: "playlists"
+		    constant: true
+		  }
+		}
+		
+	};
 }

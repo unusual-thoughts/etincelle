@@ -52,4 +52,50 @@ service Agent {
 	}
 	rpc seek(.Devialet.CallMeMaybe.UInt32Property) returns (.Devialet.CallMeMaybe.Empty) {
 	}
+	option (dvltServiceOptions) = {
+		serviceName: "com.devialet.spotifyconnect.agent-0"
+		baseService: "Devialet.AudioSource.LiveSourceSession"
+		properties {
+		  property {
+		    type: "Devialet.CallMeMaybe.BytesProperty"
+		    name: "playerId"
+		    readOnly: true
+		  }
+		  property {
+		    type: "Devialet.CallMeMaybe.BoolProperty"
+		    name: "isActive"
+		    readOnly: true
+		  }
+		  property {
+		    type: "Devialet.CallMeMaybe.BoolProperty"
+		    name: "isStandalone"
+		  }
+		  property {
+		    type: "Devialet.CallMeMaybe.BoolProperty"
+		    name: "isPlaying"
+		    readOnly: true
+		  }
+		  property {
+		    type: "Devialet.CallMeMaybe.BoolProperty"
+		    name: "isRepeated"
+		    readOnly: true
+		  }
+		  property {
+		    type: "Devialet.CallMeMaybe.BoolProperty"
+		    name: "isShuffled"
+		    readOnly: true
+		  }
+		  property {
+		    type: "Devialet.CallMeMaybe.UInt32Property"
+		    name: "duration"
+		    readOnly: true
+		  }
+		  property {
+		    type: "Devialet.CallMeMaybe.UInt32Property"
+		    name: "position"
+		    readOnly: true
+		  }
+		}
+		
+	};
 }

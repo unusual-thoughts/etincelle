@@ -22,4 +22,31 @@ service Playback {
 	}
 	rpc togglePause(.Devialet.CallMeMaybe.Empty) returns (.Devialet.CallMeMaybe.Empty) {
 	}
+	option (dvltServiceOptions) = {
+		serviceName: "com.devialet.appleairplay.playback-0"
+		properties {
+		  property {
+		    type: "Devialet.CallMeMaybe.BytesProperty"
+		    name: "playerId"
+		    readOnly: true
+		  }
+		  property {
+		    type: "Devialet.CallMeMaybe.BoolProperty"
+		    name: "isPlaying"
+		    readOnly: true
+		  }
+		  property {
+		    type: "Devialet.CallMeMaybe.UInt32Property"
+		    name: "duration"
+		    readOnly: true
+		  }
+		  property {
+		    type: "Devialet.CallMeMaybe.UInt32Property"
+		    name: "position"
+		    readOnly: true
+		    logUpdate: false
+		  }
+		}
+		
+	};
 }

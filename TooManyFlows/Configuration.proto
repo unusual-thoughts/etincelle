@@ -32,4 +32,15 @@ service Configuration {
 	}
 	rpc setAutoSwitch(.Devialet.CallMeMaybe.BoolProperty) returns (.Devialet.CallMeMaybe.Empty) {
 	}
+	option (dvltServiceOptions) = {
+		serviceName: "com.devialet.toomanyflows.configuration-0"
+		errorEnumName: "Devialet.TooManyFlows.ConfigurationError.Code"
+		properties {
+		  property {
+		    type: "Devialet.TooManyFlows.BouquetId"
+		    name: "bouquet"
+		  }
+		}
+		
+	};
 }

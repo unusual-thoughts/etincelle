@@ -108,6 +108,11 @@ service Registrar {
 	}
 	rpc pingRequested(.Devialet.CallMeMaybe.Empty) returns (.Devialet.CallMeMaybe.Empty) {
 	}
+	option (dvltServiceOptions) = {
+		serviceName: "com.devialet.whatsup.registrar"
+		errorEnumName: "Devialet.WhatsUp.RegistrarErrors.Errors"
+		
+	};
 }
 
 service Registry {
@@ -131,4 +136,8 @@ service Registry {
 	}
 	rpc servicesRemoved(.Devialet.WhatsUp.WhatsUpServicesRemoval) returns (.Devialet.CallMeMaybe.Empty) {
 	}
+	option (dvltServiceOptions) = {
+		serviceName: "com.devialet.whatsup.registry"
+		
+	};
 }

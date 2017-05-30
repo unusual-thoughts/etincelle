@@ -29,11 +29,34 @@ message Uri {
 service SourceSession {
 	rpc uri(.Devialet.AudioSource.Id) returns (.Devialet.AudioSource.Uri) {
 	}
+	option (dvltServiceOptions) = {
+		serviceName: "com.devialet.source-session-0"
+		errorEnumName: "Devialet.AudioSource.SourceError.Code"
+		properties {
+		  property {
+		    type: "Devialet.CallMeMaybe.StringProperty"
+		    name: "sourceId"
+		    constant: true
+		  }
+		}
+		
+	};
 }
 
 service ConfigureSource {
 	rpc setEnabled(.Devialet.AudioSource.Enabled) returns (.Devialet.CallMeMaybe.Empty) {
 	}
+	option (dvltServiceOptions) = {
+		serviceName: "com.devialet.source-configure-0"
+		errorEnumName: "Devialet.AudioSource.SourceError.Code"
+		properties {
+		  property {
+		    type: "Devialet.CallMeMaybe.BytesProperty"
+		    name: "settings"
+		  }
+		}
+		
+	};
 }
 
 service Source {
@@ -45,4 +68,40 @@ service Source {
 	}
 	rpc bigLogo(.Devialet.CallMeMaybe.Empty) returns (.Devialet.AudioSource.Picture) {
 	}
+	option (dvltServiceOptions) = {
+		serviceName: "com.devialet.source-0"
+		errorEnumName: "Devialet.AudioSource.SourceError.Code"
+		properties {
+		  property {
+		    type: "Devialet.CallMeMaybe.StringProperty"
+		    name: "id"
+		    constant: true
+		  }
+		  property {
+		    type: "Devialet.CallMeMaybe.BoolProperty"
+		    name: "isEnabled"
+		  }
+		  property {
+		    type: "Devialet.CallMeMaybe.BoolProperty"
+		    name: "isSeekable"
+		    constant: true
+		  }
+		  property {
+		    type: "Devialet.AudioSource.Sessions"
+		    name: "listActiveSessions"
+		    constant: true
+		  }
+		  property {
+		    type: "Devialet.CallMeMaybe.StringProperty"
+		    name: "name"
+		    constant: true
+		  }
+		  property {
+		    type: "Devialet.CallMeMaybe.BoolProperty"
+		    name: "supportsEnable"
+		    constant: true
+		  }
+		}
+		
+	};
 }

@@ -130,4 +130,15 @@ service Configuration {
 	}
 	rpc rendererStateChanged(.Devialet.MasterOfPuppets.StateNotification) returns (.Devialet.CallMeMaybe.Empty) {
 	}
+	option (dvltServiceOptions) = {
+		serviceName: "com.devialet.masterofpuppets.configuration-0"
+		properties {
+		  property {
+		    type: "Devialet.MasterOfPuppets.NodeRoot"
+		    name: "root"
+		    constant: true
+		  }
+		}
+		
+	};
 }

@@ -19,4 +19,15 @@ service History {
 	}
 	rpc trackPushed(.Devialet.TooManyFlows.UrlMsg) returns (.Devialet.CallMeMaybe.Empty) {
 	}
+	option (dvltServiceOptions) = {
+		serviceName: "com.devialet.toomanyflows.history-0"
+		properties {
+		  property {
+		    type: "Devialet.TooManyFlows.UrlsMsg"
+		    name: "tracks"
+		    constant: true
+		  }
+		}
+		
+	};
 }

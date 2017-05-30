@@ -131,4 +131,27 @@ service AuthenticatedOnlineSource {
 	}
 	rpc logout(.Devialet.AudioSource.LogoutRequest) returns (.Devialet.CallMeMaybe.Empty) {
 	}
+	option (dvltServiceOptions) = {
+		serviceName: "com.devialet.source-0.online-0.authenticated-0"
+		baseService: "Devialet.AudioSource.Source"
+		errorEnumName: "Devialet.AudioSource.OnlineSourceError.Code"
+		properties {
+		  property {
+		    type: "Devialet.AudioSource.AvailableReply"
+		    name: "isAvailable"
+		    readOnly: true
+		  }
+		  property {
+		    type: "Devialet.AudioSource.AuthenticationMethods"
+		    name: "authenticationMethods"
+		    constant: true
+		  }
+		  property {
+		    type: "Devialet.AudioSource.RegistrationUrl"
+		    name: "registrationUrl"
+		    constant: true
+		  }
+		}
+		
+	};
 }

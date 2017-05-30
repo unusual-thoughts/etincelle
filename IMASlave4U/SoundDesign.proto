@@ -2,4 +2,9 @@
 package Devialet.IMASlave4U;
 
 service SoundDesign {
+	option (dvltServiceOptions) = {
+		serviceName: "com.devialet.twerkit.sounddesign-0.imaslave4u-0"
+		baseService: "Devialet.TwerkIt.SoundDesign"
+		
+	};
 }

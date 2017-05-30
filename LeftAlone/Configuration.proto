@@ -5,4 +5,14 @@ message FakeMsg {
 }
 
 service Configuration {
+	option (dvltServiceOptions) = {
+		serviceName: "com.devialet.leftalone-0.configuration-0"
+		properties {
+		  property {
+		    type: "Devialet.CallMeMaybe.BoolProperty"
+		    name: "enabled"
+		  }
+		}
+		
+	};
 }

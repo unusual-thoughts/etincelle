@@ -33,4 +33,8 @@ service SoundDesign {
 	}
 	rpc disconnected(.Devialet.CallMeMaybe.Empty) returns (.Devialet.CallMeMaybe.Empty) {
 	}
+	option (dvltServiceOptions) = {
+		serviceName: "com.devialet.twerkit.sounddesign-0"
+		
+	};
 }

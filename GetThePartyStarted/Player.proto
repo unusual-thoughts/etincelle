@@ -68,6 +68,11 @@ message AppleWacWiFiNetworkConfiguration {
 }
 
 service Configuration {
+	option (dvltServiceOptions) = {
+		serviceName: "com.devialet.getthepartystarted.configuration-0.player-0"
+		baseService: "Devialet.GetThePartyStarted.Configuration"
+		
+	};
 }
 
 service Setup {
@@ -99,4 +104,16 @@ service Setup {
 	}
 	rpc completeConfiguration(.Devialet.CallMeMaybe.Empty) returns (.Devialet.CallMeMaybe.Empty) {
 	}
+	option (dvltServiceOptions) = {
+		serviceName: "com.devialet.getthepartystarted.setup-0.slave-0.remote-0.player-0"
+		baseService: "Devialet.GetThePartyStarted.RemoteSlaveDeviceSetup"
+		properties {
+		  property {
+		    type: "Devialet.GetThePartyStarted.Player.SetupStep"
+		    name: "step"
+		    readOnly: true
+		  }
+		}
+		
+	};
 }

@@ -106,4 +106,15 @@ service SoundControl {
 	}
 	rpc setBouquetVolumeByDelta(.Devialet.CallMeMaybe.DoubleProperty) returns (.Devialet.CallMeMaybe.Empty) {
 	}
+	option (dvltServiceOptions) = {
+		serviceName: "com.devialet.toomanyflows.soundcontrol-0"
+		properties {
+		  property {
+		    type: "Devialet.TooManyFlows.AllProperties"
+		    name: "allProperties"
+		    constant: true
+		  }
+		}
+		
+	};
 }

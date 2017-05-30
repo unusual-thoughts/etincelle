@@ -63,4 +63,9 @@ service Connection {
 	}
 	rpc serverQuit(.Devialet.CallMeMaybe.Empty) returns (.Devialet.CallMeMaybe.Empty) {
 	}
+	option (dvltServiceOptions) = {
+		serviceName: "com.devialet.callmemaybe.connection"
+		errorEnumName: "Devialet.CallMeMaybe.ConnectionErrors.Code"
+		
+	};
 }

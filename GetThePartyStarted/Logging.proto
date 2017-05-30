@@ -10,4 +10,8 @@ message UploadLogsRequest {
 service LogUploader {
 	rpc uploadLogs(.Devialet.GetThePartyStarted.UploadLogsRequest) returns (.Devialet.CallMeMaybe.Empty) {
 	}
+	option (dvltServiceOptions) = {
+		serviceName: "com.devialet.getthepartystarted.log-uploader-0"
+		
+	};
 }

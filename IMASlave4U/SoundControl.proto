@@ -2,4 +2,19 @@
 package Devialet.IMASlave4U;
 
 service SoundControl {
+	option (dvltServiceOptions) = {
+		serviceName: "com.devialet.imaslave4u.soundcontrol-0"
+		properties {
+		  property {
+		    type: "Devialet.CallMeMaybe.BoolProperty"
+		    name: "nightMode"
+		  }
+		  property {
+		    type: "Devialet.CallMeMaybe.DoubleProperty"
+		    name: "volume"
+		    logUpdate: false
+		  }
+		}
+		
+	};
 }

@@ -23,4 +23,24 @@ message Input {
 }
 
 service Configuration {
+	option (dvltServiceOptions) = {
+		serviceName: "com.devialet.imaslave4u.configuration-0"
+		properties {
+		  property {
+		    type: "Devialet.IMASlave4U.AudioMode"
+		    name: "audioMode"
+		  }
+		  property {
+		    type: "Devialet.IMASlave4U.Input"
+		    name: "audioInput"
+		    readOnly: true
+		  }
+		  property {
+		    type: "Devialet.IMASlave4U.Input"
+		    name: "soundDesignInput"
+		    readOnly: true
+		  }
+		}
+		
+	};
 }

@@ -33,4 +33,33 @@ service Playlist {
 	}
 	rpc tracksRemoved(.Devialet.TooManyFlows.TracksMsg) returns (.Devialet.CallMeMaybe.Empty) {
 	}
+	option (dvltServiceOptions) = {
+		serviceName: "com.devialet.toomanyflows.playlist-0"
+		properties {
+		  property {
+		    type: "Devialet.TooManyFlows.TrackMsg"
+		    name: "currentTrack"
+		    readOnly: true
+		  }
+		  property {
+		    type: "Devialet.CallMeMaybe.UInt32Property"
+		    name: "maxSize"
+		    constant: true
+		  }
+		  property {
+		    type: "Devialet.CallMeMaybe.BoolProperty"
+		    name: "random"
+		  }
+		  property {
+		    type: "Devialet.CallMeMaybe.BoolProperty"
+		    name: "repeatAll"
+		  }
+		  property {
+		    type: "Devialet.TooManyFlows.TracksMsg"
+		    name: "tracks"
+		    constant: true
+		  }
+		}
+		
+	};
 }

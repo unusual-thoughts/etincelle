@@ -50,6 +50,40 @@ service LiveSourceSession {
 	}
 	rpc defaultVolume(.Devialet.CallMeMaybe.Empty) returns (.Devialet.CallMeMaybe.DoubleProperty) {
 	}
+	option (dvltServiceOptions) = {
+		serviceName: "com.devialet.source-session-0.live-0"
+		baseService: "Devialet.AudioSource.SourceSession"
+		properties {
+		  property {
+		    type: "Devialet.CallMeMaybe.BoolProperty"
+		    name: "autoSwitch"
+		  }
+		  property {
+		    type: "Devialet.AudioSource.LiveSourceAvailableMethods"
+		    name: "availableMethods"
+		    constant: true
+		  }
+		  property {
+		    type: "Devialet.AudioSource.InputTypeMsg"
+		    name: "inputType"
+		  }
+		  property {
+		    type: "Devialet.CallMeMaybe.StringProperty"
+		    name: "name"
+		  }
+		  property {
+		    type: "Devialet.AudioSource.LiveSourceStateMsg"
+		    name: "state"
+		    readOnly: true
+		  }
+		  property {
+		    type: "Devialet.AudioSource.Track"
+		    name: "track"
+		    readOnly: true
+		  }
+		}
+		
+	};
 }
 
 service LiveSource {
@@ -57,4 +91,16 @@ service LiveSource {
 	}
 	rpc unloadSession(.Devialet.AudioSource.UnloadSessionQuery) returns (.Devialet.CallMeMaybe.Empty) {
 	}
+	option (dvltServiceOptions) = {
+		serviceName: "com.devialet.source-0.live-0"
+		baseService: "Devialet.AudioSource.Source"
+		properties {
+		  property {
+		    type: "Devialet.CallMeMaybe.BoolProperty"
+		    name: "isDynamical"
+		    constant: true
+		  }
+		}
+		
+	};
 }

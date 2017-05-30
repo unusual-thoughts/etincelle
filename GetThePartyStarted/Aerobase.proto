@@ -31,6 +31,11 @@ message SetTopologyConfigurationRequest {
 }
 
 service Configuration {
+	option (dvltServiceOptions) = {
+		serviceName: "com.devialet.getthepartystarted.configuration-0.aerobase-0"
+		baseService: "Devialet.GetThePartyStarted.Configuration"
+		
+	};
 }
 
 service Setup {
@@ -40,4 +45,16 @@ service Setup {
 	}
 	rpc configureServices(.Devialet.GetThePartyStarted.SetupToken) returns (.Devialet.CallMeMaybe.Empty) {
 	}
+	option (dvltServiceOptions) = {
+		serviceName: "com.devialet.getthepartystarted.setup-0.master-0.aerobase-0"
+		baseService: "Devialet.GetThePartyStarted.MasterDeviceSetup"
+		properties {
+		  property {
+		    type: "Devialet.GetThePartyStarted.Aerobase.SetupStep"
+		    name: "step"
+		    readOnly: true
+		  }
+		}
+		
+	};
 }

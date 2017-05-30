@@ -52,4 +52,26 @@ service Playback {
 	}
 	rpc playUrl(.Devialet.CallMeMaybe.StringProperty) returns (.Devialet.CallMeMaybe.Empty) {
 	}
+	option (dvltServiceOptions) = {
+		serviceName: "com.devialet.toomanyflows.playback-0"
+		errorEnumName: "Devialet.TooManyFlows.PlaybackError.Code"
+		properties {
+		  property {
+		    type: "Devialet.CallMeMaybe.BoolProperty"
+		    name: "loop"
+		  }
+		  property {
+		    type: "Devialet.TooManyFlows.ProgressionMsg"
+		    name: "progression"
+		    readOnly: true
+		    logUpdate: false
+		  }
+		  property {
+		    type: "Devialet.TooManyFlows.StateMsg"
+		    name: "state"
+		    readOnly: true
+		  }
+		}
+		
+	};
 }

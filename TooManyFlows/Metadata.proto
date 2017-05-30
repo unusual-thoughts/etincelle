@@ -2,4 +2,60 @@
 package Devialet.TooManyFlows;
 
 service Metadata {
+	option (dvltServiceOptions) = {
+		serviceName: "com.devialet.toomanyflows.metadata-0"
+		properties {
+		  property {
+		    type: "Devialet.CallMeMaybe.StringProperty"
+		    name: "album"
+		    readOnly: true
+		  }
+		  property {
+		    type: "Devialet.CallMeMaybe.StringProperty"
+		    name: "albumArtist"
+		    readOnly: true
+		  }
+		  property {
+		    type: "Devialet.CallMeMaybe.StringProperty"
+		    name: "artist"
+		    readOnly: true
+		  }
+		  property {
+		    type: "Devialet.CallMeMaybe.UInt64Property"
+		    name: "duration"
+		    readOnly: true
+		  }
+		  property {
+		    type: "Devialet.CallMeMaybe.StringProperty"
+		    name: "genre"
+		    readOnly: true
+		  }
+		  property {
+		    type: "Devialet.CallMeMaybe.StringProperty"
+		    name: "homepage"
+		    readOnly: true
+		  }
+		  property {
+		    type: "Devialet.CallMeMaybe.StringProperty"
+		    name: "location"
+		    readOnly: true
+		  }
+		  property {
+		    type: "Devialet.CallMeMaybe.StringProperty"
+		    name: "organization"
+		    readOnly: true
+		  }
+		  property {
+		    type: "Devialet.CallMeMaybe.BytesProperty"
+		    name: "picture"
+		    readOnly: true
+		  }
+		  property {
+		    type: "Devialet.CallMeMaybe.StringProperty"
+		    name: "title"
+		    readOnly: true
+		  }
+		}
+		
+	};
 }
