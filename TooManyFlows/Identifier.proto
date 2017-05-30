@@ -1,5 +1,6 @@
-// Reversed by pbd (https://github.com/rsc-dev/pbd)
+syntax = "proto2";
 package Devialet.TooManyFlows;
+option py_generic_services = true;
 
 message BouquetId {
 	required bytes id = 1 ;

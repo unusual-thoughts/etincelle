@@ -1,7 +1,8 @@
-// Reversed by pbd (https://github.com/rsc-dev/pbd)
+syntax = "proto2";
 package Devialet.WhatsUp;
 import "CallMeMaybe/CommonMessages.proto";
 import "CallMeMaybe/CallMeMaybe.proto";
+option py_generic_services = true;
 
 message RegistrarRegisterQuery {
 	required bytes serverId = 1 ;

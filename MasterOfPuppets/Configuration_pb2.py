@@ -7,6 +7,8 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
+from google.protobuf import service as _service
+from google.protobuf import service_reflection
 from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
@@ -21,7 +23,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='MasterOfPuppets/Configuration.proto',
   package='Devialet.MasterOfPuppets',
   syntax='proto2',
-  serialized_pb=_b('\n#MasterOfPuppets/Configuration.proto\x12\x18\x44\x65vialet.MasterOfPuppets\x1a CallMeMaybe/CommonMessages.proto\x1a\x1d\x43\x61llMeMaybe/CallMeMaybe.proto\"\x15\n\x07GroupId\x12\n\n\x02id\x18\x01 \x02(\x0c\"\x17\n\tBouquetId\x12\n\n\x02id\x18\x01 \x02(\x0c\"\x18\n\nRendererId\x12\n\n\x02id\x18\x01 \x02(\x0c\"k\n\x0cNodeRenderer\x12\x38\n\nrendererId\x18\x01 \x02(\x0b\x32$.Devialet.MasterOfPuppets.RendererId\x12\x0c\n\x04name\x18\x02 \x02(\t\x12\x13\n\x0bisActivated\x18\x03 \x02(\x08\"\x88\x01\n\tNodeGroup\x12\x32\n\x07groupId\x18\x01 \x02(\x0b\x32!.Devialet.MasterOfPuppets.GroupId\x12\x0c\n\x04name\x18\x02 \x02(\t\x12\x39\n\trenderers\x18\x03 \x03(\x0b\x32&.Devialet.MasterOfPuppets.NodeRenderer\"z\n\x0bNodeBouquet\x12\x36\n\tbouquetId\x18\x01 \x02(\x0b\x32#.Devialet.MasterOfPuppets.BouquetId\x12\x33\n\x06groups\x18\x02 \x03(\x0b\x32#.Devialet.MasterOfPuppets.NodeGroup\"C\n\x08NodeRoot\x12\x37\n\x08\x62ouquets\x18\x01 \x03(\x0b\x32%.Devialet.MasterOfPuppets.NodeBouquet\"U\n\rAddGroupQuery\x12\x0c\n\x04name\x18\x01 \x02(\t\x12\x36\n\tbouquetId\x18\x02 \x02(\x0b\x32#.Devialet.MasterOfPuppets.BouquetId\"\x8e\x01\n\x10\x41\x64\x64RendererQuery\x12\x38\n\nrendererId\x18\x01 \x02(\x0b\x32$.Devialet.MasterOfPuppets.RendererId\x12\x0c\n\x04name\x18\x02 \x02(\t\x12\x32\n\x07groupId\x18\x03 \x02(\x0b\x32!.Devialet.MasterOfPuppets.GroupId\"\x7f\n\x0eMoveGroupQuery\x12\x32\n\x07groupId\x18\x01 \x02(\x0b\x32!.Devialet.MasterOfPuppets.GroupId\x12\x39\n\x0cnewBouquetId\x18\x02 \x02(\x0b\x32#.Devialet.MasterOfPuppets.BouquetId\"\x84\x01\n\x11MoveRendererQuery\x12\x38\n\nrendererId\x18\x01 \x02(\x0b\x32$.Devialet.MasterOfPuppets.RendererId\x12\x35\n\nnewGroupId\x18\x02 \x02(\x0b\x32!.Devialet.MasterOfPuppets.GroupId\"\'\n\x0bRenameQuery\x12\n\n\x02id\x18\x01 \x02(\x0c\x12\x0c\n\x04name\x18\x02 \x02(\t\"R\n\x18\x42ouquetAddedNotification\x12\x36\n\tbouquetId\x18\x01 \x02(\x0b\x32#.Devialet.MasterOfPuppets.BouquetId\"\x8c\x01\n\x16GroupAddedNotification\x12\x35\n\x08parentId\x18\x01 \x02(\x0b\x32#.Devialet.MasterOfPuppets.BouquetId\x12-\n\x02id\x18\x02 \x02(\x0b\x32!.Devialet.MasterOfPuppets.GroupId\x12\x0c\n\x04name\x18\x03 \x02(\t\"\xa5\x01\n\x19RendererAddedNotification\x12\x33\n\x08parentId\x18\x01 \x02(\x0b\x32!.Devialet.MasterOfPuppets.GroupId\x12\x30\n\x02id\x18\x02 \x02(\x0b\x32$.Devialet.MasterOfPuppets.RendererId\x12\x0c\n\x04name\x18\x03 \x02(\t\x12\x13\n\x0bisActivated\x18\x04 \x02(\x08\"b\n\x11StateNotification\x12\x38\n\nrendererId\x18\x01 \x02(\x0b\x32$.Devialet.MasterOfPuppets.RendererId\x12\x13\n\x0bisActivated\x18\x02 \x02(\x08\x32\xaf\x11\n\rConfiguration\x12P\n\naddBouquet\x12\x1b.Devialet.CallMeMaybe.Empty\x1a#.Devialet.MasterOfPuppets.BouquetId\"\x00\x12S\n\rremoveBouquet\x12#.Devialet.MasterOfPuppets.BouquetId\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12X\n\x08\x61\x64\x64Group\x12\'.Devialet.MasterOfPuppets.AddGroupQuery\x1a!.Devialet.MasterOfPuppets.GroupId\"\x00\x12X\n\x0cisolateGroup\x12!.Devialet.MasterOfPuppets.GroupId\x1a#.Devialet.MasterOfPuppets.BouquetId\"\x00\x12T\n\tmoveGroup\x12(.Devialet.MasterOfPuppets.MoveGroupQuery\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12O\n\x0bremoveGroup\x12!.Devialet.MasterOfPuppets.GroupId\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12S\n\x0brenameGroup\x12%.Devialet.MasterOfPuppets.RenameQuery\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12X\n\x0b\x61\x64\x64Renderer\x12*.Devialet.MasterOfPuppets.AddRendererQuery\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12Z\n\x0cmoveRenderer\x12+.Devialet.MasterOfPuppets.MoveRendererQuery\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12U\n\x0eremoveRenderer\x12$.Devialet.MasterOfPuppets.RendererId\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12V\n\x0erenameRenderer\x12%.Devialet.MasterOfPuppets.RenameQuery\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12\x66\n\x0c\x62ouquetAdded\x12\x32.Devialet.MasterOfPuppets.BouquetAddedNotification\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x12Y\n\x0e\x62ouquetRemoved\x12#.Devialet.MasterOfPuppets.BouquetId\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x12[\n\x0e\x62ouquetRenamed\x12%.Devialet.MasterOfPuppets.RenameQuery\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x12\x62\n\ngroupAdded\x12\x30.Devialet.MasterOfPuppets.GroupAddedNotification\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x12Z\n\ngroupMoved\x12(.Devialet.MasterOfPuppets.MoveGroupQuery\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x12U\n\x0cgroupRemoved\x12!.Devialet.MasterOfPuppets.GroupId\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x12Y\n\x0cgroupRenamed\x12%.Devialet.MasterOfPuppets.RenameQuery\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x12h\n\rrendererAdded\x12\x33.Devialet.MasterOfPuppets.RendererAddedNotification\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x12`\n\rrendererMoved\x12+.Devialet.MasterOfPuppets.MoveRendererQuery\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x12[\n\x0frendererRemoved\x12$.Devialet.MasterOfPuppets.RendererId\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x12\\\n\x0frendererRenamed\x12%.Devialet.MasterOfPuppets.RenameQuery\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x12g\n\x14rendererStateChanged\x12+.Devialet.MasterOfPuppets.StateNotification\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x1a`\x92M]\n,com.devialet.masterofpuppets.configuration-0\"-\n+\n!Devialet.MasterOfPuppets.NodeRoot\x12\x04root \x01')
+  serialized_pb=_b('\n#MasterOfPuppets/Configuration.proto\x12\x18\x44\x65vialet.MasterOfPuppets\x1a CallMeMaybe/CommonMessages.proto\x1a\x1d\x43\x61llMeMaybe/CallMeMaybe.proto\"\x15\n\x07GroupId\x12\n\n\x02id\x18\x01 \x02(\x0c\"\x17\n\tBouquetId\x12\n\n\x02id\x18\x01 \x02(\x0c\"\x18\n\nRendererId\x12\n\n\x02id\x18\x01 \x02(\x0c\"k\n\x0cNodeRenderer\x12\x38\n\nrendererId\x18\x01 \x02(\x0b\x32$.Devialet.MasterOfPuppets.RendererId\x12\x0c\n\x04name\x18\x02 \x02(\t\x12\x13\n\x0bisActivated\x18\x03 \x02(\x08\"\x88\x01\n\tNodeGroup\x12\x32\n\x07groupId\x18\x01 \x02(\x0b\x32!.Devialet.MasterOfPuppets.GroupId\x12\x0c\n\x04name\x18\x02 \x02(\t\x12\x39\n\trenderers\x18\x03 \x03(\x0b\x32&.Devialet.MasterOfPuppets.NodeRenderer\"z\n\x0bNodeBouquet\x12\x36\n\tbouquetId\x18\x01 \x02(\x0b\x32#.Devialet.MasterOfPuppets.BouquetId\x12\x33\n\x06groups\x18\x02 \x03(\x0b\x32#.Devialet.MasterOfPuppets.NodeGroup\"C\n\x08NodeRoot\x12\x37\n\x08\x62ouquets\x18\x01 \x03(\x0b\x32%.Devialet.MasterOfPuppets.NodeBouquet\"U\n\rAddGroupQuery\x12\x0c\n\x04name\x18\x01 \x02(\t\x12\x36\n\tbouquetId\x18\x02 \x02(\x0b\x32#.Devialet.MasterOfPuppets.BouquetId\"\x8e\x01\n\x10\x41\x64\x64RendererQuery\x12\x38\n\nrendererId\x18\x01 \x02(\x0b\x32$.Devialet.MasterOfPuppets.RendererId\x12\x0c\n\x04name\x18\x02 \x02(\t\x12\x32\n\x07groupId\x18\x03 \x02(\x0b\x32!.Devialet.MasterOfPuppets.GroupId\"\x7f\n\x0eMoveGroupQuery\x12\x32\n\x07groupId\x18\x01 \x02(\x0b\x32!.Devialet.MasterOfPuppets.GroupId\x12\x39\n\x0cnewBouquetId\x18\x02 \x02(\x0b\x32#.Devialet.MasterOfPuppets.BouquetId\"\x84\x01\n\x11MoveRendererQuery\x12\x38\n\nrendererId\x18\x01 \x02(\x0b\x32$.Devialet.MasterOfPuppets.RendererId\x12\x35\n\nnewGroupId\x18\x02 \x02(\x0b\x32!.Devialet.MasterOfPuppets.GroupId\"\'\n\x0bRenameQuery\x12\n\n\x02id\x18\x01 \x02(\x0c\x12\x0c\n\x04name\x18\x02 \x02(\t\"R\n\x18\x42ouquetAddedNotification\x12\x36\n\tbouquetId\x18\x01 \x02(\x0b\x32#.Devialet.MasterOfPuppets.BouquetId\"\x8c\x01\n\x16GroupAddedNotification\x12\x35\n\x08parentId\x18\x01 \x02(\x0b\x32#.Devialet.MasterOfPuppets.BouquetId\x12-\n\x02id\x18\x02 \x02(\x0b\x32!.Devialet.MasterOfPuppets.GroupId\x12\x0c\n\x04name\x18\x03 \x02(\t\"\xa5\x01\n\x19RendererAddedNotification\x12\x33\n\x08parentId\x18\x01 \x02(\x0b\x32!.Devialet.MasterOfPuppets.GroupId\x12\x30\n\x02id\x18\x02 \x02(\x0b\x32$.Devialet.MasterOfPuppets.RendererId\x12\x0c\n\x04name\x18\x03 \x02(\t\x12\x13\n\x0bisActivated\x18\x04 \x02(\x08\"b\n\x11StateNotification\x12\x38\n\nrendererId\x18\x01 \x02(\x0b\x32$.Devialet.MasterOfPuppets.RendererId\x12\x13\n\x0bisActivated\x18\x02 \x02(\x08\x32\xaf\x11\n\rConfiguration\x12P\n\naddBouquet\x12\x1b.Devialet.CallMeMaybe.Empty\x1a#.Devialet.MasterOfPuppets.BouquetId\"\x00\x12S\n\rremoveBouquet\x12#.Devialet.MasterOfPuppets.BouquetId\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12X\n\x08\x61\x64\x64Group\x12\'.Devialet.MasterOfPuppets.AddGroupQuery\x1a!.Devialet.MasterOfPuppets.GroupId\"\x00\x12X\n\x0cisolateGroup\x12!.Devialet.MasterOfPuppets.GroupId\x1a#.Devialet.MasterOfPuppets.BouquetId\"\x00\x12T\n\tmoveGroup\x12(.Devialet.MasterOfPuppets.MoveGroupQuery\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12O\n\x0bremoveGroup\x12!.Devialet.MasterOfPuppets.GroupId\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12S\n\x0brenameGroup\x12%.Devialet.MasterOfPuppets.RenameQuery\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12X\n\x0b\x61\x64\x64Renderer\x12*.Devialet.MasterOfPuppets.AddRendererQuery\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12Z\n\x0cmoveRenderer\x12+.Devialet.MasterOfPuppets.MoveRendererQuery\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12U\n\x0eremoveRenderer\x12$.Devialet.MasterOfPuppets.RendererId\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12V\n\x0erenameRenderer\x12%.Devialet.MasterOfPuppets.RenameQuery\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12\x66\n\x0c\x62ouquetAdded\x12\x32.Devialet.MasterOfPuppets.BouquetAddedNotification\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x12Y\n\x0e\x62ouquetRemoved\x12#.Devialet.MasterOfPuppets.BouquetId\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x12[\n\x0e\x62ouquetRenamed\x12%.Devialet.MasterOfPuppets.RenameQuery\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x12\x62\n\ngroupAdded\x12\x30.Devialet.MasterOfPuppets.GroupAddedNotification\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x12Z\n\ngroupMoved\x12(.Devialet.MasterOfPuppets.MoveGroupQuery\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x12U\n\x0cgroupRemoved\x12!.Devialet.MasterOfPuppets.GroupId\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x12Y\n\x0cgroupRenamed\x12%.Devialet.MasterOfPuppets.RenameQuery\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x12h\n\rrendererAdded\x12\x33.Devialet.MasterOfPuppets.RendererAddedNotification\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x12`\n\rrendererMoved\x12+.Devialet.MasterOfPuppets.MoveRendererQuery\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x12[\n\x0frendererRemoved\x12$.Devialet.MasterOfPuppets.RendererId\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x12\\\n\x0frendererRenamed\x12%.Devialet.MasterOfPuppets.RenameQuery\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x12g\n\x14rendererStateChanged\x12+.Devialet.MasterOfPuppets.StateNotification\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x1a`\x92M]\n,com.devialet.masterofpuppets.configuration-0\"-\n+\n!Devialet.MasterOfPuppets.NodeRoot\x12\x04root \x01\x42\x03\x90\x01\x01')
   ,
   dependencies=[CallMeMaybe_dot_CommonMessages__pb2.DESCRIPTOR,CallMeMaybe_dot_CallMeMaybe__pb2.DESCRIPTOR,])
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
@@ -790,6 +792,238 @@ StateNotification = _reflection.GeneratedProtocolMessageType('StateNotification'
   # @@protoc_insertion_point(class_scope:Devialet.MasterOfPuppets.StateNotification)
   ))
 _sym_db.RegisterMessage(StateNotification)
+
+
+DESCRIPTOR.has_options = True
+DESCRIPTOR._options = _descriptor._ParseOptions(descriptor_pb2.FileOptions(), _b('\220\001\001'))
+
+_CONFIGURATION = _descriptor.ServiceDescriptor(
+  name='Configuration',
+  full_name='Devialet.MasterOfPuppets.Configuration',
+  file=DESCRIPTOR,
+  index=0,
+  options=_descriptor._ParseOptions(descriptor_pb2.ServiceOptions(), _b('\222M]\n,com.devialet.masterofpuppets.configuration-0\"-\n+\n!Devialet.MasterOfPuppets.NodeRoot\022\004root \001')),
+  serialized_start=1678,
+  serialized_end=3901,
+  methods=[
+  _descriptor.MethodDescriptor(
+    name='addBouquet',
+    full_name='Devialet.MasterOfPuppets.Configuration.addBouquet',
+    index=0,
+    containing_service=None,
+    input_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    output_type=_BOUQUETID,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='removeBouquet',
+    full_name='Devialet.MasterOfPuppets.Configuration.removeBouquet',
+    index=1,
+    containing_service=None,
+    input_type=_BOUQUETID,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='addGroup',
+    full_name='Devialet.MasterOfPuppets.Configuration.addGroup',
+    index=2,
+    containing_service=None,
+    input_type=_ADDGROUPQUERY,
+    output_type=_GROUPID,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='isolateGroup',
+    full_name='Devialet.MasterOfPuppets.Configuration.isolateGroup',
+    index=3,
+    containing_service=None,
+    input_type=_GROUPID,
+    output_type=_BOUQUETID,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='moveGroup',
+    full_name='Devialet.MasterOfPuppets.Configuration.moveGroup',
+    index=4,
+    containing_service=None,
+    input_type=_MOVEGROUPQUERY,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='removeGroup',
+    full_name='Devialet.MasterOfPuppets.Configuration.removeGroup',
+    index=5,
+    containing_service=None,
+    input_type=_GROUPID,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='renameGroup',
+    full_name='Devialet.MasterOfPuppets.Configuration.renameGroup',
+    index=6,
+    containing_service=None,
+    input_type=_RENAMEQUERY,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='addRenderer',
+    full_name='Devialet.MasterOfPuppets.Configuration.addRenderer',
+    index=7,
+    containing_service=None,
+    input_type=_ADDRENDERERQUERY,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='moveRenderer',
+    full_name='Devialet.MasterOfPuppets.Configuration.moveRenderer',
+    index=8,
+    containing_service=None,
+    input_type=_MOVERENDERERQUERY,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='removeRenderer',
+    full_name='Devialet.MasterOfPuppets.Configuration.removeRenderer',
+    index=9,
+    containing_service=None,
+    input_type=_RENDERERID,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='renameRenderer',
+    full_name='Devialet.MasterOfPuppets.Configuration.renameRenderer',
+    index=10,
+    containing_service=None,
+    input_type=_RENAMEQUERY,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='bouquetAdded',
+    full_name='Devialet.MasterOfPuppets.Configuration.bouquetAdded',
+    index=11,
+    containing_service=None,
+    input_type=_BOUQUETADDEDNOTIFICATION,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=_descriptor._ParseOptions(descriptor_pb2.MethodOptions(), _b('\222M\002\010\001')),
+  ),
+  _descriptor.MethodDescriptor(
+    name='bouquetRemoved',
+    full_name='Devialet.MasterOfPuppets.Configuration.bouquetRemoved',
+    index=12,
+    containing_service=None,
+    input_type=_BOUQUETID,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=_descriptor._ParseOptions(descriptor_pb2.MethodOptions(), _b('\222M\002\010\001')),
+  ),
+  _descriptor.MethodDescriptor(
+    name='bouquetRenamed',
+    full_name='Devialet.MasterOfPuppets.Configuration.bouquetRenamed',
+    index=13,
+    containing_service=None,
+    input_type=_RENAMEQUERY,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=_descriptor._ParseOptions(descriptor_pb2.MethodOptions(), _b('\222M\002\010\001')),
+  ),
+  _descriptor.MethodDescriptor(
+    name='groupAdded',
+    full_name='Devialet.MasterOfPuppets.Configuration.groupAdded',
+    index=14,
+    containing_service=None,
+    input_type=_GROUPADDEDNOTIFICATION,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=_descriptor._ParseOptions(descriptor_pb2.MethodOptions(), _b('\222M\002\010\001')),
+  ),
+  _descriptor.MethodDescriptor(
+    name='groupMoved',
+    full_name='Devialet.MasterOfPuppets.Configuration.groupMoved',
+    index=15,
+    containing_service=None,
+    input_type=_MOVEGROUPQUERY,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=_descriptor._ParseOptions(descriptor_pb2.MethodOptions(), _b('\222M\002\010\001')),
+  ),
+  _descriptor.MethodDescriptor(
+    name='groupRemoved',
+    full_name='Devialet.MasterOfPuppets.Configuration.groupRemoved',
+    index=16,
+    containing_service=None,
+    input_type=_GROUPID,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=_descriptor._ParseOptions(descriptor_pb2.MethodOptions(), _b('\222M\002\010\001')),
+  ),
+  _descriptor.MethodDescriptor(
+    name='groupRenamed',
+    full_name='Devialet.MasterOfPuppets.Configuration.groupRenamed',
+    index=17,
+    containing_service=None,
+    input_type=_RENAMEQUERY,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=_descriptor._ParseOptions(descriptor_pb2.MethodOptions(), _b('\222M\002\010\001')),
+  ),
+  _descriptor.MethodDescriptor(
+    name='rendererAdded',
+    full_name='Devialet.MasterOfPuppets.Configuration.rendererAdded',
+    index=18,
+    containing_service=None,
+    input_type=_RENDERERADDEDNOTIFICATION,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=_descriptor._ParseOptions(descriptor_pb2.MethodOptions(), _b('\222M\002\010\001')),
+  ),
+  _descriptor.MethodDescriptor(
+    name='rendererMoved',
+    full_name='Devialet.MasterOfPuppets.Configuration.rendererMoved',
+    index=19,
+    containing_service=None,
+    input_type=_MOVERENDERERQUERY,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=_descriptor._ParseOptions(descriptor_pb2.MethodOptions(), _b('\222M\002\010\001')),
+  ),
+  _descriptor.MethodDescriptor(
+    name='rendererRemoved',
+    full_name='Devialet.MasterOfPuppets.Configuration.rendererRemoved',
+    index=20,
+    containing_service=None,
+    input_type=_RENDERERID,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=_descriptor._ParseOptions(descriptor_pb2.MethodOptions(), _b('\222M\002\010\001')),
+  ),
+  _descriptor.MethodDescriptor(
+    name='rendererRenamed',
+    full_name='Devialet.MasterOfPuppets.Configuration.rendererRenamed',
+    index=21,
+    containing_service=None,
+    input_type=_RENAMEQUERY,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=_descriptor._ParseOptions(descriptor_pb2.MethodOptions(), _b('\222M\002\010\001')),
+  ),
+  _descriptor.MethodDescriptor(
+    name='rendererStateChanged',
+    full_name='Devialet.MasterOfPuppets.Configuration.rendererStateChanged',
+    index=22,
+    containing_service=None,
+    input_type=_STATENOTIFICATION,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=_descriptor._ParseOptions(descriptor_pb2.MethodOptions(), _b('\222M\002\010\001')),
+  ),
+])
+
+Configuration = service_reflection.GeneratedServiceType('Configuration', (_service.Service,), dict(
+  DESCRIPTOR = _CONFIGURATION,
+  __module__ = 'MasterOfPuppets.Configuration_pb2'
+  ))
+
+Configuration_Stub = service_reflection.GeneratedServiceStubType('Configuration_Stub', (Configuration,), dict(
+  DESCRIPTOR = _CONFIGURATION,
+  __module__ = 'MasterOfPuppets.Configuration_pb2'
+  ))
 
 
 # @@protoc_insertion_point(module_scope)

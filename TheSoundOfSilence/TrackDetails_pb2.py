@@ -21,7 +21,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='TheSoundOfSilence/TrackDetails.proto',
   package='Devialet.AudioSource',
   syntax='proto2',
-  serialized_pb=_b('\n$TheSoundOfSilence/TrackDetails.proto\x12\x14\x44\x65vialet.AudioSource\x1a\x1dTheSoundOfSilence/Track.proto\x1a\x1fTheSoundOfSilence/Picture.proto\"\x9e\x01\n\x0cTrackDetails\x12*\n\x05track\x18\x01 \x02(\x0b\x32\x1b.Devialet.AudioSource.Track\x12\x32\n\tpictureId\x18\x02 \x02(\x0b\x32\x1f.Devialet.AudioSource.PictureId\x12.\n\x07picture\x18\x03 \x02(\x0b\x32\x1d.Devialet.AudioSource.Picture\"J\n\rTracksDetails\x12\x39\n\rtracksDetails\x18\x01 \x03(\x0b\x32\".Devialet.AudioSource.TrackDetails')
+  serialized_pb=_b('\n$TheSoundOfSilence/TrackDetails.proto\x12\x14\x44\x65vialet.AudioSource\x1a\x1dTheSoundOfSilence/Track.proto\x1a\x1fTheSoundOfSilence/Picture.proto\"\x9e\x01\n\x0cTrackDetails\x12*\n\x05track\x18\x01 \x02(\x0b\x32\x1b.Devialet.AudioSource.Track\x12\x32\n\tpictureId\x18\x02 \x02(\x0b\x32\x1f.Devialet.AudioSource.PictureId\x12.\n\x07picture\x18\x03 \x02(\x0b\x32\x1d.Devialet.AudioSource.Picture\"J\n\rTracksDetails\x12\x39\n\rtracksDetails\x18\x01 \x03(\x0b\x32\".Devialet.AudioSource.TrackDetailsB\x03\x90\x01\x01')
   ,
   dependencies=[TheSoundOfSilence_dot_Track__pb2.DESCRIPTOR,TheSoundOfSilence_dot_Picture__pb2.DESCRIPTOR,])
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
@@ -126,4 +126,6 @@ TracksDetails = _reflection.GeneratedProtocolMessageType('TracksDetails', (_mess
 _sym_db.RegisterMessage(TracksDetails)
 
 
+DESCRIPTOR.has_options = True
+DESCRIPTOR._options = _descriptor._ParseOptions(descriptor_pb2.FileOptions(), _b('\220\001\001'))
 # @@protoc_insertion_point(module_scope)

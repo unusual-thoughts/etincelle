@@ -7,6 +7,8 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
+from google.protobuf import service as _service
+from google.protobuf import service_reflection
 from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
@@ -21,13 +23,173 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='TwerkIt/SoundDesign.proto',
   package='Devialet.TwerkIt',
   syntax='proto2',
-  serialized_pb=_b('\n\x19TwerkIt/SoundDesign.proto\x12\x10\x44\x65vialet.TwerkIt\x1a CallMeMaybe/CommonMessages.proto\x1a\x1d\x43\x61llMeMaybe/CallMeMaybe.proto2\xce\t\n\x0bSoundDesign\x12K\n\rallDeviceDone\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12Q\n\x13\x61llDevicesConnected\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12O\n\x11\x61llDevicesGrouped\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12L\n\x0e\x61llInputsSetup\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12Q\n\x13pacoSelectedChannel\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12O\n\x11pacoSelectedGroup\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12Q\n\x13pacoSelectedOptical\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12U\n\x17receivedNetworkSettings\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12J\n\x0cremotePaired\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12G\n\tpacoHappy\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12I\n\x0bpacoUnhappy\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12G\n\tdemoPulse\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12L\n\x0e\x64\x65moSlowMotion\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12\x46\n\x08\x64\x65moWave\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12J\n\x0c\x64isconnected\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x1a\'\x92M$\n\"com.devialet.twerkit.sounddesign-0')
+  serialized_pb=_b('\n\x19TwerkIt/SoundDesign.proto\x12\x10\x44\x65vialet.TwerkIt\x1a CallMeMaybe/CommonMessages.proto\x1a\x1d\x43\x61llMeMaybe/CallMeMaybe.proto2\xce\t\n\x0bSoundDesign\x12K\n\rallDeviceDone\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12Q\n\x13\x61llDevicesConnected\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12O\n\x11\x61llDevicesGrouped\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12L\n\x0e\x61llInputsSetup\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12Q\n\x13pacoSelectedChannel\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12O\n\x11pacoSelectedGroup\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12Q\n\x13pacoSelectedOptical\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12U\n\x17receivedNetworkSettings\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12J\n\x0cremotePaired\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12G\n\tpacoHappy\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12I\n\x0bpacoUnhappy\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12G\n\tdemoPulse\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12L\n\x0e\x64\x65moSlowMotion\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12\x46\n\x08\x64\x65moWave\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12J\n\x0c\x64isconnected\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x1a\'\x92M$\n\"com.devialet.twerkit.sounddesign-0B\x03\x90\x01\x01')
   ,
   dependencies=[CallMeMaybe_dot_CommonMessages__pb2.DESCRIPTOR,CallMeMaybe_dot_CallMeMaybe__pb2.DESCRIPTOR,])
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
+
+
+DESCRIPTOR.has_options = True
+DESCRIPTOR._options = _descriptor._ParseOptions(descriptor_pb2.FileOptions(), _b('\220\001\001'))
+
+_SOUNDDESIGN = _descriptor.ServiceDescriptor(
+  name='SoundDesign',
+  full_name='Devialet.TwerkIt.SoundDesign',
+  file=DESCRIPTOR,
+  index=0,
+  options=_descriptor._ParseOptions(descriptor_pb2.ServiceOptions(), _b('\222M$\n\"com.devialet.twerkit.sounddesign-0')),
+  serialized_start=113,
+  serialized_end=1343,
+  methods=[
+  _descriptor.MethodDescriptor(
+    name='allDeviceDone',
+    full_name='Devialet.TwerkIt.SoundDesign.allDeviceDone',
+    index=0,
+    containing_service=None,
+    input_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='allDevicesConnected',
+    full_name='Devialet.TwerkIt.SoundDesign.allDevicesConnected',
+    index=1,
+    containing_service=None,
+    input_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='allDevicesGrouped',
+    full_name='Devialet.TwerkIt.SoundDesign.allDevicesGrouped',
+    index=2,
+    containing_service=None,
+    input_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='allInputsSetup',
+    full_name='Devialet.TwerkIt.SoundDesign.allInputsSetup',
+    index=3,
+    containing_service=None,
+    input_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='pacoSelectedChannel',
+    full_name='Devialet.TwerkIt.SoundDesign.pacoSelectedChannel',
+    index=4,
+    containing_service=None,
+    input_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='pacoSelectedGroup',
+    full_name='Devialet.TwerkIt.SoundDesign.pacoSelectedGroup',
+    index=5,
+    containing_service=None,
+    input_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='pacoSelectedOptical',
+    full_name='Devialet.TwerkIt.SoundDesign.pacoSelectedOptical',
+    index=6,
+    containing_service=None,
+    input_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='receivedNetworkSettings',
+    full_name='Devialet.TwerkIt.SoundDesign.receivedNetworkSettings',
+    index=7,
+    containing_service=None,
+    input_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='remotePaired',
+    full_name='Devialet.TwerkIt.SoundDesign.remotePaired',
+    index=8,
+    containing_service=None,
+    input_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='pacoHappy',
+    full_name='Devialet.TwerkIt.SoundDesign.pacoHappy',
+    index=9,
+    containing_service=None,
+    input_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='pacoUnhappy',
+    full_name='Devialet.TwerkIt.SoundDesign.pacoUnhappy',
+    index=10,
+    containing_service=None,
+    input_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='demoPulse',
+    full_name='Devialet.TwerkIt.SoundDesign.demoPulse',
+    index=11,
+    containing_service=None,
+    input_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='demoSlowMotion',
+    full_name='Devialet.TwerkIt.SoundDesign.demoSlowMotion',
+    index=12,
+    containing_service=None,
+    input_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='demoWave',
+    full_name='Devialet.TwerkIt.SoundDesign.demoWave',
+    index=13,
+    containing_service=None,
+    input_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='disconnected',
+    full_name='Devialet.TwerkIt.SoundDesign.disconnected',
+    index=14,
+    containing_service=None,
+    input_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=None,
+  ),
+])
+
+SoundDesign = service_reflection.GeneratedServiceType('SoundDesign', (_service.Service,), dict(
+  DESCRIPTOR = _SOUNDDESIGN,
+  __module__ = 'TwerkIt.SoundDesign_pb2'
+  ))
+
+SoundDesign_Stub = service_reflection.GeneratedServiceStubType('SoundDesign_Stub', (SoundDesign,), dict(
+  DESCRIPTOR = _SOUNDDESIGN,
+  __module__ = 'TwerkIt.SoundDesign_pb2'
+  ))
 
 
 # @@protoc_insertion_point(module_scope)

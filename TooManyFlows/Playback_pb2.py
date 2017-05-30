@@ -7,6 +7,8 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
+from google.protobuf import service as _service
+from google.protobuf import service_reflection
 from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
@@ -21,7 +23,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='TooManyFlows/Playback.proto',
   package='Devialet.TooManyFlows',
   syntax='proto2',
-  serialized_pb=_b('\n\x1bTooManyFlows/Playback.proto\x12\x15\x44\x65vialet.TooManyFlows\x1a CallMeMaybe/CommonMessages.proto\x1a\x1d\x43\x61llMeMaybe/CallMeMaybe.proto\"\x19\n\x08IndexMsg\x12\r\n\x05value\x18\x01 \x02(\r\"4\n\x0eProgressionMsg\x12\x10\n\x08position\x18\x01 \x02(\x03\x12\x10\n\x08\x64uration\x18\x02 \x02(\x03\"F\n\x08StateMsg\x12\x0c\n\x04type\x18\x01 \x02(\r\",\n\x04Type\x12\n\n\x06Paused\x10\x01\x12\x0b\n\x07Playing\x10\x02\x12\x0b\n\x07Stopped\x10\x03\"\x19\n\x07SeekMsg\x12\x0e\n\x06offset\x18\x01 \x02(\x03\"}\n\rPlaybackError\"l\n\x04\x43ode\x12\x16\n\x12LinkRendererFailed\x10\x01\x12\x18\n\x14UnlinkRendererFailed\x10\x02\x12\x17\n\x13NoAvailablePlayback\x10\x03\x12\x19\n\x15RequestAlreadyRunning\x10\x04\x32\xa5\x06\n\x08Playback\x12\x44\n\x02\x61t\x12\x1f.Devialet.TooManyFlows.IndexMsg\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12\x42\n\x04next\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12\x43\n\x05pause\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12\x42\n\x04play\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12\x42\n\x04prev\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12\x45\n\x04seek\x12\x1e.Devialet.TooManyFlows.SeekMsg\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12\x42\n\x04stop\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12N\n\x07playUrl\x12$.Devialet.CallMeMaybe.StringProperty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x1a\xe6\x01\x92M\xe2\x01\n$com.devialet.toomanyflows.playback-0\x1a(Devialet.TooManyFlows.PlaybackError.Code\"\x8f\x01\n)\n!Devialet.CallMeMaybe.BoolProperty\x12\x04loop\n7\n$Devialet.TooManyFlows.ProgressionMsg\x12\x0bprogression\x18\x01(\x00\n)\n\x1e\x44\x65vialet.TooManyFlows.StateMsg\x12\x05state\x18\x01')
+  serialized_pb=_b('\n\x1bTooManyFlows/Playback.proto\x12\x15\x44\x65vialet.TooManyFlows\x1a CallMeMaybe/CommonMessages.proto\x1a\x1d\x43\x61llMeMaybe/CallMeMaybe.proto\"\x19\n\x08IndexMsg\x12\r\n\x05value\x18\x01 \x02(\r\"4\n\x0eProgressionMsg\x12\x10\n\x08position\x18\x01 \x02(\x03\x12\x10\n\x08\x64uration\x18\x02 \x02(\x03\"F\n\x08StateMsg\x12\x0c\n\x04type\x18\x01 \x02(\r\",\n\x04Type\x12\n\n\x06Paused\x10\x01\x12\x0b\n\x07Playing\x10\x02\x12\x0b\n\x07Stopped\x10\x03\"\x19\n\x07SeekMsg\x12\x0e\n\x06offset\x18\x01 \x02(\x03\"}\n\rPlaybackError\"l\n\x04\x43ode\x12\x16\n\x12LinkRendererFailed\x10\x01\x12\x18\n\x14UnlinkRendererFailed\x10\x02\x12\x17\n\x13NoAvailablePlayback\x10\x03\x12\x19\n\x15RequestAlreadyRunning\x10\x04\x32\xa5\x06\n\x08Playback\x12\x44\n\x02\x61t\x12\x1f.Devialet.TooManyFlows.IndexMsg\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12\x42\n\x04next\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12\x43\n\x05pause\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12\x42\n\x04play\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12\x42\n\x04prev\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12\x45\n\x04seek\x12\x1e.Devialet.TooManyFlows.SeekMsg\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12\x42\n\x04stop\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12N\n\x07playUrl\x12$.Devialet.CallMeMaybe.StringProperty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x1a\xe6\x01\x92M\xe2\x01\n$com.devialet.toomanyflows.playback-0\x1a(Devialet.TooManyFlows.PlaybackError.Code\"\x8f\x01\n)\n!Devialet.CallMeMaybe.BoolProperty\x12\x04loop\n7\n$Devialet.TooManyFlows.ProgressionMsg\x12\x0bprogression\x18\x01(\x00\n)\n\x1e\x44\x65vialet.TooManyFlows.StateMsg\x12\x05state\x18\x01\x42\x03\x90\x01\x01')
   ,
   dependencies=[CallMeMaybe_dot_CommonMessages__pb2.DESCRIPTOR,CallMeMaybe_dot_CallMeMaybe__pb2.DESCRIPTOR,])
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
@@ -283,6 +285,103 @@ PlaybackError = _reflection.GeneratedProtocolMessageType('PlaybackError', (_mess
   # @@protoc_insertion_point(class_scope:Devialet.TooManyFlows.PlaybackError)
   ))
 _sym_db.RegisterMessage(PlaybackError)
+
+
+DESCRIPTOR.has_options = True
+DESCRIPTOR._options = _descriptor._ParseOptions(descriptor_pb2.FileOptions(), _b('\220\001\001'))
+
+_PLAYBACK = _descriptor.ServiceDescriptor(
+  name='Playback',
+  full_name='Devialet.TooManyFlows.Playback',
+  file=DESCRIPTOR,
+  index=0,
+  options=_descriptor._ParseOptions(descriptor_pb2.ServiceOptions(), _b('\222M\342\001\n$com.devialet.toomanyflows.playback-0\032(Devialet.TooManyFlows.PlaybackError.Code\"\217\001\n)\n!Devialet.CallMeMaybe.BoolProperty\022\004loop\n7\n$Devialet.TooManyFlows.ProgressionMsg\022\013progression\030\001(\000\n)\n\036Devialet.TooManyFlows.StateMsg\022\005state\030\001')),
+  serialized_start=427,
+  serialized_end=1232,
+  methods=[
+  _descriptor.MethodDescriptor(
+    name='at',
+    full_name='Devialet.TooManyFlows.Playback.at',
+    index=0,
+    containing_service=None,
+    input_type=_INDEXMSG,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='next',
+    full_name='Devialet.TooManyFlows.Playback.next',
+    index=1,
+    containing_service=None,
+    input_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='pause',
+    full_name='Devialet.TooManyFlows.Playback.pause',
+    index=2,
+    containing_service=None,
+    input_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='play',
+    full_name='Devialet.TooManyFlows.Playback.play',
+    index=3,
+    containing_service=None,
+    input_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='prev',
+    full_name='Devialet.TooManyFlows.Playback.prev',
+    index=4,
+    containing_service=None,
+    input_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='seek',
+    full_name='Devialet.TooManyFlows.Playback.seek',
+    index=5,
+    containing_service=None,
+    input_type=_SEEKMSG,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='stop',
+    full_name='Devialet.TooManyFlows.Playback.stop',
+    index=6,
+    containing_service=None,
+    input_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='playUrl',
+    full_name='Devialet.TooManyFlows.Playback.playUrl',
+    index=7,
+    containing_service=None,
+    input_type=CallMeMaybe_dot_CommonMessages__pb2._STRINGPROPERTY,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=None,
+  ),
+])
+
+Playback = service_reflection.GeneratedServiceType('Playback', (_service.Service,), dict(
+  DESCRIPTOR = _PLAYBACK,
+  __module__ = 'TooManyFlows.Playback_pb2'
+  ))
+
+Playback_Stub = service_reflection.GeneratedServiceStubType('Playback_Stub', (Playback,), dict(
+  DESCRIPTOR = _PLAYBACK,
+  __module__ = 'TooManyFlows.Playback_pb2'
+  ))
 
 
 # @@protoc_insertion_point(module_scope)

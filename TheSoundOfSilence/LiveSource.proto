@@ -1,9 +1,10 @@
-// Reversed by pbd (https://github.com/rsc-dev/pbd)
+syntax = "proto2";
 package Devialet.AudioSource;
 import "CallMeMaybe/CommonMessages.proto";
 import "TheSoundOfSilence/Session.proto";
 import "TheSoundOfSilence/Picture.proto";
 import "CallMeMaybe/CallMeMaybe.proto";
+option py_generic_services = true;
 
 message InputTypeMsg {
 	required uint32 type = 1 ;
@@ -35,7 +36,7 @@ message LiveSourceAvailableMethods {
 	required bool hasInputTypeId = 1 ;
 	required bool isNameUserEditable = 2 ;
 	required bool isSelectable = 3 ;
-	optional bool allowToDisableAutoSwitch = 4 [default = true];
+	optional bool allowToDisableAutoSwitch = 4 [default = true] ;
 }
 
 message LoadSessionQuery {

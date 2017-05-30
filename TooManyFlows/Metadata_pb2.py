@@ -7,6 +7,8 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
+from google.protobuf import service as _service
+from google.protobuf import service_reflection
 from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
@@ -20,13 +22,38 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='TooManyFlows/Metadata.proto',
   package='Devialet.TooManyFlows',
   syntax='proto2',
-  serialized_pb=_b('\n\x1bTooManyFlows/Metadata.proto\x12\x15\x44\x65vialet.TooManyFlows\x1a\x1d\x43\x61llMeMaybe/CallMeMaybe.proto2\xb2\x04\n\x08Metadata\x1a\xa5\x04\x92M\xa1\x04\n$com.devialet.toomanyflows.metadata-0\"\xf8\x03\n.\n#Devialet.CallMeMaybe.StringProperty\x12\x05\x61lbum\x18\x01\n4\n#Devialet.CallMeMaybe.StringProperty\x12\x0b\x61lbumArtist\x18\x01\n/\n#Devialet.CallMeMaybe.StringProperty\x12\x06\x61rtist\x18\x01\n1\n#Devialet.CallMeMaybe.UInt64Property\x12\x08\x64uration\x18\x01\n.\n#Devialet.CallMeMaybe.StringProperty\x12\x05genre\x18\x01\n1\n#Devialet.CallMeMaybe.StringProperty\x12\x08homepage\x18\x01\n1\n#Devialet.CallMeMaybe.StringProperty\x12\x08location\x18\x01\n5\n#Devialet.CallMeMaybe.StringProperty\x12\x0corganization\x18\x01\n/\n\"Devialet.CallMeMaybe.BytesProperty\x12\x07picture\x18\x01\n.\n#Devialet.CallMeMaybe.StringProperty\x12\x05title\x18\x01')
+  serialized_pb=_b('\n\x1bTooManyFlows/Metadata.proto\x12\x15\x44\x65vialet.TooManyFlows\x1a\x1d\x43\x61llMeMaybe/CallMeMaybe.proto2\xb2\x04\n\x08Metadata\x1a\xa5\x04\x92M\xa1\x04\n$com.devialet.toomanyflows.metadata-0\"\xf8\x03\n.\n#Devialet.CallMeMaybe.StringProperty\x12\x05\x61lbum\x18\x01\n4\n#Devialet.CallMeMaybe.StringProperty\x12\x0b\x61lbumArtist\x18\x01\n/\n#Devialet.CallMeMaybe.StringProperty\x12\x06\x61rtist\x18\x01\n1\n#Devialet.CallMeMaybe.UInt64Property\x12\x08\x64uration\x18\x01\n.\n#Devialet.CallMeMaybe.StringProperty\x12\x05genre\x18\x01\n1\n#Devialet.CallMeMaybe.StringProperty\x12\x08homepage\x18\x01\n1\n#Devialet.CallMeMaybe.StringProperty\x12\x08location\x18\x01\n5\n#Devialet.CallMeMaybe.StringProperty\x12\x0corganization\x18\x01\n/\n\"Devialet.CallMeMaybe.BytesProperty\x12\x07picture\x18\x01\n.\n#Devialet.CallMeMaybe.StringProperty\x12\x05title\x18\x01\x42\x03\x90\x01\x01')
   ,
   dependencies=[CallMeMaybe_dot_CallMeMaybe__pb2.DESCRIPTOR,])
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
+
+
+DESCRIPTOR.has_options = True
+DESCRIPTOR._options = _descriptor._ParseOptions(descriptor_pb2.FileOptions(), _b('\220\001\001'))
+
+_METADATA = _descriptor.ServiceDescriptor(
+  name='Metadata',
+  full_name='Devialet.TooManyFlows.Metadata',
+  file=DESCRIPTOR,
+  index=0,
+  options=_descriptor._ParseOptions(descriptor_pb2.ServiceOptions(), _b('\222M\241\004\n$com.devialet.toomanyflows.metadata-0\"\370\003\n.\n#Devialet.CallMeMaybe.StringProperty\022\005album\030\001\n4\n#Devialet.CallMeMaybe.StringProperty\022\013albumArtist\030\001\n/\n#Devialet.CallMeMaybe.StringProperty\022\006artist\030\001\n1\n#Devialet.CallMeMaybe.UInt64Property\022\010duration\030\001\n.\n#Devialet.CallMeMaybe.StringProperty\022\005genre\030\001\n1\n#Devialet.CallMeMaybe.StringProperty\022\010homepage\030\001\n1\n#Devialet.CallMeMaybe.StringProperty\022\010location\030\001\n5\n#Devialet.CallMeMaybe.StringProperty\022\014organization\030\001\n/\n\"Devialet.CallMeMaybe.BytesProperty\022\007picture\030\001\n.\n#Devialet.CallMeMaybe.StringProperty\022\005title\030\001')),
+  serialized_start=86,
+  serialized_end=648,
+  methods=[
+])
+
+Metadata = service_reflection.GeneratedServiceType('Metadata', (_service.Service,), dict(
+  DESCRIPTOR = _METADATA,
+  __module__ = 'TooManyFlows.Metadata_pb2'
+  ))
+
+Metadata_Stub = service_reflection.GeneratedServiceStubType('Metadata_Stub', (Metadata,), dict(
+  DESCRIPTOR = _METADATA,
+  __module__ = 'TooManyFlows.Metadata_pb2'
+  ))
 
 
 # @@protoc_insertion_point(module_scope)

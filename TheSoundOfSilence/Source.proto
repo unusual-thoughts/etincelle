@@ -1,9 +1,10 @@
-// Reversed by pbd (https://github.com/rsc-dev/pbd)
+syntax = "proto2";
 package Devialet.AudioSource;
 import "CallMeMaybe/CommonMessages.proto";
 import "TheSoundOfSilence/Session.proto";
 import "TheSoundOfSilence/Picture.proto";
 import "CallMeMaybe/CallMeMaybe.proto";
+option py_generic_services = true;
 
 message SourceError {
 	

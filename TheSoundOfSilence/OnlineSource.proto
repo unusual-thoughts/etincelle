@@ -1,9 +1,19 @@
-// Reversed by pbd (https://github.com/rsc-dev/pbd)
+syntax = "proto2";
 package Devialet.AudioSource;
-import "CallMeMaybe/CommonMessages.proto";
+import "TheSoundOfSilence/Collection.proto";
 import "TheSoundOfSilence/Session.proto";
+import "TheSoundOfSilence/Album.proto";
+import "TheSoundOfSilence/Picture.proto";
+import "TheSoundOfSilence/Subcategory.proto";
+import "CallMeMaybe/CommonMessages.proto";
 import "TheSoundOfSilence/Node.proto";
 import "CallMeMaybe/CallMeMaybe.proto";
+import "TheSoundOfSilence/Artist.proto";
+import "TheSoundOfSilence/Category.proto";
+import "TheSoundOfSilence/Track.proto";
+import "TheSoundOfSilence/Playlist.proto";
+import "TheSoundOfSilence/TrackDetails.proto";
+option py_generic_services = true;
 
 message OnlineSourceError {
 	
@@ -20,12 +30,12 @@ message OnlineSourceAvailableMethods {
 	required bool isSearchable = 1 ;
 	required bool hasAutocomplete = 2 ;
 	required bool hasBatchMode = 3 ;
-	optional bool supportPlaylistManagement = 4 [default = false];
+	optional bool supportPlaylistManagement = 4 [default = false] ;
 }
 
 message CredentialsLoginRequest {
-	required string login = 1 ;
-	required string password = 2 ;
+	required string login = 1 [(Devialet.CallMeMaybe.dvltFieldOptions) = {logValue: false }];
+	required string password = 2 [(Devialet.CallMeMaybe.dvltFieldOptions) = {logValue: false }];
 }
 
 message OAuthLoginRequest {
@@ -86,8 +96,8 @@ message CollectionRequest {
 message SubcategoryRequest {
 	required bytes id = 1 ;
 	required uint32 type = 2 ;
-	optional uint32 offset = 3 [default = 0];
-	optional uint32 limit = 4 [default = 10];
+	optional uint32 offset = 3 [default = 0] ;
+	optional uint32 limit = 4 [default = 10] ;
 }
 
 message TrackDetailsRequest {
@@ -150,6 +160,84 @@ service AuthenticatedOnlineSource {
 		  property {
 		    type: "Devialet.AudioSource.RegistrationUrl"
 		    name: "registrationUrl"
+		    constant: true
+		  }
+		}
+		
+	};
+}
+
+service OnlineSourceSession {
+	rpc getAlbum(.Devialet.AudioSource.NodeId) returns (.Devialet.AudioSource.Album) {
+	}
+	rpc getArtist(.Devialet.AudioSource.NodeId) returns (.Devialet.AudioSource.Artist) {
+	}
+	rpc getCategory(.Devialet.AudioSource.NodeId) returns (.Devialet.AudioSource.Category) {
+	}
+	rpc getCollection(.Devialet.AudioSource.CollectionRequest) returns (.Devialet.AudioSource.Collection) {
+	}
+	rpc getPictureId(.Devialet.AudioSource.PictureIdRequest) returns (.Devialet.AudioSource.PictureId) {
+	}
+	rpc getPicture(.Devialet.AudioSource.PictureId) returns (.Devialet.AudioSource.Picture) {
+	}
+	rpc getPlaylist(.Devialet.AudioSource.NodeId) returns (.Devialet.AudioSource.Playlist) {
+	}
+	rpc getSubcategory(.Devialet.AudioSource.SubcategoryRequest) returns (.Devialet.AudioSource.Subcategory) {
+	}
+	rpc getTrack(.Devialet.AudioSource.NodeId) returns (.Devialet.AudioSource.Track) {
+	}
+	rpc getTrackDetails(.Devialet.AudioSource.TrackDetailsRequest) returns (.Devialet.AudioSource.TrackDetails) {
+	}
+	rpc getTracksDetails(.Devialet.AudioSource.TracksDetailsRequest) returns (.Devialet.AudioSource.TracksDetails) {
+	}
+	rpc autocomplete(.Devialet.AudioSource.AutocompleteRequest) returns (.Devialet.AudioSource.Nodes) {
+	}
+	rpc search(.Devialet.AudioSource.SearchRequest) returns (.Devialet.AudioSource.Nodes) {
+	}
+	rpc contentChanged(.Devialet.CallMeMaybe.Empty) returns (.Devialet.CallMeMaybe.Empty) {
+		option (Devialet.CallMeMaybe.dvltMethodOptions) = {
+			isNotification: true
+			
+		};
+	}
+	rpc getUserAccountInfo(.Devialet.CallMeMaybe.Empty) returns (.Devialet.AudioSource.UserAccountInfo) {
+	}
+	rpc getSupportedFavorites(.Devialet.CallMeMaybe.Empty) returns (.Devialet.AudioSource.GetSupportedFavoritesReply) {
+	}
+	rpc isFavorite(.Devialet.AudioSource.NodeId) returns (.Devialet.CallMeMaybe.BoolProperty) {
+	}
+	rpc addFavorite(.Devialet.AudioSource.NodeId) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc deleteFavorite(.Devialet.AudioSource.NodeId) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc nodeChanged(.Devialet.AudioSource.NodeId) returns (.Devialet.CallMeMaybe.Empty) {
+		option (Devialet.CallMeMaybe.dvltMethodOptions) = {
+			isNotification: true
+			
+		};
+	}
+	rpc isTrackInPlaylists(.Devialet.AudioSource.NodeId) returns (.Devialet.AudioSource.Nodes) {
+	}
+	rpc getUserPlaylists(.Devialet.CallMeMaybe.Empty) returns (.Devialet.AudioSource.Nodes) {
+	}
+	rpc addTracksToPlaylist(.Devialet.AudioSource.UpdatePlaylistRequest) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc removeTracksFromPlaylist(.Devialet.AudioSource.UpdatePlaylistRequest) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc deletePlaylist(.Devialet.AudioSource.NodeId) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc createPlaylist(.Devialet.AudioSource.CreatePlaylistRequest) returns (.Devialet.AudioSource.NodeId) {
+	}
+	rpc isTrackInPlaylist(.Devialet.AudioSource.IsTrackInPlaylistRequest) returns (.Devialet.CallMeMaybe.BoolProperty) {
+	}
+	option (Devialet.CallMeMaybe.dvltServiceOptions) = {
+		serviceName: "com.devialet.source-session-0.online-0"
+		baseService: "Devialet.AudioSource.SourceSession"
+		errorEnumName: "Devialet.AudioSource.OnlineSourceError.Code"
+		properties {
+		  property {
+		    type: "Devialet.AudioSource.OnlineSourceAvailableMethods"
+		    name: "availableMethods"
 		    constant: true
 		  }
 		}

@@ -1,7 +1,8 @@
-// Reversed by pbd (https://github.com/rsc-dev/pbd)
+syntax = "proto2";
 package Devialet.GetThePartyStarted;
 import "CallMeMaybe/CommonMessages.proto";
 import "CallMeMaybe/CallMeMaybe.proto";
+option py_generic_services = true;
 
 message ConfigurationErrors {
 	
@@ -144,6 +145,89 @@ service SlaveDeviceSetup {
 		    type: "Devialet.GetThePartyStarted.SlaveInfo"
 		    name: "deviceInfo"
 		    constant: true
+		  }
+		}
+		
+	};
+}
+
+service AttachedSlaveDeviceSetup {
+	option (Devialet.CallMeMaybe.dvltServiceOptions) = {
+		serviceName: "com.devialet.getthepartystarted.setup-0.slave-0.attached-0"
+		baseService: "Devialet.GetThePartyStarted.SlaveDeviceSetup"
+		
+	};
+}
+
+service RemoteSlaveDeviceSetup {
+	rpc requestAssociation(.Devialet.CallMeMaybe.Empty) returns (.Devialet.CallMeMaybe.Empty) {
+		option (Devialet.CallMeMaybe.dvltMethodOptions) = {
+			isNotification: true
+			
+		};
+	}
+	rpc setConfiguration(.Devialet.GetThePartyStarted.SetConfigurationRequest) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc applyConfiguration(.Devialet.GetThePartyStarted.SetupToken) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	option (Devialet.CallMeMaybe.dvltServiceOptions) = {
+		serviceName: "com.devialet.getthepartystarted.setup-0.slave-0.remote-0"
+		baseService: "Devialet.GetThePartyStarted.SlaveDeviceSetup"
+		
+	};
+}
+
+service MasterDeviceSetup {
+	rpc associateSlaves(.Devialet.GetThePartyStarted.SetupToken) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc startSlaveAssociation(.Devialet.GetThePartyStarted.SetupToken) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc cancelSlaveAssociation(.Devialet.GetThePartyStarted.SetupToken) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc configureSlaves(.Devialet.GetThePartyStarted.SetupToken) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc slaveFound(.Devialet.GetThePartyStarted.SlaveInfo) returns (.Devialet.CallMeMaybe.Empty) {
+		option (Devialet.CallMeMaybe.dvltMethodOptions) = {
+			isNotification: true
+			
+		};
+	}
+	rpc slaveAssociated(.Devialet.GetThePartyStarted.SlaveInfo) returns (.Devialet.CallMeMaybe.Empty) {
+		option (Devialet.CallMeMaybe.dvltMethodOptions) = {
+			isNotification: true
+			
+		};
+	}
+	rpc slaveConfigured(.Devialet.GetThePartyStarted.SlaveInfo) returns (.Devialet.CallMeMaybe.Empty) {
+		option (Devialet.CallMeMaybe.dvltMethodOptions) = {
+			isNotification: true
+			
+		};
+	}
+	rpc slaveLost(.Devialet.GetThePartyStarted.SlaveInfo) returns (.Devialet.CallMeMaybe.Empty) {
+		option (Devialet.CallMeMaybe.dvltMethodOptions) = {
+			isNotification: true
+			
+		};
+	}
+	option (Devialet.CallMeMaybe.dvltServiceOptions) = {
+		serviceName: "com.devialet.getthepartystarted.setup-0.master-0"
+		baseService: "Devialet.GetThePartyStarted.Setup"
+		properties {
+		  property {
+		    type: "Devialet.GetThePartyStarted.SlaveInfoList"
+		    name: "knownSlaves"
+		    readOnly: true
+		  }
+		  property {
+		    type: "Devialet.GetThePartyStarted.SlaveInfoList"
+		    name: "associatedSlaves"
+		    readOnly: true
+		  }
+		  property {
+		    type: "Devialet.GetThePartyStarted.SlaveInfoList"
+		    name: "configuredSlaves"
+		    readOnly: true
 		  }
 		}
 		

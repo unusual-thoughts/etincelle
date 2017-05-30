@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='TheSoundOfSilence/Subcategory.proto',
   package='Devialet.AudioSource',
   syntax='proto2',
-  serialized_pb=_b('\n#TheSoundOfSilence/Subcategory.proto\x12\x14\x44\x65vialet.AudioSource\x1a\x1cTheSoundOfSilence/Node.proto\"F\n\x0bSubcategory\x12\x0c\n\x04name\x18\x01 \x02(\t\x12)\n\x05nodes\x18\x02 \x03(\x0b\x32\x1a.Devialet.AudioSource.Node')
+  serialized_pb=_b('\n#TheSoundOfSilence/Subcategory.proto\x12\x14\x44\x65vialet.AudioSource\x1a\x1cTheSoundOfSilence/Node.proto\"F\n\x0bSubcategory\x12\x0c\n\x04name\x18\x01 \x02(\t\x12)\n\x05nodes\x18\x02 \x03(\x0b\x32\x1a.Devialet.AudioSource.NodeB\x03\x90\x01\x01')
   ,
   dependencies=[TheSoundOfSilence_dot_Node__pb2.DESCRIPTOR,])
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
@@ -76,4 +76,6 @@ Subcategory = _reflection.GeneratedProtocolMessageType('Subcategory', (_message.
 _sym_db.RegisterMessage(Subcategory)
 
 
+DESCRIPTOR.has_options = True
+DESCRIPTOR._options = _descriptor._ParseOptions(descriptor_pb2.FileOptions(), _b('\220\001\001'))
 # @@protoc_insertion_point(module_scope)

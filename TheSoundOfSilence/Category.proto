@@ -1,6 +1,7 @@
-// Reversed by pbd (https://github.com/rsc-dev/pbd)
+syntax = "proto2";
 package Devialet.AudioSource;
 import "TheSoundOfSilence/Node.proto";
+option py_generic_services = true;
 
 message Category {
 	required string name = 1 ;

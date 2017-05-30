@@ -7,6 +7,8 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
+from google.protobuf import service as _service
+from google.protobuf import service_reflection
 from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
@@ -22,7 +24,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='TooManyFlows/SoundControl.proto',
   package='Devialet.TooManyFlows',
   syntax='proto2',
-  serialized_pb=_b('\n\x1fTooManyFlows/SoundControl.proto\x12\x15\x44\x65vialet.TooManyFlows\x1a CallMeMaybe/CommonMessages.proto\x1a\x1dTooManyFlows/Identifier.proto\x1a\x1d\x43\x61llMeMaybe/CallMeMaybe.proto\"\x17\n\x04Mute\x12\x0f\n\x07\x65nabled\x18\x01 \x02(\x08\"g\n\tGroupMute\x12/\n\x07groupId\x18\x01 \x02(\x0b\x32\x1e.Devialet.TooManyFlows.GroupId\x12)\n\x04mute\x18\x02 \x02(\x0b\x32\x1b.Devialet.TooManyFlows.Mute\"p\n\x0cRendererMute\x12\x35\n\nrendererId\x18\x01 \x02(\x0b\x32!.Devialet.TooManyFlows.RendererId\x12)\n\x04mute\x18\x02 \x02(\x0b\x32\x1b.Devialet.TooManyFlows.Mute\"\x1c\n\tNightMode\x12\x0f\n\x07\x65nabled\x18\x01 \x02(\x08\"v\n\x0eGroupNightMode\x12/\n\x07groupId\x18\x01 \x02(\x0b\x32\x1e.Devialet.TooManyFlows.GroupId\x12\x33\n\tnightMode\x18\x02 \x02(\x0b\x32 .Devialet.TooManyFlows.NightMode\"\x7f\n\x11RendererNightMode\x12\x35\n\nrendererId\x18\x01 \x02(\x0b\x32!.Devialet.TooManyFlows.RendererId\x12\x33\n\tnightMode\x18\x02 \x02(\x0b\x32 .Devialet.TooManyFlows.NightMode\"\x17\n\x06Volume\x12\r\n\x05value\x18\x01 \x02(\x01\"m\n\x0bGroupVolume\x12/\n\x07groupId\x18\x01 \x02(\x0b\x32\x1e.Devialet.TooManyFlows.GroupId\x12-\n\x06volume\x18\x02 \x02(\x0b\x32\x1d.Devialet.TooManyFlows.Volume\"v\n\x0eRendererVolume\x12\x35\n\nrendererId\x18\x01 \x02(\x0b\x32!.Devialet.TooManyFlows.RendererId\x12-\n\x06volume\x18\x02 \x02(\x0b\x32\x1d.Devialet.TooManyFlows.Volume\"\x9b\x01\n\nProperties\x12)\n\x04mute\x18\x01 \x02(\x0b\x32\x1b.Devialet.TooManyFlows.Mute\x12\x33\n\tnightMode\x18\x02 \x02(\x0b\x32 .Devialet.TooManyFlows.NightMode\x12-\n\x06volume\x18\x03 \x02(\x0b\x32\x1d.Devialet.TooManyFlows.Volume\"y\n\x0fGroupProperties\x12/\n\x07groupId\x18\x01 \x02(\x0b\x32\x1e.Devialet.TooManyFlows.GroupId\x12\x35\n\nproperties\x18\x02 \x02(\x0b\x32!.Devialet.TooManyFlows.Properties\"\x82\x01\n\x12RendererProperties\x12\x35\n\nrendererId\x18\x01 \x02(\x0b\x32!.Devialet.TooManyFlows.RendererId\x12\x35\n\nproperties\x18\x02 \x02(\x0b\x32!.Devialet.TooManyFlows.Properties\"\xb9\x01\n\rAllProperties\x12\x32\n\x07\x62ouquet\x18\x01 \x02(\x0b\x32!.Devialet.TooManyFlows.Properties\x12\x36\n\x06groups\x18\x02 \x03(\x0b\x32&.Devialet.TooManyFlows.GroupProperties\x12<\n\trenderers\x18\x03 \x03(\x0b\x32).Devialet.TooManyFlows.RendererProperties2\xc6\x0e\n\x0cSoundControl\x12L\n\x0esetBouquetMute\x12\x1b.Devialet.TooManyFlows.Mute\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12O\n\x0csetGroupMute\x12 .Devialet.TooManyFlows.GroupMute\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12U\n\x0fsetRendererMute\x12#.Devialet.TooManyFlows.RendererMute\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12V\n\x13setBouquetNightMode\x12 .Devialet.TooManyFlows.NightMode\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12Y\n\x11setGroupNightMode\x12%.Devialet.TooManyFlows.GroupNightMode\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12_\n\x14setRendererNightMode\x12(.Devialet.TooManyFlows.RendererNightMode\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12P\n\x10setBouquetVolume\x12\x1d.Devialet.TooManyFlows.Volume\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12S\n\x0esetGroupVolume\x12\".Devialet.TooManyFlows.GroupVolume\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12Y\n\x11setRendererVolume\x12%.Devialet.TooManyFlows.RendererVolume\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12U\n\x12\x62ouquetMuteChanged\x12\x1b.Devialet.TooManyFlows.Mute\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x12X\n\x10groupMuteChanged\x12 .Devialet.TooManyFlows.GroupMute\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x12^\n\x13rendererMuteChanged\x12#.Devialet.TooManyFlows.RendererMute\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x12_\n\x17\x62ouquetNightModeChanged\x12 .Devialet.TooManyFlows.NightMode\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x12\x62\n\x15groupNightModeChanged\x12%.Devialet.TooManyFlows.GroupNightMode\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x12h\n\x18rendererNightModeChanged\x12(.Devialet.TooManyFlows.RendererNightMode\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x12[\n\x14\x62ouquetVolumeChanged\x12\x1d.Devialet.TooManyFlows.Volume\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x07\x92M\x04\x08\x01 \x00\x12^\n\x12groupVolumeChanged\x12\".Devialet.TooManyFlows.GroupVolume\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x07\x92M\x04\x08\x01 \x00\x12\x64\n\x15rendererVolumeChanged\x12%.Devialet.TooManyFlows.RendererVolume\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x07\x92M\x04\x08\x01 \x00\x12^\n\x17setBouquetVolumeByDelta\x12$.Devialet.CallMeMaybe.DoubleProperty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x1ag\x92Md\n(com.devialet.toomanyflows.soundcontrol-0\"8\n6\n#Devialet.TooManyFlows.AllProperties\x12\rallProperties \x01')
+  serialized_pb=_b('\n\x1fTooManyFlows/SoundControl.proto\x12\x15\x44\x65vialet.TooManyFlows\x1a CallMeMaybe/CommonMessages.proto\x1a\x1dTooManyFlows/Identifier.proto\x1a\x1d\x43\x61llMeMaybe/CallMeMaybe.proto\"\x17\n\x04Mute\x12\x0f\n\x07\x65nabled\x18\x01 \x02(\x08\"g\n\tGroupMute\x12/\n\x07groupId\x18\x01 \x02(\x0b\x32\x1e.Devialet.TooManyFlows.GroupId\x12)\n\x04mute\x18\x02 \x02(\x0b\x32\x1b.Devialet.TooManyFlows.Mute\"p\n\x0cRendererMute\x12\x35\n\nrendererId\x18\x01 \x02(\x0b\x32!.Devialet.TooManyFlows.RendererId\x12)\n\x04mute\x18\x02 \x02(\x0b\x32\x1b.Devialet.TooManyFlows.Mute\"\x1c\n\tNightMode\x12\x0f\n\x07\x65nabled\x18\x01 \x02(\x08\"v\n\x0eGroupNightMode\x12/\n\x07groupId\x18\x01 \x02(\x0b\x32\x1e.Devialet.TooManyFlows.GroupId\x12\x33\n\tnightMode\x18\x02 \x02(\x0b\x32 .Devialet.TooManyFlows.NightMode\"\x7f\n\x11RendererNightMode\x12\x35\n\nrendererId\x18\x01 \x02(\x0b\x32!.Devialet.TooManyFlows.RendererId\x12\x33\n\tnightMode\x18\x02 \x02(\x0b\x32 .Devialet.TooManyFlows.NightMode\"\x17\n\x06Volume\x12\r\n\x05value\x18\x01 \x02(\x01\"m\n\x0bGroupVolume\x12/\n\x07groupId\x18\x01 \x02(\x0b\x32\x1e.Devialet.TooManyFlows.GroupId\x12-\n\x06volume\x18\x02 \x02(\x0b\x32\x1d.Devialet.TooManyFlows.Volume\"v\n\x0eRendererVolume\x12\x35\n\nrendererId\x18\x01 \x02(\x0b\x32!.Devialet.TooManyFlows.RendererId\x12-\n\x06volume\x18\x02 \x02(\x0b\x32\x1d.Devialet.TooManyFlows.Volume\"\x9b\x01\n\nProperties\x12)\n\x04mute\x18\x01 \x02(\x0b\x32\x1b.Devialet.TooManyFlows.Mute\x12\x33\n\tnightMode\x18\x02 \x02(\x0b\x32 .Devialet.TooManyFlows.NightMode\x12-\n\x06volume\x18\x03 \x02(\x0b\x32\x1d.Devialet.TooManyFlows.Volume\"y\n\x0fGroupProperties\x12/\n\x07groupId\x18\x01 \x02(\x0b\x32\x1e.Devialet.TooManyFlows.GroupId\x12\x35\n\nproperties\x18\x02 \x02(\x0b\x32!.Devialet.TooManyFlows.Properties\"\x82\x01\n\x12RendererProperties\x12\x35\n\nrendererId\x18\x01 \x02(\x0b\x32!.Devialet.TooManyFlows.RendererId\x12\x35\n\nproperties\x18\x02 \x02(\x0b\x32!.Devialet.TooManyFlows.Properties\"\xb9\x01\n\rAllProperties\x12\x32\n\x07\x62ouquet\x18\x01 \x02(\x0b\x32!.Devialet.TooManyFlows.Properties\x12\x36\n\x06groups\x18\x02 \x03(\x0b\x32&.Devialet.TooManyFlows.GroupProperties\x12<\n\trenderers\x18\x03 \x03(\x0b\x32).Devialet.TooManyFlows.RendererProperties2\xc6\x0e\n\x0cSoundControl\x12L\n\x0esetBouquetMute\x12\x1b.Devialet.TooManyFlows.Mute\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12O\n\x0csetGroupMute\x12 .Devialet.TooManyFlows.GroupMute\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12U\n\x0fsetRendererMute\x12#.Devialet.TooManyFlows.RendererMute\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12V\n\x13setBouquetNightMode\x12 .Devialet.TooManyFlows.NightMode\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12Y\n\x11setGroupNightMode\x12%.Devialet.TooManyFlows.GroupNightMode\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12_\n\x14setRendererNightMode\x12(.Devialet.TooManyFlows.RendererNightMode\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12P\n\x10setBouquetVolume\x12\x1d.Devialet.TooManyFlows.Volume\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12S\n\x0esetGroupVolume\x12\".Devialet.TooManyFlows.GroupVolume\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12Y\n\x11setRendererVolume\x12%.Devialet.TooManyFlows.RendererVolume\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12U\n\x12\x62ouquetMuteChanged\x12\x1b.Devialet.TooManyFlows.Mute\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x12X\n\x10groupMuteChanged\x12 .Devialet.TooManyFlows.GroupMute\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x12^\n\x13rendererMuteChanged\x12#.Devialet.TooManyFlows.RendererMute\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x12_\n\x17\x62ouquetNightModeChanged\x12 .Devialet.TooManyFlows.NightMode\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x12\x62\n\x15groupNightModeChanged\x12%.Devialet.TooManyFlows.GroupNightMode\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x12h\n\x18rendererNightModeChanged\x12(.Devialet.TooManyFlows.RendererNightMode\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x12[\n\x14\x62ouquetVolumeChanged\x12\x1d.Devialet.TooManyFlows.Volume\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x07\x92M\x04\x08\x01 \x00\x12^\n\x12groupVolumeChanged\x12\".Devialet.TooManyFlows.GroupVolume\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x07\x92M\x04\x08\x01 \x00\x12\x64\n\x15rendererVolumeChanged\x12%.Devialet.TooManyFlows.RendererVolume\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x07\x92M\x04\x08\x01 \x00\x12^\n\x17setBouquetVolumeByDelta\x12$.Devialet.CallMeMaybe.DoubleProperty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x1ag\x92Md\n(com.devialet.toomanyflows.soundcontrol-0\"8\n6\n#Devialet.TooManyFlows.AllProperties\x12\rallProperties \x01\x42\x03\x90\x01\x01')
   ,
   dependencies=[CallMeMaybe_dot_CommonMessages__pb2.DESCRIPTOR,TooManyFlows_dot_Identifier__pb2.DESCRIPTOR,CallMeMaybe_dot_CallMeMaybe__pb2.DESCRIPTOR,])
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
@@ -642,6 +644,202 @@ AllProperties = _reflection.GeneratedProtocolMessageType('AllProperties', (_mess
   # @@protoc_insertion_point(class_scope:Devialet.TooManyFlows.AllProperties)
   ))
 _sym_db.RegisterMessage(AllProperties)
+
+
+DESCRIPTOR.has_options = True
+DESCRIPTOR._options = _descriptor._ParseOptions(descriptor_pb2.FileOptions(), _b('\220\001\001'))
+
+_SOUNDCONTROL = _descriptor.ServiceDescriptor(
+  name='SoundControl',
+  full_name='Devialet.TooManyFlows.SoundControl',
+  file=DESCRIPTOR,
+  index=0,
+  options=_descriptor._ParseOptions(descriptor_pb2.ServiceOptions(), _b('\222Md\n(com.devialet.toomanyflows.soundcontrol-0\"8\n6\n#Devialet.TooManyFlows.AllProperties\022\rallProperties \001')),
+  serialized_start=1536,
+  serialized_end=3398,
+  methods=[
+  _descriptor.MethodDescriptor(
+    name='setBouquetMute',
+    full_name='Devialet.TooManyFlows.SoundControl.setBouquetMute',
+    index=0,
+    containing_service=None,
+    input_type=_MUTE,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='setGroupMute',
+    full_name='Devialet.TooManyFlows.SoundControl.setGroupMute',
+    index=1,
+    containing_service=None,
+    input_type=_GROUPMUTE,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='setRendererMute',
+    full_name='Devialet.TooManyFlows.SoundControl.setRendererMute',
+    index=2,
+    containing_service=None,
+    input_type=_RENDERERMUTE,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='setBouquetNightMode',
+    full_name='Devialet.TooManyFlows.SoundControl.setBouquetNightMode',
+    index=3,
+    containing_service=None,
+    input_type=_NIGHTMODE,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='setGroupNightMode',
+    full_name='Devialet.TooManyFlows.SoundControl.setGroupNightMode',
+    index=4,
+    containing_service=None,
+    input_type=_GROUPNIGHTMODE,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='setRendererNightMode',
+    full_name='Devialet.TooManyFlows.SoundControl.setRendererNightMode',
+    index=5,
+    containing_service=None,
+    input_type=_RENDERERNIGHTMODE,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='setBouquetVolume',
+    full_name='Devialet.TooManyFlows.SoundControl.setBouquetVolume',
+    index=6,
+    containing_service=None,
+    input_type=_VOLUME,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='setGroupVolume',
+    full_name='Devialet.TooManyFlows.SoundControl.setGroupVolume',
+    index=7,
+    containing_service=None,
+    input_type=_GROUPVOLUME,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='setRendererVolume',
+    full_name='Devialet.TooManyFlows.SoundControl.setRendererVolume',
+    index=8,
+    containing_service=None,
+    input_type=_RENDERERVOLUME,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='bouquetMuteChanged',
+    full_name='Devialet.TooManyFlows.SoundControl.bouquetMuteChanged',
+    index=9,
+    containing_service=None,
+    input_type=_MUTE,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=_descriptor._ParseOptions(descriptor_pb2.MethodOptions(), _b('\222M\002\010\001')),
+  ),
+  _descriptor.MethodDescriptor(
+    name='groupMuteChanged',
+    full_name='Devialet.TooManyFlows.SoundControl.groupMuteChanged',
+    index=10,
+    containing_service=None,
+    input_type=_GROUPMUTE,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=_descriptor._ParseOptions(descriptor_pb2.MethodOptions(), _b('\222M\002\010\001')),
+  ),
+  _descriptor.MethodDescriptor(
+    name='rendererMuteChanged',
+    full_name='Devialet.TooManyFlows.SoundControl.rendererMuteChanged',
+    index=11,
+    containing_service=None,
+    input_type=_RENDERERMUTE,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=_descriptor._ParseOptions(descriptor_pb2.MethodOptions(), _b('\222M\002\010\001')),
+  ),
+  _descriptor.MethodDescriptor(
+    name='bouquetNightModeChanged',
+    full_name='Devialet.TooManyFlows.SoundControl.bouquetNightModeChanged',
+    index=12,
+    containing_service=None,
+    input_type=_NIGHTMODE,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=_descriptor._ParseOptions(descriptor_pb2.MethodOptions(), _b('\222M\002\010\001')),
+  ),
+  _descriptor.MethodDescriptor(
+    name='groupNightModeChanged',
+    full_name='Devialet.TooManyFlows.SoundControl.groupNightModeChanged',
+    index=13,
+    containing_service=None,
+    input_type=_GROUPNIGHTMODE,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=_descriptor._ParseOptions(descriptor_pb2.MethodOptions(), _b('\222M\002\010\001')),
+  ),
+  _descriptor.MethodDescriptor(
+    name='rendererNightModeChanged',
+    full_name='Devialet.TooManyFlows.SoundControl.rendererNightModeChanged',
+    index=14,
+    containing_service=None,
+    input_type=_RENDERERNIGHTMODE,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=_descriptor._ParseOptions(descriptor_pb2.MethodOptions(), _b('\222M\002\010\001')),
+  ),
+  _descriptor.MethodDescriptor(
+    name='bouquetVolumeChanged',
+    full_name='Devialet.TooManyFlows.SoundControl.bouquetVolumeChanged',
+    index=15,
+    containing_service=None,
+    input_type=_VOLUME,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=_descriptor._ParseOptions(descriptor_pb2.MethodOptions(), _b('\222M\004\010\001 \000')),
+  ),
+  _descriptor.MethodDescriptor(
+    name='groupVolumeChanged',
+    full_name='Devialet.TooManyFlows.SoundControl.groupVolumeChanged',
+    index=16,
+    containing_service=None,
+    input_type=_GROUPVOLUME,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=_descriptor._ParseOptions(descriptor_pb2.MethodOptions(), _b('\222M\004\010\001 \000')),
+  ),
+  _descriptor.MethodDescriptor(
+    name='rendererVolumeChanged',
+    full_name='Devialet.TooManyFlows.SoundControl.rendererVolumeChanged',
+    index=17,
+    containing_service=None,
+    input_type=_RENDERERVOLUME,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=_descriptor._ParseOptions(descriptor_pb2.MethodOptions(), _b('\222M\004\010\001 \000')),
+  ),
+  _descriptor.MethodDescriptor(
+    name='setBouquetVolumeByDelta',
+    full_name='Devialet.TooManyFlows.SoundControl.setBouquetVolumeByDelta',
+    index=18,
+    containing_service=None,
+    input_type=CallMeMaybe_dot_CommonMessages__pb2._DOUBLEPROPERTY,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=None,
+  ),
+])
+
+SoundControl = service_reflection.GeneratedServiceType('SoundControl', (_service.Service,), dict(
+  DESCRIPTOR = _SOUNDCONTROL,
+  __module__ = 'TooManyFlows.SoundControl_pb2'
+  ))
+
+SoundControl_Stub = service_reflection.GeneratedServiceStubType('SoundControl_Stub', (SoundControl,), dict(
+  DESCRIPTOR = _SOUNDCONTROL,
+  __module__ = 'TooManyFlows.SoundControl_pb2'
+  ))
 
 
 # @@protoc_insertion_point(module_scope)

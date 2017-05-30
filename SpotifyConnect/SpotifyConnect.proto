@@ -1,7 +1,8 @@
-// Reversed by pbd (https://github.com/rsc-dev/pbd)
+syntax = "proto2";
 package Devialet.SpotifyConnect;
 import "CallMeMaybe/CommonMessages.proto";
 import "CallMeMaybe/CallMeMaybe.proto";
+option py_generic_services = true;
 
 message ZeroConfApiRequest {
 	required uint32 method = 1 ;

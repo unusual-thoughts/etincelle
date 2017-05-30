@@ -7,25 +7,36 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
+from google.protobuf import service as _service
+from google.protobuf import service_reflection
 from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
 
 
-from CallMeMaybe import CommonMessages_pb2 as CallMeMaybe_dot_CommonMessages__pb2
+from TheSoundOfSilence import Collection_pb2 as TheSoundOfSilence_dot_Collection__pb2
 from TheSoundOfSilence import Session_pb2 as TheSoundOfSilence_dot_Session__pb2
+from TheSoundOfSilence import Album_pb2 as TheSoundOfSilence_dot_Album__pb2
+from TheSoundOfSilence import Picture_pb2 as TheSoundOfSilence_dot_Picture__pb2
+from TheSoundOfSilence import Subcategory_pb2 as TheSoundOfSilence_dot_Subcategory__pb2
+from CallMeMaybe import CommonMessages_pb2 as CallMeMaybe_dot_CommonMessages__pb2
 from TheSoundOfSilence import Node_pb2 as TheSoundOfSilence_dot_Node__pb2
 from CallMeMaybe import CallMeMaybe_pb2 as CallMeMaybe_dot_CallMeMaybe__pb2
+from TheSoundOfSilence import Artist_pb2 as TheSoundOfSilence_dot_Artist__pb2
+from TheSoundOfSilence import Category_pb2 as TheSoundOfSilence_dot_Category__pb2
+from TheSoundOfSilence import Track_pb2 as TheSoundOfSilence_dot_Track__pb2
+from TheSoundOfSilence import Playlist_pb2 as TheSoundOfSilence_dot_Playlist__pb2
+from TheSoundOfSilence import TrackDetails_pb2 as TheSoundOfSilence_dot_TrackDetails__pb2
 
 
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='TheSoundOfSilence/OnlineSource.proto',
   package='Devialet.AudioSource',
   syntax='proto2',
-  serialized_pb=_b('\n$TheSoundOfSilence/OnlineSource.proto\x12\x14\x44\x65vialet.AudioSource\x1a CallMeMaybe/CommonMessages.proto\x1a\x1fTheSoundOfSilence/Session.proto\x1a\x1cTheSoundOfSilence/Node.proto\x1a\x1d\x43\x61llMeMaybe/CallMeMaybe.proto\"\x82\x01\n\x11OnlineSourceError\"m\n\x04\x43ode\x12\x14\n\x10\x41lreadyConnected\x10\x01\x12\x0e\n\nNeedUpdate\x10\x02\x12\x15\n\x11NetworkConnection\x10\x03\x12\x10\n\x0cNotConnected\x10\x04\x12\x16\n\x12ServiceUnavailable\x10\x05\"\x8d\x01\n\x1cOnlineSourceAvailableMethods\x12\x14\n\x0cisSearchable\x18\x01 \x02(\x08\x12\x17\n\x0fhasAutocomplete\x18\x02 \x02(\x08\x12\x14\n\x0chasBatchMode\x18\x03 \x02(\x08\x12(\n\x19supportPlaylistManagement\x18\x04 \x01(\x08:\x05\x66\x61lse\":\n\x17\x43redentialsLoginRequest\x12\r\n\x05login\x18\x01 \x02(\t\x12\x10\n\x08password\x18\x02 \x02(\t\"(\n\x11OAuthLoginRequest\x12\x13\n\x0bredirectUrl\x18\x01 \x02(\x0c\"i\n\x15\x41uthenticationMethods\x12\x18\n\x10supportedMethods\x18\x01 \x03(\r\x12\x10\n\x08oAuthUrl\x18\x02 \x01(\x0c\"$\n\x06Method\x12\x0f\n\x0b\x43redentials\x10\x00\x12\t\n\x05OAuth\x10\x01\"H\n\x0fRegistrationUrl\x12\x1c\n\x14isRegistrationActive\x18\x01 \x02(\x08\x12\x17\n\x0fregistrationUrl\x18\x02 \x02(\t\"8\n\x0e\x41vailableReply\x12\x13\n\x0bisAvailable\x18\x01 \x02(\x08\x12\x11\n\terrorCode\x18\x02 \x01(\r\"<\n\nLoginReply\x12.\n\x07session\x18\x01 \x02(\x0b\x32\x1d.Devialet.AudioSource.Session\"\"\n\rLogoutRequest\x12\x11\n\tsessionId\x18\x01 \x02(\x0c\"J\n\rSearchRequest\x12\r\n\x05query\x18\x01 \x02(\t\x12\x0c\n\x04type\x18\x02 \x02(\r\x12\x0e\n\x06offset\x18\x03 \x02(\r\x12\x0c\n\x04size\x18\x04 \x02(\r\"2\n\x13\x41utocompleteRequest\x12\r\n\x05query\x18\x01 \x02(\t\x12\x0c\n\x04size\x18\x02 \x02(\r\"N\n\x10PictureIdRequest\x12,\n\x06nodeId\x18\x01 \x02(\x0b\x32\x1c.Devialet.AudioSource.NodeId\x12\x0c\n\x04size\x18\x02 \x02(\r\"`\n\x11\x43ollectionRequest\x12,\n\x06nodeId\x18\x01 \x02(\x0b\x32\x1c.Devialet.AudioSource.NodeId\x12\x0e\n\x06offset\x18\x02 \x02(\x05\x12\r\n\x05limit\x18\x03 \x02(\x05\"T\n\x12SubcategoryRequest\x12\n\n\x02id\x18\x01 \x02(\x0c\x12\x0c\n\x04type\x18\x02 \x02(\r\x12\x11\n\x06offset\x18\x03 \x01(\r:\x01\x30\x12\x11\n\x05limit\x18\x04 \x01(\r:\x02\x31\x30\"Q\n\x13TrackDetailsRequest\x12,\n\x06nodeId\x18\x01 \x02(\x0b\x32\x1c.Devialet.AudioSource.NodeId\x12\x0c\n\x04size\x18\x02 \x02(\r\"R\n\x14TracksDetailsRequest\x12,\n\x06nodeId\x18\x01 \x03(\x0b\x32\x1c.Devialet.AudioSource.NodeId\x12\x0c\n\x04size\x18\x02 \x02(\r\"6\n\x0fUserAccountInfo\x12\x0f\n\x07\x63\x61nPlay\x18\x01 \x02(\x08\x12\x12\n\ncanPreview\x18\x02 \x02(\x08\"4\n\x1aGetSupportedFavoritesReply\x12\x16\n\x0e\x66\x61voritesTypes\x18\x01 \x03(\r\"\x8a\x01\n\x15UpdatePlaylistRequest\x12.\n\x08trackIds\x18\x01 \x03(\x0b\x32\x1c.Devialet.AudioSource.NodeId\x12\x30\n\nplaylistId\x18\x02 \x02(\x0b\x32\x1c.Devialet.AudioSource.NodeId\x12\x0f\n\x07indices\x18\x03 \x03(\r\"U\n\x15\x43reatePlaylistRequest\x12\r\n\x05title\x18\x01 \x02(\t\x12-\n\x07nodeIds\x18\x02 \x03(\x0b\x32\x1c.Devialet.AudioSource.NodeId\"{\n\x18IsTrackInPlaylistRequest\x12-\n\x07trackId\x18\x01 \x02(\x0b\x32\x1c.Devialet.AudioSource.NodeId\x12\x30\n\nplaylistId\x18\x02 \x02(\x0b\x32\x1c.Devialet.AudioSource.NodeId2\xe7\x04\n\x19\x41uthenticatedOnlineSource\x12\x65\n\x10\x63redentialsLogin\x12-.Devialet.AudioSource.CredentialsLoginRequest\x1a .Devialet.AudioSource.LoginReply\"\x00\x12Y\n\noAuthLogin\x12\'.Devialet.AudioSource.OAuthLoginRequest\x1a .Devialet.AudioSource.LoginReply\"\x00\x12L\n\x06logout\x12#.Devialet.AudioSource.LogoutRequest\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x1a\xb9\x02\x92M\xb5\x02\n.com.devialet.source-0.online-0.authenticated-0\x12\x1b\x44\x65vialet.AudioSource.Source\x1a+Devialet.AudioSource.OnlineSourceError.Code\"\xb8\x01\n4\n#Devialet.AudioSource.AvailableReply\x12\x0bisAvailable\x18\x01\nE\n*Devialet.AudioSource.AuthenticationMethods\x12\x15\x61uthenticationMethods \x01\n9\n$Devialet.AudioSource.RegistrationUrl\x12\x0fregistrationUrl \x01')
+  serialized_pb=_b('\n$TheSoundOfSilence/OnlineSource.proto\x12\x14\x44\x65vialet.AudioSource\x1a\"TheSoundOfSilence/Collection.proto\x1a\x1fTheSoundOfSilence/Session.proto\x1a\x1dTheSoundOfSilence/Album.proto\x1a\x1fTheSoundOfSilence/Picture.proto\x1a#TheSoundOfSilence/Subcategory.proto\x1a CallMeMaybe/CommonMessages.proto\x1a\x1cTheSoundOfSilence/Node.proto\x1a\x1d\x43\x61llMeMaybe/CallMeMaybe.proto\x1a\x1eTheSoundOfSilence/Artist.proto\x1a TheSoundOfSilence/Category.proto\x1a\x1dTheSoundOfSilence/Track.proto\x1a TheSoundOfSilence/Playlist.proto\x1a$TheSoundOfSilence/TrackDetails.proto\"\x82\x01\n\x11OnlineSourceError\"m\n\x04\x43ode\x12\x14\n\x10\x41lreadyConnected\x10\x01\x12\x0e\n\nNeedUpdate\x10\x02\x12\x15\n\x11NetworkConnection\x10\x03\x12\x10\n\x0cNotConnected\x10\x04\x12\x16\n\x12ServiceUnavailable\x10\x05\"\x8d\x01\n\x1cOnlineSourceAvailableMethods\x12\x14\n\x0cisSearchable\x18\x01 \x02(\x08\x12\x17\n\x0fhasAutocomplete\x18\x02 \x02(\x08\x12\x14\n\x0chasBatchMode\x18\x03 \x02(\x08\x12(\n\x19supportPlaylistManagement\x18\x04 \x01(\x08:\x05\x66\x61lse\"H\n\x17\x43redentialsLoginRequest\x12\x14\n\x05login\x18\x01 \x02(\tB\x05\x92M\x02\x08\x00\x12\x17\n\x08password\x18\x02 \x02(\tB\x05\x92M\x02\x08\x00\"(\n\x11OAuthLoginRequest\x12\x13\n\x0bredirectUrl\x18\x01 \x02(\x0c\"i\n\x15\x41uthenticationMethods\x12\x18\n\x10supportedMethods\x18\x01 \x03(\r\x12\x10\n\x08oAuthUrl\x18\x02 \x01(\x0c\"$\n\x06Method\x12\x0f\n\x0b\x43redentials\x10\x00\x12\t\n\x05OAuth\x10\x01\"H\n\x0fRegistrationUrl\x12\x1c\n\x14isRegistrationActive\x18\x01 \x02(\x08\x12\x17\n\x0fregistrationUrl\x18\x02 \x02(\t\"8\n\x0e\x41vailableReply\x12\x13\n\x0bisAvailable\x18\x01 \x02(\x08\x12\x11\n\terrorCode\x18\x02 \x01(\r\"<\n\nLoginReply\x12.\n\x07session\x18\x01 \x02(\x0b\x32\x1d.Devialet.AudioSource.Session\"\"\n\rLogoutRequest\x12\x11\n\tsessionId\x18\x01 \x02(\x0c\"J\n\rSearchRequest\x12\r\n\x05query\x18\x01 \x02(\t\x12\x0c\n\x04type\x18\x02 \x02(\r\x12\x0e\n\x06offset\x18\x03 \x02(\r\x12\x0c\n\x04size\x18\x04 \x02(\r\"2\n\x13\x41utocompleteRequest\x12\r\n\x05query\x18\x01 \x02(\t\x12\x0c\n\x04size\x18\x02 \x02(\r\"N\n\x10PictureIdRequest\x12,\n\x06nodeId\x18\x01 \x02(\x0b\x32\x1c.Devialet.AudioSource.NodeId\x12\x0c\n\x04size\x18\x02 \x02(\r\"`\n\x11\x43ollectionRequest\x12,\n\x06nodeId\x18\x01 \x02(\x0b\x32\x1c.Devialet.AudioSource.NodeId\x12\x0e\n\x06offset\x18\x02 \x02(\x05\x12\r\n\x05limit\x18\x03 \x02(\x05\"T\n\x12SubcategoryRequest\x12\n\n\x02id\x18\x01 \x02(\x0c\x12\x0c\n\x04type\x18\x02 \x02(\r\x12\x11\n\x06offset\x18\x03 \x01(\r:\x01\x30\x12\x11\n\x05limit\x18\x04 \x01(\r:\x02\x31\x30\"Q\n\x13TrackDetailsRequest\x12,\n\x06nodeId\x18\x01 \x02(\x0b\x32\x1c.Devialet.AudioSource.NodeId\x12\x0c\n\x04size\x18\x02 \x02(\r\"R\n\x14TracksDetailsRequest\x12,\n\x06nodeId\x18\x01 \x03(\x0b\x32\x1c.Devialet.AudioSource.NodeId\x12\x0c\n\x04size\x18\x02 \x02(\r\"6\n\x0fUserAccountInfo\x12\x0f\n\x07\x63\x61nPlay\x18\x01 \x02(\x08\x12\x12\n\ncanPreview\x18\x02 \x02(\x08\"4\n\x1aGetSupportedFavoritesReply\x12\x16\n\x0e\x66\x61voritesTypes\x18\x01 \x03(\r\"\x8a\x01\n\x15UpdatePlaylistRequest\x12.\n\x08trackIds\x18\x01 \x03(\x0b\x32\x1c.Devialet.AudioSource.NodeId\x12\x30\n\nplaylistId\x18\x02 \x02(\x0b\x32\x1c.Devialet.AudioSource.NodeId\x12\x0f\n\x07indices\x18\x03 \x03(\r\"U\n\x15\x43reatePlaylistRequest\x12\r\n\x05title\x18\x01 \x02(\t\x12-\n\x07nodeIds\x18\x02 \x03(\x0b\x32\x1c.Devialet.AudioSource.NodeId\"{\n\x18IsTrackInPlaylistRequest\x12-\n\x07trackId\x18\x01 \x02(\x0b\x32\x1c.Devialet.AudioSource.NodeId\x12\x30\n\nplaylistId\x18\x02 \x02(\x0b\x32\x1c.Devialet.AudioSource.NodeId2\xe7\x04\n\x19\x41uthenticatedOnlineSource\x12\x65\n\x10\x63redentialsLogin\x12-.Devialet.AudioSource.CredentialsLoginRequest\x1a .Devialet.AudioSource.LoginReply\"\x00\x12Y\n\noAuthLogin\x12\'.Devialet.AudioSource.OAuthLoginRequest\x1a .Devialet.AudioSource.LoginReply\"\x00\x12L\n\x06logout\x12#.Devialet.AudioSource.LogoutRequest\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x1a\xb9\x02\x92M\xb5\x02\n.com.devialet.source-0.online-0.authenticated-0\x12\x1b\x44\x65vialet.AudioSource.Source\x1a+Devialet.AudioSource.OnlineSourceError.Code\"\xb8\x01\n4\n#Devialet.AudioSource.AvailableReply\x12\x0bisAvailable\x18\x01\nE\n*Devialet.AudioSource.AuthenticationMethods\x12\x15\x61uthenticationMethods \x01\n9\n$Devialet.AudioSource.RegistrationUrl\x12\x0fregistrationUrl \x01\x32\x96\x14\n\x13OnlineSourceSession\x12G\n\x08getAlbum\x12\x1c.Devialet.AudioSource.NodeId\x1a\x1b.Devialet.AudioSource.Album\"\x00\x12I\n\tgetArtist\x12\x1c.Devialet.AudioSource.NodeId\x1a\x1c.Devialet.AudioSource.Artist\"\x00\x12M\n\x0bgetCategory\x12\x1c.Devialet.AudioSource.NodeId\x1a\x1e.Devialet.AudioSource.Category\"\x00\x12\\\n\rgetCollection\x12\'.Devialet.AudioSource.CollectionRequest\x1a .Devialet.AudioSource.Collection\"\x00\x12Y\n\x0cgetPictureId\x12&.Devialet.AudioSource.PictureIdRequest\x1a\x1f.Devialet.AudioSource.PictureId\"\x00\x12N\n\ngetPicture\x12\x1f.Devialet.AudioSource.PictureId\x1a\x1d.Devialet.AudioSource.Picture\"\x00\x12M\n\x0bgetPlaylist\x12\x1c.Devialet.AudioSource.NodeId\x1a\x1e.Devialet.AudioSource.Playlist\"\x00\x12_\n\x0egetSubcategory\x12(.Devialet.AudioSource.SubcategoryRequest\x1a!.Devialet.AudioSource.Subcategory\"\x00\x12G\n\x08getTrack\x12\x1c.Devialet.AudioSource.NodeId\x1a\x1b.Devialet.AudioSource.Track\"\x00\x12\x62\n\x0fgetTrackDetails\x12).Devialet.AudioSource.TrackDetailsRequest\x1a\".Devialet.AudioSource.TrackDetails\"\x00\x12\x65\n\x10getTracksDetails\x12*.Devialet.AudioSource.TracksDetailsRequest\x1a#.Devialet.AudioSource.TracksDetails\"\x00\x12X\n\x0c\x61utocomplete\x12).Devialet.AudioSource.AutocompleteRequest\x1a\x1b.Devialet.AudioSource.Nodes\"\x00\x12L\n\x06search\x12#.Devialet.AudioSource.SearchRequest\x1a\x1b.Devialet.AudioSource.Nodes\"\x00\x12Q\n\x0e\x63ontentChanged\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x12Z\n\x12getUserAccountInfo\x12\x1b.Devialet.CallMeMaybe.Empty\x1a%.Devialet.AudioSource.UserAccountInfo\"\x00\x12h\n\x15getSupportedFavorites\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x30.Devialet.AudioSource.GetSupportedFavoritesReply\"\x00\x12P\n\nisFavorite\x12\x1c.Devialet.AudioSource.NodeId\x1a\".Devialet.CallMeMaybe.BoolProperty\"\x00\x12J\n\x0b\x61\x64\x64\x46\x61vorite\x12\x1c.Devialet.AudioSource.NodeId\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12M\n\x0e\x64\x65leteFavorite\x12\x1c.Devialet.AudioSource.NodeId\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12O\n\x0bnodeChanged\x12\x1c.Devialet.AudioSource.NodeId\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x12Q\n\x12isTrackInPlaylists\x12\x1c.Devialet.AudioSource.NodeId\x1a\x1b.Devialet.AudioSource.Nodes\"\x00\x12N\n\x10getUserPlaylists\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.AudioSource.Nodes\"\x00\x12\x61\n\x13\x61\x64\x64TracksToPlaylist\x12+.Devialet.AudioSource.UpdatePlaylistRequest\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12\x66\n\x18removeTracksFromPlaylist\x12+.Devialet.AudioSource.UpdatePlaylistRequest\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12M\n\x0e\x64\x65letePlaylist\x12\x1c.Devialet.AudioSource.NodeId\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12]\n\x0e\x63reatePlaylist\x12+.Devialet.AudioSource.CreatePlaylistRequest\x1a\x1c.Devialet.AudioSource.NodeId\"\x00\x12i\n\x11isTrackInPlaylist\x12..Devialet.AudioSource.IsTrackInPlaylistRequest\x1a\".Devialet.CallMeMaybe.BoolProperty\"\x00\x1a\xc8\x01\x92M\xc4\x01\n&com.devialet.source-session-0.online-0\x12\"Devialet.AudioSource.SourceSession\x1a+Devialet.AudioSource.OnlineSourceError.Code\"I\nG\n1Devialet.AudioSource.OnlineSourceAvailableMethods\x12\x10\x61vailableMethods \x01\x42\x03\x90\x01\x01')
   ,
-  dependencies=[CallMeMaybe_dot_CommonMessages__pb2.DESCRIPTOR,TheSoundOfSilence_dot_Session__pb2.DESCRIPTOR,TheSoundOfSilence_dot_Node__pb2.DESCRIPTOR,CallMeMaybe_dot_CallMeMaybe__pb2.DESCRIPTOR,])
+  dependencies=[TheSoundOfSilence_dot_Collection__pb2.DESCRIPTOR,TheSoundOfSilence_dot_Session__pb2.DESCRIPTOR,TheSoundOfSilence_dot_Album__pb2.DESCRIPTOR,TheSoundOfSilence_dot_Picture__pb2.DESCRIPTOR,TheSoundOfSilence_dot_Subcategory__pb2.DESCRIPTOR,CallMeMaybe_dot_CommonMessages__pb2.DESCRIPTOR,TheSoundOfSilence_dot_Node__pb2.DESCRIPTOR,CallMeMaybe_dot_CallMeMaybe__pb2.DESCRIPTOR,TheSoundOfSilence_dot_Artist__pb2.DESCRIPTOR,TheSoundOfSilence_dot_Category__pb2.DESCRIPTOR,TheSoundOfSilence_dot_Track__pb2.DESCRIPTOR,TheSoundOfSilence_dot_Playlist__pb2.DESCRIPTOR,TheSoundOfSilence_dot_TrackDetails__pb2.DESCRIPTOR,])
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
@@ -59,8 +70,8 @@ _ONLINESOURCEERROR_CODE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=212,
-  serialized_end=321,
+  serialized_start=518,
+  serialized_end=627,
 )
 _sym_db.RegisterEnumDescriptor(_ONLINESOURCEERROR_CODE)
 
@@ -81,8 +92,8 @@ _AUTHENTICATIONMETHODS_METHOD = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=638,
-  serialized_end=674,
+  serialized_start=958,
+  serialized_end=994,
 )
 _sym_db.RegisterEnumDescriptor(_AUTHENTICATIONMETHODS_METHOD)
 
@@ -107,8 +118,8 @@ _ONLINESOURCEERROR = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=191,
-  serialized_end=321,
+  serialized_start=497,
+  serialized_end=627,
 )
 
 
@@ -159,8 +170,8 @@ _ONLINESOURCEAVAILABLEMETHODS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=324,
-  serialized_end=465,
+  serialized_start=630,
+  serialized_end=771,
 )
 
 
@@ -177,14 +188,14 @@ _CREDENTIALSLOGINREQUEST = _descriptor.Descriptor(
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      options=_descriptor._ParseOptions(descriptor_pb2.FieldOptions(), _b('\222M\002\010\000'))),
     _descriptor.FieldDescriptor(
       name='password', full_name='Devialet.AudioSource.CredentialsLoginRequest.password', index=1,
       number=2, type=9, cpp_type=9, label=2,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      options=_descriptor._ParseOptions(descriptor_pb2.FieldOptions(), _b('\222M\002\010\000'))),
   ],
   extensions=[
   ],
@@ -197,8 +208,8 @@ _CREDENTIALSLOGINREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=467,
-  serialized_end=525,
+  serialized_start=773,
+  serialized_end=845,
 )
 
 
@@ -228,8 +239,8 @@ _OAUTHLOGINREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=527,
-  serialized_end=567,
+  serialized_start=847,
+  serialized_end=887,
 )
 
 
@@ -267,8 +278,8 @@ _AUTHENTICATIONMETHODS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=569,
-  serialized_end=674,
+  serialized_start=889,
+  serialized_end=994,
 )
 
 
@@ -305,8 +316,8 @@ _REGISTRATIONURL = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=676,
-  serialized_end=748,
+  serialized_start=996,
+  serialized_end=1068,
 )
 
 
@@ -343,8 +354,8 @@ _AVAILABLEREPLY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=750,
-  serialized_end=806,
+  serialized_start=1070,
+  serialized_end=1126,
 )
 
 
@@ -374,8 +385,8 @@ _LOGINREPLY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=808,
-  serialized_end=868,
+  serialized_start=1128,
+  serialized_end=1188,
 )
 
 
@@ -405,8 +416,8 @@ _LOGOUTREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=870,
-  serialized_end=904,
+  serialized_start=1190,
+  serialized_end=1224,
 )
 
 
@@ -457,8 +468,8 @@ _SEARCHREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=906,
-  serialized_end=980,
+  serialized_start=1226,
+  serialized_end=1300,
 )
 
 
@@ -495,8 +506,8 @@ _AUTOCOMPLETEREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=982,
-  serialized_end=1032,
+  serialized_start=1302,
+  serialized_end=1352,
 )
 
 
@@ -533,8 +544,8 @@ _PICTUREIDREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1034,
-  serialized_end=1112,
+  serialized_start=1354,
+  serialized_end=1432,
 )
 
 
@@ -578,8 +589,8 @@ _COLLECTIONREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1114,
-  serialized_end=1210,
+  serialized_start=1434,
+  serialized_end=1530,
 )
 
 
@@ -630,8 +641,8 @@ _SUBCATEGORYREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1212,
-  serialized_end=1296,
+  serialized_start=1532,
+  serialized_end=1616,
 )
 
 
@@ -668,8 +679,8 @@ _TRACKDETAILSREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1298,
-  serialized_end=1379,
+  serialized_start=1618,
+  serialized_end=1699,
 )
 
 
@@ -706,8 +717,8 @@ _TRACKSDETAILSREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1381,
-  serialized_end=1463,
+  serialized_start=1701,
+  serialized_end=1783,
 )
 
 
@@ -744,8 +755,8 @@ _USERACCOUNTINFO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1465,
-  serialized_end=1519,
+  serialized_start=1785,
+  serialized_end=1839,
 )
 
 
@@ -775,8 +786,8 @@ _GETSUPPORTEDFAVORITESREPLY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1521,
-  serialized_end=1573,
+  serialized_start=1841,
+  serialized_end=1893,
 )
 
 
@@ -820,8 +831,8 @@ _UPDATEPLAYLISTREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1576,
-  serialized_end=1714,
+  serialized_start=1896,
+  serialized_end=2034,
 )
 
 
@@ -858,8 +869,8 @@ _CREATEPLAYLISTREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1716,
-  serialized_end=1801,
+  serialized_start=2036,
+  serialized_end=2121,
 )
 
 
@@ -896,8 +907,8 @@ _ISTRACKINPLAYLISTREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1803,
-  serialized_end=1926,
+  serialized_start=2123,
+  serialized_end=2246,
 )
 
 _ONLINESOURCEERROR_CODE.containing_type = _ONLINESOURCEERROR
@@ -1080,6 +1091,328 @@ IsTrackInPlaylistRequest = _reflection.GeneratedProtocolMessageType('IsTrackInPl
   # @@protoc_insertion_point(class_scope:Devialet.AudioSource.IsTrackInPlaylistRequest)
   ))
 _sym_db.RegisterMessage(IsTrackInPlaylistRequest)
+
+
+DESCRIPTOR.has_options = True
+DESCRIPTOR._options = _descriptor._ParseOptions(descriptor_pb2.FileOptions(), _b('\220\001\001'))
+_CREDENTIALSLOGINREQUEST.fields_by_name['login'].has_options = True
+_CREDENTIALSLOGINREQUEST.fields_by_name['login']._options = _descriptor._ParseOptions(descriptor_pb2.FieldOptions(), _b('\222M\002\010\000'))
+_CREDENTIALSLOGINREQUEST.fields_by_name['password'].has_options = True
+_CREDENTIALSLOGINREQUEST.fields_by_name['password']._options = _descriptor._ParseOptions(descriptor_pb2.FieldOptions(), _b('\222M\002\010\000'))
+
+_AUTHENTICATEDONLINESOURCE = _descriptor.ServiceDescriptor(
+  name='AuthenticatedOnlineSource',
+  full_name='Devialet.AudioSource.AuthenticatedOnlineSource',
+  file=DESCRIPTOR,
+  index=0,
+  options=_descriptor._ParseOptions(descriptor_pb2.ServiceOptions(), _b('\222M\265\002\n.com.devialet.source-0.online-0.authenticated-0\022\033Devialet.AudioSource.Source\032+Devialet.AudioSource.OnlineSourceError.Code\"\270\001\n4\n#Devialet.AudioSource.AvailableReply\022\013isAvailable\030\001\nE\n*Devialet.AudioSource.AuthenticationMethods\022\025authenticationMethods \001\n9\n$Devialet.AudioSource.RegistrationUrl\022\017registrationUrl \001')),
+  serialized_start=2249,
+  serialized_end=2864,
+  methods=[
+  _descriptor.MethodDescriptor(
+    name='credentialsLogin',
+    full_name='Devialet.AudioSource.AuthenticatedOnlineSource.credentialsLogin',
+    index=0,
+    containing_service=None,
+    input_type=_CREDENTIALSLOGINREQUEST,
+    output_type=_LOGINREPLY,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='oAuthLogin',
+    full_name='Devialet.AudioSource.AuthenticatedOnlineSource.oAuthLogin',
+    index=1,
+    containing_service=None,
+    input_type=_OAUTHLOGINREQUEST,
+    output_type=_LOGINREPLY,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='logout',
+    full_name='Devialet.AudioSource.AuthenticatedOnlineSource.logout',
+    index=2,
+    containing_service=None,
+    input_type=_LOGOUTREQUEST,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=None,
+  ),
+])
+
+AuthenticatedOnlineSource = service_reflection.GeneratedServiceType('AuthenticatedOnlineSource', (_service.Service,), dict(
+  DESCRIPTOR = _AUTHENTICATEDONLINESOURCE,
+  __module__ = 'TheSoundOfSilence.OnlineSource_pb2'
+  ))
+
+AuthenticatedOnlineSource_Stub = service_reflection.GeneratedServiceStubType('AuthenticatedOnlineSource_Stub', (AuthenticatedOnlineSource,), dict(
+  DESCRIPTOR = _AUTHENTICATEDONLINESOURCE,
+  __module__ = 'TheSoundOfSilence.OnlineSource_pb2'
+  ))
+
+
+
+_ONLINESOURCESESSION = _descriptor.ServiceDescriptor(
+  name='OnlineSourceSession',
+  full_name='Devialet.AudioSource.OnlineSourceSession',
+  file=DESCRIPTOR,
+  index=1,
+  options=_descriptor._ParseOptions(descriptor_pb2.ServiceOptions(), _b('\222M\304\001\n&com.devialet.source-session-0.online-0\022\"Devialet.AudioSource.SourceSession\032+Devialet.AudioSource.OnlineSourceError.Code\"I\nG\n1Devialet.AudioSource.OnlineSourceAvailableMethods\022\020availableMethods \001')),
+  serialized_start=2867,
+  serialized_end=5449,
+  methods=[
+  _descriptor.MethodDescriptor(
+    name='getAlbum',
+    full_name='Devialet.AudioSource.OnlineSourceSession.getAlbum',
+    index=0,
+    containing_service=None,
+    input_type=TheSoundOfSilence_dot_Node__pb2._NODEID,
+    output_type=TheSoundOfSilence_dot_Album__pb2._ALBUM,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='getArtist',
+    full_name='Devialet.AudioSource.OnlineSourceSession.getArtist',
+    index=1,
+    containing_service=None,
+    input_type=TheSoundOfSilence_dot_Node__pb2._NODEID,
+    output_type=TheSoundOfSilence_dot_Artist__pb2._ARTIST,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='getCategory',
+    full_name='Devialet.AudioSource.OnlineSourceSession.getCategory',
+    index=2,
+    containing_service=None,
+    input_type=TheSoundOfSilence_dot_Node__pb2._NODEID,
+    output_type=TheSoundOfSilence_dot_Category__pb2._CATEGORY,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='getCollection',
+    full_name='Devialet.AudioSource.OnlineSourceSession.getCollection',
+    index=3,
+    containing_service=None,
+    input_type=_COLLECTIONREQUEST,
+    output_type=TheSoundOfSilence_dot_Collection__pb2._COLLECTION,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='getPictureId',
+    full_name='Devialet.AudioSource.OnlineSourceSession.getPictureId',
+    index=4,
+    containing_service=None,
+    input_type=_PICTUREIDREQUEST,
+    output_type=TheSoundOfSilence_dot_Picture__pb2._PICTUREID,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='getPicture',
+    full_name='Devialet.AudioSource.OnlineSourceSession.getPicture',
+    index=5,
+    containing_service=None,
+    input_type=TheSoundOfSilence_dot_Picture__pb2._PICTUREID,
+    output_type=TheSoundOfSilence_dot_Picture__pb2._PICTURE,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='getPlaylist',
+    full_name='Devialet.AudioSource.OnlineSourceSession.getPlaylist',
+    index=6,
+    containing_service=None,
+    input_type=TheSoundOfSilence_dot_Node__pb2._NODEID,
+    output_type=TheSoundOfSilence_dot_Playlist__pb2._PLAYLIST,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='getSubcategory',
+    full_name='Devialet.AudioSource.OnlineSourceSession.getSubcategory',
+    index=7,
+    containing_service=None,
+    input_type=_SUBCATEGORYREQUEST,
+    output_type=TheSoundOfSilence_dot_Subcategory__pb2._SUBCATEGORY,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='getTrack',
+    full_name='Devialet.AudioSource.OnlineSourceSession.getTrack',
+    index=8,
+    containing_service=None,
+    input_type=TheSoundOfSilence_dot_Node__pb2._NODEID,
+    output_type=TheSoundOfSilence_dot_Track__pb2._TRACK,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='getTrackDetails',
+    full_name='Devialet.AudioSource.OnlineSourceSession.getTrackDetails',
+    index=9,
+    containing_service=None,
+    input_type=_TRACKDETAILSREQUEST,
+    output_type=TheSoundOfSilence_dot_TrackDetails__pb2._TRACKDETAILS,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='getTracksDetails',
+    full_name='Devialet.AudioSource.OnlineSourceSession.getTracksDetails',
+    index=10,
+    containing_service=None,
+    input_type=_TRACKSDETAILSREQUEST,
+    output_type=TheSoundOfSilence_dot_TrackDetails__pb2._TRACKSDETAILS,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='autocomplete',
+    full_name='Devialet.AudioSource.OnlineSourceSession.autocomplete',
+    index=11,
+    containing_service=None,
+    input_type=_AUTOCOMPLETEREQUEST,
+    output_type=TheSoundOfSilence_dot_Node__pb2._NODES,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='search',
+    full_name='Devialet.AudioSource.OnlineSourceSession.search',
+    index=12,
+    containing_service=None,
+    input_type=_SEARCHREQUEST,
+    output_type=TheSoundOfSilence_dot_Node__pb2._NODES,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='contentChanged',
+    full_name='Devialet.AudioSource.OnlineSourceSession.contentChanged',
+    index=13,
+    containing_service=None,
+    input_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=_descriptor._ParseOptions(descriptor_pb2.MethodOptions(), _b('\222M\002\010\001')),
+  ),
+  _descriptor.MethodDescriptor(
+    name='getUserAccountInfo',
+    full_name='Devialet.AudioSource.OnlineSourceSession.getUserAccountInfo',
+    index=14,
+    containing_service=None,
+    input_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    output_type=_USERACCOUNTINFO,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='getSupportedFavorites',
+    full_name='Devialet.AudioSource.OnlineSourceSession.getSupportedFavorites',
+    index=15,
+    containing_service=None,
+    input_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    output_type=_GETSUPPORTEDFAVORITESREPLY,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='isFavorite',
+    full_name='Devialet.AudioSource.OnlineSourceSession.isFavorite',
+    index=16,
+    containing_service=None,
+    input_type=TheSoundOfSilence_dot_Node__pb2._NODEID,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._BOOLPROPERTY,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='addFavorite',
+    full_name='Devialet.AudioSource.OnlineSourceSession.addFavorite',
+    index=17,
+    containing_service=None,
+    input_type=TheSoundOfSilence_dot_Node__pb2._NODEID,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='deleteFavorite',
+    full_name='Devialet.AudioSource.OnlineSourceSession.deleteFavorite',
+    index=18,
+    containing_service=None,
+    input_type=TheSoundOfSilence_dot_Node__pb2._NODEID,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='nodeChanged',
+    full_name='Devialet.AudioSource.OnlineSourceSession.nodeChanged',
+    index=19,
+    containing_service=None,
+    input_type=TheSoundOfSilence_dot_Node__pb2._NODEID,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=_descriptor._ParseOptions(descriptor_pb2.MethodOptions(), _b('\222M\002\010\001')),
+  ),
+  _descriptor.MethodDescriptor(
+    name='isTrackInPlaylists',
+    full_name='Devialet.AudioSource.OnlineSourceSession.isTrackInPlaylists',
+    index=20,
+    containing_service=None,
+    input_type=TheSoundOfSilence_dot_Node__pb2._NODEID,
+    output_type=TheSoundOfSilence_dot_Node__pb2._NODES,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='getUserPlaylists',
+    full_name='Devialet.AudioSource.OnlineSourceSession.getUserPlaylists',
+    index=21,
+    containing_service=None,
+    input_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    output_type=TheSoundOfSilence_dot_Node__pb2._NODES,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='addTracksToPlaylist',
+    full_name='Devialet.AudioSource.OnlineSourceSession.addTracksToPlaylist',
+    index=22,
+    containing_service=None,
+    input_type=_UPDATEPLAYLISTREQUEST,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='removeTracksFromPlaylist',
+    full_name='Devialet.AudioSource.OnlineSourceSession.removeTracksFromPlaylist',
+    index=23,
+    containing_service=None,
+    input_type=_UPDATEPLAYLISTREQUEST,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='deletePlaylist',
+    full_name='Devialet.AudioSource.OnlineSourceSession.deletePlaylist',
+    index=24,
+    containing_service=None,
+    input_type=TheSoundOfSilence_dot_Node__pb2._NODEID,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='createPlaylist',
+    full_name='Devialet.AudioSource.OnlineSourceSession.createPlaylist',
+    index=25,
+    containing_service=None,
+    input_type=_CREATEPLAYLISTREQUEST,
+    output_type=TheSoundOfSilence_dot_Node__pb2._NODEID,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='isTrackInPlaylist',
+    full_name='Devialet.AudioSource.OnlineSourceSession.isTrackInPlaylist',
+    index=26,
+    containing_service=None,
+    input_type=_ISTRACKINPLAYLISTREQUEST,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._BOOLPROPERTY,
+    options=None,
+  ),
+])
+
+OnlineSourceSession = service_reflection.GeneratedServiceType('OnlineSourceSession', (_service.Service,), dict(
+  DESCRIPTOR = _ONLINESOURCESESSION,
+  __module__ = 'TheSoundOfSilence.OnlineSource_pb2'
+  ))
+
+OnlineSourceSession_Stub = service_reflection.GeneratedServiceStubType('OnlineSourceSession_Stub', (OnlineSourceSession,), dict(
+  DESCRIPTOR = _ONLINESOURCESESSION,
+  __module__ = 'TheSoundOfSilence.OnlineSource_pb2'
+  ))
 
 
 # @@protoc_insertion_point(module_scope)

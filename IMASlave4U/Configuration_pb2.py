@@ -7,6 +7,8 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
+from google.protobuf import service as _service
+from google.protobuf import service_reflection
 from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
@@ -20,7 +22,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='IMASlave4U/Configuration.proto',
   package='Devialet.IMASlave4U',
   syntax='proto2',
-  serialized_pb=_b('\n\x1eIMASlave4U/Configuration.proto\x12\x13\x44\x65vialet.IMASlave4U\x1a\x1d\x43\x61llMeMaybe/CallMeMaybe.proto\"O\n\tAudioMode\x12\x0c\n\x04mode\x18\x01 \x02(\r\"4\n\x04Mode\x12\x0b\n\x07MonoMix\x10\x01\x12\x0e\n\nStereoLeft\x10\x02\x12\x0f\n\x0bStereoRight\x10\x03\"\'\n\x08Property\x12\x0c\n\x04name\x18\x01 \x02(\t\x12\r\n\x05value\x18\x02 \x02(\t\"Y\n\x05Input\x12\x0c\n\x04name\x18\x01 \x02(\t\x12\x0f\n\x07schemes\x18\x02 \x03(\t\x12\x31\n\nproperties\x18\x03 \x03(\x0b\x32\x1d.Devialet.IMASlave4U.Property2\xca\x01\n\rConfiguration\x1a\xb8\x01\x92M\xb4\x01\n\'com.devialet.imaslave4u.configuration-0\"\x88\x01\n*\n\x1d\x44\x65vialet.IMASlave4U.AudioMode\x12\taudioMode\n)\n\x19\x44\x65vialet.IMASlave4U.Input\x12\naudioInput\x18\x01\n/\n\x19\x44\x65vialet.IMASlave4U.Input\x12\x10soundDesignInput\x18\x01')
+  serialized_pb=_b('\n\x1eIMASlave4U/Configuration.proto\x12\x13\x44\x65vialet.IMASlave4U\x1a\x1d\x43\x61llMeMaybe/CallMeMaybe.proto\"O\n\tAudioMode\x12\x0c\n\x04mode\x18\x01 \x02(\r\"4\n\x04Mode\x12\x0b\n\x07MonoMix\x10\x01\x12\x0e\n\nStereoLeft\x10\x02\x12\x0f\n\x0bStereoRight\x10\x03\"\'\n\x08Property\x12\x0c\n\x04name\x18\x01 \x02(\t\x12\r\n\x05value\x18\x02 \x02(\t\"Y\n\x05Input\x12\x0c\n\x04name\x18\x01 \x02(\t\x12\x0f\n\x07schemes\x18\x02 \x03(\t\x12\x31\n\nproperties\x18\x03 \x03(\x0b\x32\x1d.Devialet.IMASlave4U.Property2\xca\x01\n\rConfiguration\x1a\xb8\x01\x92M\xb4\x01\n\'com.devialet.imaslave4u.configuration-0\"\x88\x01\n*\n\x1d\x44\x65vialet.IMASlave4U.AudioMode\x12\taudioMode\n)\n\x19\x44\x65vialet.IMASlave4U.Input\x12\naudioInput\x18\x01\n/\n\x19\x44\x65vialet.IMASlave4U.Input\x12\x10soundDesignInput\x18\x01\x42\x03\x90\x01\x01')
   ,
   dependencies=[CallMeMaybe_dot_CallMeMaybe__pb2.DESCRIPTOR,])
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
@@ -194,6 +196,31 @@ Input = _reflection.GeneratedProtocolMessageType('Input', (_message.Message,), d
   # @@protoc_insertion_point(class_scope:Devialet.IMASlave4U.Input)
   ))
 _sym_db.RegisterMessage(Input)
+
+
+DESCRIPTOR.has_options = True
+DESCRIPTOR._options = _descriptor._ParseOptions(descriptor_pb2.FileOptions(), _b('\220\001\001'))
+
+_CONFIGURATION = _descriptor.ServiceDescriptor(
+  name='Configuration',
+  full_name='Devialet.IMASlave4U.Configuration',
+  file=DESCRIPTOR,
+  index=0,
+  options=_descriptor._ParseOptions(descriptor_pb2.ServiceOptions(), _b('\222M\264\001\n\'com.devialet.imaslave4u.configuration-0\"\210\001\n*\n\035Devialet.IMASlave4U.AudioMode\022\taudioMode\n)\n\031Devialet.IMASlave4U.Input\022\naudioInput\030\001\n/\n\031Devialet.IMASlave4U.Input\022\020soundDesignInput\030\001')),
+  serialized_start=300,
+  serialized_end=502,
+  methods=[
+])
+
+Configuration = service_reflection.GeneratedServiceType('Configuration', (_service.Service,), dict(
+  DESCRIPTOR = _CONFIGURATION,
+  __module__ = 'IMASlave4U.Configuration_pb2'
+  ))
+
+Configuration_Stub = service_reflection.GeneratedServiceStubType('Configuration_Stub', (Configuration,), dict(
+  DESCRIPTOR = _CONFIGURATION,
+  __module__ = 'IMASlave4U.Configuration_pb2'
+  ))
 
 
 # @@protoc_insertion_point(module_scope)

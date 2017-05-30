@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='TheSoundOfSilence/Session.proto',
   package='Devialet.AudioSource',
   syntax='proto2',
-  serialized_pb=_b('\n\x1fTheSoundOfSilence/Session.proto\x12\x14\x44\x65vialet.AudioSource\x1a\x1fTheSoundOfSilence/Picture.proto\"\x17\n\tSessionId\x12\n\n\x02id\x18\x01 \x02(\x0c\"n\n\x07Session\x12\n\n\x02id\x18\x01 \x02(\x0c\x12\x0c\n\x04name\x18\x02 \x02(\t\x12\x19\n\x11serviceInstanceId\x18\x03 \x02(\t\x12.\n\x07picture\x18\x04 \x02(\x0b\x32\x1d.Devialet.AudioSource.Picture\";\n\x08Sessions\x12/\n\x08sessions\x18\x01 \x03(\x0b\x32\x1d.Devialet.AudioSource.Session')
+  serialized_pb=_b('\n\x1fTheSoundOfSilence/Session.proto\x12\x14\x44\x65vialet.AudioSource\x1a\x1fTheSoundOfSilence/Picture.proto\"\x17\n\tSessionId\x12\n\n\x02id\x18\x01 \x02(\x0c\"n\n\x07Session\x12\n\n\x02id\x18\x01 \x02(\x0c\x12\x0c\n\x04name\x18\x02 \x02(\t\x12\x19\n\x11serviceInstanceId\x18\x03 \x02(\t\x12.\n\x07picture\x18\x04 \x02(\x0b\x32\x1d.Devialet.AudioSource.Picture\";\n\x08Sessions\x12/\n\x08sessions\x18\x01 \x03(\x0b\x32\x1d.Devialet.AudioSource.SessionB\x03\x90\x01\x01')
   ,
   dependencies=[TheSoundOfSilence_dot_Picture__pb2.DESCRIPTOR,])
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
@@ -169,4 +169,6 @@ Sessions = _reflection.GeneratedProtocolMessageType('Sessions', (_message.Messag
 _sym_db.RegisterMessage(Sessions)
 
 
+DESCRIPTOR.has_options = True
+DESCRIPTOR._options = _descriptor._ParseOptions(descriptor_pb2.FileOptions(), _b('\220\001\001'))
 # @@protoc_insertion_point(module_scope)

@@ -1,7 +1,8 @@
-// Reversed by pbd (https://github.com/rsc-dev/pbd)
+syntax = "proto2";
 package Devialet.AudioSource;
 import "TheSoundOfSilence/Track.proto";
 import "TheSoundOfSilence/Picture.proto";
+option py_generic_services = true;
 
 message TrackDetails {
 	required .Devialet.AudioSource.Track track = 1 ;

@@ -1,8 +1,9 @@
-// Reversed by pbd (https://github.com/rsc-dev/pbd)
+syntax = "proto2";
 package Devialet.GetThePartyStarted.Player;
 import "CallMeMaybe/CommonMessages.proto";
 import "GetThePartyStarted/GetThePartyStarted.proto";
 import "CallMeMaybe/CallMeMaybe.proto";
+option py_generic_services = true;
 
 message WiFiNetwork {
 	required string ssid = 1 ;

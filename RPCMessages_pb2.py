@@ -7,6 +7,8 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
+from google.protobuf import service as _service
+from google.protobuf import service_reflection
 from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
@@ -21,7 +23,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='RPCMessages.proto',
   package='Devialet.CallMeMaybe',
   syntax='proto2',
-  serialized_pb=_b('\n\x11RPCMessages.proto\x12\x14\x44\x65vialet.CallMeMaybe\x1a CallMeMaybe/CommonMessages.proto\x1a\x1d\x43\x61llMeMaybe/CallMeMaybe.proto\"b\n\x07Request\x12\x10\n\x08serverId\x18\x01 \x02(\x0c\x12\x11\n\tserviceId\x18\x02 \x02(\x07\x12\x11\n\trequestId\x18\x03 \x02(\x0c\x12\x0c\n\x04type\x18\x04 \x02(\r\x12\x11\n\tsubTypeId\x18\x05 \x02(\r\"\x88\x01\n\x05Reply\x12\x10\n\x08serverId\x18\x01 \x02(\x0c\x12\x11\n\tserviceId\x18\x02 \x02(\x07\x12\x11\n\trequestId\x18\x03 \x02(\x0c\x12\x0c\n\x04type\x18\x04 \x02(\r\x12\x11\n\tsubTypeId\x18\x05 \x02(\r\x12\x11\n\terrorCode\x18\x06 \x02(\x11\x12\x13\n\x0bisMultipart\x18\x07 \x02(\x08\"M\n\x05\x45vent\x12\x10\n\x08serverId\x18\x01 \x02(\x0c\x12\x11\n\tserviceId\x18\x02 \x02(\x07\x12\x0c\n\x04type\x18\x03 \x02(\r\x12\x11\n\tsubTypeId\x18\x04 \x02(\r\"$\n\x11\x43onnectionRequest\x12\x0f\n\x07version\x18\x01 \x02(\r\"#\n\x07Service\x12\n\n\x02id\x18\x01 \x02(\r\x12\x0c\n\x04name\x18\x02 \x02(\t\"?\n\x0cServicesList\x12/\n\x08services\x18\x01 \x03(\x0b\x32\x1d.Devialet.CallMeMaybe.Service\"T\n\x0f\x43onnectionReply\x12\x10\n\x08serverId\x18\x01 \x02(\x0c\x12/\n\x08services\x18\x02 \x03(\x0b\x32\x1d.Devialet.CallMeMaybe.Service\"2\n\x10\x43onnectionErrors\"\x1e\n\x04\x43ode\x12\x16\n\x12UnsupportedVersion\x10\x00\x32\x86\x04\n\nConnection\x12\x62\n\x0eopenConnection\x12\'.Devialet.CallMeMaybe.ConnectionRequest\x1a%.Devialet.CallMeMaybe.ConnectionReply\"\x00\x12G\n\x04ping\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02 \x00\x12Q\n\x0cserviceAdded\x12\x1d.Devialet.CallMeMaybe.Service\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x12S\n\x0eserviceRemoved\x12\x1d.Devialet.CallMeMaybe.Service\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x12M\n\nserverQuit\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x1aT\x92MQ\n#com.devialet.callmemaybe.connection\x1a*Devialet.CallMeMaybe.ConnectionErrors.Code')
+  serialized_pb=_b('\n\x11RPCMessages.proto\x12\x14\x44\x65vialet.CallMeMaybe\x1a CallMeMaybe/CommonMessages.proto\x1a\x1d\x43\x61llMeMaybe/CallMeMaybe.proto\"b\n\x07Request\x12\x10\n\x08serverId\x18\x01 \x02(\x0c\x12\x11\n\tserviceId\x18\x02 \x02(\x07\x12\x11\n\trequestId\x18\x03 \x02(\x0c\x12\x0c\n\x04type\x18\x04 \x02(\r\x12\x11\n\tsubTypeId\x18\x05 \x02(\r\"\x88\x01\n\x05Reply\x12\x10\n\x08serverId\x18\x01 \x02(\x0c\x12\x11\n\tserviceId\x18\x02 \x02(\x07\x12\x11\n\trequestId\x18\x03 \x02(\x0c\x12\x0c\n\x04type\x18\x04 \x02(\r\x12\x11\n\tsubTypeId\x18\x05 \x02(\r\x12\x11\n\terrorCode\x18\x06 \x02(\x11\x12\x13\n\x0bisMultipart\x18\x07 \x02(\x08\"M\n\x05\x45vent\x12\x10\n\x08serverId\x18\x01 \x02(\x0c\x12\x11\n\tserviceId\x18\x02 \x02(\x07\x12\x0c\n\x04type\x18\x03 \x02(\r\x12\x11\n\tsubTypeId\x18\x04 \x02(\r\"$\n\x11\x43onnectionRequest\x12\x0f\n\x07version\x18\x01 \x02(\r\"#\n\x07Service\x12\n\n\x02id\x18\x01 \x02(\r\x12\x0c\n\x04name\x18\x02 \x02(\t\"?\n\x0cServicesList\x12/\n\x08services\x18\x01 \x03(\x0b\x32\x1d.Devialet.CallMeMaybe.Service\"T\n\x0f\x43onnectionReply\x12\x10\n\x08serverId\x18\x01 \x02(\x0c\x12/\n\x08services\x18\x02 \x03(\x0b\x32\x1d.Devialet.CallMeMaybe.Service\"2\n\x10\x43onnectionErrors\"\x1e\n\x04\x43ode\x12\x16\n\x12UnsupportedVersion\x10\x00\x32\x86\x04\n\nConnection\x12\x62\n\x0eopenConnection\x12\'.Devialet.CallMeMaybe.ConnectionRequest\x1a%.Devialet.CallMeMaybe.ConnectionReply\"\x00\x12G\n\x04ping\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02 \x00\x12Q\n\x0cserviceAdded\x12\x1d.Devialet.CallMeMaybe.Service\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x12S\n\x0eserviceRemoved\x12\x1d.Devialet.CallMeMaybe.Service\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x12M\n\nserverQuit\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x1aT\x92MQ\n#com.devialet.callmemaybe.connection\x1a*Devialet.CallMeMaybe.ConnectionErrors.CodeB\x03\x90\x01\x01')
   ,
   dependencies=[CallMeMaybe_dot_CommonMessages__pb2.DESCRIPTOR,CallMeMaybe_dot_CallMeMaybe__pb2.DESCRIPTOR,])
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
@@ -460,6 +462,76 @@ ConnectionErrors = _reflection.GeneratedProtocolMessageType('ConnectionErrors', 
   # @@protoc_insertion_point(class_scope:Devialet.CallMeMaybe.ConnectionErrors)
   ))
 _sym_db.RegisterMessage(ConnectionErrors)
+
+
+DESCRIPTOR.has_options = True
+DESCRIPTOR._options = _descriptor._ParseOptions(descriptor_pb2.FileOptions(), _b('\220\001\001'))
+
+_CONNECTION = _descriptor.ServiceDescriptor(
+  name='Connection',
+  full_name='Devialet.CallMeMaybe.Connection',
+  file=DESCRIPTOR,
+  index=0,
+  options=_descriptor._ParseOptions(descriptor_pb2.ServiceOptions(), _b('\222MQ\n#com.devialet.callmemaybe.connection\032*Devialet.CallMeMaybe.ConnectionErrors.Code')),
+  serialized_start=705,
+  serialized_end=1223,
+  methods=[
+  _descriptor.MethodDescriptor(
+    name='openConnection',
+    full_name='Devialet.CallMeMaybe.Connection.openConnection',
+    index=0,
+    containing_service=None,
+    input_type=_CONNECTIONREQUEST,
+    output_type=_CONNECTIONREPLY,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='ping',
+    full_name='Devialet.CallMeMaybe.Connection.ping',
+    index=1,
+    containing_service=None,
+    input_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=_descriptor._ParseOptions(descriptor_pb2.MethodOptions(), _b('\222M\002 \000')),
+  ),
+  _descriptor.MethodDescriptor(
+    name='serviceAdded',
+    full_name='Devialet.CallMeMaybe.Connection.serviceAdded',
+    index=2,
+    containing_service=None,
+    input_type=_SERVICE,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=_descriptor._ParseOptions(descriptor_pb2.MethodOptions(), _b('\222M\002\010\001')),
+  ),
+  _descriptor.MethodDescriptor(
+    name='serviceRemoved',
+    full_name='Devialet.CallMeMaybe.Connection.serviceRemoved',
+    index=3,
+    containing_service=None,
+    input_type=_SERVICE,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=_descriptor._ParseOptions(descriptor_pb2.MethodOptions(), _b('\222M\002\010\001')),
+  ),
+  _descriptor.MethodDescriptor(
+    name='serverQuit',
+    full_name='Devialet.CallMeMaybe.Connection.serverQuit',
+    index=4,
+    containing_service=None,
+    input_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=_descriptor._ParseOptions(descriptor_pb2.MethodOptions(), _b('\222M\002\010\001')),
+  ),
+])
+
+Connection = service_reflection.GeneratedServiceType('Connection', (_service.Service,), dict(
+  DESCRIPTOR = _CONNECTION,
+  __module__ = 'RPCMessages_pb2'
+  ))
+
+Connection_Stub = service_reflection.GeneratedServiceStubType('Connection_Stub', (Connection,), dict(
+  DESCRIPTOR = _CONNECTION,
+  __module__ = 'RPCMessages_pb2'
+  ))
 
 
 # @@protoc_insertion_point(module_scope)

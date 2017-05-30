@@ -1,8 +1,9 @@
-// Reversed by pbd (https://github.com/rsc-dev/pbd)
+syntax = "proto2";
 package Devialet.TooManyFlows;
 import "CallMeMaybe/CommonMessages.proto";
 import "TooManyFlows/Identifier.proto";
 import "CallMeMaybe/CallMeMaybe.proto";
+option py_generic_services = true;
 
 message AddRendererQuery {
 	required .Devialet.TooManyFlows.GroupId groupId = 1 ;

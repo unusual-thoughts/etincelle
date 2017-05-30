@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='TheSoundOfSilence/Collection.proto',
   package='Devialet.AudioSource',
   syntax='proto2',
-  serialized_pb=_b('\n\"TheSoundOfSilence/Collection.proto\x12\x14\x44\x65vialet.AudioSource\x1a\x1cTheSoundOfSilence/Node.proto\"a\n\nCollection\x12\x0c\n\x04name\x18\x01 \x02(\t\x12)\n\x05nodes\x18\x02 \x03(\x0b\x32\x1a.Devialet.AudioSource.Node\x12\x0c\n\x04size\x18\x03 \x02(\r\x12\x0c\n\x04type\x18\x04 \x02(\r')
+  serialized_pb=_b('\n\"TheSoundOfSilence/Collection.proto\x12\x14\x44\x65vialet.AudioSource\x1a\x1cTheSoundOfSilence/Node.proto\"a\n\nCollection\x12\x0c\n\x04name\x18\x01 \x02(\t\x12)\n\x05nodes\x18\x02 \x03(\x0b\x32\x1a.Devialet.AudioSource.Node\x12\x0c\n\x04size\x18\x03 \x02(\r\x12\x0c\n\x04type\x18\x04 \x02(\rB\x03\x90\x01\x01')
   ,
   dependencies=[TheSoundOfSilence_dot_Node__pb2.DESCRIPTOR,])
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
@@ -90,4 +90,6 @@ Collection = _reflection.GeneratedProtocolMessageType('Collection', (_message.Me
 _sym_db.RegisterMessage(Collection)
 
 
+DESCRIPTOR.has_options = True
+DESCRIPTOR._options = _descriptor._ParseOptions(descriptor_pb2.FileOptions(), _b('\220\001\001'))
 # @@protoc_insertion_point(module_scope)

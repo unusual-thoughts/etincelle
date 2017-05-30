@@ -7,6 +7,8 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
+from google.protobuf import service as _service
+from google.protobuf import service_reflection
 from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
@@ -21,7 +23,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='TooManyFlows/History.proto',
   package='Devialet.TooManyFlows',
   syntax='proto2',
-  serialized_pb=_b('\n\x1aTooManyFlows/History.proto\x12\x15\x44\x65vialet.TooManyFlows\x1a CallMeMaybe/CommonMessages.proto\x1a\x1d\x43\x61llMeMaybe/CallMeMaybe.proto\"\x15\n\x06UrlMsg\x12\x0b\n\x03url\x18\x01 \x02(\t\"8\n\x07UrlsMsg\x12-\n\x06tracks\x18\x01 \x03(\x0b\x32\x1d.Devialet.TooManyFlows.UrlMsg2\x93\x03\n\x07History\x12\x43\n\x05\x63lear\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12J\n\x07\x63leared\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x12N\n\x0btrackPopped\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x12P\n\x0btrackPushed\x12\x1d.Devialet.TooManyFlows.UrlMsg\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x1aU\x92MR\n#com.devialet.toomanyflows.history-0\"+\n)\n\x1d\x44\x65vialet.TooManyFlows.UrlsMsg\x12\x06tracks \x01')
+  serialized_pb=_b('\n\x1aTooManyFlows/History.proto\x12\x15\x44\x65vialet.TooManyFlows\x1a CallMeMaybe/CommonMessages.proto\x1a\x1d\x43\x61llMeMaybe/CallMeMaybe.proto\"\x15\n\x06UrlMsg\x12\x0b\n\x03url\x18\x01 \x02(\t\"8\n\x07UrlsMsg\x12-\n\x06tracks\x18\x01 \x03(\x0b\x32\x1d.Devialet.TooManyFlows.UrlMsg2\x93\x03\n\x07History\x12\x43\n\x05\x63lear\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12J\n\x07\x63leared\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x12N\n\x0btrackPopped\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x12P\n\x0btrackPushed\x12\x1d.Devialet.TooManyFlows.UrlMsg\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x1aU\x92MR\n#com.devialet.toomanyflows.history-0\"+\n)\n\x1d\x44\x65vialet.TooManyFlows.UrlsMsg\x12\x06tracks \x01\x42\x03\x90\x01\x01')
   ,
   dependencies=[CallMeMaybe_dot_CommonMessages__pb2.DESCRIPTOR,CallMeMaybe_dot_CallMeMaybe__pb2.DESCRIPTOR,])
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
@@ -107,6 +109,67 @@ UrlsMsg = _reflection.GeneratedProtocolMessageType('UrlsMsg', (_message.Message,
   # @@protoc_insertion_point(class_scope:Devialet.TooManyFlows.UrlsMsg)
   ))
 _sym_db.RegisterMessage(UrlsMsg)
+
+
+DESCRIPTOR.has_options = True
+DESCRIPTOR._options = _descriptor._ParseOptions(descriptor_pb2.FileOptions(), _b('\220\001\001'))
+
+_HISTORY = _descriptor.ServiceDescriptor(
+  name='History',
+  full_name='Devialet.TooManyFlows.History',
+  file=DESCRIPTOR,
+  index=0,
+  options=_descriptor._ParseOptions(descriptor_pb2.ServiceOptions(), _b('\222MR\n#com.devialet.toomanyflows.history-0\"+\n)\n\035Devialet.TooManyFlows.UrlsMsg\022\006tracks \001')),
+  serialized_start=200,
+  serialized_end=603,
+  methods=[
+  _descriptor.MethodDescriptor(
+    name='clear',
+    full_name='Devialet.TooManyFlows.History.clear',
+    index=0,
+    containing_service=None,
+    input_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='cleared',
+    full_name='Devialet.TooManyFlows.History.cleared',
+    index=1,
+    containing_service=None,
+    input_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=_descriptor._ParseOptions(descriptor_pb2.MethodOptions(), _b('\222M\002\010\001')),
+  ),
+  _descriptor.MethodDescriptor(
+    name='trackPopped',
+    full_name='Devialet.TooManyFlows.History.trackPopped',
+    index=2,
+    containing_service=None,
+    input_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=_descriptor._ParseOptions(descriptor_pb2.MethodOptions(), _b('\222M\002\010\001')),
+  ),
+  _descriptor.MethodDescriptor(
+    name='trackPushed',
+    full_name='Devialet.TooManyFlows.History.trackPushed',
+    index=3,
+    containing_service=None,
+    input_type=_URLMSG,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=_descriptor._ParseOptions(descriptor_pb2.MethodOptions(), _b('\222M\002\010\001')),
+  ),
+])
+
+History = service_reflection.GeneratedServiceType('History', (_service.Service,), dict(
+  DESCRIPTOR = _HISTORY,
+  __module__ = 'TooManyFlows.History_pb2'
+  ))
+
+History_Stub = service_reflection.GeneratedServiceStubType('History_Stub', (History,), dict(
+  DESCRIPTOR = _HISTORY,
+  __module__ = 'TooManyFlows.History_pb2'
+  ))
 
 
 # @@protoc_insertion_point(module_scope)

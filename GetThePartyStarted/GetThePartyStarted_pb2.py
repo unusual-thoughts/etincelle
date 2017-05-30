@@ -7,6 +7,8 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
+from google.protobuf import service as _service
+from google.protobuf import service_reflection
 from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
@@ -21,7 +23,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='GetThePartyStarted/GetThePartyStarted.proto',
   package='Devialet.GetThePartyStarted',
   syntax='proto2',
-  serialized_pb=_b('\n+GetThePartyStarted/GetThePartyStarted.proto\x12\x1b\x44\x65vialet.GetThePartyStarted\x1a CallMeMaybe/CommonMessages.proto\x1a\x1d\x43\x61llMeMaybe/CallMeMaybe.proto\"\x8d\x01\n\x13\x43onfigurationErrors\"v\n\x05\x43odes\x12\x15\n\x11PowerActionFailed\x10\x01\x12\x15\n\x11SetupActionFailed\x10\x02\x12\x15\n\x11NoUpdateAvailable\x10\x03\x12\x11\n\rUpdaterIsBusy\x10\x04\x12\x15\n\x11UpdateCheckFailed\x10\x05\"r\n\nDeviceInfo\x12\x13\n\x0bproductType\x18\x01 \x02(\t\x12\x14\n\x0cserialNumber\x18\x02 \x02(\t\x12\x17\n\x0fsoftwareVersion\x18\x03 \x02(\t\x12 \n\x18wiredInterfaceMacAddress\x18\x04 \x02(\t\"d\n\x0bSetupErrors\"U\n\x05\x43odes\x12\x15\n\x11InvalidSetupToken\x10\x01\x12\x1c\n\x18InvalidOperationForState\x10\x02\x12\x17\n\x13\x43onfigurationFailed\x10\x03\"\x1e\n\nSetupToken\x12\x10\n\x08masterId\x18\x01 \x02(\x0c\",\n\tSlaveInfo\x12\n\n\x02id\x18\x01 \x02(\x0c\x12\x13\n\x0bproductType\x18\x02 \x02(\t\"G\n\rSlaveInfoList\x12\x36\n\x06slaves\x18\x01 \x03(\x0b\x32&.Devialet.GetThePartyStarted.SlaveInfo\"Y\n\x11StartSetupRequest\x12\x10\n\x08masterId\x18\x01 \x02(\x0c\x12\x0e\n\x06locale\x18\x02 \x02(\t\x12\x13\n\x0b\x63ountryCode\x18\x03 \x02(\t\x12\r\n\x05\x66orce\x18\x04 \x02(\x08\"\xe5\x01\n\x0bWiFiNetwork\x12\x15\n\rdevialetOwned\x18\x01 \x02(\x08\x12\x10\n\x08priority\x18\x02 \x02(\x05\x12\x14\n\x0csecurityMode\x18\x03 \x02(\x05\x12\x0c\n\x04ssid\x18\x04 \x02(\t\x12\x15\n\rwpaPassphrase\x18\x05 \x01(\t\x12\x17\n\x0fwpaPreSharedKey\x18\x06 \x01(\x0c\x12\x0e\n\x06wepKey\x18\x07 \x01(\x0c\"I\n\x0cSecurityMode\x12\x0c\n\x08NoneMode\x10\x01\x12\x0b\n\x07WepMode\x10\x02\x12\x0e\n\nWpaPskMode\x10\x03\x12\x0e\n\nWpaEapMode\x10\x04\"d\n\x15WiFiConfigurationData\x12\x0f\n\x07\x65nabled\x18\x01 \x02(\x08\x12:\n\x08networks\x18\x02 \x03(\x0b\x32(.Devialet.GetThePartyStarted.WiFiNetwork\"4\n\x14PlcConfigurationData\x12\x0f\n\x07\x65nabled\x18\x01 \x02(\x08\x12\x0b\n\x03key\x18\x02 \x02(\x0c\"\x95\x01\n\x11\x43onfigurationData\x12@\n\x04wifi\x18\x01 \x02(\x0b\x32\x32.Devialet.GetThePartyStarted.WiFiConfigurationData\x12>\n\x03plc\x18\x02 \x02(\x0b\x32\x31.Devialet.GetThePartyStarted.PlcConfigurationData\"\x8f\x01\n\x17SetConfigurationRequest\x12\x36\n\x05token\x18\x01 \x02(\x0b\x32\'.Devialet.GetThePartyStarted.SetupToken\x12<\n\x04\x64\x61ta\x18\x02 \x02(\x0b\x32..Devialet.GetThePartyStarted.ConfigurationData2\x82\x06\n\rConfiguration\x12J\n\x0cpowerStandby\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12J\n\x0cpowerSuspend\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12\x46\n\x08powerOff\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12I\n\x0bpowerReboot\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12I\n\x0b\x65nableSetup\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12L\n\x0eresetToFactory\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12L\n\x0e\x63heckForUpdate\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x1a\xde\x01\x92M\xda\x01\n/com.devialet.getthepartystarted.configuration-0\x1a\x35\x44\x65vialet.GetThePartyStarted.ConfigurationErrors.Codes\"p\n6\n&Devialet.GetThePartyStarted.DeviceInfo\x12\ndeviceInfo \x01\n6\n!Devialet.CallMeMaybe.BoolProperty\x12\x0fupdateAvailable\x18\x01\x32\xf1\x02\n\x05Setup\x12[\n\nstartSetup\x12..Devialet.GetThePartyStarted.StartSetupRequest\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12U\n\x0b\x63\x61ncelSetup\x12\'.Devialet.GetThePartyStarted.SetupToken\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12W\n\rcompleteSetup\x12\'.Devialet.GetThePartyStarted.SetupToken\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x1a[\x92MX\n\'com.devialet.getthepartystarted.setup-0\x1a-Devialet.GetThePartyStarted.SetupErrors.Codes2\xa6\x01\n\x10SlaveDeviceSetup\x1a\x91\x01\x92M\x8d\x01\n/com.devialet.getthepartystarted.setup-0.slave-0\x12!Devialet.GetThePartyStarted.Setup\"7\n5\n%Devialet.GetThePartyStarted.SlaveInfo\x12\ndeviceInfo \x01')
+  serialized_pb=_b('\n+GetThePartyStarted/GetThePartyStarted.proto\x12\x1b\x44\x65vialet.GetThePartyStarted\x1a CallMeMaybe/CommonMessages.proto\x1a\x1d\x43\x61llMeMaybe/CallMeMaybe.proto\"\x8d\x01\n\x13\x43onfigurationErrors\"v\n\x05\x43odes\x12\x15\n\x11PowerActionFailed\x10\x01\x12\x15\n\x11SetupActionFailed\x10\x02\x12\x15\n\x11NoUpdateAvailable\x10\x03\x12\x11\n\rUpdaterIsBusy\x10\x04\x12\x15\n\x11UpdateCheckFailed\x10\x05\"r\n\nDeviceInfo\x12\x13\n\x0bproductType\x18\x01 \x02(\t\x12\x14\n\x0cserialNumber\x18\x02 \x02(\t\x12\x17\n\x0fsoftwareVersion\x18\x03 \x02(\t\x12 \n\x18wiredInterfaceMacAddress\x18\x04 \x02(\t\"d\n\x0bSetupErrors\"U\n\x05\x43odes\x12\x15\n\x11InvalidSetupToken\x10\x01\x12\x1c\n\x18InvalidOperationForState\x10\x02\x12\x17\n\x13\x43onfigurationFailed\x10\x03\"\x1e\n\nSetupToken\x12\x10\n\x08masterId\x18\x01 \x02(\x0c\",\n\tSlaveInfo\x12\n\n\x02id\x18\x01 \x02(\x0c\x12\x13\n\x0bproductType\x18\x02 \x02(\t\"G\n\rSlaveInfoList\x12\x36\n\x06slaves\x18\x01 \x03(\x0b\x32&.Devialet.GetThePartyStarted.SlaveInfo\"Y\n\x11StartSetupRequest\x12\x10\n\x08masterId\x18\x01 \x02(\x0c\x12\x0e\n\x06locale\x18\x02 \x02(\t\x12\x13\n\x0b\x63ountryCode\x18\x03 \x02(\t\x12\r\n\x05\x66orce\x18\x04 \x02(\x08\"\xe5\x01\n\x0bWiFiNetwork\x12\x15\n\rdevialetOwned\x18\x01 \x02(\x08\x12\x10\n\x08priority\x18\x02 \x02(\x05\x12\x14\n\x0csecurityMode\x18\x03 \x02(\x05\x12\x0c\n\x04ssid\x18\x04 \x02(\t\x12\x15\n\rwpaPassphrase\x18\x05 \x01(\t\x12\x17\n\x0fwpaPreSharedKey\x18\x06 \x01(\x0c\x12\x0e\n\x06wepKey\x18\x07 \x01(\x0c\"I\n\x0cSecurityMode\x12\x0c\n\x08NoneMode\x10\x01\x12\x0b\n\x07WepMode\x10\x02\x12\x0e\n\nWpaPskMode\x10\x03\x12\x0e\n\nWpaEapMode\x10\x04\"d\n\x15WiFiConfigurationData\x12\x0f\n\x07\x65nabled\x18\x01 \x02(\x08\x12:\n\x08networks\x18\x02 \x03(\x0b\x32(.Devialet.GetThePartyStarted.WiFiNetwork\"4\n\x14PlcConfigurationData\x12\x0f\n\x07\x65nabled\x18\x01 \x02(\x08\x12\x0b\n\x03key\x18\x02 \x02(\x0c\"\x95\x01\n\x11\x43onfigurationData\x12@\n\x04wifi\x18\x01 \x02(\x0b\x32\x32.Devialet.GetThePartyStarted.WiFiConfigurationData\x12>\n\x03plc\x18\x02 \x02(\x0b\x32\x31.Devialet.GetThePartyStarted.PlcConfigurationData\"\x8f\x01\n\x17SetConfigurationRequest\x12\x36\n\x05token\x18\x01 \x02(\x0b\x32\'.Devialet.GetThePartyStarted.SetupToken\x12<\n\x04\x64\x61ta\x18\x02 \x02(\x0b\x32..Devialet.GetThePartyStarted.ConfigurationData2\x82\x06\n\rConfiguration\x12J\n\x0cpowerStandby\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12J\n\x0cpowerSuspend\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12\x46\n\x08powerOff\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12I\n\x0bpowerReboot\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12I\n\x0b\x65nableSetup\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12L\n\x0eresetToFactory\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12L\n\x0e\x63heckForUpdate\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x1a\xde\x01\x92M\xda\x01\n/com.devialet.getthepartystarted.configuration-0\x1a\x35\x44\x65vialet.GetThePartyStarted.ConfigurationErrors.Codes\"p\n6\n&Devialet.GetThePartyStarted.DeviceInfo\x12\ndeviceInfo \x01\n6\n!Devialet.CallMeMaybe.BoolProperty\x12\x0fupdateAvailable\x18\x01\x32\xf1\x02\n\x05Setup\x12[\n\nstartSetup\x12..Devialet.GetThePartyStarted.StartSetupRequest\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12U\n\x0b\x63\x61ncelSetup\x12\'.Devialet.GetThePartyStarted.SetupToken\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12W\n\rcompleteSetup\x12\'.Devialet.GetThePartyStarted.SetupToken\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x1a[\x92MX\n\'com.devialet.getthepartystarted.setup-0\x1a-Devialet.GetThePartyStarted.SetupErrors.Codes2\xa6\x01\n\x10SlaveDeviceSetup\x1a\x91\x01\x92M\x8d\x01\n/com.devialet.getthepartystarted.setup-0.slave-0\x12!Devialet.GetThePartyStarted.Setup\"7\n5\n%Devialet.GetThePartyStarted.SlaveInfo\x12\ndeviceInfo \x01\x32\x89\x01\n\x18\x41ttachedSlaveDeviceSetup\x1am\x92Mj\n:com.devialet.getthepartystarted.setup-0.slave-0.attached-0\x12,Devialet.GetThePartyStarted.SlaveDeviceSetup2\xa3\x03\n\x16RemoteSlaveDeviceSetup\x12U\n\x12requestAssociation\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x12g\n\x10setConfiguration\x12\x34.Devialet.GetThePartyStarted.SetConfigurationRequest\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12\\\n\x12\x61pplyConfiguration\x12\'.Devialet.GetThePartyStarted.SetupToken\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x1ak\x92Mh\n8com.devialet.getthepartystarted.setup-0.slave-0.remote-0\x12,Devialet.GetThePartyStarted.SlaveDeviceSetup2\x9a\x08\n\x11MasterDeviceSetup\x12Y\n\x0f\x61ssociateSlaves\x12\'.Devialet.GetThePartyStarted.SetupToken\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12_\n\x15startSlaveAssociation\x12\'.Devialet.GetThePartyStarted.SetupToken\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12`\n\x16\x63\x61ncelSlaveAssociation\x12\'.Devialet.GetThePartyStarted.SetupToken\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12Y\n\x0f\x63onfigureSlaves\x12\'.Devialet.GetThePartyStarted.SetupToken\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12X\n\nslaveFound\x12&.Devialet.GetThePartyStarted.SlaveInfo\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x12]\n\x0fslaveAssociated\x12&.Devialet.GetThePartyStarted.SlaveInfo\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x12]\n\x0fslaveConfigured\x12&.Devialet.GetThePartyStarted.SlaveInfo\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x12W\n\tslaveLost\x12&.Devialet.GetThePartyStarted.SlaveInfo\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x1a\x9a\x02\x92M\x96\x02\n0com.devialet.getthepartystarted.setup-0.master-0\x12!Devialet.GetThePartyStarted.Setup\"\xbe\x01\n:\n)Devialet.GetThePartyStarted.SlaveInfoList\x12\x0bknownSlaves\x18\x01\n?\n)Devialet.GetThePartyStarted.SlaveInfoList\x12\x10\x61ssociatedSlaves\x18\x01\n?\n)Devialet.GetThePartyStarted.SlaveInfoList\x12\x10\x63onfiguredSlaves\x18\x01\x42\x03\x90\x01\x01')
   ,
   dependencies=[CallMeMaybe_dot_CommonMessages__pb2.DESCRIPTOR,CallMeMaybe_dot_CallMeMaybe__pb2.DESCRIPTOR,])
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
@@ -703,6 +705,335 @@ SetConfigurationRequest = _reflection.GeneratedProtocolMessageType('SetConfigura
   # @@protoc_insertion_point(class_scope:Devialet.GetThePartyStarted.SetConfigurationRequest)
   ))
 _sym_db.RegisterMessage(SetConfigurationRequest)
+
+
+DESCRIPTOR.has_options = True
+DESCRIPTOR._options = _descriptor._ParseOptions(descriptor_pb2.FileOptions(), _b('\220\001\001'))
+
+_CONFIGURATION = _descriptor.ServiceDescriptor(
+  name='Configuration',
+  full_name='Devialet.GetThePartyStarted.Configuration',
+  file=DESCRIPTOR,
+  index=0,
+  options=_descriptor._ParseOptions(descriptor_pb2.ServiceOptions(), _b('\222M\332\001\n/com.devialet.getthepartystarted.configuration-0\0325Devialet.GetThePartyStarted.ConfigurationErrors.Codes\"p\n6\n&Devialet.GetThePartyStarted.DeviceInfo\022\ndeviceInfo \001\n6\n!Devialet.CallMeMaybe.BoolProperty\022\017updateAvailable\030\001')),
+  serialized_start=1432,
+  serialized_end=2202,
+  methods=[
+  _descriptor.MethodDescriptor(
+    name='powerStandby',
+    full_name='Devialet.GetThePartyStarted.Configuration.powerStandby',
+    index=0,
+    containing_service=None,
+    input_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='powerSuspend',
+    full_name='Devialet.GetThePartyStarted.Configuration.powerSuspend',
+    index=1,
+    containing_service=None,
+    input_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='powerOff',
+    full_name='Devialet.GetThePartyStarted.Configuration.powerOff',
+    index=2,
+    containing_service=None,
+    input_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='powerReboot',
+    full_name='Devialet.GetThePartyStarted.Configuration.powerReboot',
+    index=3,
+    containing_service=None,
+    input_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='enableSetup',
+    full_name='Devialet.GetThePartyStarted.Configuration.enableSetup',
+    index=4,
+    containing_service=None,
+    input_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='resetToFactory',
+    full_name='Devialet.GetThePartyStarted.Configuration.resetToFactory',
+    index=5,
+    containing_service=None,
+    input_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='checkForUpdate',
+    full_name='Devialet.GetThePartyStarted.Configuration.checkForUpdate',
+    index=6,
+    containing_service=None,
+    input_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=None,
+  ),
+])
+
+Configuration = service_reflection.GeneratedServiceType('Configuration', (_service.Service,), dict(
+  DESCRIPTOR = _CONFIGURATION,
+  __module__ = 'GetThePartyStarted.GetThePartyStarted_pb2'
+  ))
+
+Configuration_Stub = service_reflection.GeneratedServiceStubType('Configuration_Stub', (Configuration,), dict(
+  DESCRIPTOR = _CONFIGURATION,
+  __module__ = 'GetThePartyStarted.GetThePartyStarted_pb2'
+  ))
+
+
+
+_SETUP = _descriptor.ServiceDescriptor(
+  name='Setup',
+  full_name='Devialet.GetThePartyStarted.Setup',
+  file=DESCRIPTOR,
+  index=1,
+  options=_descriptor._ParseOptions(descriptor_pb2.ServiceOptions(), _b('\222MX\n\'com.devialet.getthepartystarted.setup-0\032-Devialet.GetThePartyStarted.SetupErrors.Codes')),
+  serialized_start=2205,
+  serialized_end=2574,
+  methods=[
+  _descriptor.MethodDescriptor(
+    name='startSetup',
+    full_name='Devialet.GetThePartyStarted.Setup.startSetup',
+    index=0,
+    containing_service=None,
+    input_type=_STARTSETUPREQUEST,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='cancelSetup',
+    full_name='Devialet.GetThePartyStarted.Setup.cancelSetup',
+    index=1,
+    containing_service=None,
+    input_type=_SETUPTOKEN,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='completeSetup',
+    full_name='Devialet.GetThePartyStarted.Setup.completeSetup',
+    index=2,
+    containing_service=None,
+    input_type=_SETUPTOKEN,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=None,
+  ),
+])
+
+Setup = service_reflection.GeneratedServiceType('Setup', (_service.Service,), dict(
+  DESCRIPTOR = _SETUP,
+  __module__ = 'GetThePartyStarted.GetThePartyStarted_pb2'
+  ))
+
+Setup_Stub = service_reflection.GeneratedServiceStubType('Setup_Stub', (Setup,), dict(
+  DESCRIPTOR = _SETUP,
+  __module__ = 'GetThePartyStarted.GetThePartyStarted_pb2'
+  ))
+
+
+
+_SLAVEDEVICESETUP = _descriptor.ServiceDescriptor(
+  name='SlaveDeviceSetup',
+  full_name='Devialet.GetThePartyStarted.SlaveDeviceSetup',
+  file=DESCRIPTOR,
+  index=2,
+  options=_descriptor._ParseOptions(descriptor_pb2.ServiceOptions(), _b('\222M\215\001\n/com.devialet.getthepartystarted.setup-0.slave-0\022!Devialet.GetThePartyStarted.Setup\"7\n5\n%Devialet.GetThePartyStarted.SlaveInfo\022\ndeviceInfo \001')),
+  serialized_start=2577,
+  serialized_end=2743,
+  methods=[
+])
+
+SlaveDeviceSetup = service_reflection.GeneratedServiceType('SlaveDeviceSetup', (_service.Service,), dict(
+  DESCRIPTOR = _SLAVEDEVICESETUP,
+  __module__ = 'GetThePartyStarted.GetThePartyStarted_pb2'
+  ))
+
+SlaveDeviceSetup_Stub = service_reflection.GeneratedServiceStubType('SlaveDeviceSetup_Stub', (SlaveDeviceSetup,), dict(
+  DESCRIPTOR = _SLAVEDEVICESETUP,
+  __module__ = 'GetThePartyStarted.GetThePartyStarted_pb2'
+  ))
+
+
+
+_ATTACHEDSLAVEDEVICESETUP = _descriptor.ServiceDescriptor(
+  name='AttachedSlaveDeviceSetup',
+  full_name='Devialet.GetThePartyStarted.AttachedSlaveDeviceSetup',
+  file=DESCRIPTOR,
+  index=3,
+  options=_descriptor._ParseOptions(descriptor_pb2.ServiceOptions(), _b('\222Mj\n:com.devialet.getthepartystarted.setup-0.slave-0.attached-0\022,Devialet.GetThePartyStarted.SlaveDeviceSetup')),
+  serialized_start=2746,
+  serialized_end=2883,
+  methods=[
+])
+
+AttachedSlaveDeviceSetup = service_reflection.GeneratedServiceType('AttachedSlaveDeviceSetup', (_service.Service,), dict(
+  DESCRIPTOR = _ATTACHEDSLAVEDEVICESETUP,
+  __module__ = 'GetThePartyStarted.GetThePartyStarted_pb2'
+  ))
+
+AttachedSlaveDeviceSetup_Stub = service_reflection.GeneratedServiceStubType('AttachedSlaveDeviceSetup_Stub', (AttachedSlaveDeviceSetup,), dict(
+  DESCRIPTOR = _ATTACHEDSLAVEDEVICESETUP,
+  __module__ = 'GetThePartyStarted.GetThePartyStarted_pb2'
+  ))
+
+
+
+_REMOTESLAVEDEVICESETUP = _descriptor.ServiceDescriptor(
+  name='RemoteSlaveDeviceSetup',
+  full_name='Devialet.GetThePartyStarted.RemoteSlaveDeviceSetup',
+  file=DESCRIPTOR,
+  index=4,
+  options=_descriptor._ParseOptions(descriptor_pb2.ServiceOptions(), _b('\222Mh\n8com.devialet.getthepartystarted.setup-0.slave-0.remote-0\022,Devialet.GetThePartyStarted.SlaveDeviceSetup')),
+  serialized_start=2886,
+  serialized_end=3305,
+  methods=[
+  _descriptor.MethodDescriptor(
+    name='requestAssociation',
+    full_name='Devialet.GetThePartyStarted.RemoteSlaveDeviceSetup.requestAssociation',
+    index=0,
+    containing_service=None,
+    input_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=_descriptor._ParseOptions(descriptor_pb2.MethodOptions(), _b('\222M\002\010\001')),
+  ),
+  _descriptor.MethodDescriptor(
+    name='setConfiguration',
+    full_name='Devialet.GetThePartyStarted.RemoteSlaveDeviceSetup.setConfiguration',
+    index=1,
+    containing_service=None,
+    input_type=_SETCONFIGURATIONREQUEST,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='applyConfiguration',
+    full_name='Devialet.GetThePartyStarted.RemoteSlaveDeviceSetup.applyConfiguration',
+    index=2,
+    containing_service=None,
+    input_type=_SETUPTOKEN,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=None,
+  ),
+])
+
+RemoteSlaveDeviceSetup = service_reflection.GeneratedServiceType('RemoteSlaveDeviceSetup', (_service.Service,), dict(
+  DESCRIPTOR = _REMOTESLAVEDEVICESETUP,
+  __module__ = 'GetThePartyStarted.GetThePartyStarted_pb2'
+  ))
+
+RemoteSlaveDeviceSetup_Stub = service_reflection.GeneratedServiceStubType('RemoteSlaveDeviceSetup_Stub', (RemoteSlaveDeviceSetup,), dict(
+  DESCRIPTOR = _REMOTESLAVEDEVICESETUP,
+  __module__ = 'GetThePartyStarted.GetThePartyStarted_pb2'
+  ))
+
+
+
+_MASTERDEVICESETUP = _descriptor.ServiceDescriptor(
+  name='MasterDeviceSetup',
+  full_name='Devialet.GetThePartyStarted.MasterDeviceSetup',
+  file=DESCRIPTOR,
+  index=5,
+  options=_descriptor._ParseOptions(descriptor_pb2.ServiceOptions(), _b('\222M\226\002\n0com.devialet.getthepartystarted.setup-0.master-0\022!Devialet.GetThePartyStarted.Setup\"\276\001\n:\n)Devialet.GetThePartyStarted.SlaveInfoList\022\013knownSlaves\030\001\n?\n)Devialet.GetThePartyStarted.SlaveInfoList\022\020associatedSlaves\030\001\n?\n)Devialet.GetThePartyStarted.SlaveInfoList\022\020configuredSlaves\030\001')),
+  serialized_start=3308,
+  serialized_end=4358,
+  methods=[
+  _descriptor.MethodDescriptor(
+    name='associateSlaves',
+    full_name='Devialet.GetThePartyStarted.MasterDeviceSetup.associateSlaves',
+    index=0,
+    containing_service=None,
+    input_type=_SETUPTOKEN,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='startSlaveAssociation',
+    full_name='Devialet.GetThePartyStarted.MasterDeviceSetup.startSlaveAssociation',
+    index=1,
+    containing_service=None,
+    input_type=_SETUPTOKEN,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='cancelSlaveAssociation',
+    full_name='Devialet.GetThePartyStarted.MasterDeviceSetup.cancelSlaveAssociation',
+    index=2,
+    containing_service=None,
+    input_type=_SETUPTOKEN,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='configureSlaves',
+    full_name='Devialet.GetThePartyStarted.MasterDeviceSetup.configureSlaves',
+    index=3,
+    containing_service=None,
+    input_type=_SETUPTOKEN,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='slaveFound',
+    full_name='Devialet.GetThePartyStarted.MasterDeviceSetup.slaveFound',
+    index=4,
+    containing_service=None,
+    input_type=_SLAVEINFO,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=_descriptor._ParseOptions(descriptor_pb2.MethodOptions(), _b('\222M\002\010\001')),
+  ),
+  _descriptor.MethodDescriptor(
+    name='slaveAssociated',
+    full_name='Devialet.GetThePartyStarted.MasterDeviceSetup.slaveAssociated',
+    index=5,
+    containing_service=None,
+    input_type=_SLAVEINFO,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=_descriptor._ParseOptions(descriptor_pb2.MethodOptions(), _b('\222M\002\010\001')),
+  ),
+  _descriptor.MethodDescriptor(
+    name='slaveConfigured',
+    full_name='Devialet.GetThePartyStarted.MasterDeviceSetup.slaveConfigured',
+    index=6,
+    containing_service=None,
+    input_type=_SLAVEINFO,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=_descriptor._ParseOptions(descriptor_pb2.MethodOptions(), _b('\222M\002\010\001')),
+  ),
+  _descriptor.MethodDescriptor(
+    name='slaveLost',
+    full_name='Devialet.GetThePartyStarted.MasterDeviceSetup.slaveLost',
+    index=7,
+    containing_service=None,
+    input_type=_SLAVEINFO,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=_descriptor._ParseOptions(descriptor_pb2.MethodOptions(), _b('\222M\002\010\001')),
+  ),
+])
+
+MasterDeviceSetup = service_reflection.GeneratedServiceType('MasterDeviceSetup', (_service.Service,), dict(
+  DESCRIPTOR = _MASTERDEVICESETUP,
+  __module__ = 'GetThePartyStarted.GetThePartyStarted_pb2'
+  ))
+
+MasterDeviceSetup_Stub = service_reflection.GeneratedServiceStubType('MasterDeviceSetup_Stub', (MasterDeviceSetup,), dict(
+  DESCRIPTOR = _MASTERDEVICESETUP,
+  __module__ = 'GetThePartyStarted.GetThePartyStarted_pb2'
+  ))
 
 
 # @@protoc_insertion_point(module_scope)

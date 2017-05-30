@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='TooManyFlows/Identifier.proto',
   package='Devialet.TooManyFlows',
   syntax='proto2',
-  serialized_pb=_b('\n\x1dTooManyFlows/Identifier.proto\x12\x15\x44\x65vialet.TooManyFlows\"\x17\n\tBouquetId\x12\n\n\x02id\x18\x01 \x02(\x0c\"\x15\n\x07GroupId\x12\n\n\x02id\x18\x01 \x02(\x0c\"\x16\n\x08PlayerId\x12\n\n\x02id\x18\x01 \x02(\x0c\"\x18\n\nRendererId\x12\n\n\x02id\x18\x01 \x02(\x0c')
+  serialized_pb=_b('\n\x1dTooManyFlows/Identifier.proto\x12\x15\x44\x65vialet.TooManyFlows\"\x17\n\tBouquetId\x12\n\n\x02id\x18\x01 \x02(\x0c\"\x15\n\x07GroupId\x12\n\n\x02id\x18\x01 \x02(\x0c\"\x16\n\x08PlayerId\x12\n\n\x02id\x18\x01 \x02(\x0c\"\x18\n\nRendererId\x12\n\n\x02id\x18\x01 \x02(\x0c\x42\x03\x90\x01\x01')
 )
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
@@ -183,4 +183,6 @@ RendererId = _reflection.GeneratedProtocolMessageType('RendererId', (_message.Me
 _sym_db.RegisterMessage(RendererId)
 
 
+DESCRIPTOR.has_options = True
+DESCRIPTOR._options = _descriptor._ParseOptions(descriptor_pb2.FileOptions(), _b('\220\001\001'))
 # @@protoc_insertion_point(module_scope)

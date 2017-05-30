@@ -7,6 +7,8 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
+from google.protobuf import service as _service
+from google.protobuf import service_reflection
 from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
@@ -21,7 +23,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='AppleAirPlay/Playback.proto',
   package='Devialet.AppleAirPlay',
   syntax='proto2',
-  serialized_pb=_b('\n\x1b\x41ppleAirPlay/Playback.proto\x12\x15\x44\x65vialet.AppleAirPlay\x1a CallMeMaybe/CommonMessages.proto\x1a\x1d\x43\x61llMeMaybe/CallMeMaybe.proto\"\x07\n\x05\x44ummy2\xc3\x06\n\x08Playback\x12\x42\n\x04play\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12\x43\n\x05pause\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12\x42\n\x04next\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12\x46\n\x08previous\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12J\n\x0ctoggleRepeat\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12K\n\rtoggleShuffle\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12\x42\n\x04stop\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12I\n\x0btogglePause\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x1a\xf9\x01\x92M\xf5\x01\n$com.devialet.appleairplay.playback-0\"\xcc\x01\n0\n\"Devialet.CallMeMaybe.BytesProperty\x12\x08playerId\x18\x01\n0\n!Devialet.CallMeMaybe.BoolProperty\x12\tisPlaying\x18\x01\n1\n#Devialet.CallMeMaybe.UInt32Property\x12\x08\x64uration\x18\x01\n3\n#Devialet.CallMeMaybe.UInt32Property\x12\x08position\x18\x01(\x00')
+  serialized_pb=_b('\n\x1b\x41ppleAirPlay/Playback.proto\x12\x15\x44\x65vialet.AppleAirPlay\x1a CallMeMaybe/CommonMessages.proto\x1a\x1d\x43\x61llMeMaybe/CallMeMaybe.proto\"\x07\n\x05\x44ummy2\xc3\x06\n\x08Playback\x12\x42\n\x04play\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12\x43\n\x05pause\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12\x42\n\x04next\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12\x46\n\x08previous\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12J\n\x0ctoggleRepeat\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12K\n\rtoggleShuffle\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12\x42\n\x04stop\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12I\n\x0btogglePause\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x1a\xf9\x01\x92M\xf5\x01\n$com.devialet.appleairplay.playback-0\"\xcc\x01\n0\n\"Devialet.CallMeMaybe.BytesProperty\x12\x08playerId\x18\x01\n0\n!Devialet.CallMeMaybe.BoolProperty\x12\tisPlaying\x18\x01\n1\n#Devialet.CallMeMaybe.UInt32Property\x12\x08\x64uration\x18\x01\n3\n#Devialet.CallMeMaybe.UInt32Property\x12\x08position\x18\x01(\x00\x42\x03\x90\x01\x01')
   ,
   dependencies=[CallMeMaybe_dot_CommonMessages__pb2.DESCRIPTOR,CallMeMaybe_dot_CallMeMaybe__pb2.DESCRIPTOR,])
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
@@ -60,6 +62,103 @@ Dummy = _reflection.GeneratedProtocolMessageType('Dummy', (_message.Message,), d
   # @@protoc_insertion_point(class_scope:Devialet.AppleAirPlay.Dummy)
   ))
 _sym_db.RegisterMessage(Dummy)
+
+
+DESCRIPTOR.has_options = True
+DESCRIPTOR._options = _descriptor._ParseOptions(descriptor_pb2.FileOptions(), _b('\220\001\001'))
+
+_PLAYBACK = _descriptor.ServiceDescriptor(
+  name='Playback',
+  full_name='Devialet.AppleAirPlay.Playback',
+  file=DESCRIPTOR,
+  index=0,
+  options=_descriptor._ParseOptions(descriptor_pb2.ServiceOptions(), _b('\222M\365\001\n$com.devialet.appleairplay.playback-0\"\314\001\n0\n\"Devialet.CallMeMaybe.BytesProperty\022\010playerId\030\001\n0\n!Devialet.CallMeMaybe.BoolProperty\022\tisPlaying\030\001\n1\n#Devialet.CallMeMaybe.UInt32Property\022\010duration\030\001\n3\n#Devialet.CallMeMaybe.UInt32Property\022\010position\030\001(\000')),
+  serialized_start=129,
+  serialized_end=964,
+  methods=[
+  _descriptor.MethodDescriptor(
+    name='play',
+    full_name='Devialet.AppleAirPlay.Playback.play',
+    index=0,
+    containing_service=None,
+    input_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='pause',
+    full_name='Devialet.AppleAirPlay.Playback.pause',
+    index=1,
+    containing_service=None,
+    input_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='next',
+    full_name='Devialet.AppleAirPlay.Playback.next',
+    index=2,
+    containing_service=None,
+    input_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='previous',
+    full_name='Devialet.AppleAirPlay.Playback.previous',
+    index=3,
+    containing_service=None,
+    input_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='toggleRepeat',
+    full_name='Devialet.AppleAirPlay.Playback.toggleRepeat',
+    index=4,
+    containing_service=None,
+    input_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='toggleShuffle',
+    full_name='Devialet.AppleAirPlay.Playback.toggleShuffle',
+    index=5,
+    containing_service=None,
+    input_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='stop',
+    full_name='Devialet.AppleAirPlay.Playback.stop',
+    index=6,
+    containing_service=None,
+    input_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='togglePause',
+    full_name='Devialet.AppleAirPlay.Playback.togglePause',
+    index=7,
+    containing_service=None,
+    input_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=None,
+  ),
+])
+
+Playback = service_reflection.GeneratedServiceType('Playback', (_service.Service,), dict(
+  DESCRIPTOR = _PLAYBACK,
+  __module__ = 'AppleAirPlay.Playback_pb2'
+  ))
+
+Playback_Stub = service_reflection.GeneratedServiceStubType('Playback_Stub', (Playback,), dict(
+  DESCRIPTOR = _PLAYBACK,
+  __module__ = 'AppleAirPlay.Playback_pb2'
+  ))
 
 
 # @@protoc_insertion_point(module_scope)

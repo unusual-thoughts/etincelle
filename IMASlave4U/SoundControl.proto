@@ -1,6 +1,7 @@
-// Reversed by pbd (https://github.com/rsc-dev/pbd)
+syntax = "proto2";
 package Devialet.IMASlave4U;
 import "CallMeMaybe/CallMeMaybe.proto";
+option py_generic_services = true;
 
 service SoundControl {
 	option (Devialet.CallMeMaybe.dvltServiceOptions) = {

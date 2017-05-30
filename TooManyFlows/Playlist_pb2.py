@@ -7,6 +7,8 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
+from google.protobuf import service as _service
+from google.protobuf import service_reflection
 from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
@@ -21,7 +23,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='TooManyFlows/Playlist.proto',
   package='Devialet.TooManyFlows',
   syntax='proto2',
-  serialized_pb=_b('\n\x1bTooManyFlows/Playlist.proto\x12\x15\x44\x65vialet.TooManyFlows\x1a CallMeMaybe/CommonMessages.proto\x1a\x1d\x43\x61llMeMaybe/CallMeMaybe.proto\"&\n\x08TrackMsg\x12\r\n\x05index\x18\x01 \x02(\r\x12\x0b\n\x03url\x18\x02 \x02(\t\"<\n\tTracksMsg\x12/\n\x06tracks\x18\x01 \x03(\x0b\x32\x1f.Devialet.TooManyFlows.TrackMsg\"j\n\x07MoveMsg\x12.\n\x05\x66irst\x18\x01 \x02(\x0b\x32\x1f.Devialet.TooManyFlows.TrackMsg\x12/\n\x06second\x18\x02 \x02(\x0b\x32\x1f.Devialet.TooManyFlows.TrackMsg2\x94\x07\n\x08Playlist\x12\x43\n\x05\x63lear\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12I\n\x06insert\x12 .Devialet.TooManyFlows.TracksMsg\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12\x45\n\x04move\x12\x1e.Devialet.TooManyFlows.MoveMsg\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12I\n\x06remove\x12 .Devialet.TooManyFlows.TracksMsg\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12J\n\x07\x63leared\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x12S\n\x0btracksAdded\x12 .Devialet.TooManyFlows.TracksMsg\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x12P\n\ntrackMoved\x12\x1e.Devialet.TooManyFlows.MoveMsg\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x12U\n\rtracksRemoved\x12 .Devialet.TooManyFlows.TracksMsg\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x1a\x9b\x02\x92M\x97\x02\n$com.devialet.toomanyflows.playlist-0\"\xee\x01\n0\n\x1e\x44\x65vialet.TooManyFlows.TrackMsg\x12\x0c\x63urrentTrack\x18\x01\n0\n#Devialet.CallMeMaybe.UInt32Property\x12\x07maxSize \x01\n+\n!Devialet.CallMeMaybe.BoolProperty\x12\x06random\n.\n!Devialet.CallMeMaybe.BoolProperty\x12\trepeatAll\n+\n\x1f\x44\x65vialet.TooManyFlows.TracksMsg\x12\x06tracks \x01')
+  serialized_pb=_b('\n\x1bTooManyFlows/Playlist.proto\x12\x15\x44\x65vialet.TooManyFlows\x1a CallMeMaybe/CommonMessages.proto\x1a\x1d\x43\x61llMeMaybe/CallMeMaybe.proto\"&\n\x08TrackMsg\x12\r\n\x05index\x18\x01 \x02(\r\x12\x0b\n\x03url\x18\x02 \x02(\t\"<\n\tTracksMsg\x12/\n\x06tracks\x18\x01 \x03(\x0b\x32\x1f.Devialet.TooManyFlows.TrackMsg\"j\n\x07MoveMsg\x12.\n\x05\x66irst\x18\x01 \x02(\x0b\x32\x1f.Devialet.TooManyFlows.TrackMsg\x12/\n\x06second\x18\x02 \x02(\x0b\x32\x1f.Devialet.TooManyFlows.TrackMsg2\x94\x07\n\x08Playlist\x12\x43\n\x05\x63lear\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12I\n\x06insert\x12 .Devialet.TooManyFlows.TracksMsg\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12\x45\n\x04move\x12\x1e.Devialet.TooManyFlows.MoveMsg\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12I\n\x06remove\x12 .Devialet.TooManyFlows.TracksMsg\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12J\n\x07\x63leared\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x12S\n\x0btracksAdded\x12 .Devialet.TooManyFlows.TracksMsg\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x12P\n\ntrackMoved\x12\x1e.Devialet.TooManyFlows.MoveMsg\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x12U\n\rtracksRemoved\x12 .Devialet.TooManyFlows.TracksMsg\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x1a\x9b\x02\x92M\x97\x02\n$com.devialet.toomanyflows.playlist-0\"\xee\x01\n0\n\x1e\x44\x65vialet.TooManyFlows.TrackMsg\x12\x0c\x63urrentTrack\x18\x01\n0\n#Devialet.CallMeMaybe.UInt32Property\x12\x07maxSize \x01\n+\n!Devialet.CallMeMaybe.BoolProperty\x12\x06random\n.\n!Devialet.CallMeMaybe.BoolProperty\x12\trepeatAll\n+\n\x1f\x44\x65vialet.TooManyFlows.TracksMsg\x12\x06tracks \x01\x42\x03\x90\x01\x01')
   ,
   dependencies=[CallMeMaybe_dot_CommonMessages__pb2.DESCRIPTOR,CallMeMaybe_dot_CallMeMaybe__pb2.DESCRIPTOR,])
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
@@ -162,6 +164,103 @@ MoveMsg = _reflection.GeneratedProtocolMessageType('MoveMsg', (_message.Message,
   # @@protoc_insertion_point(class_scope:Devialet.TooManyFlows.MoveMsg)
   ))
 _sym_db.RegisterMessage(MoveMsg)
+
+
+DESCRIPTOR.has_options = True
+DESCRIPTOR._options = _descriptor._ParseOptions(descriptor_pb2.FileOptions(), _b('\220\001\001'))
+
+_PLAYLIST = _descriptor.ServiceDescriptor(
+  name='Playlist',
+  full_name='Devialet.TooManyFlows.Playlist',
+  file=DESCRIPTOR,
+  index=0,
+  options=_descriptor._ParseOptions(descriptor_pb2.ServiceOptions(), _b('\222M\227\002\n$com.devialet.toomanyflows.playlist-0\"\356\001\n0\n\036Devialet.TooManyFlows.TrackMsg\022\014currentTrack\030\001\n0\n#Devialet.CallMeMaybe.UInt32Property\022\007maxSize \001\n+\n!Devialet.CallMeMaybe.BoolProperty\022\006random\n.\n!Devialet.CallMeMaybe.BoolProperty\022\trepeatAll\n+\n\037Devialet.TooManyFlows.TracksMsg\022\006tracks \001')),
+  serialized_start=330,
+  serialized_end=1246,
+  methods=[
+  _descriptor.MethodDescriptor(
+    name='clear',
+    full_name='Devialet.TooManyFlows.Playlist.clear',
+    index=0,
+    containing_service=None,
+    input_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='insert',
+    full_name='Devialet.TooManyFlows.Playlist.insert',
+    index=1,
+    containing_service=None,
+    input_type=_TRACKSMSG,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='move',
+    full_name='Devialet.TooManyFlows.Playlist.move',
+    index=2,
+    containing_service=None,
+    input_type=_MOVEMSG,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='remove',
+    full_name='Devialet.TooManyFlows.Playlist.remove',
+    index=3,
+    containing_service=None,
+    input_type=_TRACKSMSG,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='cleared',
+    full_name='Devialet.TooManyFlows.Playlist.cleared',
+    index=4,
+    containing_service=None,
+    input_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=_descriptor._ParseOptions(descriptor_pb2.MethodOptions(), _b('\222M\002\010\001')),
+  ),
+  _descriptor.MethodDescriptor(
+    name='tracksAdded',
+    full_name='Devialet.TooManyFlows.Playlist.tracksAdded',
+    index=5,
+    containing_service=None,
+    input_type=_TRACKSMSG,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=_descriptor._ParseOptions(descriptor_pb2.MethodOptions(), _b('\222M\002\010\001')),
+  ),
+  _descriptor.MethodDescriptor(
+    name='trackMoved',
+    full_name='Devialet.TooManyFlows.Playlist.trackMoved',
+    index=6,
+    containing_service=None,
+    input_type=_MOVEMSG,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=_descriptor._ParseOptions(descriptor_pb2.MethodOptions(), _b('\222M\002\010\001')),
+  ),
+  _descriptor.MethodDescriptor(
+    name='tracksRemoved',
+    full_name='Devialet.TooManyFlows.Playlist.tracksRemoved',
+    index=7,
+    containing_service=None,
+    input_type=_TRACKSMSG,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=_descriptor._ParseOptions(descriptor_pb2.MethodOptions(), _b('\222M\002\010\001')),
+  ),
+])
+
+Playlist = service_reflection.GeneratedServiceType('Playlist', (_service.Service,), dict(
+  DESCRIPTOR = _PLAYLIST,
+  __module__ = 'TooManyFlows.Playlist_pb2'
+  ))
+
+Playlist_Stub = service_reflection.GeneratedServiceStubType('Playlist_Stub', (Playlist,), dict(
+  DESCRIPTOR = _PLAYLIST,
+  __module__ = 'TooManyFlows.Playlist_pb2'
+  ))
 
 
 # @@protoc_insertion_point(module_scope)

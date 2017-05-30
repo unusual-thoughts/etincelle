@@ -1,8 +1,9 @@
-// Reversed by pbd (https://github.com/rsc-dev/pbd)
+syntax = "proto2";
 package Devialet.GetThePartyStarted.Aerobase;
 import "CallMeMaybe/CommonMessages.proto";
 import "CallMeMaybe/CallMeMaybe.proto";
 import "GetThePartyStarted/GetThePartyStarted.proto";
+option py_generic_services = true;
 
 message SetupStep {
 	required uint32 step = 1 ;

@@ -1,7 +1,8 @@
-// Reversed by pbd (https://github.com/rsc-dev/pbd)
+syntax = "proto2";
 package Devialet.TwerkIt;
 import "CallMeMaybe/CommonMessages.proto";
 import "CallMeMaybe/CallMeMaybe.proto";
+option py_generic_services = true;
 
 service SoundDesign {
 	rpc allDeviceDone(.Devialet.CallMeMaybe.Empty) returns (.Devialet.CallMeMaybe.Empty) {

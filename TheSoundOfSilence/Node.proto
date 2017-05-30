@@ -1,5 +1,6 @@
-// Reversed by pbd (https://github.com/rsc-dev/pbd)
+syntax = "proto2";
 package Devialet.AudioSource;
+option py_generic_services = true;
 
 message NodeId {
 	required bytes id = 1 ;
@@ -23,7 +24,7 @@ message NodeIds {
 message Node {
 	required .Devialet.AudioSource.NodeId nodeId = 1 ;
 	required string name = 2 ;
-	optional bool cachable = 3 [default = true];
+	optional bool cachable = 3 [default = true] ;
 }
 
 message Nodes {

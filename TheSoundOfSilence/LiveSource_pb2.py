@@ -7,6 +7,8 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
+from google.protobuf import service as _service
+from google.protobuf import service_reflection
 from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
@@ -23,7 +25,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='TheSoundOfSilence/LiveSource.proto',
   package='Devialet.AudioSource',
   syntax='proto2',
-  serialized_pb=_b('\n\"TheSoundOfSilence/LiveSource.proto\x12\x14\x44\x65vialet.AudioSource\x1a CallMeMaybe/CommonMessages.proto\x1a\x1fTheSoundOfSilence/Session.proto\x1a\x1fTheSoundOfSilence/Picture.proto\x1a\x1d\x43\x61llMeMaybe/CallMeMaybe.proto\"\xc2\x01\n\x0cInputTypeMsg\x12\x0c\n\x04type\x18\x01 \x02(\r\"\xa3\x01\n\tInputType\x12\x12\n\x0eNotDefinedType\x10\x00\x12\n\n\x06TVType\x10\x01\x12\x10\n\x0c\x43\x44PlayerType\x10\x02\x12\x13\n\x0f\x44VDBDPlayerType\x10\x03\x12\x10\n\x0c\x43omputerType\x10\x04\x12\x15\n\x11GamingConsoleType\x10\x05\x12\x13\n\x0fMediaCenterType\x10\x06\x12\x11\n\rTurntableType\x10\x07\"]\n\x12LiveSourceStateMsg\x12\r\n\x05state\x18\x01 \x02(\r\"8\n\x05State\x12\t\n\x05Ready\x10\x01\x12\x0b\n\x07Playing\x10\x02\x12\x0b\n\x07Stopped\x10\x03\x12\n\n\x06Paused\x10\x04\"\x8e\x01\n\x1aLiveSourceAvailableMethods\x12\x16\n\x0ehasInputTypeId\x18\x01 \x02(\x08\x12\x1a\n\x12isNameUserEditable\x18\x02 \x02(\x08\x12\x14\n\x0cisSelectable\x18\x03 \x02(\x08\x12&\n\x18\x61llowToDisableAutoSwitch\x18\x04 \x01(\x08:\x04true\" \n\x10LoadSessionQuery\x12\x0c\n\x04name\x18\x01 \x02(\t\"H\n\x12UnloadSessionQuery\x12\x32\n\tsessionId\x18\x01 \x02(\x0b\x32\x1f.Devialet.AudioSource.SessionId2\xb6\x04\n\x11LiveSourceSession\x12G\n\x07picture\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1d.Devialet.AudioSource.Picture\"\x00\x12T\n\rdefaultVolume\x12\x1b.Devialet.CallMeMaybe.Empty\x1a$.Devialet.CallMeMaybe.DoubleProperty\"\x00\x1a\x81\x03\x92M\xfd\x02\n$com.devialet.source-session-0.live-0\x12\"Devialet.AudioSource.SourceSession\"\xb0\x02\n/\n!Devialet.CallMeMaybe.BoolProperty\x12\nautoSwitch\nE\n/Devialet.AudioSource.LiveSourceAvailableMethods\x12\x10\x61vailableMethods \x01\n.\n!Devialet.AudioSource.InputTypeMsg\x12\tinputType\n+\n#Devialet.CallMeMaybe.StringProperty\x12\x04name\n2\n\'Devialet.AudioSource.LiveSourceStateMsg\x12\x05state\x18\x01\n%\n\x1a\x44\x65vialet.AudioSource.Track\x12\x05track\x18\x01\x32\xb4\x02\n\nLiveSource\x12V\n\x0bloadSession\x12&.Devialet.AudioSource.LoadSessionQuery\x1a\x1d.Devialet.AudioSource.Session\"\x00\x12X\n\runloadSession\x12(.Devialet.AudioSource.UnloadSessionQuery\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x1at\x92Mq\n\x1c\x63om.devialet.source-0.live-0\x12\x1b\x44\x65vialet.AudioSource.Source\"4\n2\n!Devialet.CallMeMaybe.BoolProperty\x12\x0bisDynamical \x01')
+  serialized_pb=_b('\n\"TheSoundOfSilence/LiveSource.proto\x12\x14\x44\x65vialet.AudioSource\x1a CallMeMaybe/CommonMessages.proto\x1a\x1fTheSoundOfSilence/Session.proto\x1a\x1fTheSoundOfSilence/Picture.proto\x1a\x1d\x43\x61llMeMaybe/CallMeMaybe.proto\"\xc2\x01\n\x0cInputTypeMsg\x12\x0c\n\x04type\x18\x01 \x02(\r\"\xa3\x01\n\tInputType\x12\x12\n\x0eNotDefinedType\x10\x00\x12\n\n\x06TVType\x10\x01\x12\x10\n\x0c\x43\x44PlayerType\x10\x02\x12\x13\n\x0f\x44VDBDPlayerType\x10\x03\x12\x10\n\x0c\x43omputerType\x10\x04\x12\x15\n\x11GamingConsoleType\x10\x05\x12\x13\n\x0fMediaCenterType\x10\x06\x12\x11\n\rTurntableType\x10\x07\"]\n\x12LiveSourceStateMsg\x12\r\n\x05state\x18\x01 \x02(\r\"8\n\x05State\x12\t\n\x05Ready\x10\x01\x12\x0b\n\x07Playing\x10\x02\x12\x0b\n\x07Stopped\x10\x03\x12\n\n\x06Paused\x10\x04\"\x8e\x01\n\x1aLiveSourceAvailableMethods\x12\x16\n\x0ehasInputTypeId\x18\x01 \x02(\x08\x12\x1a\n\x12isNameUserEditable\x18\x02 \x02(\x08\x12\x14\n\x0cisSelectable\x18\x03 \x02(\x08\x12&\n\x18\x61llowToDisableAutoSwitch\x18\x04 \x01(\x08:\x04true\" \n\x10LoadSessionQuery\x12\x0c\n\x04name\x18\x01 \x02(\t\"H\n\x12UnloadSessionQuery\x12\x32\n\tsessionId\x18\x01 \x02(\x0b\x32\x1f.Devialet.AudioSource.SessionId2\xb6\x04\n\x11LiveSourceSession\x12G\n\x07picture\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1d.Devialet.AudioSource.Picture\"\x00\x12T\n\rdefaultVolume\x12\x1b.Devialet.CallMeMaybe.Empty\x1a$.Devialet.CallMeMaybe.DoubleProperty\"\x00\x1a\x81\x03\x92M\xfd\x02\n$com.devialet.source-session-0.live-0\x12\"Devialet.AudioSource.SourceSession\"\xb0\x02\n/\n!Devialet.CallMeMaybe.BoolProperty\x12\nautoSwitch\nE\n/Devialet.AudioSource.LiveSourceAvailableMethods\x12\x10\x61vailableMethods \x01\n.\n!Devialet.AudioSource.InputTypeMsg\x12\tinputType\n+\n#Devialet.CallMeMaybe.StringProperty\x12\x04name\n2\n\'Devialet.AudioSource.LiveSourceStateMsg\x12\x05state\x18\x01\n%\n\x1a\x44\x65vialet.AudioSource.Track\x12\x05track\x18\x01\x32\xb4\x02\n\nLiveSource\x12V\n\x0bloadSession\x12&.Devialet.AudioSource.LoadSessionQuery\x1a\x1d.Devialet.AudioSource.Session\"\x00\x12X\n\runloadSession\x12(.Devialet.AudioSource.UnloadSessionQuery\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x1at\x92Mq\n\x1c\x63om.devialet.source-0.live-0\x12\x1b\x44\x65vialet.AudioSource.Source\"4\n2\n!Devialet.CallMeMaybe.BoolProperty\x12\x0bisDynamical \x01\x42\x03\x90\x01\x01')
   ,
   dependencies=[CallMeMaybe_dot_CommonMessages__pb2.DESCRIPTOR,TheSoundOfSilence_dot_Session__pb2.DESCRIPTOR,TheSoundOfSilence_dot_Picture__pb2.DESCRIPTOR,CallMeMaybe_dot_CallMeMaybe__pb2.DESCRIPTOR,])
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
@@ -327,6 +329,90 @@ UnloadSessionQuery = _reflection.GeneratedProtocolMessageType('UnloadSessionQuer
   # @@protoc_insertion_point(class_scope:Devialet.AudioSource.UnloadSessionQuery)
   ))
 _sym_db.RegisterMessage(UnloadSessionQuery)
+
+
+DESCRIPTOR.has_options = True
+DESCRIPTOR._options = _descriptor._ParseOptions(descriptor_pb2.FileOptions(), _b('\220\001\001'))
+
+_LIVESOURCESESSION = _descriptor.ServiceDescriptor(
+  name='LiveSourceSession',
+  full_name='Devialet.AudioSource.LiveSourceSession',
+  file=DESCRIPTOR,
+  index=0,
+  options=_descriptor._ParseOptions(descriptor_pb2.ServiceOptions(), _b('\222M\375\002\n$com.devialet.source-session-0.live-0\022\"Devialet.AudioSource.SourceSession\"\260\002\n/\n!Devialet.CallMeMaybe.BoolProperty\022\nautoSwitch\nE\n/Devialet.AudioSource.LiveSourceAvailableMethods\022\020availableMethods \001\n.\n!Devialet.AudioSource.InputTypeMsg\022\tinputType\n+\n#Devialet.CallMeMaybe.StringProperty\022\004name\n2\n\'Devialet.AudioSource.LiveSourceStateMsg\022\005state\030\001\n%\n\032Devialet.AudioSource.Track\022\005track\030\001')),
+  serialized_start=737,
+  serialized_end=1303,
+  methods=[
+  _descriptor.MethodDescriptor(
+    name='picture',
+    full_name='Devialet.AudioSource.LiveSourceSession.picture',
+    index=0,
+    containing_service=None,
+    input_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    output_type=TheSoundOfSilence_dot_Picture__pb2._PICTURE,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='defaultVolume',
+    full_name='Devialet.AudioSource.LiveSourceSession.defaultVolume',
+    index=1,
+    containing_service=None,
+    input_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._DOUBLEPROPERTY,
+    options=None,
+  ),
+])
+
+LiveSourceSession = service_reflection.GeneratedServiceType('LiveSourceSession', (_service.Service,), dict(
+  DESCRIPTOR = _LIVESOURCESESSION,
+  __module__ = 'TheSoundOfSilence.LiveSource_pb2'
+  ))
+
+LiveSourceSession_Stub = service_reflection.GeneratedServiceStubType('LiveSourceSession_Stub', (LiveSourceSession,), dict(
+  DESCRIPTOR = _LIVESOURCESESSION,
+  __module__ = 'TheSoundOfSilence.LiveSource_pb2'
+  ))
+
+
+
+_LIVESOURCE = _descriptor.ServiceDescriptor(
+  name='LiveSource',
+  full_name='Devialet.AudioSource.LiveSource',
+  file=DESCRIPTOR,
+  index=1,
+  options=_descriptor._ParseOptions(descriptor_pb2.ServiceOptions(), _b('\222Mq\n\034com.devialet.source-0.live-0\022\033Devialet.AudioSource.Source\"4\n2\n!Devialet.CallMeMaybe.BoolProperty\022\013isDynamical \001')),
+  serialized_start=1306,
+  serialized_end=1614,
+  methods=[
+  _descriptor.MethodDescriptor(
+    name='loadSession',
+    full_name='Devialet.AudioSource.LiveSource.loadSession',
+    index=0,
+    containing_service=None,
+    input_type=_LOADSESSIONQUERY,
+    output_type=TheSoundOfSilence_dot_Session__pb2._SESSION,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='unloadSession',
+    full_name='Devialet.AudioSource.LiveSource.unloadSession',
+    index=1,
+    containing_service=None,
+    input_type=_UNLOADSESSIONQUERY,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=None,
+  ),
+])
+
+LiveSource = service_reflection.GeneratedServiceType('LiveSource', (_service.Service,), dict(
+  DESCRIPTOR = _LIVESOURCE,
+  __module__ = 'TheSoundOfSilence.LiveSource_pb2'
+  ))
+
+LiveSource_Stub = service_reflection.GeneratedServiceStubType('LiveSource_Stub', (LiveSource,), dict(
+  DESCRIPTOR = _LIVESOURCE,
+  __module__ = 'TheSoundOfSilence.LiveSource_pb2'
+  ))
 
 
 # @@protoc_insertion_point(module_scope)
