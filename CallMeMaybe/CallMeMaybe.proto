@@ -1,5 +1,6 @@
 // Reversed by pbd (https://github.com/rsc-dev/pbd)
 package Devialet.CallMeMaybe;
+import "google/protobuf/descriptor.proto";
 
 message FieldOptions {
 	optional bool logValue = 1 [default = true];
@@ -33,4 +34,20 @@ message MethodOptions {
 
 message EnumValueOptions {
 	optional string description = 1 ;
+}
+
+extend google.protobuf.FieldOptions {
+	optional .Devialet.CallMeMaybe.FieldOptions dvltFieldOptions = 1234;
+}
+
+extend google.protobuf.ServiceOptions {
+	optional .Devialet.CallMeMaybe.ServiceOptions dvltServiceOptions = 1234;
+}
+
+extend google.protobuf.MethodOptions {
+	optional .Devialet.CallMeMaybe.MethodOptions dvltMethodOptions = 1234;
+}
+
+extend google.protobuf.EnumValueOptions {
+	optional .Devialet.CallMeMaybe.EnumValueOptions dvltEnumValueOptions = 1234;
 }

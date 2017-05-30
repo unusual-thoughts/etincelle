@@ -13,17 +13,51 @@ from google.protobuf import descriptor_pb2
 _sym_db = _symbol_database.Default()
 
 
+from google.protobuf import descriptor_pb2 as google_dot_protobuf_dot_descriptor__pb2
 
 
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='CallMeMaybe/CallMeMaybe.proto',
   package='Devialet.CallMeMaybe',
   syntax='proto2',
-  serialized_pb=_b('\n\x1d\x43\x61llMeMaybe/CallMeMaybe.proto\x12\x14\x44\x65vialet.CallMeMaybe\"&\n\x0c\x46ieldOptions\x12\x16\n\x08logValue\x18\x01 \x01(\x08:\x04true\"x\n\x0fServiceProperty\x12\x0c\n\x04type\x18\x01 \x02(\t\x12\x0c\n\x04name\x18\x02 \x02(\t\x12\x17\n\x08readOnly\x18\x03 \x01(\x08:\x05\x66\x61lse\x12\x17\n\x08\x63onstant\x18\x04 \x01(\x08:\x05\x66\x61lse\x12\x17\n\tlogUpdate\x18\x05 \x01(\x08:\x04true\"L\n\x11ServiceProperties\x12\x37\n\x08property\x18\x01 \x03(\x0b\x32%.Devialet.CallMeMaybe.ServiceProperty\"\x8e\x01\n\x0eServiceOptions\x12\x13\n\x0bserviceName\x18\x01 \x02(\t\x12\x13\n\x0b\x62\x61seService\x18\x02 \x01(\t\x12\x15\n\rerrorEnumName\x18\x03 \x01(\t\x12;\n\nproperties\x18\x04 \x01(\x0b\x32\'.Devialet.CallMeMaybe.ServiceProperties\"\x83\x01\n\rMethodOptions\x12\x1d\n\x0eisNotification\x18\x01 \x01(\x08:\x05\x66\x61lse\x12\x16\n\x07isAsync\x18\x02 \x01(\x08:\x05\x66\x61lse\x12\x1b\n\x0e\x64\x65\x66\x61ultTimeout\x18\x03 \x01(\x05:\x03\x35\x30\x30\x12\x1e\n\x10isLoggingEnabled\x18\x04 \x01(\x08:\x04true\"\'\n\x10\x45numValueOptions\x12\x13\n\x0b\x64\x65scription\x18\x01 \x01(\t')
-)
+  serialized_pb=_b('\n\x1d\x43\x61llMeMaybe/CallMeMaybe.proto\x12\x14\x44\x65vialet.CallMeMaybe\x1a google/protobuf/descriptor.proto\"&\n\x0c\x46ieldOptions\x12\x16\n\x08logValue\x18\x01 \x01(\x08:\x04true\"x\n\x0fServiceProperty\x12\x0c\n\x04type\x18\x01 \x02(\t\x12\x0c\n\x04name\x18\x02 \x02(\t\x12\x17\n\x08readOnly\x18\x03 \x01(\x08:\x05\x66\x61lse\x12\x17\n\x08\x63onstant\x18\x04 \x01(\x08:\x05\x66\x61lse\x12\x17\n\tlogUpdate\x18\x05 \x01(\x08:\x04true\"L\n\x11ServiceProperties\x12\x37\n\x08property\x18\x01 \x03(\x0b\x32%.Devialet.CallMeMaybe.ServiceProperty\"\x8e\x01\n\x0eServiceOptions\x12\x13\n\x0bserviceName\x18\x01 \x02(\t\x12\x13\n\x0b\x62\x61seService\x18\x02 \x01(\t\x12\x15\n\rerrorEnumName\x18\x03 \x01(\t\x12;\n\nproperties\x18\x04 \x01(\x0b\x32\'.Devialet.CallMeMaybe.ServiceProperties\"\x83\x01\n\rMethodOptions\x12\x1d\n\x0eisNotification\x18\x01 \x01(\x08:\x05\x66\x61lse\x12\x16\n\x07isAsync\x18\x02 \x01(\x08:\x05\x66\x61lse\x12\x1b\n\x0e\x64\x65\x66\x61ultTimeout\x18\x03 \x01(\x05:\x03\x35\x30\x30\x12\x1e\n\x10isLoggingEnabled\x18\x04 \x01(\x08:\x04true\"\'\n\x10\x45numValueOptions\x12\x13\n\x0b\x64\x65scription\x18\x01 \x01(\t:\\\n\x10\x64vltFieldOptions\x12\x1d.google.protobuf.FieldOptions\x18\xd2\t \x01(\x0b\x32\".Devialet.CallMeMaybe.FieldOptions:b\n\x12\x64vltServiceOptions\x12\x1f.google.protobuf.ServiceOptions\x18\xd2\t \x01(\x0b\x32$.Devialet.CallMeMaybe.ServiceOptions:_\n\x11\x64vltMethodOptions\x12\x1e.google.protobuf.MethodOptions\x18\xd2\t \x01(\x0b\x32#.Devialet.CallMeMaybe.MethodOptions:h\n\x14\x64vltEnumValueOptions\x12!.google.protobuf.EnumValueOptions\x18\xd2\t \x01(\x0b\x32&.Devialet.CallMeMaybe.EnumValueOptions')
+  ,
+  dependencies=[google_dot_protobuf_dot_descriptor__pb2.DESCRIPTOR,])
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
+DVLTFIELDOPTIONS_FIELD_NUMBER = 1234
+dvltFieldOptions = _descriptor.FieldDescriptor(
+  name='dvltFieldOptions', full_name='Devialet.CallMeMaybe.dvltFieldOptions', index=0,
+  number=1234, type=11, cpp_type=10, label=1,
+  has_default_value=False, default_value=None,
+  message_type=None, enum_type=None, containing_type=None,
+  is_extension=True, extension_scope=None,
+  options=None)
+DVLTSERVICEOPTIONS_FIELD_NUMBER = 1234
+dvltServiceOptions = _descriptor.FieldDescriptor(
+  name='dvltServiceOptions', full_name='Devialet.CallMeMaybe.dvltServiceOptions', index=1,
+  number=1234, type=11, cpp_type=10, label=1,
+  has_default_value=False, default_value=None,
+  message_type=None, enum_type=None, containing_type=None,
+  is_extension=True, extension_scope=None,
+  options=None)
+DVLTMETHODOPTIONS_FIELD_NUMBER = 1234
+dvltMethodOptions = _descriptor.FieldDescriptor(
+  name='dvltMethodOptions', full_name='Devialet.CallMeMaybe.dvltMethodOptions', index=2,
+  number=1234, type=11, cpp_type=10, label=1,
+  has_default_value=False, default_value=None,
+  message_type=None, enum_type=None, containing_type=None,
+  is_extension=True, extension_scope=None,
+  options=None)
+DVLTENUMVALUEOPTIONS_FIELD_NUMBER = 1234
+dvltEnumValueOptions = _descriptor.FieldDescriptor(
+  name='dvltEnumValueOptions', full_name='Devialet.CallMeMaybe.dvltEnumValueOptions', index=3,
+  number=1234, type=11, cpp_type=10, label=1,
+  has_default_value=False, default_value=None,
+  message_type=None, enum_type=None, containing_type=None,
+  is_extension=True, extension_scope=None,
+  options=None)
 
 
 _FIELDOPTIONS = _descriptor.Descriptor(
@@ -52,8 +86,8 @@ _FIELDOPTIONS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=55,
-  serialized_end=93,
+  serialized_start=89,
+  serialized_end=127,
 )
 
 
@@ -111,8 +145,8 @@ _SERVICEPROPERTY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=95,
-  serialized_end=215,
+  serialized_start=129,
+  serialized_end=249,
 )
 
 
@@ -142,8 +176,8 @@ _SERVICEPROPERTIES = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=217,
-  serialized_end=293,
+  serialized_start=251,
+  serialized_end=327,
 )
 
 
@@ -194,8 +228,8 @@ _SERVICEOPTIONS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=296,
-  serialized_end=438,
+  serialized_start=330,
+  serialized_end=472,
 )
 
 
@@ -246,8 +280,8 @@ _METHODOPTIONS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=441,
-  serialized_end=572,
+  serialized_start=475,
+  serialized_end=606,
 )
 
 
@@ -277,8 +311,8 @@ _ENUMVALUEOPTIONS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=574,
-  serialized_end=613,
+  serialized_start=608,
+  serialized_end=647,
 )
 
 _SERVICEPROPERTIES.fields_by_name['property'].message_type = _SERVICEPROPERTY
@@ -289,6 +323,10 @@ DESCRIPTOR.message_types_by_name['ServiceProperties'] = _SERVICEPROPERTIES
 DESCRIPTOR.message_types_by_name['ServiceOptions'] = _SERVICEOPTIONS
 DESCRIPTOR.message_types_by_name['MethodOptions'] = _METHODOPTIONS
 DESCRIPTOR.message_types_by_name['EnumValueOptions'] = _ENUMVALUEOPTIONS
+DESCRIPTOR.extensions_by_name['dvltFieldOptions'] = dvltFieldOptions
+DESCRIPTOR.extensions_by_name['dvltServiceOptions'] = dvltServiceOptions
+DESCRIPTOR.extensions_by_name['dvltMethodOptions'] = dvltMethodOptions
+DESCRIPTOR.extensions_by_name['dvltEnumValueOptions'] = dvltEnumValueOptions
 
 FieldOptions = _reflection.GeneratedProtocolMessageType('FieldOptions', (_message.Message,), dict(
   DESCRIPTOR = _FIELDOPTIONS,
@@ -332,5 +370,13 @@ EnumValueOptions = _reflection.GeneratedProtocolMessageType('EnumValueOptions', 
   ))
 _sym_db.RegisterMessage(EnumValueOptions)
 
+dvltFieldOptions.message_type = _FIELDOPTIONS
+google_dot_protobuf_dot_descriptor__pb2.FieldOptions.RegisterExtension(dvltFieldOptions)
+dvltServiceOptions.message_type = _SERVICEOPTIONS
+google_dot_protobuf_dot_descriptor__pb2.ServiceOptions.RegisterExtension(dvltServiceOptions)
+dvltMethodOptions.message_type = _METHODOPTIONS
+google_dot_protobuf_dot_descriptor__pb2.MethodOptions.RegisterExtension(dvltMethodOptions)
+dvltEnumValueOptions.message_type = _ENUMVALUEOPTIONS
+google_dot_protobuf_dot_descriptor__pb2.EnumValueOptions.RegisterExtension(dvltEnumValueOptions)
 
 # @@protoc_insertion_point(module_scope)
