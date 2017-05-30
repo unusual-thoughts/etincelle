@@ -3,6 +3,7 @@ package Devialet.AudioSource;
 import "CallMeMaybe/CommonMessages.proto";
 import "TheSoundOfSilence/Session.proto";
 import "TheSoundOfSilence/Node.proto";
+import "CallMeMaybe/CallMeMaybe.proto";
 
 message OnlineSourceError {
 	
@@ -131,7 +132,7 @@ service AuthenticatedOnlineSource {
 	}
 	rpc logout(.Devialet.AudioSource.LogoutRequest) returns (.Devialet.CallMeMaybe.Empty) {
 	}
-	option (dvltServiceOptions) = {
+	option (Devialet.CallMeMaybe.dvltServiceOptions) = {
 		serviceName: "com.devialet.source-0.online-0.authenticated-0"
 		baseService: "Devialet.AudioSource.Source"
 		errorEnumName: "Devialet.AudioSource.OnlineSourceError.Code"

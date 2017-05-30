@@ -1,5 +1,6 @@
 // Reversed by pbd (https://github.com/rsc-dev/pbd)
 package Devialet.IMASlave4U;
+import "CallMeMaybe/CallMeMaybe.proto";
 
 message AudioMode {
 	required uint32 mode = 1 ;
@@ -23,7 +24,7 @@ message Input {
 }
 
 service Configuration {
-	option (dvltServiceOptions) = {
+	option (Devialet.CallMeMaybe.dvltServiceOptions) = {
 		serviceName: "com.devialet.imaslave4u.configuration-0"
 		properties {
 		  property {

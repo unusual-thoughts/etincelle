@@ -14,15 +14,16 @@ _sym_db = _symbol_database.Default()
 
 
 from CallMeMaybe import CommonMessages_pb2 as CallMeMaybe_dot_CommonMessages__pb2
+from CallMeMaybe import CallMeMaybe_pb2 as CallMeMaybe_dot_CallMeMaybe__pb2
 
 
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='WhatsUp.proto',
   package='Devialet.WhatsUp',
   syntax='proto2',
-  serialized_pb=_b('\n\rWhatsUp.proto\x12\x10\x44\x65vialet.WhatsUp\x1a CallMeMaybe/CommonMessages.proto\"a\n\x16RegistrarRegisterQuery\x12\x10\n\x08serverId\x18\x01 \x02(\x0c\x12\x11\n\tlocalOnly\x18\x02 \x02(\x08\x12\x10\n\x08\x65ndpoint\x18\x03 \x02(\t\x12\x10\n\x08services\x18\x04 \x03(\t\",\n\x18RegistrarUnregisterQuery\x12\x10\n\x08serverId\x18\x01 \x02(\x0c\"<\n\x16RegistrarServicesQuery\x12\x10\n\x08serverId\x18\x01 \x02(\x0c\x12\x10\n\x08services\x18\x02 \x03(\t\"&\n\x12RegistrarPingQuery\x12\x10\n\x08serverId\x18\x01 \x02(\x0c\"E\n\x0fRegistrarErrors\"2\n\x06\x45rrors\x12\x15\n\x11\x41lreadyRegistered\x10\x00\x12\x11\n\rUnknownServer\x10\x01\",\n\x0eWhatsUpNetwork\x12\n\n\x02ip\x18\x01 \x02(\t\x12\x0e\n\x06prefix\x18\x02 \x02(\x05\"\x91\x01\n\x17WhatsUpNetworkInterface\x12\x0c\n\x04name\x18\x01 \x02(\t\x12\x11\n\tisPrivate\x18\x02 \x02(\x08\x12\x0f\n\x07quality\x18\x03 \x02(\x05\x12\x10\n\x08priority\x18\x04 \x02(\x05\x12\x32\n\x08networks\x18\x05 \x03(\x0b\x32 .Devialet.WhatsUp.WhatsUpNetwork\"o\n\x0bWhatsUpHost\x12\x0f\n\x07hostUid\x18\x01 \x02(\x0c\x12\x10\n\x08hasProxy\x18\x02 \x02(\x08\x12=\n\ninterfaces\x18\x03 \x03(\x0b\x32).Devialet.WhatsUp.WhatsUpNetworkInterface\"@\n\x10WhatsUpHostsList\x12,\n\x05hosts\x18\x01 \x03(\x0b\x32\x1d.Devialet.WhatsUp.WhatsUpHost\"T\n\x0eWhatsUpService\x12\x0c\n\x04name\x18\x01 \x02(\t\x12\x0f\n\x07hostUid\x18\x02 \x02(\x0c\x12\x11\n\tlocalOnly\x18\x03 \x02(\x08\x12\x10\n\x08\x65ndpoint\x18\x04 \x02(\t\"I\n\x13WhatsUpServicesList\x12\x32\n\x08services\x18\x01 \x03(\x0b\x32 .Devialet.WhatsUp.WhatsUpService\"[\n\x15WhatsUpServicesUpdate\x12\x32\n\x08services\x18\x01 \x03(\x0b\x32 .Devialet.WhatsUp.WhatsUpService\x12\x0e\n\x06reason\x18\x02 \x02(\r\"\\\n\x16WhatsUpServicesRemoval\x12\x32\n\x08services\x18\x01 \x03(\x0b\x32 .Devialet.WhatsUp.WhatsUpService\x12\x0e\n\x06reason\x18\x02 \x02(\r\"*\n\x17RegistryLookupHostQuery\x12\x0f\n\x07hostUid\x18\x01 \x02(\x0c\"k\n\x17RegistryLookupHostReply\x12\x11\n\taddresses\x18\x01 \x03(\t\x12=\n\ninterfaces\x18\x02 \x03(\x0b\x32).Devialet.WhatsUp.WhatsUpNetworkInterface\")\n\x19RegistryFindServicesQuery\x12\x0c\n\x04name\x18\x01 \x02(\t\"^\n/RegistryNetworkConfigurationChangedNotification\x12+\n\x04host\x18\x01 \x02(\x0b\x32\x1d.Devialet.WhatsUp.WhatsUpHost\"N\n\x1fRegistryHostUpdatedNotification\x12+\n\x04host\x18\x01 \x02(\x0b\x32\x1d.Devialet.WhatsUp.WhatsUpHost2\x92\x04\n\tRegistrar\x12Y\n\x0eregisterServer\x12(.Devialet.WhatsUp.RegistrarRegisterQuery\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12]\n\x10unregisterServer\x12*.Devialet.WhatsUp.RegistrarUnregisterQuery\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12V\n\x0b\x61\x64\x64Services\x12(.Devialet.WhatsUp.RegistrarServicesQuery\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12Y\n\x0eremoveServices\x12(.Devialet.WhatsUp.RegistrarServicesQuery\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12K\n\x04ping\x12$.Devialet.WhatsUp.RegistrarPingQuery\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12K\n\rpingRequested\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x32\xc5\x07\n\x08Registry\x12W\n\x17getNetworkConfiguration\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1d.Devialet.WhatsUp.WhatsUpHost\"\x00\x12N\n\tlistHosts\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\".Devialet.WhatsUp.WhatsUpHostsList\"\x00\x12\x64\n\nlookupHost\x12).Devialet.WhatsUp.RegistryLookupHostQuery\x1a).Devialet.WhatsUp.RegistryLookupHostReply\"\x00\x12T\n\x0clistServices\x12\x1b.Devialet.CallMeMaybe.Empty\x1a%.Devialet.WhatsUp.WhatsUpServicesList\"\x00\x12\x64\n\x0c\x66indServices\x12+.Devialet.WhatsUp.RegistryFindServicesQuery\x1a%.Devialet.WhatsUp.WhatsUpServicesList\"\x00\x12\x7f\n\x1bnetworkConfigurationChanged\x12\x41.Devialet.WhatsUp.RegistryNetworkConfigurationChangedNotification\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12_\n\x0bhostUpdated\x12\x31.Devialet.WhatsUp.RegistryHostUpdatedNotification\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12U\n\rservicesAdded\x12%.Devialet.WhatsUp.WhatsUpServicesList\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12Y\n\x0fservicesUpdated\x12\'.Devialet.WhatsUp.WhatsUpServicesUpdate\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12Z\n\x0fservicesRemoved\x12(.Devialet.WhatsUp.WhatsUpServicesRemoval\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00')
+  serialized_pb=_b('\n\rWhatsUp.proto\x12\x10\x44\x65vialet.WhatsUp\x1a CallMeMaybe/CommonMessages.proto\x1a\x1d\x43\x61llMeMaybe/CallMeMaybe.proto\"a\n\x16RegistrarRegisterQuery\x12\x10\n\x08serverId\x18\x01 \x02(\x0c\x12\x11\n\tlocalOnly\x18\x02 \x02(\x08\x12\x10\n\x08\x65ndpoint\x18\x03 \x02(\t\x12\x10\n\x08services\x18\x04 \x03(\t\",\n\x18RegistrarUnregisterQuery\x12\x10\n\x08serverId\x18\x01 \x02(\x0c\"<\n\x16RegistrarServicesQuery\x12\x10\n\x08serverId\x18\x01 \x02(\x0c\x12\x10\n\x08services\x18\x02 \x03(\t\"&\n\x12RegistrarPingQuery\x12\x10\n\x08serverId\x18\x01 \x02(\x0c\"E\n\x0fRegistrarErrors\"2\n\x06\x45rrors\x12\x15\n\x11\x41lreadyRegistered\x10\x00\x12\x11\n\rUnknownServer\x10\x01\",\n\x0eWhatsUpNetwork\x12\n\n\x02ip\x18\x01 \x02(\t\x12\x0e\n\x06prefix\x18\x02 \x02(\x05\"\x91\x01\n\x17WhatsUpNetworkInterface\x12\x0c\n\x04name\x18\x01 \x02(\t\x12\x11\n\tisPrivate\x18\x02 \x02(\x08\x12\x0f\n\x07quality\x18\x03 \x02(\x05\x12\x10\n\x08priority\x18\x04 \x02(\x05\x12\x32\n\x08networks\x18\x05 \x03(\x0b\x32 .Devialet.WhatsUp.WhatsUpNetwork\"o\n\x0bWhatsUpHost\x12\x0f\n\x07hostUid\x18\x01 \x02(\x0c\x12\x10\n\x08hasProxy\x18\x02 \x02(\x08\x12=\n\ninterfaces\x18\x03 \x03(\x0b\x32).Devialet.WhatsUp.WhatsUpNetworkInterface\"@\n\x10WhatsUpHostsList\x12,\n\x05hosts\x18\x01 \x03(\x0b\x32\x1d.Devialet.WhatsUp.WhatsUpHost\"T\n\x0eWhatsUpService\x12\x0c\n\x04name\x18\x01 \x02(\t\x12\x0f\n\x07hostUid\x18\x02 \x02(\x0c\x12\x11\n\tlocalOnly\x18\x03 \x02(\x08\x12\x10\n\x08\x65ndpoint\x18\x04 \x02(\t\"I\n\x13WhatsUpServicesList\x12\x32\n\x08services\x18\x01 \x03(\x0b\x32 .Devialet.WhatsUp.WhatsUpService\"[\n\x15WhatsUpServicesUpdate\x12\x32\n\x08services\x18\x01 \x03(\x0b\x32 .Devialet.WhatsUp.WhatsUpService\x12\x0e\n\x06reason\x18\x02 \x02(\r\"\\\n\x16WhatsUpServicesRemoval\x12\x32\n\x08services\x18\x01 \x03(\x0b\x32 .Devialet.WhatsUp.WhatsUpService\x12\x0e\n\x06reason\x18\x02 \x02(\r\"*\n\x17RegistryLookupHostQuery\x12\x0f\n\x07hostUid\x18\x01 \x02(\x0c\"k\n\x17RegistryLookupHostReply\x12\x11\n\taddresses\x18\x01 \x03(\t\x12=\n\ninterfaces\x18\x02 \x03(\x0b\x32).Devialet.WhatsUp.WhatsUpNetworkInterface\")\n\x19RegistryFindServicesQuery\x12\x0c\n\x04name\x18\x01 \x02(\t\"^\n/RegistryNetworkConfigurationChangedNotification\x12+\n\x04host\x18\x01 \x02(\x0b\x32\x1d.Devialet.WhatsUp.WhatsUpHost\"N\n\x1fRegistryHostUpdatedNotification\x12+\n\x04host\x18\x01 \x02(\x0b\x32\x1d.Devialet.WhatsUp.WhatsUpHost2\xe5\x04\n\tRegistrar\x12Y\n\x0eregisterServer\x12(.Devialet.WhatsUp.RegistrarRegisterQuery\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12]\n\x10unregisterServer\x12*.Devialet.WhatsUp.RegistrarUnregisterQuery\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12V\n\x0b\x61\x64\x64Services\x12(.Devialet.WhatsUp.RegistrarServicesQuery\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12Y\n\x0eremoveServices\x12(.Devialet.WhatsUp.RegistrarServicesQuery\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12K\n\x04ping\x12$.Devialet.WhatsUp.RegistrarPingQuery\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12P\n\rpingRequested\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x1aL\x92MI\n\x1e\x63om.devialet.whatsup.registrar\x1a\'Devialet.WhatsUp.RegistrarErrors.Errors2\x83\x08\n\x08Registry\x12W\n\x17getNetworkConfiguration\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1d.Devialet.WhatsUp.WhatsUpHost\"\x00\x12N\n\tlistHosts\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\".Devialet.WhatsUp.WhatsUpHostsList\"\x00\x12\x64\n\nlookupHost\x12).Devialet.WhatsUp.RegistryLookupHostQuery\x1a).Devialet.WhatsUp.RegistryLookupHostReply\"\x00\x12T\n\x0clistServices\x12\x1b.Devialet.CallMeMaybe.Empty\x1a%.Devialet.WhatsUp.WhatsUpServicesList\"\x00\x12\x64\n\x0c\x66indServices\x12+.Devialet.WhatsUp.RegistryFindServicesQuery\x1a%.Devialet.WhatsUp.WhatsUpServicesList\"\x00\x12\x84\x01\n\x1bnetworkConfigurationChanged\x12\x41.Devialet.WhatsUp.RegistryNetworkConfigurationChangedNotification\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x12\x64\n\x0bhostUpdated\x12\x31.Devialet.WhatsUp.RegistryHostUpdatedNotification\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x12Z\n\rservicesAdded\x12%.Devialet.WhatsUp.WhatsUpServicesList\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x12^\n\x0fservicesUpdated\x12\'.Devialet.WhatsUp.WhatsUpServicesUpdate\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x12_\n\x0fservicesRemoved\x12(.Devialet.WhatsUp.WhatsUpServicesRemoval\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x1a\"\x92M\x1f\n\x1d\x63om.devialet.whatsup.registry')
   ,
-  dependencies=[CallMeMaybe_dot_CommonMessages__pb2.DESCRIPTOR,])
+  dependencies=[CallMeMaybe_dot_CommonMessages__pb2.DESCRIPTOR,CallMeMaybe_dot_CallMeMaybe__pb2.DESCRIPTOR,])
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
@@ -44,8 +45,8 @@ _REGISTRARERRORS_ERRORS = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=335,
-  serialized_end=385,
+  serialized_start=366,
+  serialized_end=416,
 )
 _sym_db.RegisterEnumDescriptor(_REGISTRARERRORS_ERRORS)
 
@@ -97,8 +98,8 @@ _REGISTRARREGISTERQUERY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=69,
-  serialized_end=166,
+  serialized_start=100,
+  serialized_end=197,
 )
 
 
@@ -128,8 +129,8 @@ _REGISTRARUNREGISTERQUERY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=168,
-  serialized_end=212,
+  serialized_start=199,
+  serialized_end=243,
 )
 
 
@@ -166,8 +167,8 @@ _REGISTRARSERVICESQUERY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=214,
-  serialized_end=274,
+  serialized_start=245,
+  serialized_end=305,
 )
 
 
@@ -197,8 +198,8 @@ _REGISTRARPINGQUERY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=276,
-  serialized_end=314,
+  serialized_start=307,
+  serialized_end=345,
 )
 
 
@@ -222,8 +223,8 @@ _REGISTRARERRORS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=316,
-  serialized_end=385,
+  serialized_start=347,
+  serialized_end=416,
 )
 
 
@@ -260,8 +261,8 @@ _WHATSUPNETWORK = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=387,
-  serialized_end=431,
+  serialized_start=418,
+  serialized_end=462,
 )
 
 
@@ -319,8 +320,8 @@ _WHATSUPNETWORKINTERFACE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=434,
-  serialized_end=579,
+  serialized_start=465,
+  serialized_end=610,
 )
 
 
@@ -364,8 +365,8 @@ _WHATSUPHOST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=581,
-  serialized_end=692,
+  serialized_start=612,
+  serialized_end=723,
 )
 
 
@@ -395,8 +396,8 @@ _WHATSUPHOSTSLIST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=694,
-  serialized_end=758,
+  serialized_start=725,
+  serialized_end=789,
 )
 
 
@@ -447,8 +448,8 @@ _WHATSUPSERVICE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=760,
-  serialized_end=844,
+  serialized_start=791,
+  serialized_end=875,
 )
 
 
@@ -478,8 +479,8 @@ _WHATSUPSERVICESLIST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=846,
-  serialized_end=919,
+  serialized_start=877,
+  serialized_end=950,
 )
 
 
@@ -516,8 +517,8 @@ _WHATSUPSERVICESUPDATE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=921,
-  serialized_end=1012,
+  serialized_start=952,
+  serialized_end=1043,
 )
 
 
@@ -554,8 +555,8 @@ _WHATSUPSERVICESREMOVAL = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1014,
-  serialized_end=1106,
+  serialized_start=1045,
+  serialized_end=1137,
 )
 
 
@@ -585,8 +586,8 @@ _REGISTRYLOOKUPHOSTQUERY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1108,
-  serialized_end=1150,
+  serialized_start=1139,
+  serialized_end=1181,
 )
 
 
@@ -623,8 +624,8 @@ _REGISTRYLOOKUPHOSTREPLY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1152,
-  serialized_end=1259,
+  serialized_start=1183,
+  serialized_end=1290,
 )
 
 
@@ -654,8 +655,8 @@ _REGISTRYFINDSERVICESQUERY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1261,
-  serialized_end=1302,
+  serialized_start=1292,
+  serialized_end=1333,
 )
 
 
@@ -685,8 +686,8 @@ _REGISTRYNETWORKCONFIGURATIONCHANGEDNOTIFICATION = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1304,
-  serialized_end=1398,
+  serialized_start=1335,
+  serialized_end=1429,
 )
 
 
@@ -716,8 +717,8 @@ _REGISTRYHOSTUPDATEDNOTIFICATION = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1400,
-  serialized_end=1478,
+  serialized_start=1431,
+  serialized_end=1509,
 )
 
 _REGISTRARERRORS_ERRORS.containing_type = _REGISTRARERRORS

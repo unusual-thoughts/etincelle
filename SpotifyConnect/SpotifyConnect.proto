@@ -1,6 +1,7 @@
 // Reversed by pbd (https://github.com/rsc-dev/pbd)
 package Devialet.SpotifyConnect;
 import "CallMeMaybe/CommonMessages.proto";
+import "CallMeMaybe/CallMeMaybe.proto";
 
 message ZeroConfApiRequest {
 	required uint32 method = 1 ;
@@ -52,7 +53,7 @@ service Agent {
 	}
 	rpc seek(.Devialet.CallMeMaybe.UInt32Property) returns (.Devialet.CallMeMaybe.Empty) {
 	}
-	option (dvltServiceOptions) = {
+	option (Devialet.CallMeMaybe.dvltServiceOptions) = {
 		serviceName: "com.devialet.spotifyconnect.agent-0"
 		baseService: "Devialet.AudioSource.LiveSourceSession"
 		properties {

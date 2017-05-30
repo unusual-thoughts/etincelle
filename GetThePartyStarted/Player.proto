@@ -2,6 +2,7 @@
 package Devialet.GetThePartyStarted.Player;
 import "CallMeMaybe/CommonMessages.proto";
 import "GetThePartyStarted/GetThePartyStarted.proto";
+import "CallMeMaybe/CallMeMaybe.proto";
 
 message WiFiNetwork {
 	required string ssid = 1 ;
@@ -68,7 +69,7 @@ message AppleWacWiFiNetworkConfiguration {
 }
 
 service Configuration {
-	option (dvltServiceOptions) = {
+	option (Devialet.CallMeMaybe.dvltServiceOptions) = {
 		serviceName: "com.devialet.getthepartystarted.configuration-0.player-0"
 		baseService: "Devialet.GetThePartyStarted.Configuration"
 		
@@ -97,6 +98,10 @@ service Setup {
 	rpc joinDestinationWiFiNetwork(.Devialet.GetThePartyStarted.Player.AppleWacWiFiNetworkConfiguration) returns (.Devialet.CallMeMaybe.Empty) {
 	}
 	rpc destinationWiFiNetworkJoined(.Devialet.CallMeMaybe.Empty) returns (.Devialet.CallMeMaybe.Empty) {
+		option (Devialet.CallMeMaybe.dvltMethodOptions) = {
+			isNotification: true
+			
+		};
 	}
 	rpc wasDestinationWiFiNetworkJoined(.Devialet.CallMeMaybe.Empty) returns (.Devialet.CallMeMaybe.BoolProperty) {
 	}
@@ -104,7 +109,7 @@ service Setup {
 	}
 	rpc completeConfiguration(.Devialet.CallMeMaybe.Empty) returns (.Devialet.CallMeMaybe.Empty) {
 	}
-	option (dvltServiceOptions) = {
+	option (Devialet.CallMeMaybe.dvltServiceOptions) = {
 		serviceName: "com.devialet.getthepartystarted.setup-0.slave-0.remote-0.player-0"
 		baseService: "Devialet.GetThePartyStarted.RemoteSlaveDeviceSetup"
 		properties {

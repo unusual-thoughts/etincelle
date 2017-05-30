@@ -1,6 +1,7 @@
 // Reversed by pbd (https://github.com/rsc-dev/pbd)
 package Devialet.TooManyFlows;
 import "CallMeMaybe/CommonMessages.proto";
+import "CallMeMaybe/CallMeMaybe.proto";
 
 message TrackMsg {
 	required uint32 index = 1 ;
@@ -26,14 +27,30 @@ service Playlist {
 	rpc remove(.Devialet.TooManyFlows.TracksMsg) returns (.Devialet.CallMeMaybe.Empty) {
 	}
 	rpc cleared(.Devialet.CallMeMaybe.Empty) returns (.Devialet.CallMeMaybe.Empty) {
+		option (Devialet.CallMeMaybe.dvltMethodOptions) = {
+			isNotification: true
+			
+		};
 	}
 	rpc tracksAdded(.Devialet.TooManyFlows.TracksMsg) returns (.Devialet.CallMeMaybe.Empty) {
+		option (Devialet.CallMeMaybe.dvltMethodOptions) = {
+			isNotification: true
+			
+		};
 	}
 	rpc trackMoved(.Devialet.TooManyFlows.MoveMsg) returns (.Devialet.CallMeMaybe.Empty) {
+		option (Devialet.CallMeMaybe.dvltMethodOptions) = {
+			isNotification: true
+			
+		};
 	}
 	rpc tracksRemoved(.Devialet.TooManyFlows.TracksMsg) returns (.Devialet.CallMeMaybe.Empty) {
+		option (Devialet.CallMeMaybe.dvltMethodOptions) = {
+			isNotification: true
+			
+		};
 	}
-	option (dvltServiceOptions) = {
+	option (Devialet.CallMeMaybe.dvltServiceOptions) = {
 		serviceName: "com.devialet.toomanyflows.playlist-0"
 		properties {
 		  property {

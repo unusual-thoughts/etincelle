@@ -14,15 +14,16 @@ _sym_db = _symbol_database.Default()
 
 
 from CallMeMaybe import CommonMessages_pb2 as CallMeMaybe_dot_CommonMessages__pb2
+from CallMeMaybe import CallMeMaybe_pb2 as CallMeMaybe_dot_CallMeMaybe__pb2
 
 
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='SaveMe/SaveMe.proto',
   package='Devialet.SaveMe',
   syntax='proto2',
-  serialized_pb=_b('\n\x13SaveMe/SaveMe.proto\x12\x0f\x44\x65vialet.SaveMe\x1a CallMeMaybe/CommonMessages.proto\"e\n\x11SavePlaylistError\"P\n\x04\x43ode\x12\x14\n\x10\x46ileFailedUpdate\x10\x01\x12\x15\n\x11IdPlaylistUnknown\x10\x02\x12\x1b\n\x17TrackNotFoundInPlaylist\x10\x03\"\x14\n\x05Track\x12\x0b\n\x03url\x18\x01 \x02(\t\"}\n\x0bPlaylistMsg\x12\n\n\x02id\x18\x01 \x02(\x0c\x12\x0c\n\x04name\x18\x02 \x02(\t\x12&\n\x06tracks\x18\x03 \x03(\x0b\x32\x16.Devialet.SaveMe.Track\x12\x14\n\x0c\x63reationDate\x18\x04 \x02(\r\x12\x16\n\x0elastUpdateDate\x18\x05 \x02(\r\"G\n\x0fTrackInPlaylist\x12%\n\x05track\x18\x01 \x02(\x0b\x32\x16.Devialet.SaveMe.Track\x12\r\n\x05index\x18\x02 \x02(\r\"T\n\x0e\x43reatePlaylist\x12\x0c\n\x04name\x18\x01 \x02(\t\x12&\n\x06tracks\x18\x02 \x03(\x0b\x32\x16.Devialet.SaveMe.Track\x12\x0c\n\x04\x64\x61te\x18\x03 \x02(\r\"@\n\rPlaylistSaved\x12/\n\tplaylists\x18\x01 \x03(\x0b\x32\x1c.Devialet.SaveMe.PlaylistMsg\"C\n\x0fPlaylistContent\x12\x30\n\x06tracks\x18\x01 \x03(\x0b\x32 .Devialet.SaveMe.TrackInPlaylist\"g\n\x0cModifyTracks\x12\x12\n\nplaylistId\x18\x01 \x02(\x0c\x12\r\n\x05index\x18\x02 \x02(\r\x12&\n\x06tracks\x18\x03 \x03(\x0b\x32\x16.Devialet.SaveMe.Track\x12\x0c\n\x04\x64\x61te\x18\x04 \x02(\r\"c\n\x0eModifyOneTrack\x12\x12\n\nplaylistId\x18\x01 \x02(\x0c\x12/\n\x05track\x18\x02 \x02(\x0b\x32 .Devialet.SaveMe.TrackInPlaylist\x12\x0c\n\x04\x64\x61te\x18\x03 \x02(\r\"D\n\x12ModifyPlaylistName\x12\x12\n\nplaylistId\x18\x01 \x02(\x0c\x12\x0c\n\x04name\x18\x02 \x02(\t\x12\x0c\n\x04\x64\x61te\x18\x03 \x02(\r2\x8b\x08\n\x0cSavePlaylist\x12P\n\x06\x63reate\x12\x1f.Devialet.SaveMe.CreatePlaylist\x1a#.Devialet.CallMeMaybe.BytesProperty\"\x00\x12L\n\x06remove\x12#.Devialet.CallMeMaybe.BytesProperty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12\x43\n\x05\x63lear\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12Q\n\x06tracks\x12#.Devialet.CallMeMaybe.BytesProperty\x1a .Devialet.SaveMe.PlaylistContent\"\x00\x12I\n\taddTracks\x12\x1d.Devialet.SaveMe.ModifyTracks\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12M\n\x0bremoveTrack\x12\x1f.Devialet.SaveMe.ModifyOneTrack\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12J\n\x04\x65\x64it\x12#.Devialet.SaveMe.ModifyPlaylistName\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12L\n\rplaylistAdded\x12\x1c.Devialet.SaveMe.PlaylistMsg\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12U\n\x0fplaylistRemoved\x12#.Devialet.CallMeMaybe.BytesProperty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12\x45\n\x07\x63leared\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12K\n\x0btracksAdded\x12\x1d.Devialet.SaveMe.ModifyTracks\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12N\n\x0ctrackRemoved\x12\x1f.Devialet.SaveMe.ModifyOneTrack\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12T\n\x0eplaylistEdited\x12#.Devialet.SaveMe.ModifyPlaylistName\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00')
+  serialized_pb=_b('\n\x13SaveMe/SaveMe.proto\x12\x0f\x44\x65vialet.SaveMe\x1a CallMeMaybe/CommonMessages.proto\x1a\x1d\x43\x61llMeMaybe/CallMeMaybe.proto\"e\n\x11SavePlaylistError\"P\n\x04\x43ode\x12\x14\n\x10\x46ileFailedUpdate\x10\x01\x12\x15\n\x11IdPlaylistUnknown\x10\x02\x12\x1b\n\x17TrackNotFoundInPlaylist\x10\x03\"\x14\n\x05Track\x12\x0b\n\x03url\x18\x01 \x02(\t\"}\n\x0bPlaylistMsg\x12\n\n\x02id\x18\x01 \x02(\x0c\x12\x0c\n\x04name\x18\x02 \x02(\t\x12&\n\x06tracks\x18\x03 \x03(\x0b\x32\x16.Devialet.SaveMe.Track\x12\x14\n\x0c\x63reationDate\x18\x04 \x02(\r\x12\x16\n\x0elastUpdateDate\x18\x05 \x02(\r\"G\n\x0fTrackInPlaylist\x12%\n\x05track\x18\x01 \x02(\x0b\x32\x16.Devialet.SaveMe.Track\x12\r\n\x05index\x18\x02 \x02(\r\"T\n\x0e\x43reatePlaylist\x12\x0c\n\x04name\x18\x01 \x02(\t\x12&\n\x06tracks\x18\x02 \x03(\x0b\x32\x16.Devialet.SaveMe.Track\x12\x0c\n\x04\x64\x61te\x18\x03 \x02(\r\"@\n\rPlaylistSaved\x12/\n\tplaylists\x18\x01 \x03(\x0b\x32\x1c.Devialet.SaveMe.PlaylistMsg\"C\n\x0fPlaylistContent\x12\x30\n\x06tracks\x18\x01 \x03(\x0b\x32 .Devialet.SaveMe.TrackInPlaylist\"g\n\x0cModifyTracks\x12\x12\n\nplaylistId\x18\x01 \x02(\x0c\x12\r\n\x05index\x18\x02 \x02(\r\x12&\n\x06tracks\x18\x03 \x03(\x0b\x32\x16.Devialet.SaveMe.Track\x12\x0c\n\x04\x64\x61te\x18\x04 \x02(\r\"c\n\x0eModifyOneTrack\x12\x12\n\nplaylistId\x18\x01 \x02(\x0c\x12/\n\x05track\x18\x02 \x02(\x0b\x32 .Devialet.SaveMe.TrackInPlaylist\x12\x0c\n\x04\x64\x61te\x18\x03 \x02(\r\"D\n\x12ModifyPlaylistName\x12\x12\n\nplaylistId\x18\x01 \x02(\x0c\x12\x0c\n\x04name\x18\x02 \x02(\t\x12\x0c\n\x04\x64\x61te\x18\x03 \x02(\r2\x98\t\n\x0cSavePlaylist\x12P\n\x06\x63reate\x12\x1f.Devialet.SaveMe.CreatePlaylist\x1a#.Devialet.CallMeMaybe.BytesProperty\"\x00\x12L\n\x06remove\x12#.Devialet.CallMeMaybe.BytesProperty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12\x43\n\x05\x63lear\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12Q\n\x06tracks\x12#.Devialet.CallMeMaybe.BytesProperty\x1a .Devialet.SaveMe.PlaylistContent\"\x00\x12I\n\taddTracks\x12\x1d.Devialet.SaveMe.ModifyTracks\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12M\n\x0bremoveTrack\x12\x1f.Devialet.SaveMe.ModifyOneTrack\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12J\n\x04\x65\x64it\x12#.Devialet.SaveMe.ModifyPlaylistName\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12Q\n\rplaylistAdded\x12\x1c.Devialet.SaveMe.PlaylistMsg\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x12Z\n\x0fplaylistRemoved\x12#.Devialet.CallMeMaybe.BytesProperty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x12J\n\x07\x63leared\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x12P\n\x0btracksAdded\x12\x1d.Devialet.SaveMe.ModifyTracks\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x12S\n\x0ctrackRemoved\x12\x1f.Devialet.SaveMe.ModifyOneTrack\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x12Y\n\x0eplaylistEdited\x12#.Devialet.SaveMe.ModifyPlaylistName\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x1am\x92Mj\n com.devialet.saveme.savePlaylist\x1a&Devialet.SaveMe.SavePlaylistError.Code\"\x1e\n\x1c\n\rPlaylistSaved\x12\tplaylists \x01')
   ,
-  dependencies=[CallMeMaybe_dot_CommonMessages__pb2.DESCRIPTOR,])
+  dependencies=[CallMeMaybe_dot_CommonMessages__pb2.DESCRIPTOR,CallMeMaybe_dot_CallMeMaybe__pb2.DESCRIPTOR,])
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
@@ -48,8 +49,8 @@ _SAVEPLAYLISTERROR_CODE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=95,
-  serialized_end=175,
+  serialized_start=126,
+  serialized_end=206,
 )
 _sym_db.RegisterEnumDescriptor(_SAVEPLAYLISTERROR_CODE)
 
@@ -74,8 +75,8 @@ _SAVEPLAYLISTERROR = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=74,
-  serialized_end=175,
+  serialized_start=105,
+  serialized_end=206,
 )
 
 
@@ -105,8 +106,8 @@ _TRACK = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=177,
-  serialized_end=197,
+  serialized_start=208,
+  serialized_end=228,
 )
 
 
@@ -164,8 +165,8 @@ _PLAYLISTMSG = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=199,
-  serialized_end=324,
+  serialized_start=230,
+  serialized_end=355,
 )
 
 
@@ -202,8 +203,8 @@ _TRACKINPLAYLIST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=326,
-  serialized_end=397,
+  serialized_start=357,
+  serialized_end=428,
 )
 
 
@@ -247,8 +248,8 @@ _CREATEPLAYLIST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=399,
-  serialized_end=483,
+  serialized_start=430,
+  serialized_end=514,
 )
 
 
@@ -278,8 +279,8 @@ _PLAYLISTSAVED = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=485,
-  serialized_end=549,
+  serialized_start=516,
+  serialized_end=580,
 )
 
 
@@ -309,8 +310,8 @@ _PLAYLISTCONTENT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=551,
-  serialized_end=618,
+  serialized_start=582,
+  serialized_end=649,
 )
 
 
@@ -361,8 +362,8 @@ _MODIFYTRACKS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=620,
-  serialized_end=723,
+  serialized_start=651,
+  serialized_end=754,
 )
 
 
@@ -406,8 +407,8 @@ _MODIFYONETRACK = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=725,
-  serialized_end=824,
+  serialized_start=756,
+  serialized_end=855,
 )
 
 
@@ -451,8 +452,8 @@ _MODIFYPLAYLISTNAME = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=826,
-  serialized_end=894,
+  serialized_start=857,
+  serialized_end=925,
 )
 
 _SAVEPLAYLISTERROR_CODE.containing_type = _SAVEPLAYLISTERROR

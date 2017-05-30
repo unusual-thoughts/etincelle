@@ -1,6 +1,7 @@
 // Reversed by pbd (https://github.com/rsc-dev/pbd)
 package Devialet.GetThePartyStarted.Aerobase;
 import "CallMeMaybe/CommonMessages.proto";
+import "CallMeMaybe/CallMeMaybe.proto";
 import "GetThePartyStarted/GetThePartyStarted.proto";
 
 message SetupStep {
@@ -31,7 +32,7 @@ message SetTopologyConfigurationRequest {
 }
 
 service Configuration {
-	option (dvltServiceOptions) = {
+	option (Devialet.CallMeMaybe.dvltServiceOptions) = {
 		serviceName: "com.devialet.getthepartystarted.configuration-0.aerobase-0"
 		baseService: "Devialet.GetThePartyStarted.Configuration"
 		
@@ -45,7 +46,7 @@ service Setup {
 	}
 	rpc configureServices(.Devialet.GetThePartyStarted.SetupToken) returns (.Devialet.CallMeMaybe.Empty) {
 	}
-	option (dvltServiceOptions) = {
+	option (Devialet.CallMeMaybe.dvltServiceOptions) = {
 		serviceName: "com.devialet.getthepartystarted.setup-0.master-0.aerobase-0"
 		baseService: "Devialet.GetThePartyStarted.MasterDeviceSetup"
 		properties {

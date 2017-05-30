@@ -2,6 +2,7 @@
 package Devialet.TooManyFlows;
 import "CallMeMaybe/CommonMessages.proto";
 import "TooManyFlows/Identifier.proto";
+import "CallMeMaybe/CallMeMaybe.proto";
 
 message AddRendererQuery {
 	required .Devialet.TooManyFlows.GroupId groupId = 1 ;
@@ -32,7 +33,7 @@ service Configuration {
 	}
 	rpc setAutoSwitch(.Devialet.CallMeMaybe.BoolProperty) returns (.Devialet.CallMeMaybe.Empty) {
 	}
-	option (dvltServiceOptions) = {
+	option (Devialet.CallMeMaybe.dvltServiceOptions) = {
 		serviceName: "com.devialet.toomanyflows.configuration-0"
 		errorEnumName: "Devialet.TooManyFlows.ConfigurationError.Code"
 		properties {

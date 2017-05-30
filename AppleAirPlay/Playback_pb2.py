@@ -14,15 +14,16 @@ _sym_db = _symbol_database.Default()
 
 
 from CallMeMaybe import CommonMessages_pb2 as CallMeMaybe_dot_CommonMessages__pb2
+from CallMeMaybe import CallMeMaybe_pb2 as CallMeMaybe_dot_CallMeMaybe__pb2
 
 
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='AppleAirPlay/Playback.proto',
   package='Devialet.AppleAirPlay',
   syntax='proto2',
-  serialized_pb=_b('\n\x1b\x41ppleAirPlay/Playback.proto\x12\x15\x44\x65vialet.AppleAirPlay\x1a CallMeMaybe/CommonMessages.proto\"\x07\n\x05\x44ummy2\xc7\x04\n\x08Playback\x12\x42\n\x04play\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12\x43\n\x05pause\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12\x42\n\x04next\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12\x46\n\x08previous\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12J\n\x0ctoggleRepeat\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12K\n\rtoggleShuffle\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12\x42\n\x04stop\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12I\n\x0btogglePause\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00')
+  serialized_pb=_b('\n\x1b\x41ppleAirPlay/Playback.proto\x12\x15\x44\x65vialet.AppleAirPlay\x1a CallMeMaybe/CommonMessages.proto\x1a\x1d\x43\x61llMeMaybe/CallMeMaybe.proto\"\x07\n\x05\x44ummy2\xc3\x06\n\x08Playback\x12\x42\n\x04play\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12\x43\n\x05pause\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12\x42\n\x04next\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12\x46\n\x08previous\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12J\n\x0ctoggleRepeat\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12K\n\rtoggleShuffle\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12\x42\n\x04stop\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12I\n\x0btogglePause\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x1a\xf9\x01\x92M\xf5\x01\n$com.devialet.appleairplay.playback-0\"\xcc\x01\n0\n\"Devialet.CallMeMaybe.BytesProperty\x12\x08playerId\x18\x01\n0\n!Devialet.CallMeMaybe.BoolProperty\x12\tisPlaying\x18\x01\n1\n#Devialet.CallMeMaybe.UInt32Property\x12\x08\x64uration\x18\x01\n3\n#Devialet.CallMeMaybe.UInt32Property\x12\x08position\x18\x01(\x00')
   ,
-  dependencies=[CallMeMaybe_dot_CommonMessages__pb2.DESCRIPTOR,])
+  dependencies=[CallMeMaybe_dot_CommonMessages__pb2.DESCRIPTOR,CallMeMaybe_dot_CallMeMaybe__pb2.DESCRIPTOR,])
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
@@ -47,8 +48,8 @@ _DUMMY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=88,
-  serialized_end=95,
+  serialized_start=119,
+  serialized_end=126,
 )
 
 DESCRIPTOR.message_types_by_name['Dummy'] = _DUMMY

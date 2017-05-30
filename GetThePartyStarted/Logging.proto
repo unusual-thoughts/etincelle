@@ -1,6 +1,7 @@
 // Reversed by pbd (https://github.com/rsc-dev/pbd)
 package Devialet.GetThePartyStarted;
 import "CallMeMaybe/CommonMessages.proto";
+import "CallMeMaybe/CallMeMaybe.proto";
 
 message UploadLogsRequest {
 	required string installationId = 1 ;
@@ -10,7 +11,7 @@ message UploadLogsRequest {
 service LogUploader {
 	rpc uploadLogs(.Devialet.GetThePartyStarted.UploadLogsRequest) returns (.Devialet.CallMeMaybe.Empty) {
 	}
-	option (dvltServiceOptions) = {
+	option (Devialet.CallMeMaybe.dvltServiceOptions) = {
 		serviceName: "com.devialet.getthepartystarted.log-uploader-0"
 		
 	};

@@ -1,6 +1,7 @@
 // Reversed by pbd (https://github.com/rsc-dev/pbd)
 package Devialet.MasterOfPuppets;
 import "CallMeMaybe/CommonMessages.proto";
+import "CallMeMaybe/CallMeMaybe.proto";
 
 message GroupId {
 	required bytes id = 1 ;
@@ -107,30 +108,78 @@ service Configuration {
 	rpc renameRenderer(.Devialet.MasterOfPuppets.RenameQuery) returns (.Devialet.CallMeMaybe.Empty) {
 	}
 	rpc bouquetAdded(.Devialet.MasterOfPuppets.BouquetAddedNotification) returns (.Devialet.CallMeMaybe.Empty) {
+		option (Devialet.CallMeMaybe.dvltMethodOptions) = {
+			isNotification: true
+			
+		};
 	}
 	rpc bouquetRemoved(.Devialet.MasterOfPuppets.BouquetId) returns (.Devialet.CallMeMaybe.Empty) {
+		option (Devialet.CallMeMaybe.dvltMethodOptions) = {
+			isNotification: true
+			
+		};
 	}
 	rpc bouquetRenamed(.Devialet.MasterOfPuppets.RenameQuery) returns (.Devialet.CallMeMaybe.Empty) {
+		option (Devialet.CallMeMaybe.dvltMethodOptions) = {
+			isNotification: true
+			
+		};
 	}
 	rpc groupAdded(.Devialet.MasterOfPuppets.GroupAddedNotification) returns (.Devialet.CallMeMaybe.Empty) {
+		option (Devialet.CallMeMaybe.dvltMethodOptions) = {
+			isNotification: true
+			
+		};
 	}
 	rpc groupMoved(.Devialet.MasterOfPuppets.MoveGroupQuery) returns (.Devialet.CallMeMaybe.Empty) {
+		option (Devialet.CallMeMaybe.dvltMethodOptions) = {
+			isNotification: true
+			
+		};
 	}
 	rpc groupRemoved(.Devialet.MasterOfPuppets.GroupId) returns (.Devialet.CallMeMaybe.Empty) {
+		option (Devialet.CallMeMaybe.dvltMethodOptions) = {
+			isNotification: true
+			
+		};
 	}
 	rpc groupRenamed(.Devialet.MasterOfPuppets.RenameQuery) returns (.Devialet.CallMeMaybe.Empty) {
+		option (Devialet.CallMeMaybe.dvltMethodOptions) = {
+			isNotification: true
+			
+		};
 	}
 	rpc rendererAdded(.Devialet.MasterOfPuppets.RendererAddedNotification) returns (.Devialet.CallMeMaybe.Empty) {
+		option (Devialet.CallMeMaybe.dvltMethodOptions) = {
+			isNotification: true
+			
+		};
 	}
 	rpc rendererMoved(.Devialet.MasterOfPuppets.MoveRendererQuery) returns (.Devialet.CallMeMaybe.Empty) {
+		option (Devialet.CallMeMaybe.dvltMethodOptions) = {
+			isNotification: true
+			
+		};
 	}
 	rpc rendererRemoved(.Devialet.MasterOfPuppets.RendererId) returns (.Devialet.CallMeMaybe.Empty) {
+		option (Devialet.CallMeMaybe.dvltMethodOptions) = {
+			isNotification: true
+			
+		};
 	}
 	rpc rendererRenamed(.Devialet.MasterOfPuppets.RenameQuery) returns (.Devialet.CallMeMaybe.Empty) {
+		option (Devialet.CallMeMaybe.dvltMethodOptions) = {
+			isNotification: true
+			
+		};
 	}
 	rpc rendererStateChanged(.Devialet.MasterOfPuppets.StateNotification) returns (.Devialet.CallMeMaybe.Empty) {
+		option (Devialet.CallMeMaybe.dvltMethodOptions) = {
+			isNotification: true
+			
+		};
 	}
-	option (dvltServiceOptions) = {
+	option (Devialet.CallMeMaybe.dvltServiceOptions) = {
 		serviceName: "com.devialet.masterofpuppets.configuration-0"
 		properties {
 		  property {

@@ -13,14 +13,16 @@ from google.protobuf import descriptor_pb2
 _sym_db = _symbol_database.Default()
 
 
+from CallMeMaybe import CallMeMaybe_pb2 as CallMeMaybe_dot_CallMeMaybe__pb2
 
 
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='LeftAlone/Configuration.proto',
   package='Devialet.LeftAlone',
   syntax='proto2',
-  serialized_pb=_b('\n\x1dLeftAlone/Configuration.proto\x12\x12\x44\x65vialet.LeftAlone\"\t\n\x07\x46\x61keMsg2\x0f\n\rConfiguration')
-)
+  serialized_pb=_b('\n\x1dLeftAlone/Configuration.proto\x12\x12\x44\x65vialet.LeftAlone\x1a\x1d\x43\x61llMeMaybe/CallMeMaybe.proto\"\t\n\x07\x46\x61keMsg2n\n\rConfiguration\x1a]\x92MZ\n(com.devialet.leftalone-0.configuration-0\".\n,\n!Devialet.CallMeMaybe.BoolProperty\x12\x07\x65nabled')
+  ,
+  dependencies=[CallMeMaybe_dot_CallMeMaybe__pb2.DESCRIPTOR,])
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
@@ -45,8 +47,8 @@ _FAKEMSG = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=53,
-  serialized_end=62,
+  serialized_start=84,
+  serialized_end=93,
 )
 
 DESCRIPTOR.message_types_by_name['FakeMsg'] = _FAKEMSG

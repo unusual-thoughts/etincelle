@@ -14,15 +14,16 @@ _sym_db = _symbol_database.Default()
 
 
 from CallMeMaybe import CommonMessages_pb2 as CallMeMaybe_dot_CommonMessages__pb2
+from CallMeMaybe import CallMeMaybe_pb2 as CallMeMaybe_dot_CallMeMaybe__pb2
 
 
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='RPCMessages.proto',
   package='Devialet.CallMeMaybe',
   syntax='proto2',
-  serialized_pb=_b('\n\x11RPCMessages.proto\x12\x14\x44\x65vialet.CallMeMaybe\x1a CallMeMaybe/CommonMessages.proto\"b\n\x07Request\x12\x10\n\x08serverId\x18\x01 \x02(\x0c\x12\x11\n\tserviceId\x18\x02 \x02(\x07\x12\x11\n\trequestId\x18\x03 \x02(\x0c\x12\x0c\n\x04type\x18\x04 \x02(\r\x12\x11\n\tsubTypeId\x18\x05 \x02(\r\"\x88\x01\n\x05Reply\x12\x10\n\x08serverId\x18\x01 \x02(\x0c\x12\x11\n\tserviceId\x18\x02 \x02(\x07\x12\x11\n\trequestId\x18\x03 \x02(\x0c\x12\x0c\n\x04type\x18\x04 \x02(\r\x12\x11\n\tsubTypeId\x18\x05 \x02(\r\x12\x11\n\terrorCode\x18\x06 \x02(\x11\x12\x13\n\x0bisMultipart\x18\x07 \x02(\x08\"M\n\x05\x45vent\x12\x10\n\x08serverId\x18\x01 \x02(\x0c\x12\x11\n\tserviceId\x18\x02 \x02(\x07\x12\x0c\n\x04type\x18\x03 \x02(\r\x12\x11\n\tsubTypeId\x18\x04 \x02(\r\"$\n\x11\x43onnectionRequest\x12\x0f\n\x07version\x18\x01 \x02(\r\"#\n\x07Service\x12\n\n\x02id\x18\x01 \x02(\r\x12\x0c\n\x04name\x18\x02 \x02(\t\"?\n\x0cServicesList\x12/\n\x08services\x18\x01 \x03(\x0b\x32\x1d.Devialet.CallMeMaybe.Service\"T\n\x0f\x43onnectionReply\x12\x10\n\x08serverId\x18\x01 \x02(\x0c\x12/\n\x08services\x18\x02 \x03(\x0b\x32\x1d.Devialet.CallMeMaybe.Service\"2\n\x10\x43onnectionErrors\"\x1e\n\x04\x43ode\x12\x16\n\x12UnsupportedVersion\x10\x00\x32\x9c\x03\n\nConnection\x12\x62\n\x0eopenConnection\x12\'.Devialet.CallMeMaybe.ConnectionRequest\x1a%.Devialet.CallMeMaybe.ConnectionReply\"\x00\x12\x42\n\x04ping\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12L\n\x0cserviceAdded\x12\x1d.Devialet.CallMeMaybe.Service\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12N\n\x0eserviceRemoved\x12\x1d.Devialet.CallMeMaybe.Service\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12H\n\nserverQuit\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00')
+  serialized_pb=_b('\n\x11RPCMessages.proto\x12\x14\x44\x65vialet.CallMeMaybe\x1a CallMeMaybe/CommonMessages.proto\x1a\x1d\x43\x61llMeMaybe/CallMeMaybe.proto\"b\n\x07Request\x12\x10\n\x08serverId\x18\x01 \x02(\x0c\x12\x11\n\tserviceId\x18\x02 \x02(\x07\x12\x11\n\trequestId\x18\x03 \x02(\x0c\x12\x0c\n\x04type\x18\x04 \x02(\r\x12\x11\n\tsubTypeId\x18\x05 \x02(\r\"\x88\x01\n\x05Reply\x12\x10\n\x08serverId\x18\x01 \x02(\x0c\x12\x11\n\tserviceId\x18\x02 \x02(\x07\x12\x11\n\trequestId\x18\x03 \x02(\x0c\x12\x0c\n\x04type\x18\x04 \x02(\r\x12\x11\n\tsubTypeId\x18\x05 \x02(\r\x12\x11\n\terrorCode\x18\x06 \x02(\x11\x12\x13\n\x0bisMultipart\x18\x07 \x02(\x08\"M\n\x05\x45vent\x12\x10\n\x08serverId\x18\x01 \x02(\x0c\x12\x11\n\tserviceId\x18\x02 \x02(\x07\x12\x0c\n\x04type\x18\x03 \x02(\r\x12\x11\n\tsubTypeId\x18\x04 \x02(\r\"$\n\x11\x43onnectionRequest\x12\x0f\n\x07version\x18\x01 \x02(\r\"#\n\x07Service\x12\n\n\x02id\x18\x01 \x02(\r\x12\x0c\n\x04name\x18\x02 \x02(\t\"?\n\x0cServicesList\x12/\n\x08services\x18\x01 \x03(\x0b\x32\x1d.Devialet.CallMeMaybe.Service\"T\n\x0f\x43onnectionReply\x12\x10\n\x08serverId\x18\x01 \x02(\x0c\x12/\n\x08services\x18\x02 \x03(\x0b\x32\x1d.Devialet.CallMeMaybe.Service\"2\n\x10\x43onnectionErrors\"\x1e\n\x04\x43ode\x12\x16\n\x12UnsupportedVersion\x10\x00\x32\x86\x04\n\nConnection\x12\x62\n\x0eopenConnection\x12\'.Devialet.CallMeMaybe.ConnectionRequest\x1a%.Devialet.CallMeMaybe.ConnectionReply\"\x00\x12G\n\x04ping\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02 \x00\x12Q\n\x0cserviceAdded\x12\x1d.Devialet.CallMeMaybe.Service\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x12S\n\x0eserviceRemoved\x12\x1d.Devialet.CallMeMaybe.Service\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x12M\n\nserverQuit\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x1aT\x92MQ\n#com.devialet.callmemaybe.connection\x1a*Devialet.CallMeMaybe.ConnectionErrors.Code')
   ,
-  dependencies=[CallMeMaybe_dot_CommonMessages__pb2.DESCRIPTOR,])
+  dependencies=[CallMeMaybe_dot_CommonMessages__pb2.DESCRIPTOR,CallMeMaybe_dot_CallMeMaybe__pb2.DESCRIPTOR,])
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
@@ -40,8 +41,8 @@ _CONNECTIONERRORS_CODE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=641,
-  serialized_end=671,
+  serialized_start=672,
+  serialized_end=702,
 )
 _sym_db.RegisterEnumDescriptor(_CONNECTIONERRORS_CODE)
 
@@ -100,8 +101,8 @@ _REQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=77,
-  serialized_end=175,
+  serialized_start=108,
+  serialized_end=206,
 )
 
 
@@ -173,8 +174,8 @@ _REPLY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=178,
-  serialized_end=314,
+  serialized_start=209,
+  serialized_end=345,
 )
 
 
@@ -225,8 +226,8 @@ _EVENT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=316,
-  serialized_end=393,
+  serialized_start=347,
+  serialized_end=424,
 )
 
 
@@ -256,8 +257,8 @@ _CONNECTIONREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=395,
-  serialized_end=431,
+  serialized_start=426,
+  serialized_end=462,
 )
 
 
@@ -294,8 +295,8 @@ _SERVICE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=433,
-  serialized_end=468,
+  serialized_start=464,
+  serialized_end=499,
 )
 
 
@@ -325,8 +326,8 @@ _SERVICESLIST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=470,
-  serialized_end=533,
+  serialized_start=501,
+  serialized_end=564,
 )
 
 
@@ -363,8 +364,8 @@ _CONNECTIONREPLY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=535,
-  serialized_end=619,
+  serialized_start=566,
+  serialized_end=650,
 )
 
 
@@ -388,8 +389,8 @@ _CONNECTIONERRORS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=621,
-  serialized_end=671,
+  serialized_start=652,
+  serialized_end=702,
 )
 
 _SERVICESLIST.fields_by_name['services'].message_type = _SERVICE

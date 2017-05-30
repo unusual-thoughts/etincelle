@@ -13,14 +13,16 @@ from google.protobuf import descriptor_pb2
 _sym_db = _symbol_database.Default()
 
 
+from CallMeMaybe import CallMeMaybe_pb2 as CallMeMaybe_dot_CallMeMaybe__pb2
 
 
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='TooManyFlows/Metadata.proto',
   package='Devialet.TooManyFlows',
   syntax='proto2',
-  serialized_pb=_b('\n\x1bTooManyFlows/Metadata.proto\x12\x15\x44\x65vialet.TooManyFlows2\n\n\x08Metadata')
-)
+  serialized_pb=_b('\n\x1bTooManyFlows/Metadata.proto\x12\x15\x44\x65vialet.TooManyFlows\x1a\x1d\x43\x61llMeMaybe/CallMeMaybe.proto2\xb2\x04\n\x08Metadata\x1a\xa5\x04\x92M\xa1\x04\n$com.devialet.toomanyflows.metadata-0\"\xf8\x03\n.\n#Devialet.CallMeMaybe.StringProperty\x12\x05\x61lbum\x18\x01\n4\n#Devialet.CallMeMaybe.StringProperty\x12\x0b\x61lbumArtist\x18\x01\n/\n#Devialet.CallMeMaybe.StringProperty\x12\x06\x61rtist\x18\x01\n1\n#Devialet.CallMeMaybe.UInt64Property\x12\x08\x64uration\x18\x01\n.\n#Devialet.CallMeMaybe.StringProperty\x12\x05genre\x18\x01\n1\n#Devialet.CallMeMaybe.StringProperty\x12\x08homepage\x18\x01\n1\n#Devialet.CallMeMaybe.StringProperty\x12\x08location\x18\x01\n5\n#Devialet.CallMeMaybe.StringProperty\x12\x0corganization\x18\x01\n/\n\"Devialet.CallMeMaybe.BytesProperty\x12\x07picture\x18\x01\n.\n#Devialet.CallMeMaybe.StringProperty\x12\x05title\x18\x01')
+  ,
+  dependencies=[CallMeMaybe_dot_CallMeMaybe__pb2.DESCRIPTOR,])
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 

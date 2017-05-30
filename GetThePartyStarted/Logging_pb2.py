@@ -14,15 +14,16 @@ _sym_db = _symbol_database.Default()
 
 
 from CallMeMaybe import CommonMessages_pb2 as CallMeMaybe_dot_CommonMessages__pb2
+from CallMeMaybe import CallMeMaybe_pb2 as CallMeMaybe_dot_CallMeMaybe__pb2
 
 
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='GetThePartyStarted/Logging.proto',
   package='Devialet.GetThePartyStarted',
   syntax='proto2',
-  serialized_pb=_b('\n GetThePartyStarted/Logging.proto\x12\x1b\x44\x65vialet.GetThePartyStarted\x1a CallMeMaybe/CommonMessages.proto\">\n\x11UploadLogsRequest\x12\x16\n\x0einstallationId\x18\x01 \x02(\t\x12\x11\n\ttimestamp\x18\x02 \x02(\x03\x32j\n\x0bLogUploader\x12[\n\nuploadLogs\x12..Devialet.GetThePartyStarted.UploadLogsRequest\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00')
+  serialized_pb=_b('\n GetThePartyStarted/Logging.proto\x12\x1b\x44\x65vialet.GetThePartyStarted\x1a CallMeMaybe/CommonMessages.proto\x1a\x1d\x43\x61llMeMaybe/CallMeMaybe.proto\">\n\x11UploadLogsRequest\x12\x16\n\x0einstallationId\x18\x01 \x02(\t\x12\x11\n\ttimestamp\x18\x02 \x02(\x03\x32\x9f\x01\n\x0bLogUploader\x12[\n\nuploadLogs\x12..Devialet.GetThePartyStarted.UploadLogsRequest\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x1a\x33\x92M0\n.com.devialet.getthepartystarted.log-uploader-0')
   ,
-  dependencies=[CallMeMaybe_dot_CommonMessages__pb2.DESCRIPTOR,])
+  dependencies=[CallMeMaybe_dot_CommonMessages__pb2.DESCRIPTOR,CallMeMaybe_dot_CallMeMaybe__pb2.DESCRIPTOR,])
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
@@ -61,8 +62,8 @@ _UPLOADLOGSREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=99,
-  serialized_end=161,
+  serialized_start=130,
+  serialized_end=192,
 )
 
 DESCRIPTOR.message_types_by_name['UploadLogsRequest'] = _UPLOADLOGSREQUEST

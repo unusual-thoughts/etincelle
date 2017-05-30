@@ -1,8 +1,9 @@
 // Reversed by pbd (https://github.com/rsc-dev/pbd)
 package Devialet.TooManyFlows;
+import "CallMeMaybe/CallMeMaybe.proto";
 
 service Metadata {
-	option (dvltServiceOptions) = {
+	option (Devialet.CallMeMaybe.dvltServiceOptions) = {
 		serviceName: "com.devialet.toomanyflows.metadata-0"
 		properties {
 		  property {

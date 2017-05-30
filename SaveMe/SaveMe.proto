@@ -1,6 +1,7 @@
 // Reversed by pbd (https://github.com/rsc-dev/pbd)
 package Devialet.SaveMe;
 import "CallMeMaybe/CommonMessages.proto";
+import "CallMeMaybe/CallMeMaybe.proto";
 
 message SavePlaylistError {
 	
@@ -77,18 +78,42 @@ service SavePlaylist {
 	rpc edit(.Devialet.SaveMe.ModifyPlaylistName) returns (.Devialet.CallMeMaybe.Empty) {
 	}
 	rpc playlistAdded(.Devialet.SaveMe.PlaylistMsg) returns (.Devialet.CallMeMaybe.Empty) {
+		option (Devialet.CallMeMaybe.dvltMethodOptions) = {
+			isNotification: true
+			
+		};
 	}
 	rpc playlistRemoved(.Devialet.CallMeMaybe.BytesProperty) returns (.Devialet.CallMeMaybe.Empty) {
+		option (Devialet.CallMeMaybe.dvltMethodOptions) = {
+			isNotification: true
+			
+		};
 	}
 	rpc cleared(.Devialet.CallMeMaybe.Empty) returns (.Devialet.CallMeMaybe.Empty) {
+		option (Devialet.CallMeMaybe.dvltMethodOptions) = {
+			isNotification: true
+			
+		};
 	}
 	rpc tracksAdded(.Devialet.SaveMe.ModifyTracks) returns (.Devialet.CallMeMaybe.Empty) {
+		option (Devialet.CallMeMaybe.dvltMethodOptions) = {
+			isNotification: true
+			
+		};
 	}
 	rpc trackRemoved(.Devialet.SaveMe.ModifyOneTrack) returns (.Devialet.CallMeMaybe.Empty) {
+		option (Devialet.CallMeMaybe.dvltMethodOptions) = {
+			isNotification: true
+			
+		};
 	}
 	rpc playlistEdited(.Devialet.SaveMe.ModifyPlaylistName) returns (.Devialet.CallMeMaybe.Empty) {
+		option (Devialet.CallMeMaybe.dvltMethodOptions) = {
+			isNotification: true
+			
+		};
 	}
-	option (dvltServiceOptions) = {
+	option (Devialet.CallMeMaybe.dvltServiceOptions) = {
 		serviceName: "com.devialet.saveme.savePlaylist"
 		errorEnumName: "Devialet.SaveMe.SavePlaylistError.Code"
 		properties {

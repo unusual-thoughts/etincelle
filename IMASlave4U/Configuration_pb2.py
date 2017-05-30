@@ -13,14 +13,16 @@ from google.protobuf import descriptor_pb2
 _sym_db = _symbol_database.Default()
 
 
+from CallMeMaybe import CallMeMaybe_pb2 as CallMeMaybe_dot_CallMeMaybe__pb2
 
 
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='IMASlave4U/Configuration.proto',
   package='Devialet.IMASlave4U',
   syntax='proto2',
-  serialized_pb=_b('\n\x1eIMASlave4U/Configuration.proto\x12\x13\x44\x65vialet.IMASlave4U\"O\n\tAudioMode\x12\x0c\n\x04mode\x18\x01 \x02(\r\"4\n\x04Mode\x12\x0b\n\x07MonoMix\x10\x01\x12\x0e\n\nStereoLeft\x10\x02\x12\x0f\n\x0bStereoRight\x10\x03\"\'\n\x08Property\x12\x0c\n\x04name\x18\x01 \x02(\t\x12\r\n\x05value\x18\x02 \x02(\t\"Y\n\x05Input\x12\x0c\n\x04name\x18\x01 \x02(\t\x12\x0f\n\x07schemes\x18\x02 \x03(\t\x12\x31\n\nproperties\x18\x03 \x03(\x0b\x32\x1d.Devialet.IMASlave4U.Property2\x0f\n\rConfiguration')
-)
+  serialized_pb=_b('\n\x1eIMASlave4U/Configuration.proto\x12\x13\x44\x65vialet.IMASlave4U\x1a\x1d\x43\x61llMeMaybe/CallMeMaybe.proto\"O\n\tAudioMode\x12\x0c\n\x04mode\x18\x01 \x02(\r\"4\n\x04Mode\x12\x0b\n\x07MonoMix\x10\x01\x12\x0e\n\nStereoLeft\x10\x02\x12\x0f\n\x0bStereoRight\x10\x03\"\'\n\x08Property\x12\x0c\n\x04name\x18\x01 \x02(\t\x12\r\n\x05value\x18\x02 \x02(\t\"Y\n\x05Input\x12\x0c\n\x04name\x18\x01 \x02(\t\x12\x0f\n\x07schemes\x18\x02 \x03(\t\x12\x31\n\nproperties\x18\x03 \x03(\x0b\x32\x1d.Devialet.IMASlave4U.Property2\xca\x01\n\rConfiguration\x1a\xb8\x01\x92M\xb4\x01\n\'com.devialet.imaslave4u.configuration-0\"\x88\x01\n*\n\x1d\x44\x65vialet.IMASlave4U.AudioMode\x12\taudioMode\n)\n\x19\x44\x65vialet.IMASlave4U.Input\x12\naudioInput\x18\x01\n/\n\x19\x44\x65vialet.IMASlave4U.Input\x12\x10soundDesignInput\x18\x01')
+  ,
+  dependencies=[CallMeMaybe_dot_CallMeMaybe__pb2.DESCRIPTOR,])
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
@@ -46,8 +48,8 @@ _AUDIOMODE_MODE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=82,
-  serialized_end=134,
+  serialized_start=113,
+  serialized_end=165,
 )
 _sym_db.RegisterEnumDescriptor(_AUDIOMODE_MODE)
 
@@ -79,8 +81,8 @@ _AUDIOMODE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=55,
-  serialized_end=134,
+  serialized_start=86,
+  serialized_end=165,
 )
 
 
@@ -117,8 +119,8 @@ _PROPERTY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=136,
-  serialized_end=175,
+  serialized_start=167,
+  serialized_end=206,
 )
 
 
@@ -162,8 +164,8 @@ _INPUT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=177,
-  serialized_end=266,
+  serialized_start=208,
+  serialized_end=297,
 )
 
 _AUDIOMODE_MODE.containing_type = _AUDIOMODE

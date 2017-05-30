@@ -1,6 +1,7 @@
 // Reversed by pbd (https://github.com/rsc-dev/pbd)
 package Devialet.TooManyFlows;
 import "CallMeMaybe/CommonMessages.proto";
+import "CallMeMaybe/CallMeMaybe.proto";
 
 message IndexMsg {
 	required uint32 value = 1 ;
@@ -52,7 +53,7 @@ service Playback {
 	}
 	rpc playUrl(.Devialet.CallMeMaybe.StringProperty) returns (.Devialet.CallMeMaybe.Empty) {
 	}
-	option (dvltServiceOptions) = {
+	option (Devialet.CallMeMaybe.dvltServiceOptions) = {
 		serviceName: "com.devialet.toomanyflows.playback-0"
 		errorEnumName: "Devialet.TooManyFlows.PlaybackError.Code"
 		properties {

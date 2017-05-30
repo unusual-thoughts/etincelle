@@ -16,15 +16,16 @@ _sym_db = _symbol_database.Default()
 from CallMeMaybe import CommonMessages_pb2 as CallMeMaybe_dot_CommonMessages__pb2
 from TheSoundOfSilence import Session_pb2 as TheSoundOfSilence_dot_Session__pb2
 from TheSoundOfSilence import Node_pb2 as TheSoundOfSilence_dot_Node__pb2
+from CallMeMaybe import CallMeMaybe_pb2 as CallMeMaybe_dot_CallMeMaybe__pb2
 
 
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='TheSoundOfSilence/OnlineSource.proto',
   package='Devialet.AudioSource',
   syntax='proto2',
-  serialized_pb=_b('\n$TheSoundOfSilence/OnlineSource.proto\x12\x14\x44\x65vialet.AudioSource\x1a CallMeMaybe/CommonMessages.proto\x1a\x1fTheSoundOfSilence/Session.proto\x1a\x1cTheSoundOfSilence/Node.proto\"\x82\x01\n\x11OnlineSourceError\"m\n\x04\x43ode\x12\x14\n\x10\x41lreadyConnected\x10\x01\x12\x0e\n\nNeedUpdate\x10\x02\x12\x15\n\x11NetworkConnection\x10\x03\x12\x10\n\x0cNotConnected\x10\x04\x12\x16\n\x12ServiceUnavailable\x10\x05\"\x8d\x01\n\x1cOnlineSourceAvailableMethods\x12\x14\n\x0cisSearchable\x18\x01 \x02(\x08\x12\x17\n\x0fhasAutocomplete\x18\x02 \x02(\x08\x12\x14\n\x0chasBatchMode\x18\x03 \x02(\x08\x12(\n\x19supportPlaylistManagement\x18\x04 \x01(\x08:\x05\x66\x61lse\":\n\x17\x43redentialsLoginRequest\x12\r\n\x05login\x18\x01 \x02(\t\x12\x10\n\x08password\x18\x02 \x02(\t\"(\n\x11OAuthLoginRequest\x12\x13\n\x0bredirectUrl\x18\x01 \x02(\x0c\"i\n\x15\x41uthenticationMethods\x12\x18\n\x10supportedMethods\x18\x01 \x03(\r\x12\x10\n\x08oAuthUrl\x18\x02 \x01(\x0c\"$\n\x06Method\x12\x0f\n\x0b\x43redentials\x10\x00\x12\t\n\x05OAuth\x10\x01\"H\n\x0fRegistrationUrl\x12\x1c\n\x14isRegistrationActive\x18\x01 \x02(\x08\x12\x17\n\x0fregistrationUrl\x18\x02 \x02(\t\"8\n\x0e\x41vailableReply\x12\x13\n\x0bisAvailable\x18\x01 \x02(\x08\x12\x11\n\terrorCode\x18\x02 \x01(\r\"<\n\nLoginReply\x12.\n\x07session\x18\x01 \x02(\x0b\x32\x1d.Devialet.AudioSource.Session\"\"\n\rLogoutRequest\x12\x11\n\tsessionId\x18\x01 \x02(\x0c\"J\n\rSearchRequest\x12\r\n\x05query\x18\x01 \x02(\t\x12\x0c\n\x04type\x18\x02 \x02(\r\x12\x0e\n\x06offset\x18\x03 \x02(\r\x12\x0c\n\x04size\x18\x04 \x02(\r\"2\n\x13\x41utocompleteRequest\x12\r\n\x05query\x18\x01 \x02(\t\x12\x0c\n\x04size\x18\x02 \x02(\r\"N\n\x10PictureIdRequest\x12,\n\x06nodeId\x18\x01 \x02(\x0b\x32\x1c.Devialet.AudioSource.NodeId\x12\x0c\n\x04size\x18\x02 \x02(\r\"`\n\x11\x43ollectionRequest\x12,\n\x06nodeId\x18\x01 \x02(\x0b\x32\x1c.Devialet.AudioSource.NodeId\x12\x0e\n\x06offset\x18\x02 \x02(\x05\x12\r\n\x05limit\x18\x03 \x02(\x05\"T\n\x12SubcategoryRequest\x12\n\n\x02id\x18\x01 \x02(\x0c\x12\x0c\n\x04type\x18\x02 \x02(\r\x12\x11\n\x06offset\x18\x03 \x01(\r:\x01\x30\x12\x11\n\x05limit\x18\x04 \x01(\r:\x02\x31\x30\"Q\n\x13TrackDetailsRequest\x12,\n\x06nodeId\x18\x01 \x02(\x0b\x32\x1c.Devialet.AudioSource.NodeId\x12\x0c\n\x04size\x18\x02 \x02(\r\"R\n\x14TracksDetailsRequest\x12,\n\x06nodeId\x18\x01 \x03(\x0b\x32\x1c.Devialet.AudioSource.NodeId\x12\x0c\n\x04size\x18\x02 \x02(\r\"6\n\x0fUserAccountInfo\x12\x0f\n\x07\x63\x61nPlay\x18\x01 \x02(\x08\x12\x12\n\ncanPreview\x18\x02 \x02(\x08\"4\n\x1aGetSupportedFavoritesReply\x12\x16\n\x0e\x66\x61voritesTypes\x18\x01 \x03(\r\"\x8a\x01\n\x15UpdatePlaylistRequest\x12.\n\x08trackIds\x18\x01 \x03(\x0b\x32\x1c.Devialet.AudioSource.NodeId\x12\x30\n\nplaylistId\x18\x02 \x02(\x0b\x32\x1c.Devialet.AudioSource.NodeId\x12\x0f\n\x07indices\x18\x03 \x03(\r\"U\n\x15\x43reatePlaylistRequest\x12\r\n\x05title\x18\x01 \x02(\t\x12-\n\x07nodeIds\x18\x02 \x03(\x0b\x32\x1c.Devialet.AudioSource.NodeId\"{\n\x18IsTrackInPlaylistRequest\x12-\n\x07trackId\x18\x01 \x02(\x0b\x32\x1c.Devialet.AudioSource.NodeId\x12\x30\n\nplaylistId\x18\x02 \x02(\x0b\x32\x1c.Devialet.AudioSource.NodeId2\xab\x02\n\x19\x41uthenticatedOnlineSource\x12\x65\n\x10\x63redentialsLogin\x12-.Devialet.AudioSource.CredentialsLoginRequest\x1a .Devialet.AudioSource.LoginReply\"\x00\x12Y\n\noAuthLogin\x12\'.Devialet.AudioSource.OAuthLoginRequest\x1a .Devialet.AudioSource.LoginReply\"\x00\x12L\n\x06logout\x12#.Devialet.AudioSource.LogoutRequest\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00')
+  serialized_pb=_b('\n$TheSoundOfSilence/OnlineSource.proto\x12\x14\x44\x65vialet.AudioSource\x1a CallMeMaybe/CommonMessages.proto\x1a\x1fTheSoundOfSilence/Session.proto\x1a\x1cTheSoundOfSilence/Node.proto\x1a\x1d\x43\x61llMeMaybe/CallMeMaybe.proto\"\x82\x01\n\x11OnlineSourceError\"m\n\x04\x43ode\x12\x14\n\x10\x41lreadyConnected\x10\x01\x12\x0e\n\nNeedUpdate\x10\x02\x12\x15\n\x11NetworkConnection\x10\x03\x12\x10\n\x0cNotConnected\x10\x04\x12\x16\n\x12ServiceUnavailable\x10\x05\"\x8d\x01\n\x1cOnlineSourceAvailableMethods\x12\x14\n\x0cisSearchable\x18\x01 \x02(\x08\x12\x17\n\x0fhasAutocomplete\x18\x02 \x02(\x08\x12\x14\n\x0chasBatchMode\x18\x03 \x02(\x08\x12(\n\x19supportPlaylistManagement\x18\x04 \x01(\x08:\x05\x66\x61lse\":\n\x17\x43redentialsLoginRequest\x12\r\n\x05login\x18\x01 \x02(\t\x12\x10\n\x08password\x18\x02 \x02(\t\"(\n\x11OAuthLoginRequest\x12\x13\n\x0bredirectUrl\x18\x01 \x02(\x0c\"i\n\x15\x41uthenticationMethods\x12\x18\n\x10supportedMethods\x18\x01 \x03(\r\x12\x10\n\x08oAuthUrl\x18\x02 \x01(\x0c\"$\n\x06Method\x12\x0f\n\x0b\x43redentials\x10\x00\x12\t\n\x05OAuth\x10\x01\"H\n\x0fRegistrationUrl\x12\x1c\n\x14isRegistrationActive\x18\x01 \x02(\x08\x12\x17\n\x0fregistrationUrl\x18\x02 \x02(\t\"8\n\x0e\x41vailableReply\x12\x13\n\x0bisAvailable\x18\x01 \x02(\x08\x12\x11\n\terrorCode\x18\x02 \x01(\r\"<\n\nLoginReply\x12.\n\x07session\x18\x01 \x02(\x0b\x32\x1d.Devialet.AudioSource.Session\"\"\n\rLogoutRequest\x12\x11\n\tsessionId\x18\x01 \x02(\x0c\"J\n\rSearchRequest\x12\r\n\x05query\x18\x01 \x02(\t\x12\x0c\n\x04type\x18\x02 \x02(\r\x12\x0e\n\x06offset\x18\x03 \x02(\r\x12\x0c\n\x04size\x18\x04 \x02(\r\"2\n\x13\x41utocompleteRequest\x12\r\n\x05query\x18\x01 \x02(\t\x12\x0c\n\x04size\x18\x02 \x02(\r\"N\n\x10PictureIdRequest\x12,\n\x06nodeId\x18\x01 \x02(\x0b\x32\x1c.Devialet.AudioSource.NodeId\x12\x0c\n\x04size\x18\x02 \x02(\r\"`\n\x11\x43ollectionRequest\x12,\n\x06nodeId\x18\x01 \x02(\x0b\x32\x1c.Devialet.AudioSource.NodeId\x12\x0e\n\x06offset\x18\x02 \x02(\x05\x12\r\n\x05limit\x18\x03 \x02(\x05\"T\n\x12SubcategoryRequest\x12\n\n\x02id\x18\x01 \x02(\x0c\x12\x0c\n\x04type\x18\x02 \x02(\r\x12\x11\n\x06offset\x18\x03 \x01(\r:\x01\x30\x12\x11\n\x05limit\x18\x04 \x01(\r:\x02\x31\x30\"Q\n\x13TrackDetailsRequest\x12,\n\x06nodeId\x18\x01 \x02(\x0b\x32\x1c.Devialet.AudioSource.NodeId\x12\x0c\n\x04size\x18\x02 \x02(\r\"R\n\x14TracksDetailsRequest\x12,\n\x06nodeId\x18\x01 \x03(\x0b\x32\x1c.Devialet.AudioSource.NodeId\x12\x0c\n\x04size\x18\x02 \x02(\r\"6\n\x0fUserAccountInfo\x12\x0f\n\x07\x63\x61nPlay\x18\x01 \x02(\x08\x12\x12\n\ncanPreview\x18\x02 \x02(\x08\"4\n\x1aGetSupportedFavoritesReply\x12\x16\n\x0e\x66\x61voritesTypes\x18\x01 \x03(\r\"\x8a\x01\n\x15UpdatePlaylistRequest\x12.\n\x08trackIds\x18\x01 \x03(\x0b\x32\x1c.Devialet.AudioSource.NodeId\x12\x30\n\nplaylistId\x18\x02 \x02(\x0b\x32\x1c.Devialet.AudioSource.NodeId\x12\x0f\n\x07indices\x18\x03 \x03(\r\"U\n\x15\x43reatePlaylistRequest\x12\r\n\x05title\x18\x01 \x02(\t\x12-\n\x07nodeIds\x18\x02 \x03(\x0b\x32\x1c.Devialet.AudioSource.NodeId\"{\n\x18IsTrackInPlaylistRequest\x12-\n\x07trackId\x18\x01 \x02(\x0b\x32\x1c.Devialet.AudioSource.NodeId\x12\x30\n\nplaylistId\x18\x02 \x02(\x0b\x32\x1c.Devialet.AudioSource.NodeId2\xe7\x04\n\x19\x41uthenticatedOnlineSource\x12\x65\n\x10\x63redentialsLogin\x12-.Devialet.AudioSource.CredentialsLoginRequest\x1a .Devialet.AudioSource.LoginReply\"\x00\x12Y\n\noAuthLogin\x12\'.Devialet.AudioSource.OAuthLoginRequest\x1a .Devialet.AudioSource.LoginReply\"\x00\x12L\n\x06logout\x12#.Devialet.AudioSource.LogoutRequest\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x1a\xb9\x02\x92M\xb5\x02\n.com.devialet.source-0.online-0.authenticated-0\x12\x1b\x44\x65vialet.AudioSource.Source\x1a+Devialet.AudioSource.OnlineSourceError.Code\"\xb8\x01\n4\n#Devialet.AudioSource.AvailableReply\x12\x0bisAvailable\x18\x01\nE\n*Devialet.AudioSource.AuthenticationMethods\x12\x15\x61uthenticationMethods \x01\n9\n$Devialet.AudioSource.RegistrationUrl\x12\x0fregistrationUrl \x01')
   ,
-  dependencies=[CallMeMaybe_dot_CommonMessages__pb2.DESCRIPTOR,TheSoundOfSilence_dot_Session__pb2.DESCRIPTOR,TheSoundOfSilence_dot_Node__pb2.DESCRIPTOR,])
+  dependencies=[CallMeMaybe_dot_CommonMessages__pb2.DESCRIPTOR,TheSoundOfSilence_dot_Session__pb2.DESCRIPTOR,TheSoundOfSilence_dot_Node__pb2.DESCRIPTOR,CallMeMaybe_dot_CallMeMaybe__pb2.DESCRIPTOR,])
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
@@ -58,8 +59,8 @@ _ONLINESOURCEERROR_CODE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=181,
-  serialized_end=290,
+  serialized_start=212,
+  serialized_end=321,
 )
 _sym_db.RegisterEnumDescriptor(_ONLINESOURCEERROR_CODE)
 
@@ -80,8 +81,8 @@ _AUTHENTICATIONMETHODS_METHOD = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=607,
-  serialized_end=643,
+  serialized_start=638,
+  serialized_end=674,
 )
 _sym_db.RegisterEnumDescriptor(_AUTHENTICATIONMETHODS_METHOD)
 
@@ -106,8 +107,8 @@ _ONLINESOURCEERROR = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=160,
-  serialized_end=290,
+  serialized_start=191,
+  serialized_end=321,
 )
 
 
@@ -158,8 +159,8 @@ _ONLINESOURCEAVAILABLEMETHODS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=293,
-  serialized_end=434,
+  serialized_start=324,
+  serialized_end=465,
 )
 
 
@@ -196,8 +197,8 @@ _CREDENTIALSLOGINREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=436,
-  serialized_end=494,
+  serialized_start=467,
+  serialized_end=525,
 )
 
 
@@ -227,8 +228,8 @@ _OAUTHLOGINREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=496,
-  serialized_end=536,
+  serialized_start=527,
+  serialized_end=567,
 )
 
 
@@ -266,8 +267,8 @@ _AUTHENTICATIONMETHODS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=538,
-  serialized_end=643,
+  serialized_start=569,
+  serialized_end=674,
 )
 
 
@@ -304,8 +305,8 @@ _REGISTRATIONURL = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=645,
-  serialized_end=717,
+  serialized_start=676,
+  serialized_end=748,
 )
 
 
@@ -342,8 +343,8 @@ _AVAILABLEREPLY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=719,
-  serialized_end=775,
+  serialized_start=750,
+  serialized_end=806,
 )
 
 
@@ -373,8 +374,8 @@ _LOGINREPLY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=777,
-  serialized_end=837,
+  serialized_start=808,
+  serialized_end=868,
 )
 
 
@@ -404,8 +405,8 @@ _LOGOUTREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=839,
-  serialized_end=873,
+  serialized_start=870,
+  serialized_end=904,
 )
 
 
@@ -456,8 +457,8 @@ _SEARCHREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=875,
-  serialized_end=949,
+  serialized_start=906,
+  serialized_end=980,
 )
 
 
@@ -494,8 +495,8 @@ _AUTOCOMPLETEREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=951,
-  serialized_end=1001,
+  serialized_start=982,
+  serialized_end=1032,
 )
 
 
@@ -532,8 +533,8 @@ _PICTUREIDREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1003,
-  serialized_end=1081,
+  serialized_start=1034,
+  serialized_end=1112,
 )
 
 
@@ -577,8 +578,8 @@ _COLLECTIONREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1083,
-  serialized_end=1179,
+  serialized_start=1114,
+  serialized_end=1210,
 )
 
 
@@ -629,8 +630,8 @@ _SUBCATEGORYREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1181,
-  serialized_end=1265,
+  serialized_start=1212,
+  serialized_end=1296,
 )
 
 
@@ -667,8 +668,8 @@ _TRACKDETAILSREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1267,
-  serialized_end=1348,
+  serialized_start=1298,
+  serialized_end=1379,
 )
 
 
@@ -705,8 +706,8 @@ _TRACKSDETAILSREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1350,
-  serialized_end=1432,
+  serialized_start=1381,
+  serialized_end=1463,
 )
 
 
@@ -743,8 +744,8 @@ _USERACCOUNTINFO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1434,
-  serialized_end=1488,
+  serialized_start=1465,
+  serialized_end=1519,
 )
 
 
@@ -774,8 +775,8 @@ _GETSUPPORTEDFAVORITESREPLY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1490,
-  serialized_end=1542,
+  serialized_start=1521,
+  serialized_end=1573,
 )
 
 
@@ -819,8 +820,8 @@ _UPDATEPLAYLISTREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1545,
-  serialized_end=1683,
+  serialized_start=1576,
+  serialized_end=1714,
 )
 
 
@@ -857,8 +858,8 @@ _CREATEPLAYLISTREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1685,
-  serialized_end=1770,
+  serialized_start=1716,
+  serialized_end=1801,
 )
 
 
@@ -895,8 +896,8 @@ _ISTRACKINPLAYLISTREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1772,
-  serialized_end=1895,
+  serialized_start=1803,
+  serialized_end=1926,
 )
 
 _ONLINESOURCEERROR_CODE.containing_type = _ONLINESOURCEERROR

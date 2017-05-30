@@ -14,15 +14,16 @@ _sym_db = _symbol_database.Default()
 
 
 from CallMeMaybe import CommonMessages_pb2 as CallMeMaybe_dot_CommonMessages__pb2
+from CallMeMaybe import CallMeMaybe_pb2 as CallMeMaybe_dot_CallMeMaybe__pb2
 
 
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='SpotifyConnect/SpotifyConnect.proto',
   package='Devialet.SpotifyConnect',
   syntax='proto2',
-  serialized_pb=_b('\n#SpotifyConnect/SpotifyConnect.proto\x12\x17\x44\x65vialet.SpotifyConnect\x1a CallMeMaybe/CommonMessages.proto\"i\n\x12ZeroConfApiRequest\x12\x0e\n\x06method\x18\x01 \x02(\r\x12\x0b\n\x03url\x18\x02 \x02(\t\x12\x0c\n\x04\x62ody\x18\x03 \x02(\x0c\"(\n\x06Method\x12\x0b\n\x07Invalid\x10\x00\x12\x07\n\x03Get\x10\x01\x12\x08\n\x04Post\x10\x02\"\xfd\x01\n\x10ZeroConfApiReply\x12\x12\n\nstatusCode\x18\x01 \x02(\r\x12\x11\n\tlastError\x18\x02 \x02(\r\x12\x0c\n\x04\x62ody\x18\x03 \x02(\x0c\"\xb3\x01\n\nStatusCode\x12\x06\n\x02Ok\x10\x00\x12\x07\n\x03\x42\x61\x64\x10\x01\x12\x0b\n\x07Unknown\x10\x02\x12\x12\n\x0eNotImplemented\x10\x03\x12\x0f\n\x0bLoginFailed\x10\x04\x12\x11\n\rMissingAction\x10\x05\x12\x11\n\rInvalidAction\x10\x06\x12\x14\n\x10InvalidArguments\x10\x07\x12\x14\n\x10NoSpotifySession\x10\x08\x12\x10\n\x0cSpotifyError\x10\t2\xce\x05\n\x05\x41gent\x12t\n\x18handleZeroConfApiRequest\x12+.Devialet.SpotifyConnect.ZeroConfApiRequest\x1a).Devialet.SpotifyConnect.ZeroConfApiReply\"\x00\x12R\n\x0csetBouquetId\x12#.Devialet.CallMeMaybe.BytesProperty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12\x42\n\x04play\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12\x43\n\x05pause\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12\x42\n\x04next\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12\x46\n\x08previous\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12K\n\x06repeat\x12\".Devialet.CallMeMaybe.BoolProperty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12L\n\x07shuffle\x12\".Devialet.CallMeMaybe.BoolProperty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12K\n\x04seek\x12$.Devialet.CallMeMaybe.UInt32Property\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00')
+  serialized_pb=_b('\n#SpotifyConnect/SpotifyConnect.proto\x12\x17\x44\x65vialet.SpotifyConnect\x1a CallMeMaybe/CommonMessages.proto\x1a\x1d\x43\x61llMeMaybe/CallMeMaybe.proto\"i\n\x12ZeroConfApiRequest\x12\x0e\n\x06method\x18\x01 \x02(\r\x12\x0b\n\x03url\x18\x02 \x02(\t\x12\x0c\n\x04\x62ody\x18\x03 \x02(\x0c\"(\n\x06Method\x12\x0b\n\x07Invalid\x10\x00\x12\x07\n\x03Get\x10\x01\x12\x08\n\x04Post\x10\x02\"\xfd\x01\n\x10ZeroConfApiReply\x12\x12\n\nstatusCode\x18\x01 \x02(\r\x12\x11\n\tlastError\x18\x02 \x02(\r\x12\x0c\n\x04\x62ody\x18\x03 \x02(\x0c\"\xb3\x01\n\nStatusCode\x12\x06\n\x02Ok\x10\x00\x12\x07\n\x03\x42\x61\x64\x10\x01\x12\x0b\n\x07Unknown\x10\x02\x12\x12\n\x0eNotImplemented\x10\x03\x12\x0f\n\x0bLoginFailed\x10\x04\x12\x11\n\rMissingAction\x10\x05\x12\x11\n\rInvalidAction\x10\x06\x12\x14\n\x10InvalidArguments\x10\x07\x12\x14\n\x10NoSpotifySession\x10\x08\x12\x10\n\x0cSpotifyError\x10\t2\xb9\t\n\x05\x41gent\x12t\n\x18handleZeroConfApiRequest\x12+.Devialet.SpotifyConnect.ZeroConfApiRequest\x1a).Devialet.SpotifyConnect.ZeroConfApiReply\"\x00\x12R\n\x0csetBouquetId\x12#.Devialet.CallMeMaybe.BytesProperty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12\x42\n\x04play\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12\x43\n\x05pause\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12\x42\n\x04next\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12\x46\n\x08previous\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12K\n\x06repeat\x12\".Devialet.CallMeMaybe.BoolProperty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12L\n\x07shuffle\x12\".Devialet.CallMeMaybe.BoolProperty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12K\n\x04seek\x12$.Devialet.CallMeMaybe.UInt32Property\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x1a\xe8\x03\x92M\xe4\x03\n#com.devialet.spotifyconnect.agent-0\x12&Devialet.AudioSource.LiveSourceSession\"\x94\x03\n0\n\"Devialet.CallMeMaybe.BytesProperty\x12\x08playerId\x18\x01\n/\n!Devialet.CallMeMaybe.BoolProperty\x12\x08isActive\x18\x01\n1\n!Devialet.CallMeMaybe.BoolProperty\x12\x0cisStandalone\n0\n!Devialet.CallMeMaybe.BoolProperty\x12\tisPlaying\x18\x01\n1\n!Devialet.CallMeMaybe.BoolProperty\x12\nisRepeated\x18\x01\n1\n!Devialet.CallMeMaybe.BoolProperty\x12\nisShuffled\x18\x01\n1\n#Devialet.CallMeMaybe.UInt32Property\x12\x08\x64uration\x18\x01\n1\n#Devialet.CallMeMaybe.UInt32Property\x12\x08position\x18\x01')
   ,
-  dependencies=[CallMeMaybe_dot_CommonMessages__pb2.DESCRIPTOR,])
+  dependencies=[CallMeMaybe_dot_CommonMessages__pb2.DESCRIPTOR,CallMeMaybe_dot_CallMeMaybe__pb2.DESCRIPTOR,])
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
@@ -48,8 +49,8 @@ _ZEROCONFAPIREQUEST_METHOD = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=163,
-  serialized_end=203,
+  serialized_start=194,
+  serialized_end=234,
 )
 _sym_db.RegisterEnumDescriptor(_ZEROCONFAPIREQUEST_METHOD)
 
@@ -102,8 +103,8 @@ _ZEROCONFAPIREPLY_STATUSCODE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=280,
-  serialized_end=459,
+  serialized_start=311,
+  serialized_end=490,
 )
 _sym_db.RegisterEnumDescriptor(_ZEROCONFAPIREPLY_STATUSCODE)
 
@@ -149,8 +150,8 @@ _ZEROCONFAPIREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=98,
-  serialized_end=203,
+  serialized_start=129,
+  serialized_end=234,
 )
 
 
@@ -195,8 +196,8 @@ _ZEROCONFAPIREPLY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=206,
-  serialized_end=459,
+  serialized_start=237,
+  serialized_end=490,
 )
 
 _ZEROCONFAPIREQUEST_METHOD.containing_type = _ZEROCONFAPIREQUEST

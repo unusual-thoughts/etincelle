@@ -14,15 +14,16 @@ _sym_db = _symbol_database.Default()
 
 
 from CallMeMaybe import CommonMessages_pb2 as CallMeMaybe_dot_CommonMessages__pb2
+from CallMeMaybe import CallMeMaybe_pb2 as CallMeMaybe_dot_CallMeMaybe__pb2
 
 
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='TooManyFlows/Playback.proto',
   package='Devialet.TooManyFlows',
   syntax='proto2',
-  serialized_pb=_b('\n\x1bTooManyFlows/Playback.proto\x12\x15\x44\x65vialet.TooManyFlows\x1a CallMeMaybe/CommonMessages.proto\"\x19\n\x08IndexMsg\x12\r\n\x05value\x18\x01 \x02(\r\"4\n\x0eProgressionMsg\x12\x10\n\x08position\x18\x01 \x02(\x03\x12\x10\n\x08\x64uration\x18\x02 \x02(\x03\"F\n\x08StateMsg\x12\x0c\n\x04type\x18\x01 \x02(\r\",\n\x04Type\x12\n\n\x06Paused\x10\x01\x12\x0b\n\x07Playing\x10\x02\x12\x0b\n\x07Stopped\x10\x03\"\x19\n\x07SeekMsg\x12\x0e\n\x06offset\x18\x01 \x02(\x03\"}\n\rPlaybackError\"l\n\x04\x43ode\x12\x16\n\x12LinkRendererFailed\x10\x01\x12\x18\n\x14UnlinkRendererFailed\x10\x02\x12\x17\n\x13NoAvailablePlayback\x10\x03\x12\x19\n\x15RequestAlreadyRunning\x10\x04\x32\xbc\x04\n\x08Playback\x12\x44\n\x02\x61t\x12\x1f.Devialet.TooManyFlows.IndexMsg\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12\x42\n\x04next\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12\x43\n\x05pause\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12\x42\n\x04play\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12\x42\n\x04prev\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12\x45\n\x04seek\x12\x1e.Devialet.TooManyFlows.SeekMsg\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12\x42\n\x04stop\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12N\n\x07playUrl\x12$.Devialet.CallMeMaybe.StringProperty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00')
+  serialized_pb=_b('\n\x1bTooManyFlows/Playback.proto\x12\x15\x44\x65vialet.TooManyFlows\x1a CallMeMaybe/CommonMessages.proto\x1a\x1d\x43\x61llMeMaybe/CallMeMaybe.proto\"\x19\n\x08IndexMsg\x12\r\n\x05value\x18\x01 \x02(\r\"4\n\x0eProgressionMsg\x12\x10\n\x08position\x18\x01 \x02(\x03\x12\x10\n\x08\x64uration\x18\x02 \x02(\x03\"F\n\x08StateMsg\x12\x0c\n\x04type\x18\x01 \x02(\r\",\n\x04Type\x12\n\n\x06Paused\x10\x01\x12\x0b\n\x07Playing\x10\x02\x12\x0b\n\x07Stopped\x10\x03\"\x19\n\x07SeekMsg\x12\x0e\n\x06offset\x18\x01 \x02(\x03\"}\n\rPlaybackError\"l\n\x04\x43ode\x12\x16\n\x12LinkRendererFailed\x10\x01\x12\x18\n\x14UnlinkRendererFailed\x10\x02\x12\x17\n\x13NoAvailablePlayback\x10\x03\x12\x19\n\x15RequestAlreadyRunning\x10\x04\x32\xa5\x06\n\x08Playback\x12\x44\n\x02\x61t\x12\x1f.Devialet.TooManyFlows.IndexMsg\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12\x42\n\x04next\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12\x43\n\x05pause\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12\x42\n\x04play\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12\x42\n\x04prev\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12\x45\n\x04seek\x12\x1e.Devialet.TooManyFlows.SeekMsg\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12\x42\n\x04stop\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12N\n\x07playUrl\x12$.Devialet.CallMeMaybe.StringProperty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x1a\xe6\x01\x92M\xe2\x01\n$com.devialet.toomanyflows.playback-0\x1a(Devialet.TooManyFlows.PlaybackError.Code\"\x8f\x01\n)\n!Devialet.CallMeMaybe.BoolProperty\x12\x04loop\n7\n$Devialet.TooManyFlows.ProgressionMsg\x12\x0bprogression\x18\x01(\x00\n)\n\x1e\x44\x65vialet.TooManyFlows.StateMsg\x12\x05state\x18\x01')
   ,
-  dependencies=[CallMeMaybe_dot_CommonMessages__pb2.DESCRIPTOR,])
+  dependencies=[CallMeMaybe_dot_CommonMessages__pb2.DESCRIPTOR,CallMeMaybe_dot_CallMeMaybe__pb2.DESCRIPTOR,])
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
@@ -48,8 +49,8 @@ _STATEMSG_TYPE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=195,
-  serialized_end=239,
+  serialized_start=226,
+  serialized_end=270,
 )
 _sym_db.RegisterEnumDescriptor(_STATEMSG_TYPE)
 
@@ -78,8 +79,8 @@ _PLAYBACKERROR_CODE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=285,
-  serialized_end=393,
+  serialized_start=316,
+  serialized_end=424,
 )
 _sym_db.RegisterEnumDescriptor(_PLAYBACKERROR_CODE)
 
@@ -110,8 +111,8 @@ _INDEXMSG = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=88,
-  serialized_end=113,
+  serialized_start=119,
+  serialized_end=144,
 )
 
 
@@ -148,8 +149,8 @@ _PROGRESSIONMSG = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=115,
-  serialized_end=167,
+  serialized_start=146,
+  serialized_end=198,
 )
 
 
@@ -180,8 +181,8 @@ _STATEMSG = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=169,
-  serialized_end=239,
+  serialized_start=200,
+  serialized_end=270,
 )
 
 
@@ -211,8 +212,8 @@ _SEEKMSG = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=241,
-  serialized_end=266,
+  serialized_start=272,
+  serialized_end=297,
 )
 
 
@@ -236,8 +237,8 @@ _PLAYBACKERROR = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=268,
-  serialized_end=393,
+  serialized_start=299,
+  serialized_end=424,
 )
 
 _STATEMSG_TYPE.containing_type = _STATEMSG

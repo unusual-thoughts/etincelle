@@ -2,6 +2,7 @@
 package Devialet.TooManyFlows;
 import "CallMeMaybe/CommonMessages.proto";
 import "TooManyFlows/Identifier.proto";
+import "CallMeMaybe/CallMeMaybe.proto";
 
 message Mute {
 	required bool enabled = 1 ;
@@ -87,26 +88,65 @@ service SoundControl {
 	rpc setRendererVolume(.Devialet.TooManyFlows.RendererVolume) returns (.Devialet.CallMeMaybe.Empty) {
 	}
 	rpc bouquetMuteChanged(.Devialet.TooManyFlows.Mute) returns (.Devialet.CallMeMaybe.Empty) {
+		option (Devialet.CallMeMaybe.dvltMethodOptions) = {
+			isNotification: true
+			
+		};
 	}
 	rpc groupMuteChanged(.Devialet.TooManyFlows.GroupMute) returns (.Devialet.CallMeMaybe.Empty) {
+		option (Devialet.CallMeMaybe.dvltMethodOptions) = {
+			isNotification: true
+			
+		};
 	}
 	rpc rendererMuteChanged(.Devialet.TooManyFlows.RendererMute) returns (.Devialet.CallMeMaybe.Empty) {
+		option (Devialet.CallMeMaybe.dvltMethodOptions) = {
+			isNotification: true
+			
+		};
 	}
 	rpc bouquetNightModeChanged(.Devialet.TooManyFlows.NightMode) returns (.Devialet.CallMeMaybe.Empty) {
+		option (Devialet.CallMeMaybe.dvltMethodOptions) = {
+			isNotification: true
+			
+		};
 	}
 	rpc groupNightModeChanged(.Devialet.TooManyFlows.GroupNightMode) returns (.Devialet.CallMeMaybe.Empty) {
+		option (Devialet.CallMeMaybe.dvltMethodOptions) = {
+			isNotification: true
+			
+		};
 	}
 	rpc rendererNightModeChanged(.Devialet.TooManyFlows.RendererNightMode) returns (.Devialet.CallMeMaybe.Empty) {
+		option (Devialet.CallMeMaybe.dvltMethodOptions) = {
+			isNotification: true
+			
+		};
 	}
 	rpc bouquetVolumeChanged(.Devialet.TooManyFlows.Volume) returns (.Devialet.CallMeMaybe.Empty) {
+		option (Devialet.CallMeMaybe.dvltMethodOptions) = {
+			isNotification: true
+			isLoggingEnabled: false
+			
+		};
 	}
 	rpc groupVolumeChanged(.Devialet.TooManyFlows.GroupVolume) returns (.Devialet.CallMeMaybe.Empty) {
+		option (Devialet.CallMeMaybe.dvltMethodOptions) = {
+			isNotification: true
+			isLoggingEnabled: false
+			
+		};
 	}
 	rpc rendererVolumeChanged(.Devialet.TooManyFlows.RendererVolume) returns (.Devialet.CallMeMaybe.Empty) {
+		option (Devialet.CallMeMaybe.dvltMethodOptions) = {
+			isNotification: true
+			isLoggingEnabled: false
+			
+		};
 	}
 	rpc setBouquetVolumeByDelta(.Devialet.CallMeMaybe.DoubleProperty) returns (.Devialet.CallMeMaybe.Empty) {
 	}
-	option (dvltServiceOptions) = {
+	option (Devialet.CallMeMaybe.dvltServiceOptions) = {
 		serviceName: "com.devialet.toomanyflows.soundcontrol-0"
 		properties {
 		  property {

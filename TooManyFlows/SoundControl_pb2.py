@@ -15,15 +15,16 @@ _sym_db = _symbol_database.Default()
 
 from CallMeMaybe import CommonMessages_pb2 as CallMeMaybe_dot_CommonMessages__pb2
 from TooManyFlows import Identifier_pb2 as TooManyFlows_dot_Identifier__pb2
+from CallMeMaybe import CallMeMaybe_pb2 as CallMeMaybe_dot_CallMeMaybe__pb2
 
 
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='TooManyFlows/SoundControl.proto',
   package='Devialet.TooManyFlows',
   syntax='proto2',
-  serialized_pb=_b('\n\x1fTooManyFlows/SoundControl.proto\x12\x15\x44\x65vialet.TooManyFlows\x1a CallMeMaybe/CommonMessages.proto\x1a\x1dTooManyFlows/Identifier.proto\"\x17\n\x04Mute\x12\x0f\n\x07\x65nabled\x18\x01 \x02(\x08\"g\n\tGroupMute\x12/\n\x07groupId\x18\x01 \x02(\x0b\x32\x1e.Devialet.TooManyFlows.GroupId\x12)\n\x04mute\x18\x02 \x02(\x0b\x32\x1b.Devialet.TooManyFlows.Mute\"p\n\x0cRendererMute\x12\x35\n\nrendererId\x18\x01 \x02(\x0b\x32!.Devialet.TooManyFlows.RendererId\x12)\n\x04mute\x18\x02 \x02(\x0b\x32\x1b.Devialet.TooManyFlows.Mute\"\x1c\n\tNightMode\x12\x0f\n\x07\x65nabled\x18\x01 \x02(\x08\"v\n\x0eGroupNightMode\x12/\n\x07groupId\x18\x01 \x02(\x0b\x32\x1e.Devialet.TooManyFlows.GroupId\x12\x33\n\tnightMode\x18\x02 \x02(\x0b\x32 .Devialet.TooManyFlows.NightMode\"\x7f\n\x11RendererNightMode\x12\x35\n\nrendererId\x18\x01 \x02(\x0b\x32!.Devialet.TooManyFlows.RendererId\x12\x33\n\tnightMode\x18\x02 \x02(\x0b\x32 .Devialet.TooManyFlows.NightMode\"\x17\n\x06Volume\x12\r\n\x05value\x18\x01 \x02(\x01\"m\n\x0bGroupVolume\x12/\n\x07groupId\x18\x01 \x02(\x0b\x32\x1e.Devialet.TooManyFlows.GroupId\x12-\n\x06volume\x18\x02 \x02(\x0b\x32\x1d.Devialet.TooManyFlows.Volume\"v\n\x0eRendererVolume\x12\x35\n\nrendererId\x18\x01 \x02(\x0b\x32!.Devialet.TooManyFlows.RendererId\x12-\n\x06volume\x18\x02 \x02(\x0b\x32\x1d.Devialet.TooManyFlows.Volume\"\x9b\x01\n\nProperties\x12)\n\x04mute\x18\x01 \x02(\x0b\x32\x1b.Devialet.TooManyFlows.Mute\x12\x33\n\tnightMode\x18\x02 \x02(\x0b\x32 .Devialet.TooManyFlows.NightMode\x12-\n\x06volume\x18\x03 \x02(\x0b\x32\x1d.Devialet.TooManyFlows.Volume\"y\n\x0fGroupProperties\x12/\n\x07groupId\x18\x01 \x02(\x0b\x32\x1e.Devialet.TooManyFlows.GroupId\x12\x35\n\nproperties\x18\x02 \x02(\x0b\x32!.Devialet.TooManyFlows.Properties\"\x82\x01\n\x12RendererProperties\x12\x35\n\nrendererId\x18\x01 \x02(\x0b\x32!.Devialet.TooManyFlows.RendererId\x12\x35\n\nproperties\x18\x02 \x02(\x0b\x32!.Devialet.TooManyFlows.Properties\"\xb9\x01\n\rAllProperties\x12\x32\n\x07\x62ouquet\x18\x01 \x02(\x0b\x32!.Devialet.TooManyFlows.Properties\x12\x36\n\x06groups\x18\x02 \x03(\x0b\x32&.Devialet.TooManyFlows.GroupProperties\x12<\n\trenderers\x18\x03 \x03(\x0b\x32).Devialet.TooManyFlows.RendererProperties2\xaa\r\n\x0cSoundControl\x12L\n\x0esetBouquetMute\x12\x1b.Devialet.TooManyFlows.Mute\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12O\n\x0csetGroupMute\x12 .Devialet.TooManyFlows.GroupMute\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12U\n\x0fsetRendererMute\x12#.Devialet.TooManyFlows.RendererMute\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12V\n\x13setBouquetNightMode\x12 .Devialet.TooManyFlows.NightMode\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12Y\n\x11setGroupNightMode\x12%.Devialet.TooManyFlows.GroupNightMode\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12_\n\x14setRendererNightMode\x12(.Devialet.TooManyFlows.RendererNightMode\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12P\n\x10setBouquetVolume\x12\x1d.Devialet.TooManyFlows.Volume\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12S\n\x0esetGroupVolume\x12\".Devialet.TooManyFlows.GroupVolume\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12Y\n\x11setRendererVolume\x12%.Devialet.TooManyFlows.RendererVolume\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12P\n\x12\x62ouquetMuteChanged\x12\x1b.Devialet.TooManyFlows.Mute\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12S\n\x10groupMuteChanged\x12 .Devialet.TooManyFlows.GroupMute\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12Y\n\x13rendererMuteChanged\x12#.Devialet.TooManyFlows.RendererMute\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12Z\n\x17\x62ouquetNightModeChanged\x12 .Devialet.TooManyFlows.NightMode\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12]\n\x15groupNightModeChanged\x12%.Devialet.TooManyFlows.GroupNightMode\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12\x63\n\x18rendererNightModeChanged\x12(.Devialet.TooManyFlows.RendererNightMode\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12T\n\x14\x62ouquetVolumeChanged\x12\x1d.Devialet.TooManyFlows.Volume\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12W\n\x12groupVolumeChanged\x12\".Devialet.TooManyFlows.GroupVolume\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12]\n\x15rendererVolumeChanged\x12%.Devialet.TooManyFlows.RendererVolume\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12^\n\x17setBouquetVolumeByDelta\x12$.Devialet.CallMeMaybe.DoubleProperty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00')
+  serialized_pb=_b('\n\x1fTooManyFlows/SoundControl.proto\x12\x15\x44\x65vialet.TooManyFlows\x1a CallMeMaybe/CommonMessages.proto\x1a\x1dTooManyFlows/Identifier.proto\x1a\x1d\x43\x61llMeMaybe/CallMeMaybe.proto\"\x17\n\x04Mute\x12\x0f\n\x07\x65nabled\x18\x01 \x02(\x08\"g\n\tGroupMute\x12/\n\x07groupId\x18\x01 \x02(\x0b\x32\x1e.Devialet.TooManyFlows.GroupId\x12)\n\x04mute\x18\x02 \x02(\x0b\x32\x1b.Devialet.TooManyFlows.Mute\"p\n\x0cRendererMute\x12\x35\n\nrendererId\x18\x01 \x02(\x0b\x32!.Devialet.TooManyFlows.RendererId\x12)\n\x04mute\x18\x02 \x02(\x0b\x32\x1b.Devialet.TooManyFlows.Mute\"\x1c\n\tNightMode\x12\x0f\n\x07\x65nabled\x18\x01 \x02(\x08\"v\n\x0eGroupNightMode\x12/\n\x07groupId\x18\x01 \x02(\x0b\x32\x1e.Devialet.TooManyFlows.GroupId\x12\x33\n\tnightMode\x18\x02 \x02(\x0b\x32 .Devialet.TooManyFlows.NightMode\"\x7f\n\x11RendererNightMode\x12\x35\n\nrendererId\x18\x01 \x02(\x0b\x32!.Devialet.TooManyFlows.RendererId\x12\x33\n\tnightMode\x18\x02 \x02(\x0b\x32 .Devialet.TooManyFlows.NightMode\"\x17\n\x06Volume\x12\r\n\x05value\x18\x01 \x02(\x01\"m\n\x0bGroupVolume\x12/\n\x07groupId\x18\x01 \x02(\x0b\x32\x1e.Devialet.TooManyFlows.GroupId\x12-\n\x06volume\x18\x02 \x02(\x0b\x32\x1d.Devialet.TooManyFlows.Volume\"v\n\x0eRendererVolume\x12\x35\n\nrendererId\x18\x01 \x02(\x0b\x32!.Devialet.TooManyFlows.RendererId\x12-\n\x06volume\x18\x02 \x02(\x0b\x32\x1d.Devialet.TooManyFlows.Volume\"\x9b\x01\n\nProperties\x12)\n\x04mute\x18\x01 \x02(\x0b\x32\x1b.Devialet.TooManyFlows.Mute\x12\x33\n\tnightMode\x18\x02 \x02(\x0b\x32 .Devialet.TooManyFlows.NightMode\x12-\n\x06volume\x18\x03 \x02(\x0b\x32\x1d.Devialet.TooManyFlows.Volume\"y\n\x0fGroupProperties\x12/\n\x07groupId\x18\x01 \x02(\x0b\x32\x1e.Devialet.TooManyFlows.GroupId\x12\x35\n\nproperties\x18\x02 \x02(\x0b\x32!.Devialet.TooManyFlows.Properties\"\x82\x01\n\x12RendererProperties\x12\x35\n\nrendererId\x18\x01 \x02(\x0b\x32!.Devialet.TooManyFlows.RendererId\x12\x35\n\nproperties\x18\x02 \x02(\x0b\x32!.Devialet.TooManyFlows.Properties\"\xb9\x01\n\rAllProperties\x12\x32\n\x07\x62ouquet\x18\x01 \x02(\x0b\x32!.Devialet.TooManyFlows.Properties\x12\x36\n\x06groups\x18\x02 \x03(\x0b\x32&.Devialet.TooManyFlows.GroupProperties\x12<\n\trenderers\x18\x03 \x03(\x0b\x32).Devialet.TooManyFlows.RendererProperties2\xc6\x0e\n\x0cSoundControl\x12L\n\x0esetBouquetMute\x12\x1b.Devialet.TooManyFlows.Mute\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12O\n\x0csetGroupMute\x12 .Devialet.TooManyFlows.GroupMute\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12U\n\x0fsetRendererMute\x12#.Devialet.TooManyFlows.RendererMute\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12V\n\x13setBouquetNightMode\x12 .Devialet.TooManyFlows.NightMode\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12Y\n\x11setGroupNightMode\x12%.Devialet.TooManyFlows.GroupNightMode\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12_\n\x14setRendererNightMode\x12(.Devialet.TooManyFlows.RendererNightMode\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12P\n\x10setBouquetVolume\x12\x1d.Devialet.TooManyFlows.Volume\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12S\n\x0esetGroupVolume\x12\".Devialet.TooManyFlows.GroupVolume\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12Y\n\x11setRendererVolume\x12%.Devialet.TooManyFlows.RendererVolume\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12U\n\x12\x62ouquetMuteChanged\x12\x1b.Devialet.TooManyFlows.Mute\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x12X\n\x10groupMuteChanged\x12 .Devialet.TooManyFlows.GroupMute\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x12^\n\x13rendererMuteChanged\x12#.Devialet.TooManyFlows.RendererMute\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x12_\n\x17\x62ouquetNightModeChanged\x12 .Devialet.TooManyFlows.NightMode\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x12\x62\n\x15groupNightModeChanged\x12%.Devialet.TooManyFlows.GroupNightMode\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x12h\n\x18rendererNightModeChanged\x12(.Devialet.TooManyFlows.RendererNightMode\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x12[\n\x14\x62ouquetVolumeChanged\x12\x1d.Devialet.TooManyFlows.Volume\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x07\x92M\x04\x08\x01 \x00\x12^\n\x12groupVolumeChanged\x12\".Devialet.TooManyFlows.GroupVolume\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x07\x92M\x04\x08\x01 \x00\x12\x64\n\x15rendererVolumeChanged\x12%.Devialet.TooManyFlows.RendererVolume\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x07\x92M\x04\x08\x01 \x00\x12^\n\x17setBouquetVolumeByDelta\x12$.Devialet.CallMeMaybe.DoubleProperty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x1ag\x92Md\n(com.devialet.toomanyflows.soundcontrol-0\"8\n6\n#Devialet.TooManyFlows.AllProperties\x12\rallProperties \x01')
   ,
-  dependencies=[CallMeMaybe_dot_CommonMessages__pb2.DESCRIPTOR,TooManyFlows_dot_Identifier__pb2.DESCRIPTOR,])
+  dependencies=[CallMeMaybe_dot_CommonMessages__pb2.DESCRIPTOR,TooManyFlows_dot_Identifier__pb2.DESCRIPTOR,CallMeMaybe_dot_CallMeMaybe__pb2.DESCRIPTOR,])
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
@@ -55,8 +56,8 @@ _MUTE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=123,
-  serialized_end=146,
+  serialized_start=154,
+  serialized_end=177,
 )
 
 
@@ -93,8 +94,8 @@ _GROUPMUTE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=148,
-  serialized_end=251,
+  serialized_start=179,
+  serialized_end=282,
 )
 
 
@@ -131,8 +132,8 @@ _RENDERERMUTE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=253,
-  serialized_end=365,
+  serialized_start=284,
+  serialized_end=396,
 )
 
 
@@ -162,8 +163,8 @@ _NIGHTMODE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=367,
-  serialized_end=395,
+  serialized_start=398,
+  serialized_end=426,
 )
 
 
@@ -200,8 +201,8 @@ _GROUPNIGHTMODE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=397,
-  serialized_end=515,
+  serialized_start=428,
+  serialized_end=546,
 )
 
 
@@ -238,8 +239,8 @@ _RENDERERNIGHTMODE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=517,
-  serialized_end=644,
+  serialized_start=548,
+  serialized_end=675,
 )
 
 
@@ -269,8 +270,8 @@ _VOLUME = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=646,
-  serialized_end=669,
+  serialized_start=677,
+  serialized_end=700,
 )
 
 
@@ -307,8 +308,8 @@ _GROUPVOLUME = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=671,
-  serialized_end=780,
+  serialized_start=702,
+  serialized_end=811,
 )
 
 
@@ -345,8 +346,8 @@ _RENDERERVOLUME = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=782,
-  serialized_end=900,
+  serialized_start=813,
+  serialized_end=931,
 )
 
 
@@ -390,8 +391,8 @@ _PROPERTIES = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=903,
-  serialized_end=1058,
+  serialized_start=934,
+  serialized_end=1089,
 )
 
 
@@ -428,8 +429,8 @@ _GROUPPROPERTIES = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1060,
-  serialized_end=1181,
+  serialized_start=1091,
+  serialized_end=1212,
 )
 
 
@@ -466,8 +467,8 @@ _RENDERERPROPERTIES = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1184,
-  serialized_end=1314,
+  serialized_start=1215,
+  serialized_end=1345,
 )
 
 
@@ -511,8 +512,8 @@ _ALLPROPERTIES = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1317,
-  serialized_end=1502,
+  serialized_start=1348,
+  serialized_end=1533,
 )
 
 _GROUPMUTE.fields_by_name['groupId'].message_type = TooManyFlows_dot_Identifier__pb2._GROUPID

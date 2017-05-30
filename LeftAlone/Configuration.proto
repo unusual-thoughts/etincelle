@@ -1,11 +1,12 @@
 // Reversed by pbd (https://github.com/rsc-dev/pbd)
 package Devialet.LeftAlone;
+import "CallMeMaybe/CallMeMaybe.proto";
 
 message FakeMsg {
 }
 
 service Configuration {
-	option (dvltServiceOptions) = {
+	option (Devialet.CallMeMaybe.dvltServiceOptions) = {
 		serviceName: "com.devialet.leftalone-0.configuration-0"
 		properties {
 		  property {

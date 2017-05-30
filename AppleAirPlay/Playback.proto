@@ -1,6 +1,7 @@
 // Reversed by pbd (https://github.com/rsc-dev/pbd)
 package Devialet.AppleAirPlay;
 import "CallMeMaybe/CommonMessages.proto";
+import "CallMeMaybe/CallMeMaybe.proto";
 
 message Dummy {
 }
@@ -22,7 +23,7 @@ service Playback {
 	}
 	rpc togglePause(.Devialet.CallMeMaybe.Empty) returns (.Devialet.CallMeMaybe.Empty) {
 	}
-	option (dvltServiceOptions) = {
+	option (Devialet.CallMeMaybe.dvltServiceOptions) = {
 		serviceName: "com.devialet.appleairplay.playback-0"
 		properties {
 		  property {

@@ -3,6 +3,7 @@ package Devialet.AudioSource;
 import "CallMeMaybe/CommonMessages.proto";
 import "TheSoundOfSilence/Session.proto";
 import "TheSoundOfSilence/Picture.proto";
+import "CallMeMaybe/CallMeMaybe.proto";
 
 message SourceError {
 	
@@ -29,7 +30,7 @@ message Uri {
 service SourceSession {
 	rpc uri(.Devialet.AudioSource.Id) returns (.Devialet.AudioSource.Uri) {
 	}
-	option (dvltServiceOptions) = {
+	option (Devialet.CallMeMaybe.dvltServiceOptions) = {
 		serviceName: "com.devialet.source-session-0"
 		errorEnumName: "Devialet.AudioSource.SourceError.Code"
 		properties {
@@ -46,7 +47,7 @@ service SourceSession {
 service ConfigureSource {
 	rpc setEnabled(.Devialet.AudioSource.Enabled) returns (.Devialet.CallMeMaybe.Empty) {
 	}
-	option (dvltServiceOptions) = {
+	option (Devialet.CallMeMaybe.dvltServiceOptions) = {
 		serviceName: "com.devialet.source-configure-0"
 		errorEnumName: "Devialet.AudioSource.SourceError.Code"
 		properties {
@@ -63,12 +64,20 @@ service Source {
 	rpc logo(.Devialet.CallMeMaybe.Empty) returns (.Devialet.AudioSource.Picture) {
 	}
 	rpc sessionAdded(.Devialet.AudioSource.Session) returns (.Devialet.CallMeMaybe.Empty) {
+		option (Devialet.CallMeMaybe.dvltMethodOptions) = {
+			isNotification: true
+			
+		};
 	}
 	rpc sessionRemoved(.Devialet.AudioSource.SessionId) returns (.Devialet.CallMeMaybe.Empty) {
+		option (Devialet.CallMeMaybe.dvltMethodOptions) = {
+			isNotification: true
+			
+		};
 	}
 	rpc bigLogo(.Devialet.CallMeMaybe.Empty) returns (.Devialet.AudioSource.Picture) {
 	}
-	option (dvltServiceOptions) = {
+	option (Devialet.CallMeMaybe.dvltServiceOptions) = {
 		serviceName: "com.devialet.source-0"
 		errorEnumName: "Devialet.AudioSource.SourceError.Code"
 		properties {

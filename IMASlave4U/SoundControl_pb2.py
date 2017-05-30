@@ -13,14 +13,16 @@ from google.protobuf import descriptor_pb2
 _sym_db = _symbol_database.Default()
 
 
+from CallMeMaybe import CallMeMaybe_pb2 as CallMeMaybe_dot_CallMeMaybe__pb2
 
 
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='IMASlave4U/SoundControl.proto',
   package='Devialet.IMASlave4U',
   syntax='proto2',
-  serialized_pb=_b('\n\x1dIMASlave4U/SoundControl.proto\x12\x13\x44\x65vialet.IMASlave4U2\x0e\n\x0cSoundControl')
-)
+  serialized_pb=_b('\n\x1dIMASlave4U/SoundControl.proto\x12\x13\x44\x65vialet.IMASlave4U\x1a\x1d\x43\x61llMeMaybe/CallMeMaybe.proto2\xa0\x01\n\x0cSoundControl\x1a\x8f\x01\x92M\x8b\x01\n&com.devialet.imaslave4u.soundcontrol-0\"a\n.\n!Devialet.CallMeMaybe.BoolProperty\x12\tnightMode\n/\n#Devialet.CallMeMaybe.DoubleProperty\x12\x06volume(\x00')
+  ,
+  dependencies=[CallMeMaybe_dot_CallMeMaybe__pb2.DESCRIPTOR,])
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 

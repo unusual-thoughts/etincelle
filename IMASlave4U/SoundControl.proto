@@ -1,8 +1,9 @@
 // Reversed by pbd (https://github.com/rsc-dev/pbd)
 package Devialet.IMASlave4U;
+import "CallMeMaybe/CallMeMaybe.proto";
 
 service SoundControl {
-	option (dvltServiceOptions) = {
+	option (Devialet.CallMeMaybe.dvltServiceOptions) = {
 		serviceName: "com.devialet.imaslave4u.soundcontrol-0"
 		properties {
 		  property {

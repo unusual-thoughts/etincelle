@@ -14,15 +14,16 @@ _sym_db = _symbol_database.Default()
 
 
 from CallMeMaybe import CommonMessages_pb2 as CallMeMaybe_dot_CommonMessages__pb2
+from CallMeMaybe import CallMeMaybe_pb2 as CallMeMaybe_dot_CallMeMaybe__pb2
 
 
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='GetThePartyStarted/GetThePartyStarted.proto',
   package='Devialet.GetThePartyStarted',
   syntax='proto2',
-  serialized_pb=_b('\n+GetThePartyStarted/GetThePartyStarted.proto\x12\x1b\x44\x65vialet.GetThePartyStarted\x1a CallMeMaybe/CommonMessages.proto\"\x8d\x01\n\x13\x43onfigurationErrors\"v\n\x05\x43odes\x12\x15\n\x11PowerActionFailed\x10\x01\x12\x15\n\x11SetupActionFailed\x10\x02\x12\x15\n\x11NoUpdateAvailable\x10\x03\x12\x11\n\rUpdaterIsBusy\x10\x04\x12\x15\n\x11UpdateCheckFailed\x10\x05\"r\n\nDeviceInfo\x12\x13\n\x0bproductType\x18\x01 \x02(\t\x12\x14\n\x0cserialNumber\x18\x02 \x02(\t\x12\x17\n\x0fsoftwareVersion\x18\x03 \x02(\t\x12 \n\x18wiredInterfaceMacAddress\x18\x04 \x02(\t\"d\n\x0bSetupErrors\"U\n\x05\x43odes\x12\x15\n\x11InvalidSetupToken\x10\x01\x12\x1c\n\x18InvalidOperationForState\x10\x02\x12\x17\n\x13\x43onfigurationFailed\x10\x03\"\x1e\n\nSetupToken\x12\x10\n\x08masterId\x18\x01 \x02(\x0c\",\n\tSlaveInfo\x12\n\n\x02id\x18\x01 \x02(\x0c\x12\x13\n\x0bproductType\x18\x02 \x02(\t\"G\n\rSlaveInfoList\x12\x36\n\x06slaves\x18\x01 \x03(\x0b\x32&.Devialet.GetThePartyStarted.SlaveInfo\"Y\n\x11StartSetupRequest\x12\x10\n\x08masterId\x18\x01 \x02(\x0c\x12\x0e\n\x06locale\x18\x02 \x02(\t\x12\x13\n\x0b\x63ountryCode\x18\x03 \x02(\t\x12\r\n\x05\x66orce\x18\x04 \x02(\x08\"\xe5\x01\n\x0bWiFiNetwork\x12\x15\n\rdevialetOwned\x18\x01 \x02(\x08\x12\x10\n\x08priority\x18\x02 \x02(\x05\x12\x14\n\x0csecurityMode\x18\x03 \x02(\x05\x12\x0c\n\x04ssid\x18\x04 \x02(\t\x12\x15\n\rwpaPassphrase\x18\x05 \x01(\t\x12\x17\n\x0fwpaPreSharedKey\x18\x06 \x01(\x0c\x12\x0e\n\x06wepKey\x18\x07 \x01(\x0c\"I\n\x0cSecurityMode\x12\x0c\n\x08NoneMode\x10\x01\x12\x0b\n\x07WepMode\x10\x02\x12\x0e\n\nWpaPskMode\x10\x03\x12\x0e\n\nWpaEapMode\x10\x04\"d\n\x15WiFiConfigurationData\x12\x0f\n\x07\x65nabled\x18\x01 \x02(\x08\x12:\n\x08networks\x18\x02 \x03(\x0b\x32(.Devialet.GetThePartyStarted.WiFiNetwork\"4\n\x14PlcConfigurationData\x12\x0f\n\x07\x65nabled\x18\x01 \x02(\x08\x12\x0b\n\x03key\x18\x02 \x02(\x0c\"\x95\x01\n\x11\x43onfigurationData\x12@\n\x04wifi\x18\x01 \x02(\x0b\x32\x32.Devialet.GetThePartyStarted.WiFiConfigurationData\x12>\n\x03plc\x18\x02 \x02(\x0b\x32\x31.Devialet.GetThePartyStarted.PlcConfigurationData\"\x8f\x01\n\x17SetConfigurationRequest\x12\x36\n\x05token\x18\x01 \x02(\x0b\x32\'.Devialet.GetThePartyStarted.SetupToken\x12<\n\x04\x64\x61ta\x18\x02 \x02(\x0b\x32..Devialet.GetThePartyStarted.ConfigurationData2\xa1\x04\n\rConfiguration\x12J\n\x0cpowerStandby\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12J\n\x0cpowerSuspend\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12\x46\n\x08powerOff\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12I\n\x0bpowerReboot\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12I\n\x0b\x65nableSetup\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12L\n\x0eresetToFactory\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12L\n\x0e\x63heckForUpdate\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x32\x94\x02\n\x05Setup\x12[\n\nstartSetup\x12..Devialet.GetThePartyStarted.StartSetupRequest\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12U\n\x0b\x63\x61ncelSetup\x12\'.Devialet.GetThePartyStarted.SetupToken\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12W\n\rcompleteSetup\x12\'.Devialet.GetThePartyStarted.SetupToken\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x32\x12\n\x10SlaveDeviceSetup')
+  serialized_pb=_b('\n+GetThePartyStarted/GetThePartyStarted.proto\x12\x1b\x44\x65vialet.GetThePartyStarted\x1a CallMeMaybe/CommonMessages.proto\x1a\x1d\x43\x61llMeMaybe/CallMeMaybe.proto\"\x8d\x01\n\x13\x43onfigurationErrors\"v\n\x05\x43odes\x12\x15\n\x11PowerActionFailed\x10\x01\x12\x15\n\x11SetupActionFailed\x10\x02\x12\x15\n\x11NoUpdateAvailable\x10\x03\x12\x11\n\rUpdaterIsBusy\x10\x04\x12\x15\n\x11UpdateCheckFailed\x10\x05\"r\n\nDeviceInfo\x12\x13\n\x0bproductType\x18\x01 \x02(\t\x12\x14\n\x0cserialNumber\x18\x02 \x02(\t\x12\x17\n\x0fsoftwareVersion\x18\x03 \x02(\t\x12 \n\x18wiredInterfaceMacAddress\x18\x04 \x02(\t\"d\n\x0bSetupErrors\"U\n\x05\x43odes\x12\x15\n\x11InvalidSetupToken\x10\x01\x12\x1c\n\x18InvalidOperationForState\x10\x02\x12\x17\n\x13\x43onfigurationFailed\x10\x03\"\x1e\n\nSetupToken\x12\x10\n\x08masterId\x18\x01 \x02(\x0c\",\n\tSlaveInfo\x12\n\n\x02id\x18\x01 \x02(\x0c\x12\x13\n\x0bproductType\x18\x02 \x02(\t\"G\n\rSlaveInfoList\x12\x36\n\x06slaves\x18\x01 \x03(\x0b\x32&.Devialet.GetThePartyStarted.SlaveInfo\"Y\n\x11StartSetupRequest\x12\x10\n\x08masterId\x18\x01 \x02(\x0c\x12\x0e\n\x06locale\x18\x02 \x02(\t\x12\x13\n\x0b\x63ountryCode\x18\x03 \x02(\t\x12\r\n\x05\x66orce\x18\x04 \x02(\x08\"\xe5\x01\n\x0bWiFiNetwork\x12\x15\n\rdevialetOwned\x18\x01 \x02(\x08\x12\x10\n\x08priority\x18\x02 \x02(\x05\x12\x14\n\x0csecurityMode\x18\x03 \x02(\x05\x12\x0c\n\x04ssid\x18\x04 \x02(\t\x12\x15\n\rwpaPassphrase\x18\x05 \x01(\t\x12\x17\n\x0fwpaPreSharedKey\x18\x06 \x01(\x0c\x12\x0e\n\x06wepKey\x18\x07 \x01(\x0c\"I\n\x0cSecurityMode\x12\x0c\n\x08NoneMode\x10\x01\x12\x0b\n\x07WepMode\x10\x02\x12\x0e\n\nWpaPskMode\x10\x03\x12\x0e\n\nWpaEapMode\x10\x04\"d\n\x15WiFiConfigurationData\x12\x0f\n\x07\x65nabled\x18\x01 \x02(\x08\x12:\n\x08networks\x18\x02 \x03(\x0b\x32(.Devialet.GetThePartyStarted.WiFiNetwork\"4\n\x14PlcConfigurationData\x12\x0f\n\x07\x65nabled\x18\x01 \x02(\x08\x12\x0b\n\x03key\x18\x02 \x02(\x0c\"\x95\x01\n\x11\x43onfigurationData\x12@\n\x04wifi\x18\x01 \x02(\x0b\x32\x32.Devialet.GetThePartyStarted.WiFiConfigurationData\x12>\n\x03plc\x18\x02 \x02(\x0b\x32\x31.Devialet.GetThePartyStarted.PlcConfigurationData\"\x8f\x01\n\x17SetConfigurationRequest\x12\x36\n\x05token\x18\x01 \x02(\x0b\x32\'.Devialet.GetThePartyStarted.SetupToken\x12<\n\x04\x64\x61ta\x18\x02 \x02(\x0b\x32..Devialet.GetThePartyStarted.ConfigurationData2\x82\x06\n\rConfiguration\x12J\n\x0cpowerStandby\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12J\n\x0cpowerSuspend\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12\x46\n\x08powerOff\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12I\n\x0bpowerReboot\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12I\n\x0b\x65nableSetup\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12L\n\x0eresetToFactory\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12L\n\x0e\x63heckForUpdate\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x1a\xde\x01\x92M\xda\x01\n/com.devialet.getthepartystarted.configuration-0\x1a\x35\x44\x65vialet.GetThePartyStarted.ConfigurationErrors.Codes\"p\n6\n&Devialet.GetThePartyStarted.DeviceInfo\x12\ndeviceInfo \x01\n6\n!Devialet.CallMeMaybe.BoolProperty\x12\x0fupdateAvailable\x18\x01\x32\xf1\x02\n\x05Setup\x12[\n\nstartSetup\x12..Devialet.GetThePartyStarted.StartSetupRequest\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12U\n\x0b\x63\x61ncelSetup\x12\'.Devialet.GetThePartyStarted.SetupToken\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12W\n\rcompleteSetup\x12\'.Devialet.GetThePartyStarted.SetupToken\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x1a[\x92MX\n\'com.devialet.getthepartystarted.setup-0\x1a-Devialet.GetThePartyStarted.SetupErrors.Codes2\xa6\x01\n\x10SlaveDeviceSetup\x1a\x91\x01\x92M\x8d\x01\n/com.devialet.getthepartystarted.setup-0.slave-0\x12!Devialet.GetThePartyStarted.Setup\"7\n5\n%Devialet.GetThePartyStarted.SlaveInfo\x12\ndeviceInfo \x01')
   ,
-  dependencies=[CallMeMaybe_dot_CommonMessages__pb2.DESCRIPTOR,])
+  dependencies=[CallMeMaybe_dot_CommonMessages__pb2.DESCRIPTOR,CallMeMaybe_dot_CallMeMaybe__pb2.DESCRIPTOR,])
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
@@ -56,8 +57,8 @@ _CONFIGURATIONERRORS_CODES = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=134,
-  serialized_end=252,
+  serialized_start=165,
+  serialized_end=283,
 )
 _sym_db.RegisterEnumDescriptor(_CONFIGURATIONERRORS_CODES)
 
@@ -82,8 +83,8 @@ _SETUPERRORS_CODES = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=385,
-  serialized_end=470,
+  serialized_start=416,
+  serialized_end=501,
 )
 _sym_db.RegisterEnumDescriptor(_SETUPERRORS_CODES)
 
@@ -112,8 +113,8 @@ _WIFINETWORK_SECURITYMODE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=871,
-  serialized_end=944,
+  serialized_start=902,
+  serialized_end=975,
 )
 _sym_db.RegisterEnumDescriptor(_WIFINETWORK_SECURITYMODE)
 
@@ -138,8 +139,8 @@ _CONFIGURATIONERRORS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=111,
-  serialized_end=252,
+  serialized_start=142,
+  serialized_end=283,
 )
 
 
@@ -190,8 +191,8 @@ _DEVICEINFO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=254,
-  serialized_end=368,
+  serialized_start=285,
+  serialized_end=399,
 )
 
 
@@ -215,8 +216,8 @@ _SETUPERRORS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=370,
-  serialized_end=470,
+  serialized_start=401,
+  serialized_end=501,
 )
 
 
@@ -246,8 +247,8 @@ _SETUPTOKEN = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=472,
-  serialized_end=502,
+  serialized_start=503,
+  serialized_end=533,
 )
 
 
@@ -284,8 +285,8 @@ _SLAVEINFO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=504,
-  serialized_end=548,
+  serialized_start=535,
+  serialized_end=579,
 )
 
 
@@ -315,8 +316,8 @@ _SLAVEINFOLIST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=550,
-  serialized_end=621,
+  serialized_start=581,
+  serialized_end=652,
 )
 
 
@@ -367,8 +368,8 @@ _STARTSETUPREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=623,
-  serialized_end=712,
+  serialized_start=654,
+  serialized_end=743,
 )
 
 
@@ -441,8 +442,8 @@ _WIFINETWORK = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=715,
-  serialized_end=944,
+  serialized_start=746,
+  serialized_end=975,
 )
 
 
@@ -479,8 +480,8 @@ _WIFICONFIGURATIONDATA = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=946,
-  serialized_end=1046,
+  serialized_start=977,
+  serialized_end=1077,
 )
 
 
@@ -517,8 +518,8 @@ _PLCCONFIGURATIONDATA = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1048,
-  serialized_end=1100,
+  serialized_start=1079,
+  serialized_end=1131,
 )
 
 
@@ -555,8 +556,8 @@ _CONFIGURATIONDATA = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1103,
-  serialized_end=1252,
+  serialized_start=1134,
+  serialized_end=1283,
 )
 
 
@@ -593,8 +594,8 @@ _SETCONFIGURATIONREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1255,
-  serialized_end=1398,
+  serialized_start=1286,
+  serialized_end=1429,
 )
 
 _CONFIGURATIONERRORS_CODES.containing_type = _CONFIGURATIONERRORS

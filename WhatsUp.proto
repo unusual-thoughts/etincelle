@@ -1,6 +1,7 @@
 // Reversed by pbd (https://github.com/rsc-dev/pbd)
 package Devialet.WhatsUp;
 import "CallMeMaybe/CommonMessages.proto";
+import "CallMeMaybe/CallMeMaybe.proto";
 
 message RegistrarRegisterQuery {
 	required bytes serverId = 1 ;
@@ -107,8 +108,12 @@ service Registrar {
 	rpc ping(.Devialet.WhatsUp.RegistrarPingQuery) returns (.Devialet.CallMeMaybe.Empty) {
 	}
 	rpc pingRequested(.Devialet.CallMeMaybe.Empty) returns (.Devialet.CallMeMaybe.Empty) {
+		option (Devialet.CallMeMaybe.dvltMethodOptions) = {
+			isNotification: true
+			
+		};
 	}
-	option (dvltServiceOptions) = {
+	option (Devialet.CallMeMaybe.dvltServiceOptions) = {
 		serviceName: "com.devialet.whatsup.registrar"
 		errorEnumName: "Devialet.WhatsUp.RegistrarErrors.Errors"
 		
@@ -127,16 +132,36 @@ service Registry {
 	rpc findServices(.Devialet.WhatsUp.RegistryFindServicesQuery) returns (.Devialet.WhatsUp.WhatsUpServicesList) {
 	}
 	rpc networkConfigurationChanged(.Devialet.WhatsUp.RegistryNetworkConfigurationChangedNotification) returns (.Devialet.CallMeMaybe.Empty) {
+		option (Devialet.CallMeMaybe.dvltMethodOptions) = {
+			isNotification: true
+			
+		};
 	}
 	rpc hostUpdated(.Devialet.WhatsUp.RegistryHostUpdatedNotification) returns (.Devialet.CallMeMaybe.Empty) {
+		option (Devialet.CallMeMaybe.dvltMethodOptions) = {
+			isNotification: true
+			
+		};
 	}
 	rpc servicesAdded(.Devialet.WhatsUp.WhatsUpServicesList) returns (.Devialet.CallMeMaybe.Empty) {
+		option (Devialet.CallMeMaybe.dvltMethodOptions) = {
+			isNotification: true
+			
+		};
 	}
 	rpc servicesUpdated(.Devialet.WhatsUp.WhatsUpServicesUpdate) returns (.Devialet.CallMeMaybe.Empty) {
+		option (Devialet.CallMeMaybe.dvltMethodOptions) = {
+			isNotification: true
+			
+		};
 	}
 	rpc servicesRemoved(.Devialet.WhatsUp.WhatsUpServicesRemoval) returns (.Devialet.CallMeMaybe.Empty) {
+		option (Devialet.CallMeMaybe.dvltMethodOptions) = {
+			isNotification: true
+			
+		};
 	}
-	option (dvltServiceOptions) = {
+	option (Devialet.CallMeMaybe.dvltServiceOptions) = {
 		serviceName: "com.devialet.whatsup.registry"
 		
 	};

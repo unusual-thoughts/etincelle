@@ -1,8 +1,9 @@
 // Reversed by pbd (https://github.com/rsc-dev/pbd)
 package Devialet.IMASlave4U;
+import "CallMeMaybe/CallMeMaybe.proto";
 
 service SoundDesign {
-	option (dvltServiceOptions) = {
+	option (Devialet.CallMeMaybe.dvltServiceOptions) = {
 		serviceName: "com.devialet.twerkit.sounddesign-0.imaslave4u-0"
 		baseService: "Devialet.TwerkIt.SoundDesign"
 		

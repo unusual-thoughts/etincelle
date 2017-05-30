@@ -1,6 +1,7 @@
 // Reversed by pbd (https://github.com/rsc-dev/pbd)
 package Devialet.TwerkIt;
 import "CallMeMaybe/CommonMessages.proto";
+import "CallMeMaybe/CallMeMaybe.proto";
 
 service SoundDesign {
 	rpc allDeviceDone(.Devialet.CallMeMaybe.Empty) returns (.Devialet.CallMeMaybe.Empty) {
@@ -33,7 +34,7 @@ service SoundDesign {
 	}
 	rpc disconnected(.Devialet.CallMeMaybe.Empty) returns (.Devialet.CallMeMaybe.Empty) {
 	}
-	option (dvltServiceOptions) = {
+	option (Devialet.CallMeMaybe.dvltServiceOptions) = {
 		serviceName: "com.devialet.twerkit.sounddesign-0"
 		
 	};

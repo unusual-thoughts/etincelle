@@ -1,6 +1,7 @@
 // Reversed by pbd (https://github.com/rsc-dev/pbd)
 package Devialet.CallMeMaybe;
 import "CallMeMaybe/CommonMessages.proto";
+import "CallMeMaybe/CallMeMaybe.proto";
 
 message Request {
 	required bytes serverId = 1 ;
@@ -56,14 +57,30 @@ service Connection {
 	rpc openConnection(.Devialet.CallMeMaybe.ConnectionRequest) returns (.Devialet.CallMeMaybe.ConnectionReply) {
 	}
 	rpc ping(.Devialet.CallMeMaybe.Empty) returns (.Devialet.CallMeMaybe.Empty) {
+		option (Devialet.CallMeMaybe.dvltMethodOptions) = {
+			isLoggingEnabled: false
+			
+		};
 	}
 	rpc serviceAdded(.Devialet.CallMeMaybe.Service) returns (.Devialet.CallMeMaybe.Empty) {
+		option (Devialet.CallMeMaybe.dvltMethodOptions) = {
+			isNotification: true
+			
+		};
 	}
 	rpc serviceRemoved(.Devialet.CallMeMaybe.Service) returns (.Devialet.CallMeMaybe.Empty) {
+		option (Devialet.CallMeMaybe.dvltMethodOptions) = {
+			isNotification: true
+			
+		};
 	}
 	rpc serverQuit(.Devialet.CallMeMaybe.Empty) returns (.Devialet.CallMeMaybe.Empty) {
+		option (Devialet.CallMeMaybe.dvltMethodOptions) = {
+			isNotification: true
+			
+		};
 	}
-	option (dvltServiceOptions) = {
+	option (Devialet.CallMeMaybe.dvltServiceOptions) = {
 		serviceName: "com.devialet.callmemaybe.connection"
 		errorEnumName: "Devialet.CallMeMaybe.ConnectionErrors.Code"
 		
