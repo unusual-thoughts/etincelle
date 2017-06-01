@@ -40,6 +40,7 @@ import GetThePartyStarted.GetThePartyStarted_pb2
 import GetThePartyStarted.Logging_pb2
 import GetThePartyStarted.Aerobase_pb2
 
+import subprocess
 from protobuf_to_dict import protobuf_to_dict
 
 def interpret_as(raw_protobuf, proto_name):
@@ -47,7 +48,10 @@ def interpret_as(raw_protobuf, proto_name):
         ret = all_msgs[proto_name]()
         ret.ParseFromString(raw_protobuf)
         return ret
-    except:
+    except Exception as e:
+        print("Error: Can't interpret protobuf {{{}}} as {}: {}".format(
+            ' '.join(raw_decode(raw_protobuf)['protoc'].split('\n')), proto_name, e))
+        print(heuristic_search(raw_protobuf))
         pass
     return None
 
@@ -59,7 +63,24 @@ def full_len(d):
     else:
         return 1
 
-def heuristic_search(raw_protobuf, filter="", strict=False):
+def raw_decode(data):
+    process = subprocess.Popen(['protoc', '--decode_raw'], stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+    process.stdin.write(data)
+    process.stdin.close()
+    ret = process.wait()
+    if ret == 0:
+        return {
+            "raw": data,
+            "protoc": process.stdout.read().decode()
+        }
+    else:
+        return {
+            "raw": data,
+            "protoc": "",
+            "error": 'Failed to parse: ' + ' '.join('{:02x}'.format(x) for x in data)
+        }
+
+def heuristic_search(raw_protobuf, filter="", strict=True):
     results = {}
     if len(raw_protobuf) == 0:
         return { "empty protobuf" }

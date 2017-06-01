@@ -1,4 +1,166 @@
 import re
+from pprint import pprint
+
+import AppleAirPlay.Playback_pb2
+import CallMeMaybe.CallMeMaybe_pb2
+import CallMeMaybe.CommonMessages_pb2
+import Fresh.Fresh_pb2
+import GetThePartyStarted.Aerobase_pb2
+import GetThePartyStarted.GetThePartyStarted_pb2
+import GetThePartyStarted.Logging_pb2
+import GetThePartyStarted.Player_pb2
+import IMASlave4U.Configuration_pb2
+import IMASlave4U.SoundControl_pb2
+import IMASlave4U.SoundDesign_pb2
+import LeftAlone.Configuration_pb2
+import MasterOfPuppets.Configuration_pb2
+import RPCMessages_pb2
+import SaveMe.SaveMe_pb2
+import SpotifyConnect.SpotifyConnect_pb2
+import TheSoundOfSilence.Album_pb2
+import TheSoundOfSilence.Artist_pb2
+import TheSoundOfSilence.Category_pb2
+import TheSoundOfSilence.Collection_pb2
+import TheSoundOfSilence.LiveSource_pb2
+import TheSoundOfSilence.Node_pb2
+import TheSoundOfSilence.OnlineSource_pb2
+import TheSoundOfSilence.Picture_pb2
+import TheSoundOfSilence.Playlist_pb2
+import TheSoundOfSilence.Session_pb2
+import TheSoundOfSilence.Source_pb2
+import TheSoundOfSilence.Subcategory_pb2
+import TheSoundOfSilence.TrackDetails_pb2
+import TheSoundOfSilence.Track_pb2
+import TooManyFlows.Configuration_pb2
+import TooManyFlows.History_pb2
+import TooManyFlows.Identifier_pb2
+import TooManyFlows.Metadata_pb2
+import TooManyFlows.Playback_pb2
+import TooManyFlows.Playlist_pb2
+import TooManyFlows.SoundControl_pb2
+import TooManyFlows.SoundDesign_pb2
+import TwerkIt.SoundDesign_pb2
+import WhatsUp_pb2
+
+from google.protobuf import descriptor_pb2
+
+from dvlt_messages import interpret_as, heuristic_search
+
+def get_property(service_desc, property_id, output_raw):
+    props = service_desc \
+            .GetOptions() \
+            .Extensions[CallMeMaybe.CallMeMaybe_pb2.dvltServiceOptions] \
+            .properties \
+            .property
+    try:
+        # print("Trying to get property {} from {}".format(property_id, service_desc.full_name))
+        # return props[property_id]
+        prop = interpret_as(output_raw, props[property_id].type)
+        print("* {}: {{ {} }}".format(props[property_id].name, prop))
+        return prop
+    except IndexError:
+        print("Error: Too many multiparts for propertyget({}), {} >= {}".format(
+            service_desc.full_name, property_id, len(props)))
+        return CallMeMaybe.CommonMessages_pb2.Empty()
+
+def process_rpc(rep, service_list, input_raw, outputs_raw, is_event=False):
+    print("PROCESS RPC---->")
+    try:
+        if rep.serviceId == 0 and not service_list:
+            service = RPCMessages_pb2.Connection()
+            service_name_full = "Devialet.CallMeMaybe.Connection"
+        else:
+            service_name_full = [service.name for service in service_list if service.id == rep.serviceId][0]
+            service_name = '.'.join(service_name_full.split('.')[:-1])
+            while service_name not in service_by_name and len(service_name.split('.')) > 1:
+                service_name = '.'.join(service_name.split('.')[:-1])
+                print("truncating {} to {}".format(service_name_full, service_name))
+            service = service_by_name[service_name]()
+
+        service_desc = service.GetDescriptor()
+        # try:
+        #     # TODO: Handle baseService
+
+        #     # Could also use the -0 and get parent that way?
+        #     # baseservice_desc = service_by_full_name[service_desc.GetOptions().Extensions[CallMeMaybe.CallMeMaybe_pb2.dvltServiceOptions].baseService].GetDescriptor()
+
+        #     # desc = descriptor_pb2.ServiceDescriptorProto()
+        #     # service_desc.CopyToProto(desc)
+        #     # baseservice_desc.CopyToProto(desc)
+            
+        #     props = service_desc.GetOptions().Extensions[CallMeMaybe.CallMeMaybe_pb2.dvltServiceOptions].properties.property
+
+        #         # # extend left or right? maybe left, because of the bad output types
+        #         # baseservice_name = service_desc.GetOptions().Extensions[CallMeMaybe.CallMeMaybe_pb2.dvltServiceOptions].baseService
+        #         # while baseservice_name in service_by_full_name:
+        #         #     baseservice_desc = service_by_full_name[baseservice_name].GetDescriptor()
+        #         #     base_props = baseservice_desc.GetOptions().Extensions[CallMeMaybe.CallMeMaybe_pb2.dvltServiceOptions].properties.property
+
+        #         #     print("Extending props {} with {} : {}".format(service_desc.full_name, baseservice_name, props))
+        #         #     # Extend Right
+        #         #     # props.extend(base_props)
+
+        #         #     # Extend Left
+        #         #     base_props.extend(props)
+        #         #     props = base_props
+
+        #         #     baseservice_name = baseservice_desc.GetOptions().Extensions[CallMeMaybe.CallMeMaybe_pb2.dvltServiceOptions].baseService
+
+        #         # service_desc.GetOptions().Extensions[CallMeMaybe.CallMeMaybe_pb2.dvltServiceOptions].properties.Clear()
+        #         # service_desc.GetOptions().Extensions[CallMeMaybe.CallMeMaybe_pb2.dvltServiceOptions].properties.property.MergeFrom(props)
+
+        #     # print("Extended props {}".format(service_desc.GetOptions().Extensions[CallMeMaybe.CallMeMaybe_pb2.dvltServiceOptions].properties.property))
+        #     # base_props.extend(props)
+        #     # props = base_props
+        #     # service_desc = desc
+
+        #     # print("Successfully extended {} with {}".format(service_desc.full_name, baseservice_name))
+        #     # desc.GetOptions().Extensions[CallMeMaybe.CallMeMaybe_pb2.dvltServiceOptions].properties.property.extend(service_desc.GetOptions().Extensions[CallMeMaybe.CallMeMaybe_pb2.dvltServiceOptions].properties.property)
+        # except Exception as e:
+        #     print("Error: trying to extend service with baseservice: {} {}".format(type(e), e))
+
+        # if  or rep.isMultipart: rep.type == 1
+
+        # Get Properties / No actual method
+        if rep.subTypeId == 0xFFFFFFFF and rep.type == 1: # These should all be equivalent? Nope at least not for events
+            print("PropertyGet details: {} / {} outputs, type={} subtype={}".format(
+                service_name_full, len(outputs_raw), rep.type, rep.subTypeId))
+            if len(input_raw):
+                print("Error: propertyget but input type not empty")
+            outputs_pb = []
+            for i, output_raw in enumerate(outputs_raw):
+                # prop = service_desc.GetOptions().Extensions[CallMeMaybe.CallMeMaybe_pb2.dvltServiceOptions].properties.property[i]
+                prop = get_property(service_desc, i, output_raw)
+                outputs_pb.append(prop)
+                # print(prop.name, interpret_as(output_raw, prop.type))
+            return (service_desc, descriptor_pb2.MethodDescriptorProto(), CallMeMaybe.CommonMessages_pb2.Empty(), outputs_pb)
+        else:
+            try:
+                method = service_desc.methods[rep.subTypeId]
+
+                print("RPC/Event details: {} -> {} [{} -> {}] {}".format(
+                    service_name_full, method.full_name, method.input_type.full_name, method.output_type.full_name, method.output_type.full_name))
+
+                input_pb = service.GetRequestClass(method)()
+                input_pb.ParseFromString(input_raw)
+
+                output_pb = service.GetResponseClass(method)()
+                output_pb.ParseFromString(outputs_raw[0])
+                # input_pb = interpret_as(input_raw, method.input_type.full_name)
+                # output_pb = interpret_as(outputs_raw[0], method.output_type.full_name)
+                print(input_pb)
+                print(output_pb)
+
+                return(service_desc, method, input_pb, [output_pb])
+            except IndexError as e:
+                print("Error: {} too big for {} that has only {} methods: {}".format(rep.subTypeId, service_desc.full_name, len(service_desc.methods), e))
+    except IndexError:
+        print("Error: Service ID {} not in list {}".format(rep.serviceId, ' '.join(str(service_list).split('\n'))))
+    except KeyError:
+        print("Error: Can't find service {} in database".format(service_name))
+    print('<---------')
+    return (descriptor_pb2.ServiceDescriptorProto(), descriptor_pb2.MethodDescriptorProto(), CallMeMaybe.CommonMessages_pb2.Empty(), [])
+
 
 def find_method(rep, service_list):
     method = {'name': 'not found'}
@@ -9,7 +171,7 @@ def find_method(rep, service_list):
     # if not(service_list):
     if rep.serviceId == 0 and not service_list:
         # Assume initial service is CallmeMaybe.Connection, which is placed first
-        package = all_services[0]
+        package = all_services_old[0]
         service = package['services'][rep.type]
         method = service['methods'][rep.subTypeId]
 
@@ -23,7 +185,7 @@ def find_method(rep, service_list):
 
         # print(package_name, service_name)
         
-        for p in all_services:
+        for p in all_services_old:
             if p['package_name'].lower() == package_name:
                 for s in p['services']:
                     if s['name'].lower() == service_name:
@@ -48,6 +210,146 @@ def find_method(rep, service_list):
     return (service_name_full, package, service, method)
 
 all_services = [
+    # First one should always be Connection
+    RPCMessages_pb2.Connection,
+    SaveMe.SaveMe_pb2.SavePlaylist,
+    WhatsUp_pb2.Registrar,
+    WhatsUp_pb2.Registry,
+    MasterOfPuppets.Configuration_pb2.Configuration,
+    AppleAirPlay.Playback_pb2.Playback,
+    LeftAlone.Configuration_pb2.Configuration,
+    TwerkIt.SoundDesign_pb2.SoundDesign,
+    TheSoundOfSilence.OnlineSource_pb2.AuthenticatedOnlineSource,
+    TheSoundOfSilence.OnlineSource_pb2.OnlineSourceSession,
+    TheSoundOfSilence.LiveSource_pb2.LiveSourceSession,
+    TheSoundOfSilence.LiveSource_pb2.LiveSource,
+    TheSoundOfSilence.Source_pb2.SourceSession,
+    TheSoundOfSilence.Source_pb2.ConfigureSource,
+    TheSoundOfSilence.Source_pb2.Source,
+    TooManyFlows.Playback_pb2.Playback,
+    TooManyFlows.Playlist_pb2.Playlist,
+    TooManyFlows.History_pb2.History,
+    TooManyFlows.SoundControl_pb2.SoundControl,
+    TooManyFlows.Configuration_pb2.Configuration,
+    TooManyFlows.Metadata_pb2.Metadata,
+    TooManyFlows.SoundDesign_pb2.SoundDesign,
+    Fresh.Fresh_pb2.Update,
+    Fresh.Fresh_pb2.SlaveUpdate,
+    Fresh.Fresh_pb2.MasterUpdate,
+    IMASlave4U.SoundControl_pb2.SoundControl,
+    IMASlave4U.Configuration_pb2.Configuration,
+    IMASlave4U.SoundDesign_pb2.SoundDesign,
+    SpotifyConnect.SpotifyConnect_pb2.Agent,
+    GetThePartyStarted.Player_pb2.Configuration,
+    GetThePartyStarted.Player_pb2.Setup,
+    GetThePartyStarted.GetThePartyStarted_pb2.Configuration,
+    GetThePartyStarted.GetThePartyStarted_pb2.Setup,
+    GetThePartyStarted.GetThePartyStarted_pb2.SlaveDeviceSetup,
+    GetThePartyStarted.GetThePartyStarted_pb2.AttachedSlaveDeviceSetup,
+    GetThePartyStarted.GetThePartyStarted_pb2.RemoteSlaveDeviceSetup,
+    GetThePartyStarted.GetThePartyStarted_pb2.MasterDeviceSetup,
+    GetThePartyStarted.Logging_pb2.LogUploader,
+    GetThePartyStarted.Aerobase_pb2.Configuration,
+    GetThePartyStarted.Aerobase_pb2.Setup,
+]
+
+all_files = [
+    AppleAirPlay.Playback_pb2,
+    CallMeMaybe.CallMeMaybe_pb2,
+    CallMeMaybe.CommonMessages_pb2,
+    Fresh.Fresh_pb2,
+    GetThePartyStarted.Aerobase_pb2,
+    GetThePartyStarted.GetThePartyStarted_pb2,
+    GetThePartyStarted.Logging_pb2,
+    GetThePartyStarted.Player_pb2,
+    IMASlave4U.Configuration_pb2,
+    IMASlave4U.SoundControl_pb2,
+    IMASlave4U.SoundDesign_pb2,
+    LeftAlone.Configuration_pb2,
+    MasterOfPuppets.Configuration_pb2,
+    RPCMessages_pb2,
+    SaveMe.SaveMe_pb2,
+    SpotifyConnect.SpotifyConnect_pb2,
+    TheSoundOfSilence.Album_pb2,
+    TheSoundOfSilence.Artist_pb2,
+    TheSoundOfSilence.Category_pb2,
+    TheSoundOfSilence.Collection_pb2,
+    TheSoundOfSilence.LiveSource_pb2,
+    TheSoundOfSilence.Node_pb2,
+    TheSoundOfSilence.OnlineSource_pb2,
+    TheSoundOfSilence.Picture_pb2,
+    TheSoundOfSilence.Playlist_pb2,
+    TheSoundOfSilence.Session_pb2,
+    TheSoundOfSilence.Source_pb2,
+    TheSoundOfSilence.Subcategory_pb2,
+    TheSoundOfSilence.TrackDetails_pb2,
+    TheSoundOfSilence.Track_pb2,
+    TooManyFlows.Configuration_pb2,
+    TooManyFlows.History_pb2,
+    TooManyFlows.Identifier_pb2,
+    TooManyFlows.Metadata_pb2,
+    TooManyFlows.Playback_pb2,
+    TooManyFlows.Playlist_pb2,
+    TooManyFlows.SoundControl_pb2,
+    TooManyFlows.SoundDesign_pb2,
+    TwerkIt.SoundDesign_pb2,
+    WhatsUp_pb2,
+]
+
+# lowercase name with -0 for inheritance
+service_by_name = {}
+# Class name
+service_by_full_name = {}
+for service in all_services:
+    service_by_name[service.GetDescriptor().GetOptions().Extensions[CallMeMaybe.CallMeMaybe_pb2.dvltServiceOptions].serviceName] = service
+    service_by_full_name[service.GetDescriptor().full_name] = service
+
+for service_name, service in service_by_full_name.items():
+    # props = service_desc.GetOptions().Extensions[CallMeMaybe.CallMeMaybe_pb2.dvltServiceOptions].properties.property
+
+    opts = service.GetDescriptor().GetOptions().Extensions[CallMeMaybe.CallMeMaybe_pb2.dvltServiceOptions]
+    service_properties = opts.properties
+
+    new_props = CallMeMaybe.CallMeMaybe_pb2.ServiceProperties()
+    # new_props.MergeFrom(service_properties)
+    # new_props.Clear()
+    # extend left or right? maybe left, because of the bad output types
+    baseservice_name = opts.baseService
+    while baseservice_name in service_by_full_name:
+        baseservice_opts = service_by_full_name[baseservice_name].GetDescriptor().GetOptions().Extensions[CallMeMaybe.CallMeMaybe_pb2.dvltServiceOptions]
+        base_props = baseservice_opts.properties
+
+        
+        # Extend Right
+        # props.extend(base_props)
+
+        # Extend Left
+        # base_props.extend(props)
+        # props = base_props
+
+        new_props.Clear()
+        new_props.MergeFrom(base_props)
+        # new_props.property.extend(service_properties.property)
+        for prop in service_properties.property:
+            if prop.name not in [p.name for p in new_props.property]:
+                new_props.property.add()
+                new_props.property[-1].MergeFrom(prop)
+            else:
+                print("Duplicate property {} not added".format(prop.name))
+
+        service_properties.CopyFrom(new_props)
+
+        print("Extending props {} with {} : {}".format(service_name, baseservice_name, [p.name for p in service_properties.property]))
+
+        baseservice_name = baseservice_opts.baseService
+
+    # service_desc.GetOptions().Extensions[CallMeMaybe.CallMeMaybe_pb2.dvltServiceOptions].properties.Clear()
+    # service_desc.GetOptions().Extensions[CallMeMaybe.CallMeMaybe_pb2.dvltServiceOptions].properties.property.MergeFrom(props)
+
+pprint(service_by_name)
+    
+
+all_services_old = [
     # First one should always be CallMeMaybe
     {
         "package_name": "Devialet.CallMeMaybe",
