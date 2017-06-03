@@ -1,89 +1,235 @@
+syntax = "proto2";
 package Devialet.GetThePartyStarted;
-
-import "CallMeMaybe/CallMeMaybe.proto";
 import "CallMeMaybe/CommonMessages.proto";
+import "CallMeMaybe/CallMeMaybe.proto";
+option py_generic_services = true;
 
 message ConfigurationErrors {
-
- enum Codes {
-  PowerActionFailed = 1;
-  SetupActionFailed = 2;
-  NoUpdateAvailable = 3;
-  UpdaterIsBusy = 4;
-  UpdateCheckFailed = 5;
- }
+	
+	enum Codes {
+		PowerActionFailed = 1;
+		SetupActionFailed = 2;
+		NoUpdateAvailable = 3;
+		UpdaterIsBusy = 4;
+		UpdateCheckFailed = 5;
+	}
 }
 
 message DeviceInfo {
- required string productType = 1;
- required string serialNumber = 2;
- required string softwareVersion = 3;
- required string wiredInterfaceMacAddress = 4;
+	required string productType = 1 ;
+	required string serialNumber = 2 ;
+	required string softwareVersion = 3 ;
+	required string wiredInterfaceMacAddress = 4 ;
 }
 
 message SetupErrors {
-
- enum Codes {
-  InvalidSetupToken = 1;
-  InvalidOperationForState = 2;
-  ConfigurationFailed = 3;
- }
+	
+	enum Codes {
+		InvalidSetupToken = 1;
+		InvalidOperationForState = 2;
+		ConfigurationFailed = 3;
+	}
 }
 
 message SetupToken {
- required bytes masterId = 1;
+	required bytes masterId = 1 ;
 }
 
 message SlaveInfo {
- required bytes id = 1;
- required string productType = 2;
+	required bytes id = 1 ;
+	required string productType = 2 ;
 }
 
 message SlaveInfoList {
- repeated SlaveInfo slaves = 1;
+	repeated .Devialet.GetThePartyStarted.SlaveInfo slaves = 1 ;
 }
 
 message StartSetupRequest {
- required bytes masterId = 1;
- required string locale = 2;
- required string countryCode = 3;
- required bool force = 4;
+	required bytes masterId = 1 ;
+	required string locale = 2 ;
+	required string countryCode = 3 ;
+	required bool force = 4 ;
 }
 
 message WiFiNetwork {
-
- enum SecurityMode {
-  NoneMode = 1;
-  WepMode = 2;
-  WpaPskMode = 3;
-  WpaEapMode = 4;
- }
- required bool devialetOwned = 1;
- required int32 priority = 2;
- required int32 securityMode = 3;
- required string ssid = 4;
- optional string wpaPassphrase = 5;
- optional bytes wpaPreSharedKey = 6;
- optional bytes wepKey = 7;
+	required bool devialetOwned = 1 ;
+	required int32 priority = 2 ;
+	required int32 securityMode = 3 ;
+	required string ssid = 4 ;
+	optional string wpaPassphrase = 5 ;
+	optional bytes wpaPreSharedKey = 6 ;
+	optional bytes wepKey = 7 ;
+	
+	enum SecurityMode {
+		NoneMode = 1;
+		WepMode = 2;
+		WpaPskMode = 3;
+		WpaEapMode = 4;
+	}
 }
 
 message WiFiConfigurationData {
- required bool enabled = 1;
- repeated WiFiNetwork networks = 2;
+	required bool enabled = 1 ;
+	repeated .Devialet.GetThePartyStarted.WiFiNetwork networks = 2 ;
 }
 
 message PlcConfigurationData {
- required bool enabled = 1;
- required bytes key = 2;
+	required bool enabled = 1 ;
+	required bytes key = 2 ;
 }
 
 message ConfigurationData {
- required WiFiConfigurationData wifi = 1;
- required PlcConfigurationData plc = 2;
+	required .Devialet.GetThePartyStarted.WiFiConfigurationData wifi = 1 ;
+	required .Devialet.GetThePartyStarted.PlcConfigurationData plc = 2 ;
 }
 
 message SetConfigurationRequest {
- required SetupToken token = 1;
- required ConfigurationData data = 2;
+	required .Devialet.GetThePartyStarted.SetupToken token = 1 ;
+	required .Devialet.GetThePartyStarted.ConfigurationData data = 2 ;
 }
 
+service Configuration {
+	rpc powerStandby(.Devialet.CallMeMaybe.Empty) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc powerSuspend(.Devialet.CallMeMaybe.Empty) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc powerOff(.Devialet.CallMeMaybe.Empty) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc powerReboot(.Devialet.CallMeMaybe.Empty) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc enableSetup(.Devialet.CallMeMaybe.Empty) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc resetToFactory(.Devialet.CallMeMaybe.Empty) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc checkForUpdate(.Devialet.CallMeMaybe.Empty) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	option (Devialet.CallMeMaybe.dvltServiceOptions) = {
+		serviceName: "com.devialet.getthepartystarted.configuration-0"
+		errorEnumName: "Devialet.GetThePartyStarted.ConfigurationErrors.Codes"
+		properties {
+		  property {
+		    type: "Devialet.GetThePartyStarted.DeviceInfo"
+		    name: "deviceInfo"
+		    constant: true
+		  }
+		  property {
+		    type: "Devialet.CallMeMaybe.BoolProperty"
+		    name: "updateAvailable"
+		    readOnly: true
+		  }
+		}
+		
+	};
+}
+
+service Setup {
+	rpc startSetup(.Devialet.GetThePartyStarted.StartSetupRequest) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc cancelSetup(.Devialet.GetThePartyStarted.SetupToken) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc completeSetup(.Devialet.GetThePartyStarted.SetupToken) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	option (Devialet.CallMeMaybe.dvltServiceOptions) = {
+		serviceName: "com.devialet.getthepartystarted.setup-0"
+		errorEnumName: "Devialet.GetThePartyStarted.SetupErrors.Codes"
+		
+	};
+}
+
+service SlaveDeviceSetup {
+	option (Devialet.CallMeMaybe.dvltServiceOptions) = {
+		serviceName: "com.devialet.getthepartystarted.setup-0.slave-0"
+		baseService: "Devialet.GetThePartyStarted.Setup"
+		properties {
+		  property {
+		    type: "Devialet.GetThePartyStarted.SlaveInfo"
+		    name: "deviceInfo"
+		    constant: true
+		  }
+		}
+		
+	};
+}
+
+service AttachedSlaveDeviceSetup {
+	option (Devialet.CallMeMaybe.dvltServiceOptions) = {
+		serviceName: "com.devialet.getthepartystarted.setup-0.slave-0.attached-0"
+		baseService: "Devialet.GetThePartyStarted.SlaveDeviceSetup"
+		
+	};
+}
+
+service RemoteSlaveDeviceSetup {
+	rpc requestAssociation(.Devialet.CallMeMaybe.Empty) returns (.Devialet.CallMeMaybe.Empty) {
+		option (Devialet.CallMeMaybe.dvltMethodOptions) = {
+			isNotification: true
+			
+		};
+	}
+	rpc setConfiguration(.Devialet.GetThePartyStarted.SetConfigurationRequest) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc applyConfiguration(.Devialet.GetThePartyStarted.SetupToken) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	option (Devialet.CallMeMaybe.dvltServiceOptions) = {
+		serviceName: "com.devialet.getthepartystarted.setup-0.slave-0.remote-0"
+		baseService: "Devialet.GetThePartyStarted.SlaveDeviceSetup"
+		
+	};
+}
+
+service MasterDeviceSetup {
+	rpc associateSlaves(.Devialet.GetThePartyStarted.SetupToken) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc startSlaveAssociation(.Devialet.GetThePartyStarted.SetupToken) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc cancelSlaveAssociation(.Devialet.GetThePartyStarted.SetupToken) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc configureSlaves(.Devialet.GetThePartyStarted.SetupToken) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc slaveFound(.Devialet.GetThePartyStarted.SlaveInfo) returns (.Devialet.CallMeMaybe.Empty) {
+		option (Devialet.CallMeMaybe.dvltMethodOptions) = {
+			isNotification: true
+			
+		};
+	}
+	rpc slaveAssociated(.Devialet.GetThePartyStarted.SlaveInfo) returns (.Devialet.CallMeMaybe.Empty) {
+		option (Devialet.CallMeMaybe.dvltMethodOptions) = {
+			isNotification: true
+			
+		};
+	}
+	rpc slaveConfigured(.Devialet.GetThePartyStarted.SlaveInfo) returns (.Devialet.CallMeMaybe.Empty) {
+		option (Devialet.CallMeMaybe.dvltMethodOptions) = {
+			isNotification: true
+			
+		};
+	}
+	rpc slaveLost(.Devialet.GetThePartyStarted.SlaveInfo) returns (.Devialet.CallMeMaybe.Empty) {
+		option (Devialet.CallMeMaybe.dvltMethodOptions) = {
+			isNotification: true
+			
+		};
+	}
+	option (Devialet.CallMeMaybe.dvltServiceOptions) = {
+		serviceName: "com.devialet.getthepartystarted.setup-0.master-0"
+		baseService: "Devialet.GetThePartyStarted.Setup"
+		properties {
+		  property {
+		    type: "Devialet.GetThePartyStarted.SlaveInfoList"
+		    name: "knownSlaves"
+		    readOnly: true
+		  }
+		  property {
+		    type: "Devialet.GetThePartyStarted.SlaveInfoList"
+		    name: "associatedSlaves"
+		    readOnly: true
+		  }
+		  property {
+		    type: "Devialet.GetThePartyStarted.SlaveInfoList"
+		    name: "configuredSlaves"
+		    readOnly: true
+		  }
+		}
+		
+	};
+}

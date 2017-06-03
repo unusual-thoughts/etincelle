@@ -1,9 +1,9 @@
+syntax = "proto2";
 package Devialet.AudioSource;
-
 import "TheSoundOfSilence/Node.proto";
+option py_generic_services = true;
 
 message Subcategory {
- required string name = 1;
- repeated Node nodes = 2;
+	required string name = 1 ;
+	repeated .Devialet.AudioSource.Node nodes = 2 ;
 }
-

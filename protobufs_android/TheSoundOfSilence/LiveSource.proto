@@ -1,50 +1,108 @@
+syntax = "proto2";
 package Devialet.AudioSource;
-
-import "CallMeMaybe/CallMeMaybe.proto";
 import "CallMeMaybe/CommonMessages.proto";
-import "TheSoundOfSilence/Picture.proto";
-import "TheSoundOfSilence/Track.proto";
 import "TheSoundOfSilence/Session.proto";
-import "TheSoundOfSilence/Source.proto";
+import "TheSoundOfSilence/Picture.proto";
+import "CallMeMaybe/CallMeMaybe.proto";
+option py_generic_services = true;
 
 message InputTypeMsg {
-
- enum InputType {
-  NotDefinedType = 0;
-  TVType = 1;
-  CDPlayerType = 2;
-  DVDBDPlayerType = 3;
-  ComputerType = 4;
-  GamingConsoleType = 5;
-  MediaCenterType = 6;
-  TurntableType = 7;
- }
- required uint32 type = 1;
+	required uint32 type = 1 ;
+	
+	enum InputType {
+		NotDefinedType = 0;
+		TVType = 1;
+		CDPlayerType = 2;
+		DVDBDPlayerType = 3;
+		ComputerType = 4;
+		GamingConsoleType = 5;
+		MediaCenterType = 6;
+		TurntableType = 7;
+	}
 }
 
 message LiveSourceStateMsg {
-
- enum State {
-  Ready = 1;
-  Playing = 2;
-  Stopped = 3;
-  Paused = 4;
- }
- required uint32 state = 1;
+	required uint32 state = 1 ;
+	
+	enum State {
+		Ready = 1;
+		Playing = 2;
+		Stopped = 3;
+		Paused = 4;
+	}
 }
 
 message LiveSourceAvailableMethods {
- required bool hasInputTypeId = 1;
- required bool isNameUserEditable = 2;
- required bool isSelectable = 3;
- optional bool allowToDisableAutoSwitch = 4 [default = true];
+	required bool hasInputTypeId = 1 ;
+	required bool isNameUserEditable = 2 ;
+	required bool isSelectable = 3 ;
+	optional bool allowToDisableAutoSwitch = 4 [default = true] ;
 }
 
 message LoadSessionQuery {
- required string name = 1;
+	required string name = 1 ;
 }
 
 message UnloadSessionQuery {
- required SessionId sessionId = 1;
+	required .Devialet.AudioSource.SessionId sessionId = 1 ;
 }
 
+service LiveSourceSession {
+	rpc picture(.Devialet.CallMeMaybe.Empty) returns (.Devialet.AudioSource.Picture) {
+	}
+	rpc defaultVolume(.Devialet.CallMeMaybe.Empty) returns (.Devialet.CallMeMaybe.DoubleProperty) {
+	}
+	option (Devialet.CallMeMaybe.dvltServiceOptions) = {
+		serviceName: "com.devialet.source-session-0.live-0"
+		baseService: "Devialet.AudioSource.SourceSession"
+		properties {
+		  property {
+		    type: "Devialet.CallMeMaybe.BoolProperty"
+		    name: "autoSwitch"
+		  }
+		  property {
+		    type: "Devialet.AudioSource.LiveSourceAvailableMethods"
+		    name: "availableMethods"
+		    constant: true
+		  }
+		  property {
+		    type: "Devialet.AudioSource.InputTypeMsg"
+		    name: "inputType"
+		  }
+		  property {
+		    type: "Devialet.CallMeMaybe.StringProperty"
+		    name: "name"
+		  }
+		  property {
+		    type: "Devialet.AudioSource.LiveSourceStateMsg"
+		    name: "state"
+		    readOnly: true
+		  }
+		  property {
+		    type: "Devialet.AudioSource.Track"
+		    name: "track"
+		    readOnly: true
+		  }
+		}
+		
+	};
+}
+
+service LiveSource {
+	rpc loadSession(.Devialet.AudioSource.LoadSessionQuery) returns (.Devialet.AudioSource.Session) {
+	}
+	rpc unloadSession(.Devialet.AudioSource.UnloadSessionQuery) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	option (Devialet.CallMeMaybe.dvltServiceOptions) = {
+		serviceName: "com.devialet.source-0.live-0"
+		baseService: "Devialet.AudioSource.Source"
+		properties {
+		  property {
+		    type: "Devialet.CallMeMaybe.BoolProperty"
+		    name: "isDynamical"
+		    constant: true
+		  }
+		}
+		
+	};
+}

@@ -1,29 +1,117 @@
+syntax = "proto2";
 package Devialet.AudioSource;
-
-import "CallMeMaybe/CallMeMaybe.proto";
 import "CallMeMaybe/CommonMessages.proto";
-import "TheSoundOfSilence/Picture.proto";
 import "TheSoundOfSilence/Session.proto";
+import "TheSoundOfSilence/Picture.proto";
+import "CallMeMaybe/CallMeMaybe.proto";
+option py_generic_services = true;
 
 message SourceError {
-
- enum Code {
-  InternalError = 1;
-  NotSupported = 2;
-  PermissionDenied = 3;
-  ObjectNotAvailable = 4;
- }
+	
+	enum Code {
+		InternalError = 1;
+		NotSupported = 2;
+		PermissionDenied = 3;
+		ObjectNotAvailable = 4;
+	}
 }
 
 message Enabled {
- required bool value = 1;
+	required bool value = 1 ;
 }
 
 message Id {
- required bytes id = 1;
+	required bytes id = 1 ;
 }
 
 message Uri {
- required string uri = 1;
+	required string uri = 1 ;
 }
 
+service SourceSession {
+	rpc uri(.Devialet.AudioSource.Id) returns (.Devialet.AudioSource.Uri) {
+	}
+	option (Devialet.CallMeMaybe.dvltServiceOptions) = {
+		serviceName: "com.devialet.source-session-0"
+		errorEnumName: "Devialet.AudioSource.SourceError.Code"
+		properties {
+		  property {
+		    type: "Devialet.CallMeMaybe.StringProperty"
+		    name: "sourceId"
+		    constant: true
+		  }
+		}
+		
+	};
+}
+
+service ConfigureSource {
+	rpc setEnabled(.Devialet.AudioSource.Enabled) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	option (Devialet.CallMeMaybe.dvltServiceOptions) = {
+		serviceName: "com.devialet.source-configure-0"
+		errorEnumName: "Devialet.AudioSource.SourceError.Code"
+		properties {
+		  property {
+		    type: "Devialet.CallMeMaybe.BytesProperty"
+		    name: "settings"
+		  }
+		}
+		
+	};
+}
+
+service Source {
+	rpc logo(.Devialet.CallMeMaybe.Empty) returns (.Devialet.AudioSource.Picture) {
+	}
+	rpc sessionAdded(.Devialet.AudioSource.Session) returns (.Devialet.CallMeMaybe.Empty) {
+		option (Devialet.CallMeMaybe.dvltMethodOptions) = {
+			isNotification: true
+			
+		};
+	}
+	rpc sessionRemoved(.Devialet.AudioSource.SessionId) returns (.Devialet.CallMeMaybe.Empty) {
+		option (Devialet.CallMeMaybe.dvltMethodOptions) = {
+			isNotification: true
+			
+		};
+	}
+	rpc bigLogo(.Devialet.CallMeMaybe.Empty) returns (.Devialet.AudioSource.Picture) {
+	}
+	option (Devialet.CallMeMaybe.dvltServiceOptions) = {
+		serviceName: "com.devialet.source-0"
+		errorEnumName: "Devialet.AudioSource.SourceError.Code"
+		properties {
+		  property {
+		    type: "Devialet.CallMeMaybe.StringProperty"
+		    name: "id"
+		    constant: true
+		  }
+		  property {
+		    type: "Devialet.CallMeMaybe.BoolProperty"
+		    name: "isEnabled"
+		  }
+		  property {
+		    type: "Devialet.CallMeMaybe.BoolProperty"
+		    name: "isSeekable"
+		    constant: true
+		  }
+		  property {
+		    type: "Devialet.AudioSource.Sessions"
+		    name: "listActiveSessions"
+		    constant: true
+		  }
+		  property {
+		    type: "Devialet.CallMeMaybe.StringProperty"
+		    name: "name"
+		    constant: true
+		  }
+		  property {
+		    type: "Devialet.CallMeMaybe.BoolProperty"
+		    name: "supportsEnable"
+		    constant: true
+		  }
+		}
+		
+	};
+}

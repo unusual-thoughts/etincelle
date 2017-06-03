@@ -1,19 +1,83 @@
+syntax = "proto2";
 package Devialet.TooManyFlows;
-
-import "CallMeMaybe/CallMeMaybe.proto";
 import "CallMeMaybe/CommonMessages.proto";
+import "CallMeMaybe/CallMeMaybe.proto";
+option py_generic_services = true;
 
 message TrackMsg {
- required uint32 index = 1;
- required string url = 2;
+	required uint32 index = 1 ;
+	required string url = 2 ;
 }
 
 message TracksMsg {
- repeated TrackMsg tracks = 1;
+	repeated .Devialet.TooManyFlows.TrackMsg tracks = 1 ;
 }
 
 message MoveMsg {
- required TrackMsg first = 1;
- required TrackMsg second = 2;
+	required .Devialet.TooManyFlows.TrackMsg first = 1 ;
+	required .Devialet.TooManyFlows.TrackMsg second = 2 ;
 }
 
+service Playlist {
+	rpc clear(.Devialet.CallMeMaybe.Empty) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc insert(.Devialet.TooManyFlows.TracksMsg) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc move(.Devialet.TooManyFlows.MoveMsg) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc remove(.Devialet.TooManyFlows.TracksMsg) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc cleared(.Devialet.CallMeMaybe.Empty) returns (.Devialet.CallMeMaybe.Empty) {
+		option (Devialet.CallMeMaybe.dvltMethodOptions) = {
+			isNotification: true
+			
+		};
+	}
+	rpc tracksAdded(.Devialet.TooManyFlows.TracksMsg) returns (.Devialet.CallMeMaybe.Empty) {
+		option (Devialet.CallMeMaybe.dvltMethodOptions) = {
+			isNotification: true
+			
+		};
+	}
+	rpc trackMoved(.Devialet.TooManyFlows.MoveMsg) returns (.Devialet.CallMeMaybe.Empty) {
+		option (Devialet.CallMeMaybe.dvltMethodOptions) = {
+			isNotification: true
+			
+		};
+	}
+	rpc tracksRemoved(.Devialet.TooManyFlows.TracksMsg) returns (.Devialet.CallMeMaybe.Empty) {
+		option (Devialet.CallMeMaybe.dvltMethodOptions) = {
+			isNotification: true
+			
+		};
+	}
+	option (Devialet.CallMeMaybe.dvltServiceOptions) = {
+		serviceName: "com.devialet.toomanyflows.playlist-0"
+		properties {
+		  property {
+		    type: "Devialet.TooManyFlows.TrackMsg"
+		    name: "currentTrack"
+		    readOnly: true
+		  }
+		  property {
+		    type: "Devialet.CallMeMaybe.UInt32Property"
+		    name: "maxSize"
+		    constant: true
+		  }
+		  property {
+		    type: "Devialet.CallMeMaybe.BoolProperty"
+		    name: "random"
+		  }
+		  property {
+		    type: "Devialet.CallMeMaybe.BoolProperty"
+		    name: "repeatAll"
+		  }
+		  property {
+		    type: "Devialet.TooManyFlows.TracksMsg"
+		    name: "tracks"
+		    constant: true
+		  }
+		}
+		
+	};
+}

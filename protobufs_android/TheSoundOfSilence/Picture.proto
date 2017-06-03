@@ -1,25 +1,25 @@
+syntax = "proto2";
 package Devialet.AudioSource;
-
 import "CallMeMaybe/CallMeMaybe.proto";
+option py_generic_services = true;
 
 message Picture {
-
- enum Size {
-  Large = 1;
-  Normal = 2;
-  Small = 3;
- }
-
- enum Type {
-  Http = 1;
-  Raw = 2;
- }
- required uint32 size = 1;
- required uint32 type = 2;
- required bytes data = 3;
+	required uint32 size = 1 ;
+	required uint32 type = 2 ;
+	required bytes data = 3 [(Devialet.CallMeMaybe.dvltFieldOptions) = {logValue: false }];
+	
+	enum Size {
+		Large = 1;
+		Normal = 2;
+		Small = 3;
+	}
+	
+	enum Type {
+		Http = 1;
+		Raw = 2;
+	}
 }
 
 message PictureId {
- required bytes id = 1;
+	required bytes id = 1 ;
 }
-

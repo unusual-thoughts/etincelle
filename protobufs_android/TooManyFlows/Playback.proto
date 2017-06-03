@@ -1,38 +1,79 @@
+syntax = "proto2";
 package Devialet.TooManyFlows;
-
-import "CallMeMaybe/CallMeMaybe.proto";
 import "CallMeMaybe/CommonMessages.proto";
+import "CallMeMaybe/CallMeMaybe.proto";
+option py_generic_services = true;
 
 message IndexMsg {
- required uint32 value = 1;
+	required uint32 value = 1 ;
 }
 
 message ProgressionMsg {
- required int64 position = 1;
- required int64 duration = 2;
+	required int64 position = 1 ;
+	required int64 duration = 2 ;
 }
 
 message StateMsg {
-
- enum Type {
-  Paused = 1;
-  Playing = 2;
-  Stopped = 3;
- }
- required uint32 type = 1;
+	required uint32 type = 1 ;
+	
+	enum Type {
+		Paused = 1;
+		Playing = 2;
+		Stopped = 3;
+	}
 }
 
 message SeekMsg {
- required int64 offset = 1;
+	required int64 offset = 1 ;
 }
 
 message PlaybackError {
-
- enum Code {
-  LinkRendererFailed = 1;
-  UnlinkRendererFailed = 2;
-  NoAvailablePlayback = 3;
-  RequestAlreadyRunning = 4;
- }
+	
+	enum Code {
+		LinkRendererFailed = 1;
+		UnlinkRendererFailed = 2;
+		NoAvailablePlayback = 3;
+		RequestAlreadyRunning = 4;
+	}
 }
 
+service Playback {
+	rpc at(.Devialet.TooManyFlows.IndexMsg) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc next(.Devialet.CallMeMaybe.Empty) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc pause(.Devialet.CallMeMaybe.Empty) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc play(.Devialet.CallMeMaybe.Empty) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc prev(.Devialet.CallMeMaybe.Empty) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc seek(.Devialet.TooManyFlows.SeekMsg) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc stop(.Devialet.CallMeMaybe.Empty) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc playUrl(.Devialet.CallMeMaybe.StringProperty) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	option (Devialet.CallMeMaybe.dvltServiceOptions) = {
+		serviceName: "com.devialet.toomanyflows.playback-0"
+		errorEnumName: "Devialet.TooManyFlows.PlaybackError.Code"
+		properties {
+		  property {
+		    type: "Devialet.CallMeMaybe.BoolProperty"
+		    name: "loop"
+		  }
+		  property {
+		    type: "Devialet.TooManyFlows.ProgressionMsg"
+		    name: "progression"
+		    readOnly: true
+		    logUpdate: false
+		  }
+		  property {
+		    type: "Devialet.TooManyFlows.StateMsg"
+		    name: "state"
+		    readOnly: true
+		  }
+		}
+		
+	};
+}

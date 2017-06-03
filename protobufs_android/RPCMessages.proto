@@ -1,55 +1,89 @@
+syntax = "proto2";
 package Devialet.CallMeMaybe;
-
-import "CallMeMaybe/CallMeMaybe.proto";
 import "CallMeMaybe/CommonMessages.proto";
+import "CallMeMaybe/CallMeMaybe.proto";
+option py_generic_services = true;
 
 message Request {
- required bytes serverId = 1;
- required fixed32 serviceId = 2;
- required bytes requestId = 3;
- required uint32 type = 4;
- required uint32 subTypeId = 5;
+	required bytes serverId = 1 ;
+	required fixed32 serviceId = 2 ;
+	required bytes requestId = 3 ;
+	required uint32 type = 4 ;
+	required uint32 subTypeId = 5 ;
 }
 
 message Reply {
- required bytes serverId = 1;
- required fixed32 serviceId = 2;
- required bytes requestId = 3;
- required uint32 type = 4;
- required uint32 subTypeId = 5;
- required sint32 errorCode = 6;
- required bool isMultipart = 7;
+	required bytes serverId = 1 ;
+	required fixed32 serviceId = 2 ;
+	required bytes requestId = 3 ;
+	required uint32 type = 4 ;
+	required uint32 subTypeId = 5 ;
+	required sint32 errorCode = 6 ;
+	required bool isMultipart = 7 ;
 }
 
 message Event {
- required bytes serverId = 1;
- required fixed32 serviceId = 2;
- required uint32 type = 3;
- required uint32 subTypeId = 4;
+	required bytes serverId = 1 ;
+	required fixed32 serviceId = 2 ;
+	required uint32 type = 3 ;
+	required uint32 subTypeId = 4 ;
 }
 
 message ConnectionRequest {
- required uint32 version = 1;
+	required uint32 version = 1 ;
 }
 
 message Service {
- required uint32 id = 1;
- required string name = 2;
+	required uint32 id = 1 ;
+	required string name = 2 ;
 }
 
 message ServicesList {
- repeated Service services = 1;
+	repeated .Devialet.CallMeMaybe.Service services = 1 ;
 }
 
 message ConnectionReply {
- required bytes serverId = 1;
- repeated Service services = 2;
+	required bytes serverId = 1 ;
+	repeated .Devialet.CallMeMaybe.Service services = 2 ;
 }
 
 message ConnectionErrors {
-
- enum Code {
-  UnsupportedVersion = 0;
- }
+	
+	enum Code {
+		UnsupportedVersion = 0;
+	}
 }
 
+service Connection {
+	rpc openConnection(.Devialet.CallMeMaybe.ConnectionRequest) returns (.Devialet.CallMeMaybe.ConnectionReply) {
+	}
+	rpc ping(.Devialet.CallMeMaybe.Empty) returns (.Devialet.CallMeMaybe.Empty) {
+		option (Devialet.CallMeMaybe.dvltMethodOptions) = {
+			isLoggingEnabled: false
+			
+		};
+	}
+	rpc serviceAdded(.Devialet.CallMeMaybe.Service) returns (.Devialet.CallMeMaybe.Empty) {
+		option (Devialet.CallMeMaybe.dvltMethodOptions) = {
+			isNotification: true
+			
+		};
+	}
+	rpc serviceRemoved(.Devialet.CallMeMaybe.Service) returns (.Devialet.CallMeMaybe.Empty) {
+		option (Devialet.CallMeMaybe.dvltMethodOptions) = {
+			isNotification: true
+			
+		};
+	}
+	rpc serverQuit(.Devialet.CallMeMaybe.Empty) returns (.Devialet.CallMeMaybe.Empty) {
+		option (Devialet.CallMeMaybe.dvltMethodOptions) = {
+			isNotification: true
+			
+		};
+	}
+	option (Devialet.CallMeMaybe.dvltServiceOptions) = {
+		serviceName: "com.devialet.callmemaybe.connection"
+		errorEnumName: "Devialet.CallMeMaybe.ConnectionErrors.Code"
+		
+	};
+}

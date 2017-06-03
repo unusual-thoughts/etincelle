@@ -1,14 +1,14 @@
+syntax = "proto2";
 package Devialet.AudioSource;
-
 import "TheSoundOfSilence/Node.proto";
+option py_generic_services = true;
 
 message Track {
- required Node album = 1;
- repeated Node artists = 2;
- required uint32 disc = 3;
- required uint32 duration = 4;
- required uint32 index = 5;
- required bool readable = 6;
- required string title = 7;
+	required .Devialet.AudioSource.Node album = 1 ;
+	repeated .Devialet.AudioSource.Node artists = 2 ;
+	required uint32 disc = 3 ;
+	required uint32 duration = 4 ;
+	required uint32 index = 5 ;
+	required bool readable = 6 ;
+	required string title = 7 ;
 }
-

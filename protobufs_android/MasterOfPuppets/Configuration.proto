@@ -1,86 +1,194 @@
+syntax = "proto2";
 package Devialet.MasterOfPuppets;
-
-import "CallMeMaybe/CallMeMaybe.proto";
 import "CallMeMaybe/CommonMessages.proto";
+import "CallMeMaybe/CallMeMaybe.proto";
+option py_generic_services = true;
 
 message GroupId {
- required bytes id = 1;
+	required bytes id = 1 ;
 }
 
 message BouquetId {
- required bytes id = 1;
+	required bytes id = 1 ;
 }
 
 message RendererId {
- required bytes id = 1;
+	required bytes id = 1 ;
 }
 
 message NodeRenderer {
- required RendererId rendererId = 1;
- required string name = 2;
- required bool isActivated = 3;
+	required .Devialet.MasterOfPuppets.RendererId rendererId = 1 ;
+	required string name = 2 ;
+	required bool isActivated = 3 ;
 }
 
 message NodeGroup {
- required GroupId groupId = 1;
- required string name = 2;
- repeated NodeRenderer renderers = 3;
+	required .Devialet.MasterOfPuppets.GroupId groupId = 1 ;
+	required string name = 2 ;
+	repeated .Devialet.MasterOfPuppets.NodeRenderer renderers = 3 ;
 }
 
 message NodeBouquet {
- required BouquetId bouquetId = 1;
- repeated NodeGroup groups = 2;
+	required .Devialet.MasterOfPuppets.BouquetId bouquetId = 1 ;
+	repeated .Devialet.MasterOfPuppets.NodeGroup groups = 2 ;
 }
 
 message NodeRoot {
- repeated NodeBouquet bouquets = 1;
+	repeated .Devialet.MasterOfPuppets.NodeBouquet bouquets = 1 ;
 }
 
 message AddGroupQuery {
- required string name = 1;
- required BouquetId bouquetId = 2;
+	required string name = 1 ;
+	required .Devialet.MasterOfPuppets.BouquetId bouquetId = 2 ;
 }
 
 message AddRendererQuery {
- required RendererId rendererId = 1;
- required string name = 2;
- required GroupId groupId = 3;
+	required .Devialet.MasterOfPuppets.RendererId rendererId = 1 ;
+	required string name = 2 ;
+	required .Devialet.MasterOfPuppets.GroupId groupId = 3 ;
 }
 
 message MoveGroupQuery {
- required GroupId groupId = 1;
- required BouquetId newBouquetId = 2;
+	required .Devialet.MasterOfPuppets.GroupId groupId = 1 ;
+	required .Devialet.MasterOfPuppets.BouquetId newBouquetId = 2 ;
 }
 
 message MoveRendererQuery {
- required RendererId rendererId = 1;
- required GroupId newGroupId = 2;
+	required .Devialet.MasterOfPuppets.RendererId rendererId = 1 ;
+	required .Devialet.MasterOfPuppets.GroupId newGroupId = 2 ;
 }
 
 message RenameQuery {
- required bytes id = 1;
- required string name = 2;
+	required bytes id = 1 ;
+	required string name = 2 ;
 }
 
 message BouquetAddedNotification {
- required BouquetId bouquetId = 1;
+	required .Devialet.MasterOfPuppets.BouquetId bouquetId = 1 ;
 }
 
 message GroupAddedNotification {
- required BouquetId parentId = 1;
- required GroupId id = 2;
- required string name = 3;
+	required .Devialet.MasterOfPuppets.BouquetId parentId = 1 ;
+	required .Devialet.MasterOfPuppets.GroupId id = 2 ;
+	required string name = 3 ;
 }
 
 message RendererAddedNotification {
- required GroupId parentId = 1;
- required RendererId id = 2;
- required string name = 3;
- required bool isActivated = 4;
+	required .Devialet.MasterOfPuppets.GroupId parentId = 1 ;
+	required .Devialet.MasterOfPuppets.RendererId id = 2 ;
+	required string name = 3 ;
+	required bool isActivated = 4 ;
 }
 
 message StateNotification {
- required RendererId rendererId = 1;
- required bool isActivated = 2;
+	required .Devialet.MasterOfPuppets.RendererId rendererId = 1 ;
+	required bool isActivated = 2 ;
 }
 
+service Configuration {
+	rpc addBouquet(.Devialet.CallMeMaybe.Empty) returns (.Devialet.MasterOfPuppets.BouquetId) {
+	}
+	rpc removeBouquet(.Devialet.MasterOfPuppets.BouquetId) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc addGroup(.Devialet.MasterOfPuppets.AddGroupQuery) returns (.Devialet.MasterOfPuppets.GroupId) {
+	}
+	rpc isolateGroup(.Devialet.MasterOfPuppets.GroupId) returns (.Devialet.MasterOfPuppets.BouquetId) {
+	}
+	rpc moveGroup(.Devialet.MasterOfPuppets.MoveGroupQuery) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc removeGroup(.Devialet.MasterOfPuppets.GroupId) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc renameGroup(.Devialet.MasterOfPuppets.RenameQuery) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc addRenderer(.Devialet.MasterOfPuppets.AddRendererQuery) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc moveRenderer(.Devialet.MasterOfPuppets.MoveRendererQuery) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc removeRenderer(.Devialet.MasterOfPuppets.RendererId) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc renameRenderer(.Devialet.MasterOfPuppets.RenameQuery) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc bouquetAdded(.Devialet.MasterOfPuppets.BouquetAddedNotification) returns (.Devialet.CallMeMaybe.Empty) {
+		option (Devialet.CallMeMaybe.dvltMethodOptions) = {
+			isNotification: true
+			
+		};
+	}
+	rpc bouquetRemoved(.Devialet.MasterOfPuppets.BouquetId) returns (.Devialet.CallMeMaybe.Empty) {
+		option (Devialet.CallMeMaybe.dvltMethodOptions) = {
+			isNotification: true
+			
+		};
+	}
+	rpc bouquetRenamed(.Devialet.MasterOfPuppets.RenameQuery) returns (.Devialet.CallMeMaybe.Empty) {
+		option (Devialet.CallMeMaybe.dvltMethodOptions) = {
+			isNotification: true
+			
+		};
+	}
+	rpc groupAdded(.Devialet.MasterOfPuppets.GroupAddedNotification) returns (.Devialet.CallMeMaybe.Empty) {
+		option (Devialet.CallMeMaybe.dvltMethodOptions) = {
+			isNotification: true
+			
+		};
+	}
+	rpc groupMoved(.Devialet.MasterOfPuppets.MoveGroupQuery) returns (.Devialet.CallMeMaybe.Empty) {
+		option (Devialet.CallMeMaybe.dvltMethodOptions) = {
+			isNotification: true
+			
+		};
+	}
+	rpc groupRemoved(.Devialet.MasterOfPuppets.GroupId) returns (.Devialet.CallMeMaybe.Empty) {
+		option (Devialet.CallMeMaybe.dvltMethodOptions) = {
+			isNotification: true
+			
+		};
+	}
+	rpc groupRenamed(.Devialet.MasterOfPuppets.RenameQuery) returns (.Devialet.CallMeMaybe.Empty) {
+		option (Devialet.CallMeMaybe.dvltMethodOptions) = {
+			isNotification: true
+			
+		};
+	}
+	rpc rendererAdded(.Devialet.MasterOfPuppets.RendererAddedNotification) returns (.Devialet.CallMeMaybe.Empty) {
+		option (Devialet.CallMeMaybe.dvltMethodOptions) = {
+			isNotification: true
+			
+		};
+	}
+	rpc rendererMoved(.Devialet.MasterOfPuppets.MoveRendererQuery) returns (.Devialet.CallMeMaybe.Empty) {
+		option (Devialet.CallMeMaybe.dvltMethodOptions) = {
+			isNotification: true
+			
+		};
+	}
+	rpc rendererRemoved(.Devialet.MasterOfPuppets.RendererId) returns (.Devialet.CallMeMaybe.Empty) {
+		option (Devialet.CallMeMaybe.dvltMethodOptions) = {
+			isNotification: true
+			
+		};
+	}
+	rpc rendererRenamed(.Devialet.MasterOfPuppets.RenameQuery) returns (.Devialet.CallMeMaybe.Empty) {
+		option (Devialet.CallMeMaybe.dvltMethodOptions) = {
+			isNotification: true
+			
+		};
+	}
+	rpc rendererStateChanged(.Devialet.MasterOfPuppets.StateNotification) returns (.Devialet.CallMeMaybe.Empty) {
+		option (Devialet.CallMeMaybe.dvltMethodOptions) = {
+			isNotification: true
+			
+		};
+	}
+	option (Devialet.CallMeMaybe.dvltServiceOptions) = {
+		serviceName: "com.devialet.masterofpuppets.configuration-0"
+		properties {
+		  property {
+		    type: "Devialet.MasterOfPuppets.NodeRoot"
+		    name: "root"
+		    constant: true
+		  }
+		}
+		
+	};
+}

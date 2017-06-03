@@ -1,33 +1,62 @@
+syntax = "proto2";
 package Devialet.GetThePartyStarted.Aerobase;
-
-import "CallMeMaybe/CallMeMaybe.proto";
 import "CallMeMaybe/CommonMessages.proto";
+import "CallMeMaybe/CallMeMaybe.proto";
 import "GetThePartyStarted/GetThePartyStarted.proto";
+option py_generic_services = true;
 
 message SetupStep {
-
- enum Step {
-  InvalidStep = 0;
-  InitialStep = 1;
-  ConfigureSetupNetworkStep = 2;
-  WaitForUserStep = 3;
-  WaitForSlavesStep = 4;
-  AssociateSlavesStep = 5;
-  WaitForSlaveAssociationStep = 6;
-  AssociatingSlaveStep = 7;
-  ConfiguringSlavesStep = 8;
-  ConfigureProductionNetworkStep = 9;
-  WaitForConfiguredSlavesStep = 10;
-  AllSlavesConfiguredStep = 11;
-  ConfigureTopologyStep = 12;
-  ConfigureServicesStep = 13;
-  CompleteStep = 14;
- }
- required uint32 step = 1;
+	required uint32 step = 1 ;
+	
+	enum Step {
+		InvalidStep = 0;
+		InitialStep = 1;
+		ConfigureSetupNetworkStep = 2;
+		WaitForUserStep = 3;
+		WaitForSlavesStep = 4;
+		AssociateSlavesStep = 5;
+		WaitForSlaveAssociationStep = 6;
+		AssociatingSlaveStep = 7;
+		ConfiguringSlavesStep = 8;
+		ConfigureProductionNetworkStep = 9;
+		WaitForConfiguredSlavesStep = 10;
+		AllSlavesConfiguredStep = 11;
+		ConfigureTopologyStep = 12;
+		ConfigureServicesStep = 13;
+		CompleteStep = 14;
+	}
 }
 
 message SetTopologyConfigurationRequest {
- required bytes masterId = 1;
- required bytes data = 2;
+	required bytes masterId = 1 ;
+	required bytes data = 2 ;
 }
 
+service Configuration {
+	option (Devialet.CallMeMaybe.dvltServiceOptions) = {
+		serviceName: "com.devialet.getthepartystarted.configuration-0.aerobase-0"
+		baseService: "Devialet.GetThePartyStarted.Configuration"
+		
+	};
+}
+
+service Setup {
+	rpc configureTopology(.Devialet.GetThePartyStarted.SetupToken) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc setTopologyConfiguration(.Devialet.GetThePartyStarted.Aerobase.SetTopologyConfigurationRequest) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc configureServices(.Devialet.GetThePartyStarted.SetupToken) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	option (Devialet.CallMeMaybe.dvltServiceOptions) = {
+		serviceName: "com.devialet.getthepartystarted.setup-0.master-0.aerobase-0"
+		baseService: "Devialet.GetThePartyStarted.MasterDeviceSetup"
+		properties {
+		  property {
+		    type: "Devialet.GetThePartyStarted.Aerobase.SetupStep"
+		    name: "step"
+		    readOnly: true
+		  }
+		}
+		
+	};
+}

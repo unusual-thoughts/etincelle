@@ -1,15 +1,15 @@
+syntax = "proto2";
 package Devialet.AudioSource;
-
-import "TheSoundOfSilence/Picture.proto";
 import "TheSoundOfSilence/Track.proto";
+import "TheSoundOfSilence/Picture.proto";
+option py_generic_services = true;
 
 message TrackDetails {
- required Track track = 1;
- required PictureId pictureId = 2;
- required Picture picture = 3;
+	required .Devialet.AudioSource.Track track = 1 ;
+	required .Devialet.AudioSource.PictureId pictureId = 2 ;
+	required .Devialet.AudioSource.Picture picture = 3 ;
 }
 
 message TracksDetails {
- repeated TrackDetails tracksDetails = 1;
+	repeated .Devialet.AudioSource.TrackDetails tracksDetails = 1 ;
 }
-

@@ -1,19 +1,19 @@
+syntax = "proto2";
 package Devialet.AudioSource;
-
 import "TheSoundOfSilence/Picture.proto";
+option py_generic_services = true;
 
 message SessionId {
- required bytes id = 1;
+	required bytes id = 1 ;
 }
 
 message Session {
- required bytes id = 1;
- required string name = 2;
- required string serviceInstanceId = 3;
- required Picture picture = 4;
+	required bytes id = 1 ;
+	required string name = 2 ;
+	required string serviceInstanceId = 3 ;
+	required .Devialet.AudioSource.Picture picture = 4 ;
 }
 
 message Sessions {
- repeated Session sessions = 1;
+	repeated .Devialet.AudioSource.Session sessions = 1 ;
 }
-

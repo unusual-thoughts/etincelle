@@ -1,10 +1,19 @@
+syntax = "proto2";
 package Devialet.GetThePartyStarted;
-
-import "CallMeMaybe/CallMeMaybe.proto";
 import "CallMeMaybe/CommonMessages.proto";
+import "CallMeMaybe/CallMeMaybe.proto";
+option py_generic_services = true;
 
 message UploadLogsRequest {
- required string installationId = 1;
- required int64 timestamp = 2;
+	required string installationId = 1 ;
+	required int64 timestamp = 2 ;
 }
 
+service LogUploader {
+	rpc uploadLogs(.Devialet.GetThePartyStarted.UploadLogsRequest) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	option (Devialet.CallMeMaybe.dvltServiceOptions) = {
+		serviceName: "com.devialet.getthepartystarted.log-uploader-0"
+		
+	};
+}

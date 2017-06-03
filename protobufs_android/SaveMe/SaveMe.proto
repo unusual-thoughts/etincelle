@@ -1,64 +1,129 @@
+syntax = "proto2";
 package Devialet.SaveMe;
-
-import "CallMeMaybe/CallMeMaybe.proto";
 import "CallMeMaybe/CommonMessages.proto";
+import "CallMeMaybe/CallMeMaybe.proto";
+option py_generic_services = true;
 
 message SavePlaylistError {
-
- enum Code {
-  FileFailedUpdate = 1;
-  IdPlaylistUnknown = 2;
-  TrackNotFoundInPlaylist = 3;
- }
+	
+	enum Code {
+		FileFailedUpdate = 1;
+		IdPlaylistUnknown = 2;
+		TrackNotFoundInPlaylist = 3;
+	}
 }
 
 message Track {
- required string url = 1;
+	required string url = 1 ;
 }
 
 message PlaylistMsg {
- required bytes id = 1;
- required string name = 2;
- repeated Track tracks = 3;
- required uint32 creationDate = 4;
- required uint32 lastUpdateDate = 5;
+	required bytes id = 1 ;
+	required string name = 2 ;
+	repeated .Devialet.SaveMe.Track tracks = 3 ;
+	required uint32 creationDate = 4 ;
+	required uint32 lastUpdateDate = 5 ;
 }
 
 message TrackInPlaylist {
- required Track track = 1;
- required uint32 index = 2;
+	required .Devialet.SaveMe.Track track = 1 ;
+	required uint32 index = 2 ;
 }
 
 message CreatePlaylist {
- required string name = 1;
- repeated Track tracks = 2;
- required uint32 date = 3;
+	required string name = 1 ;
+	repeated .Devialet.SaveMe.Track tracks = 2 ;
+	required uint32 date = 3 ;
 }
 
 message PlaylistSaved {
- repeated PlaylistMsg playlists = 1;
+	repeated .Devialet.SaveMe.PlaylistMsg playlists = 1 ;
 }
 
 message PlaylistContent {
- repeated TrackInPlaylist tracks = 1;
+	repeated .Devialet.SaveMe.TrackInPlaylist tracks = 1 ;
 }
 
 message ModifyTracks {
- required bytes playlistId = 1;
- required uint32 index = 2;
- repeated Track tracks = 3;
- required uint32 date = 4;
+	required bytes playlistId = 1 ;
+	required uint32 index = 2 ;
+	repeated .Devialet.SaveMe.Track tracks = 3 ;
+	required uint32 date = 4 ;
 }
 
 message ModifyOneTrack {
- required bytes playlistId = 1;
- required TrackInPlaylist track = 2;
- required uint32 date = 3;
+	required bytes playlistId = 1 ;
+	required .Devialet.SaveMe.TrackInPlaylist track = 2 ;
+	required uint32 date = 3 ;
 }
 
 message ModifyPlaylistName {
- required bytes playlistId = 1;
- required string name = 2;
- required uint32 date = 3;
+	required bytes playlistId = 1 ;
+	required string name = 2 ;
+	required uint32 date = 3 ;
 }
 
+service SavePlaylist {
+	rpc create(.Devialet.SaveMe.CreatePlaylist) returns (.Devialet.CallMeMaybe.BytesProperty) {
+	}
+	rpc remove(.Devialet.CallMeMaybe.BytesProperty) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc clear(.Devialet.CallMeMaybe.Empty) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc tracks(.Devialet.CallMeMaybe.BytesProperty) returns (.Devialet.SaveMe.PlaylistContent) {
+	}
+	rpc addTracks(.Devialet.SaveMe.ModifyTracks) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc removeTrack(.Devialet.SaveMe.ModifyOneTrack) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc edit(.Devialet.SaveMe.ModifyPlaylistName) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc playlistAdded(.Devialet.SaveMe.PlaylistMsg) returns (.Devialet.CallMeMaybe.Empty) {
+		option (Devialet.CallMeMaybe.dvltMethodOptions) = {
+			isNotification: true
+			
+		};
+	}
+	rpc playlistRemoved(.Devialet.CallMeMaybe.BytesProperty) returns (.Devialet.CallMeMaybe.Empty) {
+		option (Devialet.CallMeMaybe.dvltMethodOptions) = {
+			isNotification: true
+			
+		};
+	}
+	rpc cleared(.Devialet.CallMeMaybe.Empty) returns (.Devialet.CallMeMaybe.Empty) {
+		option (Devialet.CallMeMaybe.dvltMethodOptions) = {
+			isNotification: true
+			
+		};
+	}
+	rpc tracksAdded(.Devialet.SaveMe.ModifyTracks) returns (.Devialet.CallMeMaybe.Empty) {
+		option (Devialet.CallMeMaybe.dvltMethodOptions) = {
+			isNotification: true
+			
+		};
+	}
+	rpc trackRemoved(.Devialet.SaveMe.ModifyOneTrack) returns (.Devialet.CallMeMaybe.Empty) {
+		option (Devialet.CallMeMaybe.dvltMethodOptions) = {
+			isNotification: true
+			
+		};
+	}
+	rpc playlistEdited(.Devialet.SaveMe.ModifyPlaylistName) returns (.Devialet.CallMeMaybe.Empty) {
+		option (Devialet.CallMeMaybe.dvltMethodOptions) = {
+			isNotification: true
+			
+		};
+	}
+	option (Devialet.CallMeMaybe.dvltServiceOptions) = {
+		serviceName: "com.devialet.saveme.savePlaylist"
+		errorEnumName: "Devialet.SaveMe.SavePlaylistError.Code"
+		properties {
+		  property {
+		    type: "PlaylistSaved"
+		    name: "playlists"
+		    constant: true
+		  }
+		}
+		
+	};
+}

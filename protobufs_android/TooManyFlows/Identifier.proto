@@ -1,18 +1,19 @@
+syntax = "proto2";
 package Devialet.TooManyFlows;
+option py_generic_services = true;
 
 message BouquetId {
- required bytes id = 1;
+	required bytes id = 1 ;
 }
 
 message GroupId {
- required bytes id = 1;
+	required bytes id = 1 ;
 }
 
 message PlayerId {
- required bytes id = 1;
+	required bytes id = 1 ;
 }
 
 message RendererId {
- required bytes id = 1;
+	required bytes id = 1 ;
 }
-

@@ -1,26 +1,48 @@
+syntax = "proto2";
 package Devialet.IMASlave4U;
-
 import "CallMeMaybe/CallMeMaybe.proto";
-import "CallMeMaybe/CommonMessages.proto";
+option py_generic_services = true;
 
 message AudioMode {
-
- enum Mode {
-  MonoMix = 1;
-  StereoLeft = 2;
-  StereoRight = 3;
- }
- required uint32 mode = 1;
+	required uint32 mode = 1 ;
+	
+	enum Mode {
+		MonoMix = 1;
+		StereoLeft = 2;
+		StereoRight = 3;
+	}
 }
 
 message Property {
- required string name = 1;
- required string value = 2;
+	required string name = 1 ;
+	required string value = 2 ;
 }
 
 message Input {
- required string name = 1;
- repeated string schemes = 2;
- repeated Property properties = 3;
+	required string name = 1 ;
+	repeated string schemes = 2 ;
+	repeated .Devialet.IMASlave4U.Property properties = 3 ;
 }
 
+service Configuration {
+	option (Devialet.CallMeMaybe.dvltServiceOptions) = {
+		serviceName: "com.devialet.imaslave4u.configuration-0"
+		properties {
+		  property {
+		    type: "Devialet.IMASlave4U.AudioMode"
+		    name: "audioMode"
+		  }
+		  property {
+		    type: "Devialet.IMASlave4U.Input"
+		    name: "audioInput"
+		    readOnly: true
+		  }
+		  property {
+		    type: "Devialet.IMASlave4U.Input"
+		    name: "soundDesignInput"
+		    readOnly: true
+		  }
+		}
+		
+	};
+}
