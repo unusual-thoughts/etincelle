@@ -6,9 +6,10 @@ from pprint import pprint
 from protobuf_to_dict import protobuf_to_dict
 
 from dvlt_messages import interpret_as, heuristic_search, raw_decode
-from dvlt_services import find_method, process_rpc
+from dvlt_services import DevialetRPCProcessor
 
-import RPCMessages_pb2
+# import RPCMessages_pb2
+from dvlt_output import *
 
 class DevialetSection:
     def __init__(self, raw_section, time=None):
@@ -39,9 +40,9 @@ class DevialetSection:
                     self.warnings.append('Magic mismatch {} != {}'.format(
                         raw_field['firstbyte'], self.magic))
             if self.warnings:
-                print(self.warnings)
+                print_warning(self.warnings)
         except Exception as e:
-            print("Error in Section decode: {} {}".format(type(e), e))
+            print_error("in Section decode: {} {}", type(e), e)
             pass
 
 class DevialetFlow:
@@ -102,8 +103,6 @@ class DevialetFlow:
             pass
 
     def close(self):
-        # Check no remaining bytes in bufs, seek, truncate
-
         rest_incoming = self.incoming_buf.read()
         rest_outgoing = self.outgoing_buf.read()
 
@@ -116,10 +115,10 @@ class DevialetFlow:
                 ' '.join('{:02x}'.format(x) for x in rest_outgoing)))
 
         if self.warnings:
-            print(self.warnings)
+            print_warning(self.warnings)
 
-        print('flow {} has {} incoming and {} outgoing sections'.format(
-            self.name, len(self.incoming_sections), len(self.outgoing_sections)))
+        print_info('flow {} has {} incoming and {} outgoing sections',
+            self.name, len(self.incoming_sections), len(self.outgoing_sections))
 
         self.incoming_buf.close()
         self.outgoing_buf.close()
@@ -131,113 +130,113 @@ class DevialetFlow:
         # The "uid" parameter in the section, when present (== when magic is C3, and only on incoming packets)
         # is apparently equal to the first member of a 4 element protobuf in the same section
 
-        service_list = RPCMessages_pb2.ServicesList().services
+        rpc_processor = DevialetRPCProcessor()
         incoming_iterator = iter(self.incoming_sections)
         outgoing_iterator = iter(self.outgoing_sections)
 
-        print("Walking {}".format(self.name))
+        print_info("Walking {}", self.name)
         # this may cut out some protobufs at the end (shortest of incoming or outgoing)
         # for (incoming_section, outgoing_section) in zip(incoming_iterator, outgoing_iterator):
         for incoming_section in incoming_iterator:
-            print("")
+            print_data("-------")
             incoming_pb = incoming_section.raw_protobufs
 
             if incoming_section.magic == 0xC3:
                 # Event?
-                evt = interpret_as(incoming_pb[0], "Devialet.CallMeMaybe.Event")
+                try:
+                    evt = interpret_as(incoming_pb[0], "Devialet.CallMeMaybe.Event")
 
-                # service_name, package, service, method = find_method(evt, service_list)
-                process_rpc(evt, service_list, outgoing_pb[1], incoming_pb[1:], is_event=True)
-                print("out_time:{} in_time:{} evt:{} {}/{:>10d}/{:>12d}{:31s} {} {}E".format(
-                    outgoing_section.time, incoming_section.time,
-                    evt.serverId[:4].hex(), evt.type, evt.subTypeId, evt.serviceId,
-                    '',
-                    incoming_section.uid[:4].hex(),
-                    'M' if rep.isMultipart else ' ',
-                    # 'u' if incoming_section.uid else ' ',
-                ))
+                    # service_name, package, service, method = find_method(evt, service_list)
+                    rpc_processor.process_rpc(evt, incoming_pb[1], incoming_pb[1:], is_event=True)
+                    print_info("in_time:{} evt:{} {}/{:>10d}/{:>12d}{:31s} {} E",
+                        incoming_section.time,
+                        evt.serverId[:4].hex(), evt.type, evt.subTypeId, evt.serviceId,
+                        '',
+                        incoming_section.uid[:4].hex(),
+                        # 'u' if incoming_section.uid else ' ',
+                    )
+                except IndexError:
+                    print_error('not enough incoming protos for event ({}) < 2', len(incoming_pb))
 
             else:
-                outgoing_section = next(outgoing_iterator)
-                outgoing_pb = outgoing_section.raw_protobufs
                 try:
+                    outgoing_section = next(outgoing_iterator)
+                    outgoing_pb = outgoing_section.raw_protobufs
                     req = interpret_as(outgoing_pb[0], "Devialet.CallMeMaybe.Request")
                     rep = interpret_as(incoming_pb[0], "Devialet.CallMeMaybe.Reply")
-                except:
-                    print("Error: Looks like we are out of sync or something")
 
-                if rep.requestId != req.requestId:
-                    # print("Error: Inconstistent requestId, maybe protobufs not in lockstep. requestId/type/subTypeId/serviceId: req:{}/{}/{}/{}, rep:{}/{}/{}/{}".format(
-                    #     req.requestId.hex(), req.type, req.subTypeId, req.serviceId, rep.requestId.hex(), rep.type, rep.subTypeId, rep.serviceId,
-                    # ))
-                    print("Dropping request {}".format(req.requestId.hex()))
-                    try:
-                        next(outgoing_iterator)
-                    except StopIteration:
-                        pass
+                    if rep.requestId != req.requestId:
+                        # print("Error: Inconstistent requestId, maybe protobufs not in lockstep. requestId/type/subTypeId/serviceId: req:{}/{}/{}/{}, rep:{}/{}/{}/{}".format(
+                        #     req.requestId.hex(), req.type, req.subTypeId, req.serviceId, rep.requestId.hex(), rep.type, rep.subTypeId, rep.serviceId,
+                        # ))
+                        print_warning("Dropping request {}", req.requestId.hex())
+                        try:
+                            next(outgoing_iterator)
+                        except StopIteration:
+                            pass
 
-                # TODO: handle multipart
-                if rep.isMultipart:
-                    print("WARNING multipart")
-                    if len(incoming_pb) == 2:
-                        print("Error: multipart but only 2 incoming protobufs")
-                    # pprint(protobuf_to_dict(rep))
-                elif len(incoming_pb) > 2:
-                    print("Error: we got more incoming protobufs than we should have, not Multipart")
+                    # TODO: handle multipart
+                    if rep.isMultipart:
+                        print_warning("multipart")
+                        if len(incoming_pb) == 2:
+                            print_error('multipart but only 2 incoming protobufs')
+                        # pprint(protobuf_to_dict(rep))
+                    elif len(incoming_pb) > 2:
+                        print_error('we got more incoming protobufs than we should have, not Multipart')
 
-                if len(outgoing_pb) > 2:
-                    print("Error: we got more than 2 outgoing protobufs")
+                    if len(outgoing_pb) > 2:
+                        print_error('we got more than 2 outgoing protobufs')
 
-                if len(outgoing_pb) < 2:
-                    print("Error: we got less than 2 outgoing protobufs")
+                    if len(outgoing_pb) < 2:
+                        print_error('we got less than 2 outgoing protobufs')
 
-                if len(incoming_pb) < 2:
-                    print("Error: we got less than 2 incoming protobufs")
-                # service_name, package, service, method = find_method(rep, service_list)
-                service, method, input_pb, outputs_pb = process_rpc(rep, service_list, outgoing_pb[1], incoming_pb[1:])
+                    if len(incoming_pb) < 2:
+                        print_error('we got less than 2 incoming protobufs')
+                    # service_name, package, service, method = find_method(rep, service_list)
+                    service, method, input_pb, outputs_pb = rpc_processor.process_rpc(rep, outgoing_pb[1], incoming_pb[1:])
 
-                print("out_time:{} in_time:{} req:{}/{}/{:>10d}/{:>12d}, rep:{}/{}/{:>10d}/{:>12d} {}{}{}".format(
-                    outgoing_section.time, incoming_section.time,
-                    req.requestId[:4].hex(), req.type, req.subTypeId, req.serviceId, rep.requestId[:4].hex(), rep.type, rep.subTypeId, rep.serviceId,
-                    'M' if rep.isMultipart else ' ',
-                    ' ' if method.name == 'ping' else 'C' if method.name == 'openConnection' else '.',
-                    # 'u' if incoming_section.uid else ' ',
-                    '<' if rep.requestId != req.requestId else ' ',
-                ))
+                    print_info("out_time:{} in_time:{} req:{}/{}/{:>10d}/{:>12d}, rep:{}/{}/{:>10d}/{:>12d} {}{}{}",
+                        outgoing_section.time, incoming_section.time,
+                        req.requestId[:4].hex(), req.type, req.subTypeId, req.serviceId, rep.requestId[:4].hex(), rep.type, rep.subTypeId, rep.serviceId,
+                        'M' if rep.isMultipart else ' ',
+                        ' ' if method.name == 'ping' else 'C' if method.name == 'openConnection' else '.',
+                        # 'u' if incoming_section.uid else ' ',
+                        '<' if rep.requestId != req.requestId else ' ',
+                    )
 
-                try:
-                    if outputs_pb[0].DESCRIPTOR.full_name == "Devialet.CallMeMaybe.ConnectionReply":
-                        service_list = outputs_pb[0].services
-                    else:
-                        print(outputs_pb[0].DESCRIPTOR.full_name)
+
+                except StopIteration:
+                    print_error('Stream ended prematurely, missing outgoing section')
                 except Exception as e:
-                    # print("Error: response empty: {} {}".format(type(e), e))
-                    pass
-
-                # pprint({
-                #     "rpc_input_unknown": heuristic_search(outgoing_pb[1]),
-                #     "rpc_output_unknown": [heuristic_search(x) for x in incoming_pb[1:]],
-                #     "service_name": service_name,
-                #     "exception": [type(e), e],
-                #     "raw_decode_input": raw_decode(outgoing_pb[1]),
-                #     "raw_decode_output": [raw_decode(x) for x in incoming_pb[1:]],
-                #     "service_list": service_list,
-                #     "magic": incoming_section.magic
-                # })
+                    print_error("Looks like we are out of sync or something: {} {}", type(e), e)
+                    print_error("{}", {
+                        "raw_incoming": [raw_decode(raw) for raw in incoming_pb],
+                        "raw_outgoing": [raw_decode(raw) for raw in outgoing_pb]
+                        })
+                    # pprint({
+                    #     "rpc_input_unknown": heuristic_search(outgoing_pb[1]),
+                    #     "rpc_output_unknown": [heuristic_search(x) for x in incoming_pb[1:]],
+                    #     "service_name": service_name,
+                    #     "exception": [type(e), e],
+                    #     "raw_decode_input": raw_decode(outgoing_pb[1]),
+                    #     "raw_decode_output": [raw_decode(x) for x in incoming_pb[1:]],
+                    #     "service_list": service_list,
+                    #     "magic": incoming_section.magic
+                    # })
 
         i = 0
         for incoming in incoming_iterator:
             i += 1
 
         if i != 0:
-            print("Error: There were {} incoming sections remaining".format(i))
+            print_error('There were {} incoming sections remaining', i)
 
         i = 0
         for outgoing in outgoing_iterator:
             i += 1
 
         if i != 0:
-            print("Error: There were {} outgoing sections remaining".format(i))
+            print_error('There were {} outgoing sections remaining', i)
 
 
 class DevialetManyFlows:
@@ -245,16 +244,8 @@ class DevialetManyFlows:
         self.name = name
         self.flows = {}
 
-    def add_flow(self, flow, phantom_port=0, spark_port=0):
-        self.flows[(phantom_port, spark_port)] = flow
-
-# class DevialetDecoder:
-#     def __init__(self):
-#         self.magics = [0xc2, 0xc3]
-#         self.magic_headers = [b'\xc2\x01\x00\x00\x00\x00', b'\xc3\x01\x00\x00\x00\x00']
-
-#     def decode_sessions(self):
-#         raise NotImplementedError()
+    def add_flow(self, flow):
+        self.flows[(flow.phantom_port, flow.spark_port)] = flow
 
 class AndroidFlows(DevialetManyFlows):
     def __init__(self, dirname):
@@ -267,7 +258,7 @@ class AndroidFlows(DevialetManyFlows):
                 flow = self.flows[(port, port)]
             else:
                 flow = DevialetFlow(name=capture, phantom_port=port, spark_port=port, start_time=datetime.fromtimestamp(int(time)/1000))
-                self.add_flow(flow, phantom_port=port, spark_port=port)
+                self.add_flow(flow)
 
             for packet in self.packet_iter(os.path.join(self.dirname, capture)):
                 flow.decode(packet['data'], time=packet['time'], incoming=packet['direction'])
