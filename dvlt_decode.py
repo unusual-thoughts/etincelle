@@ -81,6 +81,7 @@ class DevialetFlow:
 
         except struct.error as e:
             buf.seek(pos)
+            # print_error("bad section: {}, seeking back to {}", field_header, pos)
             return False
 
         # print('.')
@@ -96,11 +97,14 @@ class DevialetFlow:
             buf = self.outgoing_buf
             dest = self.outgoing_sections
         pos = buf.tell()
+        buf.seek(0, 2)
         buf.write(raw)
         buf.seek(pos)
         # print('Decoding {}'.format(self.name))
         while self.read_one_section(buf, dest, time=time):
             pass
+        # if buf.tell() > pos:
+        #     print_info("Succesfully decoded {} bytes", buf.tell() - pos)
 
     def close(self):
         rest_incoming = self.incoming_buf.read()
