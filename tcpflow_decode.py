@@ -40,6 +40,20 @@ class TCPFlows(DevialetManyFlows):
                             print_info("Decoding {}", filename.text)
                             if (phantom_port, spark_port) in self.flows:
                                 flow = self.flows[(phantom_port, spark_port)]
+
+                                # Find flows where Spark is the RPC server
+                                if flow.outgoing_sections and not flow.incoming_sections and flow.start_time > time and is_incoming:
+                                    print_info("Found flow where Spark appears to be RPC server")
+                                    flow.incoming_sections = flow.outgoing_sections
+                                    flow.outgoing_sections = []
+                                    is_incoming = False
+                                    flow.rpc_server_is_phantom = False
+                                if flow.incoming_sections and not flow.outgoing_sections and flow.start_time < time and not is_incoming:
+                                    print_info("Found flow where Spark appears to be RPC server")
+                                    flow.outgoing_sections = flow.incoming_sections
+                                    flow.incoming_sections = []
+                                    is_incoming = True
+                                    flow.rpc_server_is_phantom = False
                             else:
                                 flow = DevialetFlow(name=datafile.name, phantom_port=phantom_port, spark_port=spark_port, start_time=time)
                                 self.add_flow(flow)

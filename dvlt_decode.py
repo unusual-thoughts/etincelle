@@ -1,15 +1,15 @@
-import sys, os, re, pickle, struct
+import os
+import re
+import struct
 from datetime import datetime
 from io import BytesIO
-from pprint import pprint
 
-from protobuf_to_dict import protobuf_to_dict
-
-from dvlt_messages import interpret_as, heuristic_search, raw_decode
+from dvlt_messages import interpret_as, raw_decode
 from dvlt_services import DevialetRPCProcessor
 
 # import RPCMessages_pb2
-from dvlt_output import *
+from dvlt_output import print_error, print_warning, print_info, print_data
+
 
 class DevialetSection:
     def __init__(self, raw_section, time=None):
@@ -45,6 +45,7 @@ class DevialetSection:
             print_error("in Section decode: {} {}", type(e), e)
             pass
 
+
 class DevialetFlow:
     def __init__(self, name='', phantom_port=0, spark_port=0, start_time=datetime.now()):
         self.name = name
@@ -58,6 +59,7 @@ class DevialetFlow:
         self.outgoing_sections = []
         self.magics = [0xC2, 0xC3]
         self.warnings = []
+        self.rpc_server_is_phantom = True
 
     # def read_interleaved
 
@@ -111,12 +113,12 @@ class DevialetFlow:
         rest_outgoing = self.outgoing_buf.read()
 
         if rest_incoming:
-            self.warnings.append('Found garbage at end of incoming flow: {}'.format(
-                ' '.join('{:02x}'.format(x) for x in rest_incoming)))
+            self.warnings.append('Found garbage at end of incoming flow: {}...'.format(
+                ' '.join('{:02x}'.format(x) for x in rest_incoming[:50])))
 
         if rest_outgoing:
-            self.warnings.append('Found garbage at end of outgoing flow: {}'.format(
-                ' '.join('{:02x}'.format(x) for x in rest_outgoing)))
+            self.warnings.append('Found garbage at end of outgoing flow: {}...'.format(
+                ' '.join('{:02x}'.format(x) for x in rest_outgoing[:50])))
 
         if self.warnings:
             print_warning(self.warnings)
@@ -208,7 +210,6 @@ class DevialetFlow:
                         '<' if rep.requestId != req.requestId else ' ',
                     )
 
-
                 except StopIteration:
                     print_error('Stream ended prematurely, missing outgoing section')
                 except Exception as e:
@@ -250,6 +251,7 @@ class DevialetManyFlows:
 
     def add_flow(self, flow):
         self.flows[(flow.phantom_port, flow.spark_port)] = flow
+
 
 class AndroidFlows(DevialetManyFlows):
     def __init__(self, dirname):

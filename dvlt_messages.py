@@ -42,11 +42,15 @@ import GetThePartyStarted.Aerobase_pb2
 
 import subprocess
 from protobuf_to_dict import protobuf_to_dict
+from dvlt_output import *
 
 def interpret_as(raw_protobuf, proto_name):
     try:
         ret = all_msgs[proto_name]()
         ret.ParseFromString(raw_protobuf)
+        if ret.FindInitializationErrors():
+            print_warning("There were uninitialized fields in pb of type {}: {}",
+                          proto_name, ret.FindInitializationErrors())
         return ret
     except Exception as e:
         print("Error: Can't interpret protobuf {{{}}} as {}: {}".format(

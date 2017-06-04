@@ -107,9 +107,13 @@ class DevialetRPCProcessor:
 
                     input_pb = service.GetRequestClass(method)()
                     input_pb.ParseFromString(input_raw)
+                    if input_pb.FindInitializationErrors():
+                        print_warning("There were uninitialized fields in input proto: {}", input_pb.FindInitializationErrors())
 
                     output_pb = service.GetResponseClass(method)()
                     output_pb.ParseFromString(outputs_raw[0])
+                    if output_pb.FindInitializationErrors():
+                        print_warning("There were uninitialized fields in output proto: {}", output_pb.FindInitializationErrors())
                     # input_pb = interpret_as(input_raw, method.input_type.full_name)
                     # output_pb = interpret_as(outputs_raw[0], method.output_type.full_name)
                     print_data("input  ({}):".format(method.input_type.full_name), input_pb)
