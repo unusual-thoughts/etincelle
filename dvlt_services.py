@@ -340,14 +340,15 @@ class DevialetRPCProcessor:
                                                              len(service.GetDescriptor().methods),
                                                              service.GetDescriptor(), method.input_type,
                                                              method.output_type, options=method.GetOptions())
-                    service.GetDescriptor().methods.append(new_method)
+                    # service.GetDescriptor().methods.append(new_method)
+                    service.GetDescriptor().methods = [new_method] + service.GetDescriptor().methods
                     # service.GetDescriptor().methods[-1].containing_service = service.GetDescriptor()
-                if baseservice_methods:
-                    print_info("Added {} inherited methods right of original {} from {} to {},",
-                               len(baseservice_methods),
-                               len(service.GetDescriptor().methods) - len(baseservice_methods),
-                               baseservice_name,
-                               service_name)
+                # if baseservice_methods:
+                #     print_info("Added {} inherited methods left of original {} from {} to {},",
+                #                len(baseservice_methods),
+                #                len(service.GetDescriptor().methods) - len(baseservice_methods),
+                #                baseservice_name,
+                #                service_name)
 
                 baseservice_name = baseservice_opts.baseService
 
