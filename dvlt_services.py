@@ -42,7 +42,7 @@ import TooManyFlows.SoundDesign_pb2
 import TwerkIt.SoundDesign_pb2
 import WhatsUp_pb2
 
-from google.protobuf import descriptor_pb2, message
+from google.protobuf import descriptor_pb2, message, descriptor
 
 from dvlt_messages import interpret_as, heuristic_search
 from dvlt_output import *
@@ -83,10 +83,9 @@ class DevialetRPCProcessor:
 
             service_desc = service.GetDescriptor()
 
-            # if  or rep.isMultipart: rep.type == 1
-
-            # Get Properties / No actual method
             if rep.subTypeId == 0xFFFFFFFF and rep.type == 1: # These should all be equivalent? Nope at least not for events
+                # Get Properties / No actual method
+                # Usually Multipart is set
                 print_info("PropertyGet details: {} / {} outputs, type={} subtype={}".format(
                     service_name_full, len(outputs_raw), rep.type, rep.subTypeId))
                 if len(input_raw):
@@ -98,7 +97,14 @@ class DevialetRPCProcessor:
                     outputs_pb.append(prop)
                     # print_data(prop.name, interpret_as(output_raw, prop.type))
                 return (service_desc, descriptor_pb2.MethodDescriptorProto(), CallMeMaybe.CommonMessages_pb2.Empty(), outputs_pb)
+            elif rep.type == 1 and is_event:
+                # Property Update Event?
+                print_info("PropertyUpdate details: {}, type={} subtype={}".format(
+                    service_name_full, rep.type, rep.subTypeId))
+                prop = self.get_property(service_desc, rep.subTypeId, input_raw)
+                return(service_desc, descriptor_pb2.MethodDescriptorProto(), prop, CallMeMaybe.CommonMessages_pb2.Empty())
             else:
+                # Regular RPC Method, Response + Request (including regular events where output type = CmmEmpty)
                 try:
                     method = service_desc.methods[rep.subTypeId]
 
@@ -108,14 +114,15 @@ class DevialetRPCProcessor:
                     input_pb = service.GetRequestClass(method)()
                     input_pb.ParseFromString(input_raw)
                     if input_pb.FindInitializationErrors():
-                        print_warning("There were uninitialized fields in input proto: {}", input_pb.FindInitializationErrors())
+                        print_warning("There were uninitialized fields in input proto of type {}: {}",
+                                      method.input_type.full_name, input_pb.FindInitializationErrors())
 
                     output_pb = service.GetResponseClass(method)()
                     output_pb.ParseFromString(outputs_raw[0])
                     if output_pb.FindInitializationErrors():
-                        print_warning("There were uninitialized fields in output proto: {}", output_pb.FindInitializationErrors())
-                    # input_pb = interpret_as(input_raw, method.input_type.full_name)
-                    # output_pb = interpret_as(outputs_raw[0], method.output_type.full_name)
+                        print_warning("There were uninitialized fields in output proto of type {}: {}",
+                                      method.output_type.full_name, output_pb.FindInitializationErrors())
+
                     print_data("input  ({}):".format(method.input_type.full_name), input_pb)
                     print_data("output ({}):".format(method.output_type.full_name), output_pb)
 
@@ -313,12 +320,34 @@ class DevialetRPCProcessor:
                         new_props.property.add()
                         new_props.property[-1].MergeFrom(prop)
                     else:
-                        # print("Duplicate property {} not added".format(prop.name))
+                        # Should probably replace old with new instead
+                        # print_warning("Duplicate property {} not added", prop.name)
                         pass
 
                 service_properties.CopyFrom(new_props)
 
                 # print("Extending props {} with {} : {}".format(service_name, baseservice_name, [p.name for p in service_properties.property]))
+
+                # Extend methods... not working yet
+                # service.GetDescriptor().methods.extend(self.service_by_full_name[baseservice_name].GetDescriptor().methods)
+                
+                # new_method = descriptor_pb2.ServiceDescriptor .....
+
+                # Merge right?
+                baseservice_methods = self.service_by_full_name[baseservice_name].GetDescriptor().methods
+                for method in baseservice_methods:
+                    new_method = descriptor.MethodDescriptor(method.name, method.full_name,
+                                                             len(service.GetDescriptor().methods),
+                                                             service.GetDescriptor(), method.input_type,
+                                                             method.output_type, options=method.GetOptions())
+                    service.GetDescriptor().methods.append(new_method)
+                    # service.GetDescriptor().methods[-1].containing_service = service.GetDescriptor()
+                if baseservice_methods:
+                    print_info("Added {} inherited methods right of original {} from {} to {},",
+                               len(baseservice_methods),
+                               len(service.GetDescriptor().methods) - len(baseservice_methods),
+                               baseservice_name,
+                               service_name)
 
                 baseservice_name = baseservice_opts.baseService
 
