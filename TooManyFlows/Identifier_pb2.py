@@ -21,7 +21,6 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto2',
   serialized_pb=_b('\n\x1dTooManyFlows/Identifier.proto\x12\x15\x44\x65vialet.TooManyFlows\"\x17\n\tBouquetId\x12\n\n\x02id\x18\x01 \x02(\x0c\"\x15\n\x07GroupId\x12\n\n\x02id\x18\x01 \x02(\x0c\"\x16\n\x08PlayerId\x12\n\n\x02id\x18\x01 \x02(\x0c\"\x18\n\nRendererId\x12\n\n\x02id\x18\x01 \x02(\x0c\x42\x03\x90\x01\x01')
 )
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -153,6 +152,7 @@ DESCRIPTOR.message_types_by_name['BouquetId'] = _BOUQUETID
 DESCRIPTOR.message_types_by_name['GroupId'] = _GROUPID
 DESCRIPTOR.message_types_by_name['PlayerId'] = _PLAYERID
 DESCRIPTOR.message_types_by_name['RendererId'] = _RENDERERID
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 BouquetId = _reflection.GeneratedProtocolMessageType('BouquetId', (_message.Message,), dict(
   DESCRIPTOR = _BOUQUETID,

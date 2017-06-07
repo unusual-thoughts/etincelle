@@ -25,10 +25,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='TheSoundOfSilence/LiveSource.proto',
   package='Devialet.AudioSource',
   syntax='proto2',
-  serialized_pb=_b('\n\"TheSoundOfSilence/LiveSource.proto\x12\x14\x44\x65vialet.AudioSource\x1a CallMeMaybe/CommonMessages.proto\x1a\x1fTheSoundOfSilence/Session.proto\x1a\x1fTheSoundOfSilence/Picture.proto\x1a\x1d\x43\x61llMeMaybe/CallMeMaybe.proto\"\xc2\x01\n\x0cInputTypeMsg\x12\x0c\n\x04type\x18\x01 \x02(\r\"\xa3\x01\n\tInputType\x12\x12\n\x0eNotDefinedType\x10\x00\x12\n\n\x06TVType\x10\x01\x12\x10\n\x0c\x43\x44PlayerType\x10\x02\x12\x13\n\x0f\x44VDBDPlayerType\x10\x03\x12\x10\n\x0c\x43omputerType\x10\x04\x12\x15\n\x11GamingConsoleType\x10\x05\x12\x13\n\x0fMediaCenterType\x10\x06\x12\x11\n\rTurntableType\x10\x07\"]\n\x12LiveSourceStateMsg\x12\r\n\x05state\x18\x01 \x02(\r\"8\n\x05State\x12\t\n\x05Ready\x10\x01\x12\x0b\n\x07Playing\x10\x02\x12\x0b\n\x07Stopped\x10\x03\x12\n\n\x06Paused\x10\x04\"\x8e\x01\n\x1aLiveSourceAvailableMethods\x12\x16\n\x0ehasInputTypeId\x18\x01 \x02(\x08\x12\x1a\n\x12isNameUserEditable\x18\x02 \x02(\x08\x12\x14\n\x0cisSelectable\x18\x03 \x02(\x08\x12&\n\x18\x61llowToDisableAutoSwitch\x18\x04 \x01(\x08:\x04true\" \n\x10LoadSessionQuery\x12\x0c\n\x04name\x18\x01 \x02(\t\"H\n\x12UnloadSessionQuery\x12\x32\n\tsessionId\x18\x01 \x02(\x0b\x32\x1f.Devialet.AudioSource.SessionId2\xb6\x04\n\x11LiveSourceSession\x12G\n\x07picture\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1d.Devialet.AudioSource.Picture\"\x00\x12T\n\rdefaultVolume\x12\x1b.Devialet.CallMeMaybe.Empty\x1a$.Devialet.CallMeMaybe.DoubleProperty\"\x00\x1a\x81\x03\x92M\xfd\x02\n$com.devialet.source-session-0.live-0\x12\"Devialet.AudioSource.SourceSession\"\xb0\x02\n/\n!Devialet.CallMeMaybe.BoolProperty\x12\nautoSwitch\nE\n/Devialet.AudioSource.LiveSourceAvailableMethods\x12\x10\x61vailableMethods \x01\n.\n!Devialet.AudioSource.InputTypeMsg\x12\tinputType\n+\n#Devialet.CallMeMaybe.StringProperty\x12\x04name\n2\n\'Devialet.AudioSource.LiveSourceStateMsg\x12\x05state\x18\x01\n%\n\x1a\x44\x65vialet.AudioSource.Track\x12\x05track\x18\x01\x32\xb4\x02\n\nLiveSource\x12V\n\x0bloadSession\x12&.Devialet.AudioSource.LoadSessionQuery\x1a\x1d.Devialet.AudioSource.Session\"\x00\x12X\n\runloadSession\x12(.Devialet.AudioSource.UnloadSessionQuery\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x1at\x92Mq\n\x1c\x63om.devialet.source-0.live-0\x12\x1b\x44\x65vialet.AudioSource.Source\"4\n2\n!Devialet.CallMeMaybe.BoolProperty\x12\x0bisDynamical \x01\x42\x03\x90\x01\x01')
+  serialized_pb=_b('\n\"TheSoundOfSilence/LiveSource.proto\x12\x14\x44\x65vialet.AudioSource\x1a CallMeMaybe/CommonMessages.proto\x1a\x1fTheSoundOfSilence/Session.proto\x1a\x1fTheSoundOfSilence/Picture.proto\x1a\x1d\x43\x61llMeMaybe/CallMeMaybe.proto\"\xc2\x01\n\x0cInputTypeMsg\x12\x0c\n\x04type\x18\x01 \x02(\r\"\xa3\x01\n\tInputType\x12\x12\n\x0eNotDefinedType\x10\x00\x12\n\n\x06TVType\x10\x01\x12\x10\n\x0c\x43\x44PlayerType\x10\x02\x12\x13\n\x0f\x44VDBDPlayerType\x10\x03\x12\x10\n\x0c\x43omputerType\x10\x04\x12\x15\n\x11GamingConsoleType\x10\x05\x12\x13\n\x0fMediaCenterType\x10\x06\x12\x11\n\rTurntableType\x10\x07\"]\n\x12LiveSourceStateMsg\x12\r\n\x05state\x18\x01 \x02(\r\"8\n\x05State\x12\t\n\x05Ready\x10\x01\x12\x0b\n\x07Playing\x10\x02\x12\x0b\n\x07Stopped\x10\x03\x12\n\n\x06Paused\x10\x04\"\xae\x01\n\x1aLiveSourceAvailableMethods\x12\x16\n\x0ehasInputTypeId\x18\x01 \x02(\x08\x12\x1a\n\x12isNameUserEditable\x18\x02 \x02(\x08\x12\x14\n\x0cisSelectable\x18\x03 \x02(\x08\x12&\n\x18\x61llowToDisableAutoSwitch\x18\x04 \x01(\x08:\x04true\x12\x1e\n\x0f\x61llowSetLatency\x18\x05 \x01(\x08:\x05\x66\x61lse\"k\n\x11LiveSourceLatency\x12\x16\n\x0e\x63urrentLatency\x18\x01 \x02(\r\x12\x16\n\x0e\x64\x65\x66\x61ultLatency\x18\x02 \x02(\r\x12\x12\n\nmaxLatency\x18\x03 \x02(\r\x12\x12\n\nminLatency\x18\x04 \x02(\r\" \n\x10LoadSessionQuery\x12\x0c\n\x04name\x18\x01 \x02(\t\"H\n\x12UnloadSessionQuery\x12\x32\n\tsessionId\x18\x01 \x02(\x0b\x32\x1f.Devialet.AudioSource.SessionId2\xb8\x06\n\x11LiveSourceSession\x12G\n\x07picture\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1d.Devialet.AudioSource.Picture\"\x00\x12T\n\rdefaultVolume\x12\x1b.Devialet.CallMeMaybe.Empty\x1a$.Devialet.CallMeMaybe.DoubleProperty\"\x00\x12Q\n\x07latency\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\'.Devialet.AudioSource.LiveSourceLatency\"\x00\x12Q\n\nsetLatency\x12$.Devialet.CallMeMaybe.UInt32Property\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12Z\n\x0elatencyChanged\x12$.Devialet.CallMeMaybe.UInt32Property\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x1a\x81\x03\x92M\xfd\x02\n$com.devialet.source-session-0.live-0\x12\"Devialet.AudioSource.SourceSession\"\xb0\x02\n/\n!Devialet.CallMeMaybe.BoolProperty\x12\nautoSwitch\nE\n/Devialet.AudioSource.LiveSourceAvailableMethods\x12\x10\x61vailableMethods \x01\n.\n!Devialet.AudioSource.InputTypeMsg\x12\tinputType\n+\n#Devialet.CallMeMaybe.StringProperty\x12\x04name\n2\n\'Devialet.AudioSource.LiveSourceStateMsg\x12\x05state\x18\x01\n%\n\x1a\x44\x65vialet.AudioSource.Track\x12\x05track\x18\x01\x32\xb4\x02\n\nLiveSource\x12V\n\x0bloadSession\x12&.Devialet.AudioSource.LoadSessionQuery\x1a\x1d.Devialet.AudioSource.Session\"\x00\x12X\n\runloadSession\x12(.Devialet.AudioSource.UnloadSessionQuery\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x1at\x92Mq\n\x1c\x63om.devialet.source-0.live-0\x12\x1b\x44\x65vialet.AudioSource.Source\"4\n2\n!Devialet.CallMeMaybe.BoolProperty\x12\x0bisDynamical \x01\x42\x03\x90\x01\x01')
   ,
   dependencies=[CallMeMaybe_dot_CommonMessages__pb2.DESCRIPTOR,TheSoundOfSilence_dot_Session__pb2.DESCRIPTOR,TheSoundOfSilence_dot_Picture__pb2.DESCRIPTOR,CallMeMaybe_dot_CallMeMaybe__pb2.DESCRIPTOR,])
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -208,6 +207,13 @@ _LIVESOURCEAVAILABLEMETHODS = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
+    _descriptor.FieldDescriptor(
+      name='allowSetLatency', full_name='Devialet.AudioSource.LiveSourceAvailableMethods.allowSetLatency', index=4,
+      number=5, type=8, cpp_type=7, label=1,
+      has_default_value=True, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
   ],
   extensions=[
   ],
@@ -221,7 +227,59 @@ _LIVESOURCEAVAILABLEMETHODS = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=484,
-  serialized_end=626,
+  serialized_end=658,
+)
+
+
+_LIVESOURCELATENCY = _descriptor.Descriptor(
+  name='LiveSourceLatency',
+  full_name='Devialet.AudioSource.LiveSourceLatency',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='currentLatency', full_name='Devialet.AudioSource.LiveSourceLatency.currentLatency', index=0,
+      number=1, type=13, cpp_type=3, label=2,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='defaultLatency', full_name='Devialet.AudioSource.LiveSourceLatency.defaultLatency', index=1,
+      number=2, type=13, cpp_type=3, label=2,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='maxLatency', full_name='Devialet.AudioSource.LiveSourceLatency.maxLatency', index=2,
+      number=3, type=13, cpp_type=3, label=2,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='minLatency', full_name='Devialet.AudioSource.LiveSourceLatency.minLatency', index=3,
+      number=4, type=13, cpp_type=3, label=2,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  syntax='proto2',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=660,
+  serialized_end=767,
 )
 
 
@@ -251,8 +309,8 @@ _LOADSESSIONQUERY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=628,
-  serialized_end=660,
+  serialized_start=769,
+  serialized_end=801,
 )
 
 
@@ -282,8 +340,8 @@ _UNLOADSESSIONQUERY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=662,
-  serialized_end=734,
+  serialized_start=803,
+  serialized_end=875,
 )
 
 _INPUTTYPEMSG_INPUTTYPE.containing_type = _INPUTTYPEMSG
@@ -292,8 +350,10 @@ _UNLOADSESSIONQUERY.fields_by_name['sessionId'].message_type = TheSoundOfSilence
 DESCRIPTOR.message_types_by_name['InputTypeMsg'] = _INPUTTYPEMSG
 DESCRIPTOR.message_types_by_name['LiveSourceStateMsg'] = _LIVESOURCESTATEMSG
 DESCRIPTOR.message_types_by_name['LiveSourceAvailableMethods'] = _LIVESOURCEAVAILABLEMETHODS
+DESCRIPTOR.message_types_by_name['LiveSourceLatency'] = _LIVESOURCELATENCY
 DESCRIPTOR.message_types_by_name['LoadSessionQuery'] = _LOADSESSIONQUERY
 DESCRIPTOR.message_types_by_name['UnloadSessionQuery'] = _UNLOADSESSIONQUERY
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 InputTypeMsg = _reflection.GeneratedProtocolMessageType('InputTypeMsg', (_message.Message,), dict(
   DESCRIPTOR = _INPUTTYPEMSG,
@@ -315,6 +375,13 @@ LiveSourceAvailableMethods = _reflection.GeneratedProtocolMessageType('LiveSourc
   # @@protoc_insertion_point(class_scope:Devialet.AudioSource.LiveSourceAvailableMethods)
   ))
 _sym_db.RegisterMessage(LiveSourceAvailableMethods)
+
+LiveSourceLatency = _reflection.GeneratedProtocolMessageType('LiveSourceLatency', (_message.Message,), dict(
+  DESCRIPTOR = _LIVESOURCELATENCY,
+  __module__ = 'TheSoundOfSilence.LiveSource_pb2'
+  # @@protoc_insertion_point(class_scope:Devialet.AudioSource.LiveSourceLatency)
+  ))
+_sym_db.RegisterMessage(LiveSourceLatency)
 
 LoadSessionQuery = _reflection.GeneratedProtocolMessageType('LoadSessionQuery', (_message.Message,), dict(
   DESCRIPTOR = _LOADSESSIONQUERY,
@@ -340,8 +407,8 @@ _LIVESOURCESESSION = _descriptor.ServiceDescriptor(
   file=DESCRIPTOR,
   index=0,
   options=_descriptor._ParseOptions(descriptor_pb2.ServiceOptions(), _b('\222M\375\002\n$com.devialet.source-session-0.live-0\022\"Devialet.AudioSource.SourceSession\"\260\002\n/\n!Devialet.CallMeMaybe.BoolProperty\022\nautoSwitch\nE\n/Devialet.AudioSource.LiveSourceAvailableMethods\022\020availableMethods \001\n.\n!Devialet.AudioSource.InputTypeMsg\022\tinputType\n+\n#Devialet.CallMeMaybe.StringProperty\022\004name\n2\n\'Devialet.AudioSource.LiveSourceStateMsg\022\005state\030\001\n%\n\032Devialet.AudioSource.Track\022\005track\030\001')),
-  serialized_start=737,
-  serialized_end=1303,
+  serialized_start=878,
+  serialized_end=1702,
   methods=[
   _descriptor.MethodDescriptor(
     name='picture',
@@ -360,6 +427,33 @@ _LIVESOURCESESSION = _descriptor.ServiceDescriptor(
     input_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
     output_type=CallMeMaybe_dot_CommonMessages__pb2._DOUBLEPROPERTY,
     options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='latency',
+    full_name='Devialet.AudioSource.LiveSourceSession.latency',
+    index=2,
+    containing_service=None,
+    input_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    output_type=_LIVESOURCELATENCY,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='setLatency',
+    full_name='Devialet.AudioSource.LiveSourceSession.setLatency',
+    index=3,
+    containing_service=None,
+    input_type=CallMeMaybe_dot_CommonMessages__pb2._UINT32PROPERTY,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='latencyChanged',
+    full_name='Devialet.AudioSource.LiveSourceSession.latencyChanged',
+    index=4,
+    containing_service=None,
+    input_type=CallMeMaybe_dot_CommonMessages__pb2._UINT32PROPERTY,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=_descriptor._ParseOptions(descriptor_pb2.MethodOptions(), _b('\222M\002\010\001')),
   ),
 ])
 
@@ -381,8 +475,8 @@ _LIVESOURCE = _descriptor.ServiceDescriptor(
   file=DESCRIPTOR,
   index=1,
   options=_descriptor._ParseOptions(descriptor_pb2.ServiceOptions(), _b('\222Mq\n\034com.devialet.source-0.live-0\022\033Devialet.AudioSource.Source\"4\n2\n!Devialet.CallMeMaybe.BoolProperty\022\013isDynamical \001')),
-  serialized_start=1306,
-  serialized_end=1614,
+  serialized_start=1705,
+  serialized_end=2013,
   methods=[
   _descriptor.MethodDescriptor(
     name='loadSession',

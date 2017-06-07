@@ -26,7 +26,6 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   serialized_pb=_b('\n\x11\x46resh/Fresh.proto\x12\x0e\x44\x65vialet.Fresh\x1a CallMeMaybe/CommonMessages.proto\x1a\x1d\x43\x61llMeMaybe/CallMeMaybe.proto\"`\n\nUpdateInfo\x12\n\n\x02id\x18\x01 \x02(\t\x12\x0f\n\x07isValid\x18\x02 \x02(\x08\x12\x0f\n\x07isMajor\x18\x03 \x02(\x08\x12\x11\n\ttoVersion\x18\x04 \x02(\t\x12\x11\n\tchangelog\x18\x05 \x02(\x0c\"y\n\x10\x44\x65viceUpdateInfo\x12\x1a\n\x12\x64\x65viceSerialNumber\x18\x01 \x02(\t\x12\x19\n\x11\x64\x65viceProductType\x18\x02 \x02(\t\x12.\n\nupdateInfo\x18\x03 \x02(\x0b\x32\x1a.Devialet.Fresh.UpdateInfo\"G\n\x14\x44\x65viceUpdateInfoList\x12/\n\x05infos\x18\x01 \x03(\x0b\x32 .Devialet.Fresh.DeviceUpdateInfo\"O\n\x14InstallUpdateRequest\x12(\n\x04info\x18\x01 \x02(\x0b\x32\x1a.Devialet.Fresh.UpdateInfo\x12\r\n\x05\x64\x65lay\x18\x02 \x02(\x05\"9\n\x16UpdateDownloadProgress\x12\x10\n\x08progress\x18\x01 \x02(\x03\x12\r\n\x05total\x18\x02 \x02(\x03\"V\n\x0cUpdateErrors\"F\n\x05\x43odes\x12\x11\n\rUpdaterIsBusy\x10\x01\x12\x11\n\rNoValidUpdate\x10\x02\x12\x17\n\x13RemoteUpdaterFailed\x10\x03\x32\x8f\x05\n\x06Update\x12L\n\x0e\x63heckForUpdate\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12L\n\x0e\x64ownloadUpdate\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12T\n\rinstallUpdate\x12$.Devialet.Fresh.InstallUpdateRequest\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12V\n\x18\x63\x61ncelUpdateInstallation\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12\x64\n\x16updateDownloadProgress\x12&.Devialet.Fresh.UpdateDownloadProgress\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x12W\n\x14updateDownloadFailed\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x1a|\x92My\n\x1b\x63om.devialet.fresh.update-0\x1a!Devialet.Fresh.UpdateErrors.Codes\"7\n5\n!Devialet.CallMeMaybe.BoolProperty\x12\x0ereadyForUpdate\x18\x01\x32\x81\x01\n\x0bSlaveUpdate\x1ar\x92Mo\n#com.devialet.fresh.update-0.slave-0\x12\x15\x44\x65vialet.Fresh.Update\"1\n/\n\x1f\x44\x65vialet.Fresh.DeviceUpdateInfo\x12\nupdateInfo\x18\x01\x32\x8e\x01\n\x0cMasterUpdate\x1a~\x92M{\n$com.devialet.fresh.update-0.master-0\x12\x15\x44\x65vialet.Fresh.Update\"<\n:\n#Devialet.Fresh.DeviceUpdateInfoList\x12\x11\x64\x65viceUpdateInfos\x18\x01\x42\x03\x90\x01\x01')
   ,
   dependencies=[CallMeMaybe_dot_CommonMessages__pb2.DESCRIPTOR,CallMeMaybe_dot_CallMeMaybe__pb2.DESCRIPTOR,])
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -302,6 +301,7 @@ DESCRIPTOR.message_types_by_name['DeviceUpdateInfoList'] = _DEVICEUPDATEINFOLIST
 DESCRIPTOR.message_types_by_name['InstallUpdateRequest'] = _INSTALLUPDATEREQUEST
 DESCRIPTOR.message_types_by_name['UpdateDownloadProgress'] = _UPDATEDOWNLOADPROGRESS
 DESCRIPTOR.message_types_by_name['UpdateErrors'] = _UPDATEERRORS
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 UpdateInfo = _reflection.GeneratedProtocolMessageType('UpdateInfo', (_message.Message,), dict(
   DESCRIPTOR = _UPDATEINFO,

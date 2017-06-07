@@ -26,7 +26,6 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   serialized_pb=_b('\n\x1aTooManyFlows/History.proto\x12\x15\x44\x65vialet.TooManyFlows\x1a CallMeMaybe/CommonMessages.proto\x1a\x1d\x43\x61llMeMaybe/CallMeMaybe.proto\"\x15\n\x06UrlMsg\x12\x0b\n\x03url\x18\x01 \x02(\t\"8\n\x07UrlsMsg\x12-\n\x06tracks\x18\x01 \x03(\x0b\x32\x1d.Devialet.TooManyFlows.UrlMsg2\x93\x03\n\x07History\x12\x43\n\x05\x63lear\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12J\n\x07\x63leared\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x12N\n\x0btrackPopped\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x12P\n\x0btrackPushed\x12\x1d.Devialet.TooManyFlows.UrlMsg\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x1aU\x92MR\n#com.devialet.toomanyflows.history-0\"+\n)\n\x1d\x44\x65vialet.TooManyFlows.UrlsMsg\x12\x06tracks \x01\x42\x03\x90\x01\x01')
   ,
   dependencies=[CallMeMaybe_dot_CommonMessages__pb2.DESCRIPTOR,CallMeMaybe_dot_CallMeMaybe__pb2.DESCRIPTOR,])
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -95,6 +94,7 @@ _URLSMSG = _descriptor.Descriptor(
 _URLSMSG.fields_by_name['tracks'].message_type = _URLMSG
 DESCRIPTOR.message_types_by_name['UrlMsg'] = _URLMSG
 DESCRIPTOR.message_types_by_name['UrlsMsg'] = _URLSMSG
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 UrlMsg = _reflection.GeneratedProtocolMessageType('UrlMsg', (_message.Message,), dict(
   DESCRIPTOR = _URLMSG,

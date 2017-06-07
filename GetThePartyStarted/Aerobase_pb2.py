@@ -27,7 +27,6 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   serialized_pb=_b('\n!GetThePartyStarted/Aerobase.proto\x12$Devialet.GetThePartyStarted.Aerobase\x1a CallMeMaybe/CommonMessages.proto\x1a\x1d\x43\x61llMeMaybe/CallMeMaybe.proto\x1a+GetThePartyStarted/GetThePartyStarted.proto\"\xa8\x03\n\tSetupStep\x12\x0c\n\x04step\x18\x01 \x02(\r\"\x8c\x03\n\x04Step\x12\x0f\n\x0bInvalidStep\x10\x00\x12\x0f\n\x0bInitialStep\x10\x01\x12\x1d\n\x19\x43onfigureSetupNetworkStep\x10\x02\x12\x13\n\x0fWaitForUserStep\x10\x03\x12\x15\n\x11WaitForSlavesStep\x10\x04\x12\x17\n\x13\x41ssociateSlavesStep\x10\x05\x12\x1f\n\x1bWaitForSlaveAssociationStep\x10\x06\x12\x18\n\x14\x41ssociatingSlaveStep\x10\x07\x12\x19\n\x15\x43onfiguringSlavesStep\x10\x08\x12\"\n\x1e\x43onfigureProductionNetworkStep\x10\t\x12\x1f\n\x1bWaitForConfiguredSlavesStep\x10\n\x12\x1b\n\x17\x41llSlavesConfiguredStep\x10\x0b\x12\x19\n\x15\x43onfigureTopologyStep\x10\x0c\x12\x19\n\x15\x43onfigureServicesStep\x10\r\x12\x10\n\x0c\x43ompleteStep\x10\x0e\"A\n\x1fSetTopologyConfigurationRequest\x12\x10\n\x08masterId\x18\x01 \x02(\x0c\x12\x0c\n\x04\x64\x61ta\x18\x02 \x02(\x0c\x32{\n\rConfiguration\x1aj\x92Mg\n:com.devialet.getthepartystarted.configuration-0.aerobase-0\x12)Devialet.GetThePartyStarted.Configuration2\xf3\x03\n\x05Setup\x12[\n\x11\x63onfigureTopology\x12\'.Devialet.GetThePartyStarted.SetupToken\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12\x80\x01\n\x18setTopologyConfiguration\x12\x45.Devialet.GetThePartyStarted.Aerobase.SetTopologyConfigurationRequest\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12[\n\x11\x63onfigureServices\x12\'.Devialet.GetThePartyStarted.SetupToken\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x1a\xac\x01\x92M\xa8\x01\n;com.devialet.getthepartystarted.setup-0.master-0.aerobase-0\x12-Devialet.GetThePartyStarted.MasterDeviceSetup\":\n8\n.Devialet.GetThePartyStarted.Aerobase.SetupStep\x12\x04step\x18\x01\x42\x03\x90\x01\x01')
   ,
   dependencies=[CallMeMaybe_dot_CommonMessages__pb2.DESCRIPTOR,CallMeMaybe_dot_CallMeMaybe__pb2.DESCRIPTOR,GetThePartyStarted_dot_GetThePartyStarted__pb2.DESCRIPTOR,])
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -178,6 +177,7 @@ _SETTOPOLOGYCONFIGURATIONREQUEST = _descriptor.Descriptor(
 _SETUPSTEP_STEP.containing_type = _SETUPSTEP
 DESCRIPTOR.message_types_by_name['SetupStep'] = _SETUPSTEP
 DESCRIPTOR.message_types_by_name['SetTopologyConfigurationRequest'] = _SETTOPOLOGYCONFIGURATIONREQUEST
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 SetupStep = _reflection.GeneratedProtocolMessageType('SetupStep', (_message.Message,), dict(
   DESCRIPTOR = _SETUPSTEP,

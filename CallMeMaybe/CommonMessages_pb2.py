@@ -21,7 +21,6 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto2',
   serialized_pb=_b('\n CallMeMaybe/CommonMessages.proto\x12\x14\x44\x65vialet.CallMeMaybe\"\x07\n\x05\x45mpty\"\xb5\x02\n\tBaseError\"\x8d\x02\n\x04\x43ode\x12\x0b\n\x07NoError\x10\x00\x12\x0f\n\x0b\x42\x61\x64\x41rgument\x10\x01\x12\x10\n\x0cUnknownError\x10\x02\x12\x12\n\x0eInvalidRequest\x10\x03\x12\x13\n\x0fInvalidResponse\x10\x04\x12\x10\n\x0cNetworkError\x10\x05\x12\x14\n\x10UnparsableResult\x10\x06\x12\x16\n\x12\x43lientDisconnected\x10\x07\x12\x0f\n\x0b\x43lientReset\x10\x08\x12\x12\n\x0eServiceRemoved\x10\t\x12\x10\n\x0c\x43\x61llCanceled\x10\n\x12\x10\n\x0c\x43\x61llTimedOut\x10\x0b\x12\x0e\n\nCallFailed\x10\x0c\x12\x13\n\x0f\x43onnectionError\x10\r\"\x18\n\x07MaxCode\x12\r\n\tMAX_ERROR\x10\r\"\x1f\n\x0e\x44oubleProperty\x12\r\n\x05value\x18\x01 \x02(\x01\"\x1e\n\rFloatProperty\x12\r\n\x05value\x18\x01 \x02(\x02\"\x1e\n\rInt32Property\x12\r\n\x05value\x18\x01 \x02(\x05\"\x1e\n\rInt64Property\x12\r\n\x05value\x18\x01 \x02(\x03\"\x1f\n\x0eUInt32Property\x12\r\n\x05value\x18\x01 \x02(\r\"\x1f\n\x0eUInt64Property\x12\r\n\x05value\x18\x01 \x02(\x04\"\x1f\n\x0eSInt32Property\x12\r\n\x05value\x18\x01 \x02(\x11\"\x1f\n\x0eSInt64Property\x12\r\n\x05value\x18\x01 \x02(\x12\" \n\x0f\x46ixed32Property\x12\r\n\x05value\x18\x01 \x02(\x07\" \n\x0f\x46ixed64Property\x12\r\n\x05value\x18\x01 \x02(\x06\"!\n\x10SFixed32Property\x12\r\n\x05value\x18\x01 \x02(\x0f\"!\n\x10SFixed64Property\x12\r\n\x05value\x18\x01 \x02(\x10\"\x1d\n\x0c\x42oolProperty\x12\r\n\x05value\x18\x01 \x02(\x08\"\x1f\n\x0eStringProperty\x12\r\n\x05value\x18\x01 \x02(\t\"$\n\x12StringListProperty\x12\x0e\n\x06values\x18\x01 \x03(\t\"\x1e\n\rBytesProperty\x12\r\n\x05value\x18\x01 \x02(\x0c\x42\x03\x90\x01\x01')
 )
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -679,6 +678,7 @@ DESCRIPTOR.message_types_by_name['BoolProperty'] = _BOOLPROPERTY
 DESCRIPTOR.message_types_by_name['StringProperty'] = _STRINGPROPERTY
 DESCRIPTOR.message_types_by_name['StringListProperty'] = _STRINGLISTPROPERTY
 DESCRIPTOR.message_types_by_name['BytesProperty'] = _BYTESPROPERTY
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 Empty = _reflection.GeneratedProtocolMessageType('Empty', (_message.Message,), dict(
   DESCRIPTOR = _EMPTY,

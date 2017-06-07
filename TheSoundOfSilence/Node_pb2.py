@@ -21,7 +21,6 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto2',
   serialized_pb=_b('\n\x1cTheSoundOfSilence/Node.proto\x12\x14\x44\x65vialet.AudioSource\"\x89\x01\n\x06NodeId\x12\n\n\x02id\x18\x01 \x02(\x0c\x12\x0c\n\x04type\x18\x02 \x02(\r\"e\n\x04Type\x12\t\n\x05\x41lbum\x10\x01\x12\n\n\x06\x41rtist\x10\x02\x12\x0c\n\x08\x43\x61tegory\x10\x03\x12\x0c\n\x08Playlist\x10\x04\x12\t\n\x05Track\x10\x05\x12\x0f\n\x0bSubcategory\x10\x06\x12\x0e\n\nCollection\x10\x07\"8\n\x07NodeIds\x12-\n\x07nodeIds\x18\x01 \x03(\x0b\x32\x1c.Devialet.AudioSource.NodeId\"Z\n\x04Node\x12,\n\x06nodeId\x18\x01 \x02(\x0b\x32\x1c.Devialet.AudioSource.NodeId\x12\x0c\n\x04name\x18\x02 \x02(\t\x12\x16\n\x08\x63\x61\x63hable\x18\x03 \x01(\x08:\x04true\"2\n\x05Nodes\x12)\n\x05nodes\x18\x01 \x03(\x0b\x32\x1a.Devialet.AudioSource.NodeB\x03\x90\x01\x01')
 )
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -221,6 +220,7 @@ DESCRIPTOR.message_types_by_name['NodeId'] = _NODEID
 DESCRIPTOR.message_types_by_name['NodeIds'] = _NODEIDS
 DESCRIPTOR.message_types_by_name['Node'] = _NODE
 DESCRIPTOR.message_types_by_name['Nodes'] = _NODES
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 NodeId = _reflection.GeneratedProtocolMessageType('NodeId', (_message.Message,), dict(
   DESCRIPTOR = _NODEID,

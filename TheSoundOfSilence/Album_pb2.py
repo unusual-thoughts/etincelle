@@ -23,7 +23,6 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   serialized_pb=_b('\n\x1dTheSoundOfSilence/Album.proto\x12\x14\x44\x65vialet.AudioSource\x1a\x1cTheSoundOfSilence/Node.proto\"|\n\x05\x41lbum\x12+\n\x07\x61rtists\x18\x01 \x03(\x0b\x32\x1a.Devialet.AudioSource.Node\x12\x0c\n\x04name\x18\x02 \x02(\t\x12*\n\x06tracks\x18\x03 \x02(\x0b\x32\x1a.Devialet.AudioSource.Node\x12\x0c\n\x04year\x18\x04 \x02(\rB\x03\x90\x01\x01')
   ,
   dependencies=[TheSoundOfSilence_dot_Node__pb2.DESCRIPTOR,])
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -82,6 +81,7 @@ _ALBUM = _descriptor.Descriptor(
 _ALBUM.fields_by_name['artists'].message_type = TheSoundOfSilence_dot_Node__pb2._NODE
 _ALBUM.fields_by_name['tracks'].message_type = TheSoundOfSilence_dot_Node__pb2._NODE
 DESCRIPTOR.message_types_by_name['Album'] = _ALBUM
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 Album = _reflection.GeneratedProtocolMessageType('Album', (_message.Message,), dict(
   DESCRIPTOR = _ALBUM,

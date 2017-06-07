@@ -28,7 +28,6 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   serialized_pb=_b('\n\x1eTheSoundOfSilence/Source.proto\x12\x14\x44\x65vialet.AudioSource\x1a CallMeMaybe/CommonMessages.proto\x1a\x1fTheSoundOfSilence/Session.proto\x1a\x1fTheSoundOfSilence/Picture.proto\x1a\x1d\x43\x61llMeMaybe/CallMeMaybe.proto\"h\n\x0bSourceError\"Y\n\x04\x43ode\x12\x11\n\rInternalError\x10\x01\x12\x10\n\x0cNotSupported\x10\x02\x12\x14\n\x10PermissionDenied\x10\x03\x12\x16\n\x12ObjectNotAvailable\x10\x04\"\x18\n\x07\x45nabled\x12\r\n\x05value\x18\x01 \x02(\x08\"\x10\n\x02Id\x12\n\n\x02id\x18\x01 \x02(\x0c\"\x12\n\x03Uri\x12\x0b\n\x03uri\x18\x01 \x02(\t2\xcd\x01\n\rSourceSession\x12<\n\x03uri\x12\x18.Devialet.AudioSource.Id\x1a\x19.Devialet.AudioSource.Uri\"\x00\x1a~\x92M{\n\x1d\x63om.devialet.source-session-0\x1a%Devialet.AudioSource.SourceError.Code\"3\n1\n#Devialet.CallMeMaybe.StringProperty\x12\x08sourceId \x01\x32\xdc\x01\n\x0f\x43onfigureSource\x12J\n\nsetEnabled\x12\x1d.Devialet.AudioSource.Enabled\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x1a}\x92Mz\n\x1f\x63om.devialet.source-configure-0\x1a%Devialet.AudioSource.SourceError.Code\"0\n.\n\"Devialet.CallMeMaybe.BytesProperty\x12\x08settings2\xb6\x05\n\x06Source\x12\x44\n\x04logo\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1d.Devialet.AudioSource.Picture\"\x00\x12Q\n\x0csessionAdded\x12\x1d.Devialet.AudioSource.Session\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x12U\n\x0esessionRemoved\x12\x1f.Devialet.AudioSource.SessionId\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x12G\n\x07\x62igLogo\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1d.Devialet.AudioSource.Picture\"\x00\x1a\xf2\x02\x92M\xee\x02\n\x15\x63om.devialet.source-0\x1a%Devialet.AudioSource.SourceError.Code\"\xad\x02\n+\n#Devialet.CallMeMaybe.StringProperty\x12\x02id \x01\n.\n!Devialet.CallMeMaybe.BoolProperty\x12\tisEnabled\n1\n!Devialet.CallMeMaybe.BoolProperty\x12\nisSeekable \x01\n5\n\x1d\x44\x65vialet.AudioSource.Sessions\x12\x12listActiveSessions \x01\n-\n#Devialet.CallMeMaybe.StringProperty\x12\x04name \x01\n5\n!Devialet.CallMeMaybe.BoolProperty\x12\x0esupportsEnable \x01\x42\x03\x90\x01\x01')
   ,
   dependencies=[CallMeMaybe_dot_CommonMessages__pb2.DESCRIPTOR,TheSoundOfSilence_dot_Session__pb2.DESCRIPTOR,TheSoundOfSilence_dot_Picture__pb2.DESCRIPTOR,CallMeMaybe_dot_CallMeMaybe__pb2.DESCRIPTOR,])
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -185,6 +184,7 @@ DESCRIPTOR.message_types_by_name['SourceError'] = _SOURCEERROR
 DESCRIPTOR.message_types_by_name['Enabled'] = _ENABLED
 DESCRIPTOR.message_types_by_name['Id'] = _ID
 DESCRIPTOR.message_types_by_name['Uri'] = _URI
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 SourceError = _reflection.GeneratedProtocolMessageType('SourceError', (_message.Message,), dict(
   DESCRIPTOR = _SOURCEERROR,

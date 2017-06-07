@@ -26,7 +26,6 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   serialized_pb=_b('\n\x1bTooManyFlows/Playlist.proto\x12\x15\x44\x65vialet.TooManyFlows\x1a CallMeMaybe/CommonMessages.proto\x1a\x1d\x43\x61llMeMaybe/CallMeMaybe.proto\"&\n\x08TrackMsg\x12\r\n\x05index\x18\x01 \x02(\r\x12\x0b\n\x03url\x18\x02 \x02(\t\"<\n\tTracksMsg\x12/\n\x06tracks\x18\x01 \x03(\x0b\x32\x1f.Devialet.TooManyFlows.TrackMsg\"j\n\x07MoveMsg\x12.\n\x05\x66irst\x18\x01 \x02(\x0b\x32\x1f.Devialet.TooManyFlows.TrackMsg\x12/\n\x06second\x18\x02 \x02(\x0b\x32\x1f.Devialet.TooManyFlows.TrackMsg2\x94\x07\n\x08Playlist\x12\x43\n\x05\x63lear\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12I\n\x06insert\x12 .Devialet.TooManyFlows.TracksMsg\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12\x45\n\x04move\x12\x1e.Devialet.TooManyFlows.MoveMsg\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12I\n\x06remove\x12 .Devialet.TooManyFlows.TracksMsg\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12J\n\x07\x63leared\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x12S\n\x0btracksAdded\x12 .Devialet.TooManyFlows.TracksMsg\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x12P\n\ntrackMoved\x12\x1e.Devialet.TooManyFlows.MoveMsg\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x12U\n\rtracksRemoved\x12 .Devialet.TooManyFlows.TracksMsg\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x1a\x9b\x02\x92M\x97\x02\n$com.devialet.toomanyflows.playlist-0\"\xee\x01\n0\n\x1e\x44\x65vialet.TooManyFlows.TrackMsg\x12\x0c\x63urrentTrack\x18\x01\n0\n#Devialet.CallMeMaybe.UInt32Property\x12\x07maxSize \x01\n+\n!Devialet.CallMeMaybe.BoolProperty\x12\x06random\n.\n!Devialet.CallMeMaybe.BoolProperty\x12\trepeatAll\n+\n\x1f\x44\x65vialet.TooManyFlows.TracksMsg\x12\x06tracks \x01\x42\x03\x90\x01\x01')
   ,
   dependencies=[CallMeMaybe_dot_CommonMessages__pb2.DESCRIPTOR,CallMeMaybe_dot_CallMeMaybe__pb2.DESCRIPTOR,])
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -143,6 +142,7 @@ _MOVEMSG.fields_by_name['second'].message_type = _TRACKMSG
 DESCRIPTOR.message_types_by_name['TrackMsg'] = _TRACKMSG
 DESCRIPTOR.message_types_by_name['TracksMsg'] = _TRACKSMSG
 DESCRIPTOR.message_types_by_name['MoveMsg'] = _MOVEMSG
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 TrackMsg = _reflection.GeneratedProtocolMessageType('TrackMsg', (_message.Message,), dict(
   DESCRIPTOR = _TRACKMSG,

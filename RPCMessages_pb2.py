@@ -26,7 +26,6 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   serialized_pb=_b('\n\x11RPCMessages.proto\x12\x14\x44\x65vialet.CallMeMaybe\x1a CallMeMaybe/CommonMessages.proto\x1a\x1d\x43\x61llMeMaybe/CallMeMaybe.proto\"b\n\x07Request\x12\x10\n\x08serverId\x18\x01 \x02(\x0c\x12\x11\n\tserviceId\x18\x02 \x02(\x07\x12\x11\n\trequestId\x18\x03 \x02(\x0c\x12\x0c\n\x04type\x18\x04 \x02(\r\x12\x11\n\tsubTypeId\x18\x05 \x02(\r\"\x88\x01\n\x05Reply\x12\x10\n\x08serverId\x18\x01 \x02(\x0c\x12\x11\n\tserviceId\x18\x02 \x02(\x07\x12\x11\n\trequestId\x18\x03 \x02(\x0c\x12\x0c\n\x04type\x18\x04 \x02(\r\x12\x11\n\tsubTypeId\x18\x05 \x02(\r\x12\x11\n\terrorCode\x18\x06 \x02(\x11\x12\x13\n\x0bisMultipart\x18\x07 \x02(\x08\"M\n\x05\x45vent\x12\x10\n\x08serverId\x18\x01 \x02(\x0c\x12\x11\n\tserviceId\x18\x02 \x02(\x07\x12\x0c\n\x04type\x18\x03 \x02(\r\x12\x11\n\tsubTypeId\x18\x04 \x02(\r\"$\n\x11\x43onnectionRequest\x12\x0f\n\x07version\x18\x01 \x02(\r\"#\n\x07Service\x12\n\n\x02id\x18\x01 \x02(\r\x12\x0c\n\x04name\x18\x02 \x02(\t\"?\n\x0cServicesList\x12/\n\x08services\x18\x01 \x03(\x0b\x32\x1d.Devialet.CallMeMaybe.Service\"T\n\x0f\x43onnectionReply\x12\x10\n\x08serverId\x18\x01 \x02(\x0c\x12/\n\x08services\x18\x02 \x03(\x0b\x32\x1d.Devialet.CallMeMaybe.Service\"2\n\x10\x43onnectionErrors\"\x1e\n\x04\x43ode\x12\x16\n\x12UnsupportedVersion\x10\x00\x32\x86\x04\n\nConnection\x12\x62\n\x0eopenConnection\x12\'.Devialet.CallMeMaybe.ConnectionRequest\x1a%.Devialet.CallMeMaybe.ConnectionReply\"\x00\x12G\n\x04ping\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02 \x00\x12Q\n\x0cserviceAdded\x12\x1d.Devialet.CallMeMaybe.Service\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x12S\n\x0eserviceRemoved\x12\x1d.Devialet.CallMeMaybe.Service\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x12M\n\nserverQuit\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x1aT\x92MQ\n#com.devialet.callmemaybe.connection\x1a*Devialet.CallMeMaybe.ConnectionErrors.CodeB\x03\x90\x01\x01')
   ,
   dependencies=[CallMeMaybe_dot_CommonMessages__pb2.DESCRIPTOR,CallMeMaybe_dot_CallMeMaybe__pb2.DESCRIPTOR,])
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -406,6 +405,7 @@ DESCRIPTOR.message_types_by_name['Service'] = _SERVICE
 DESCRIPTOR.message_types_by_name['ServicesList'] = _SERVICESLIST
 DESCRIPTOR.message_types_by_name['ConnectionReply'] = _CONNECTIONREPLY
 DESCRIPTOR.message_types_by_name['ConnectionErrors'] = _CONNECTIONERRORS
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 Request = _reflection.GeneratedProtocolMessageType('Request', (_message.Message,), dict(
   DESCRIPTOR = _REQUEST,

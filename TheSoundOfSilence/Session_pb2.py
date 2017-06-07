@@ -23,7 +23,6 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   serialized_pb=_b('\n\x1fTheSoundOfSilence/Session.proto\x12\x14\x44\x65vialet.AudioSource\x1a\x1fTheSoundOfSilence/Picture.proto\"\x17\n\tSessionId\x12\n\n\x02id\x18\x01 \x02(\x0c\"n\n\x07Session\x12\n\n\x02id\x18\x01 \x02(\x0c\x12\x0c\n\x04name\x18\x02 \x02(\t\x12\x19\n\x11serviceInstanceId\x18\x03 \x02(\t\x12.\n\x07picture\x18\x04 \x02(\x0b\x32\x1d.Devialet.AudioSource.Picture\";\n\x08Sessions\x12/\n\x08sessions\x18\x01 \x03(\x0b\x32\x1d.Devialet.AudioSource.SessionB\x03\x90\x01\x01')
   ,
   dependencies=[TheSoundOfSilence_dot_Picture__pb2.DESCRIPTOR,])
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -146,6 +145,7 @@ _SESSIONS.fields_by_name['sessions'].message_type = _SESSION
 DESCRIPTOR.message_types_by_name['SessionId'] = _SESSIONID
 DESCRIPTOR.message_types_by_name['Session'] = _SESSION
 DESCRIPTOR.message_types_by_name['Sessions'] = _SESSIONS
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 SessionId = _reflection.GeneratedProtocolMessageType('SessionId', (_message.Message,), dict(
   DESCRIPTOR = _SESSIONID,

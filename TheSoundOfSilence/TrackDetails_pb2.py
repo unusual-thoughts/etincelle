@@ -24,7 +24,6 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   serialized_pb=_b('\n$TheSoundOfSilence/TrackDetails.proto\x12\x14\x44\x65vialet.AudioSource\x1a\x1dTheSoundOfSilence/Track.proto\x1a\x1fTheSoundOfSilence/Picture.proto\"\x9e\x01\n\x0cTrackDetails\x12*\n\x05track\x18\x01 \x02(\x0b\x32\x1b.Devialet.AudioSource.Track\x12\x32\n\tpictureId\x18\x02 \x02(\x0b\x32\x1f.Devialet.AudioSource.PictureId\x12.\n\x07picture\x18\x03 \x02(\x0b\x32\x1d.Devialet.AudioSource.Picture\"J\n\rTracksDetails\x12\x39\n\rtracksDetails\x18\x01 \x03(\x0b\x32\".Devialet.AudioSource.TrackDetailsB\x03\x90\x01\x01')
   ,
   dependencies=[TheSoundOfSilence_dot_Track__pb2.DESCRIPTOR,TheSoundOfSilence_dot_Picture__pb2.DESCRIPTOR,])
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -110,6 +109,7 @@ _TRACKDETAILS.fields_by_name['picture'].message_type = TheSoundOfSilence_dot_Pic
 _TRACKSDETAILS.fields_by_name['tracksDetails'].message_type = _TRACKDETAILS
 DESCRIPTOR.message_types_by_name['TrackDetails'] = _TRACKDETAILS
 DESCRIPTOR.message_types_by_name['TracksDetails'] = _TRACKSDETAILS
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 TrackDetails = _reflection.GeneratedProtocolMessageType('TrackDetails', (_message.Message,), dict(
   DESCRIPTOR = _TRACKDETAILS,

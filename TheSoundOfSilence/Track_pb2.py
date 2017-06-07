@@ -23,7 +23,6 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   serialized_pb=_b('\n\x1dTheSoundOfSilence/Track.proto\x12\x14\x44\x65vialet.AudioSource\x1a\x1cTheSoundOfSilence/Node.proto\"\xaf\x01\n\x05Track\x12)\n\x05\x61lbum\x18\x01 \x02(\x0b\x32\x1a.Devialet.AudioSource.Node\x12+\n\x07\x61rtists\x18\x02 \x03(\x0b\x32\x1a.Devialet.AudioSource.Node\x12\x0c\n\x04\x64isc\x18\x03 \x02(\r\x12\x10\n\x08\x64uration\x18\x04 \x02(\r\x12\r\n\x05index\x18\x05 \x02(\r\x12\x10\n\x08readable\x18\x06 \x02(\x08\x12\r\n\x05title\x18\x07 \x02(\tB\x03\x90\x01\x01')
   ,
   dependencies=[TheSoundOfSilence_dot_Node__pb2.DESCRIPTOR,])
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -103,6 +102,7 @@ _TRACK = _descriptor.Descriptor(
 _TRACK.fields_by_name['album'].message_type = TheSoundOfSilence_dot_Node__pb2._NODE
 _TRACK.fields_by_name['artists'].message_type = TheSoundOfSilence_dot_Node__pb2._NODE
 DESCRIPTOR.message_types_by_name['Track'] = _TRACK
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 Track = _reflection.GeneratedProtocolMessageType('Track', (_message.Message,), dict(
   DESCRIPTOR = _TRACK,

@@ -27,7 +27,6 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   serialized_pb=_b('\n TooManyFlows/Configuration.proto\x12\x15\x44\x65vialet.TooManyFlows\x1a CallMeMaybe/CommonMessages.proto\x1a\x1dTooManyFlows/Identifier.proto\x1a\x1d\x43\x61llMeMaybe/CallMeMaybe.proto\"z\n\x10\x41\x64\x64RendererQuery\x12/\n\x07groupId\x18\x01 \x02(\x0b\x32\x1e.Devialet.TooManyFlows.GroupId\x12\x35\n\nrendererId\x18\x02 \x02(\x0b\x32!.Devialet.TooManyFlows.RendererId\"b\n\x12\x43onfigurationError\"L\n\x04\x43ode\x12\x16\n\x12LinkRendererFailed\x10\x01\x12\x18\n\x14UnlinkRendererFailed\x10\x02\x12\x12\n\x0e\x42ouquetIsEmpty\x10\x03\x32\xd0\x05\n\rConfiguration\x12K\n\taddPlayer\x12\x1f.Devialet.TooManyFlows.PlayerId\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12U\n\x0b\x61\x64\x64Renderer\x12\'.Devialet.TooManyFlows.AddRendererQuery\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12N\n\x0cremovePlayer\x12\x1f.Devialet.TooManyFlows.PlayerId\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12R\n\x0eremoveRenderer\x12!.Devialet.TooManyFlows.RendererId\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12\x43\n\x05reset\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12O\n\nautoSwitch\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\".Devialet.CallMeMaybe.BoolProperty\"\x00\x12R\n\rsetAutoSwitch\x12\".Devialet.CallMeMaybe.BoolProperty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x1a\x8c\x01\x92M\x88\x01\n)com.devialet.toomanyflows.configuration-0\x1a-Devialet.TooManyFlows.ConfigurationError.Code\",\n*\n\x1f\x44\x65vialet.TooManyFlows.BouquetId\x12\x07\x62ouquetB\x03\x90\x01\x01')
   ,
   dependencies=[CallMeMaybe_dot_CommonMessages__pb2.DESCRIPTOR,TooManyFlows_dot_Identifier__pb2.DESCRIPTOR,CallMeMaybe_dot_CallMeMaybe__pb2.DESCRIPTOR,])
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -125,6 +124,7 @@ _ADDRENDERERQUERY.fields_by_name['rendererId'].message_type = TooManyFlows_dot_I
 _CONFIGURATIONERROR_CODE.containing_type = _CONFIGURATIONERROR
 DESCRIPTOR.message_types_by_name['AddRendererQuery'] = _ADDRENDERERQUERY
 DESCRIPTOR.message_types_by_name['ConfigurationError'] = _CONFIGURATIONERROR
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 AddRendererQuery = _reflection.GeneratedProtocolMessageType('AddRendererQuery', (_message.Message,), dict(
   DESCRIPTOR = _ADDRENDERERQUERY,

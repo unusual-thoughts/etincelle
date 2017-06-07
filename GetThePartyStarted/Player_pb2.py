@@ -24,10 +24,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='GetThePartyStarted/Player.proto',
   package='Devialet.GetThePartyStarted.Player',
   syntax='proto2',
-  serialized_pb=_b('\n\x1fGetThePartyStarted/Player.proto\x12\"Devialet.GetThePartyStarted.Player\x1a CallMeMaybe/CommonMessages.proto\x1a+GetThePartyStarted/GetThePartyStarted.proto\x1a\x1d\x43\x61llMeMaybe/CallMeMaybe.proto\"y\n\x0bWiFiNetwork\x12\x0c\n\x04ssid\x18\x01 \x02(\t\x12\x14\n\x0csecurityMode\x18\x02 \x02(\x05\x12\x0e\n\x06signal\x18\x03 \x02(\x05\"6\n\x0cSecurityMode\x12\x0c\n\x08NoneMode\x10\x00\x12\x0b\n\x07WepMode\x10\x01\x12\x0b\n\x07WpaMode\x10\x02\"Z\n\x15ListWiFiNetworksReply\x12\x41\n\x08networks\x18\x01 \x03(\x0b\x32/.Devialet.GetThePartyStarted.Player.WiFiNetwork\"F\n\"EnableStandaloneAccessPointRequest\x12\x0c\n\x04ssid\x18\x01 \x02(\t\x12\x12\n\npassphrase\x18\x02 \x02(\t\"\xad\x01\n\tSetupStep\x12\x0c\n\x04step\x18\x01 \x02(\r\"\x91\x01\n\x04Step\x12\x0f\n\x0bInvalidStep\x10\x00\x12\x13\n\x0fWaitingForSetup\x10\x01\x12 \n\x1c\x43onnectedToProductionNetwork\x10\x02\x12\x18\n\x14\x42ouquetConfiguration\x10\x03\x12\x19\n\x15ServicesConfiguration\x10\x04\x12\x0c\n\x08\x43omplete\x10\x05\"\xa2\x01\n\x15OpticalModeParameters\x12\x36\n\x05token\x18\x01 \x02(\x0b\x32\'.Devialet.GetThePartyStarted.SetupToken\x12\x0f\n\x07\x63hannel\x18\x02 \x02(\r\x12\x0e\n\x06volume\x18\x04 \x02(\r\"0\n\x07\x43hannel\x12\x08\n\x04Left\x10\x01\x12\t\n\x05Right\x10\x02\x12\x10\n\x0cLeftAndRight\x10\x03\"R\n\x17StandaloneConfiguration\x12\x0c\n\x04mode\x18\x01 \x02(\r\")\n\x04Mode\x12\x0f\n\x0bOpticalMode\x10\x01\x12\x10\n\x0cMotionDesign\x10\x02\"9\n AppleWacAccessPointConfiguration\x12\x15\n\rappleCustomIE\x18\x01 \x02(\x0c\"=\n AppleWacWiFiNetworkConfiguration\x12\x0c\n\x04ssid\x18\x01 \x02(\t\x12\x0b\n\x03psk\x18\x02 \x02(\x0c\x32y\n\rConfiguration\x1ah\x92Me\n8com.devialet.getthepartystarted.configuration-0.player-0\x12)Devialet.GetThePartyStarted.Configuration2\x8c\r\n\x05Setup\x12\x65\n\x14startStandaloneSetup\x12..Devialet.GetThePartyStarted.StartSetupRequest\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12x\n\x10listWiFiNetworks\x12\'.Devialet.GetThePartyStarted.SetupToken\x1a\x39.Devialet.GetThePartyStarted.Player.ListWiFiNetworksReply\"\x00\x12\x84\x01\n\x1b\x65nableStandaloneAccessPoint\x12\x46.Devialet.GetThePartyStarted.Player.EnableStandaloneAccessPointRequest\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12Z\n\x10\x63onfigureBouquet\x12\'.Devialet.GetThePartyStarted.SetupToken\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12[\n\x11\x63onfigureServices\x12\'.Devialet.GetThePartyStarted.SetupToken\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12s\n\x17\x65nableOpticalDirectMode\x12\x39.Devialet.GetThePartyStarted.Player.OpticalModeParameters\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12`\n\x16\x65nableMotionDesignMode\x12\'.Devialet.GetThePartyStarted.SetupToken\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12\x80\x01\n\x19\x65nableAppleWacAccessPoint\x12\x44.Devialet.GetThePartyStarted.Player.AppleWacAccessPointConfiguration\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12X\n\x1a\x64isableAppleWacAccessPoint\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12\x81\x01\n\x1ajoinDestinationWiFiNetwork\x12\x44.Devialet.GetThePartyStarted.Player.AppleWacWiFiNetworkConfiguration\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12_\n\x1c\x64\x65stinationWiFiNetworkJoined\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x12\x64\n\x1fwasDestinationWiFiNetworkJoined\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\".Devialet.CallMeMaybe.BoolProperty\"\x00\x12V\n\x0f\x61pplyDeviceName\x12$.Devialet.CallMeMaybe.StringProperty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12S\n\x15\x63ompleteConfiguration\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x1a\xb5\x01\x92M\xb1\x01\nAcom.devialet.getthepartystarted.setup-0.slave-0.remote-0.player-0\x12\x32\x44\x65vialet.GetThePartyStarted.RemoteSlaveDeviceSetup\"8\n6\n,Devialet.GetThePartyStarted.Player.SetupStep\x12\x04step\x18\x01\x42\x03\x90\x01\x01')
+  serialized_pb=_b('\n\x1fGetThePartyStarted/Player.proto\x12\"Devialet.GetThePartyStarted.Player\x1a CallMeMaybe/CommonMessages.proto\x1a+GetThePartyStarted/GetThePartyStarted.proto\x1a\x1d\x43\x61llMeMaybe/CallMeMaybe.proto\"y\n\x0bWiFiNetwork\x12\x0c\n\x04ssid\x18\x01 \x02(\t\x12\x14\n\x0csecurityMode\x18\x02 \x02(\x05\x12\x0e\n\x06signal\x18\x03 \x02(\x05\"6\n\x0cSecurityMode\x12\x0c\n\x08NoneMode\x10\x00\x12\x0b\n\x07WepMode\x10\x01\x12\x0b\n\x07WpaMode\x10\x02\"Z\n\x15ListWiFiNetworksReply\x12\x41\n\x08networks\x18\x01 \x03(\x0b\x32/.Devialet.GetThePartyStarted.Player.WiFiNetwork\"F\n\"EnableStandaloneAccessPointRequest\x12\x0c\n\x04ssid\x18\x01 \x02(\t\x12\x12\n\npassphrase\x18\x02 \x02(\t\"\xad\x01\n\tSetupStep\x12\x0c\n\x04step\x18\x01 \x02(\r\"\x91\x01\n\x04Step\x12\x0f\n\x0bInvalidStep\x10\x00\x12\x13\n\x0fWaitingForSetup\x10\x01\x12 \n\x1c\x43onnectedToProductionNetwork\x10\x02\x12\x18\n\x14\x42ouquetConfiguration\x10\x03\x12\x19\n\x15ServicesConfiguration\x10\x04\x12\x0c\n\x08\x43omplete\x10\x05\"\xa2\x01\n\x15OpticalModeParameters\x12\x36\n\x05token\x18\x01 \x02(\x0b\x32\'.Devialet.GetThePartyStarted.SetupToken\x12\x0f\n\x07\x63hannel\x18\x02 \x02(\r\x12\x0e\n\x06volume\x18\x04 \x02(\r\"0\n\x07\x43hannel\x12\x08\n\x04Left\x10\x01\x12\t\n\x05Right\x10\x02\x12\x10\n\x0cLeftAndRight\x10\x03\"\xfe\x01\n\x18InstallProModeParameters\x12\x0c\n\x04role\x18\x01 \x02(\r\x12\x0f\n\x07\x63hannel\x18\x02 \x02(\r\x12\x0e\n\x06volume\x18\x03 \x02(\r\x12\x0f\n\x07latency\x18\x04 \x02(\r\x12\x18\n\x10\x62luetoothEnabled\x18\x05 \x02(\x08\x12\x16\n\x0eopticalEnabled\x18\x06 \x02(\x08\x12\x12\n\ncplEnabled\x18\x07 \x02(\x08\x12\x14\n\x0cslaveSerials\x18\x08 \x03(\x0c\"\x1d\n\x04Role\x12\n\n\x06Master\x10\x01\x12\t\n\x05Slave\x10\x02\"\'\n\x07\x43hannel\x12\x08\n\x04Left\x10\x01\x12\t\n\x05Right\x10\x02\x12\x07\n\x03Mix\x10\x03\"R\n\x17StandaloneConfiguration\x12\x0c\n\x04mode\x18\x01 \x02(\r\")\n\x04Mode\x12\x0f\n\x0bOpticalMode\x10\x01\x12\x10\n\x0cMotionDesign\x10\x02\"9\n AppleWacAccessPointConfiguration\x12\x15\n\rappleCustomIE\x18\x01 \x02(\x0c\"=\n AppleWacWiFiNetworkConfiguration\x12\x0c\n\x04ssid\x18\x01 \x02(\t\x12\x0b\n\x03psk\x18\x02 \x02(\x0c\x32y\n\rConfiguration\x1ah\x92Me\n8com.devialet.getthepartystarted.configuration-0.player-0\x12)Devialet.GetThePartyStarted.Configuration2\xd6\x0e\n\x05Setup\x12\x65\n\x14startStandaloneSetup\x12..Devialet.GetThePartyStarted.StartSetupRequest\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12x\n\x10listWiFiNetworks\x12\'.Devialet.GetThePartyStarted.SetupToken\x1a\x39.Devialet.GetThePartyStarted.Player.ListWiFiNetworksReply\"\x00\x12\x84\x01\n\x1b\x65nableStandaloneAccessPoint\x12\x46.Devialet.GetThePartyStarted.Player.EnableStandaloneAccessPointRequest\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12Z\n\x10\x63onfigureBouquet\x12\'.Devialet.GetThePartyStarted.SetupToken\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12[\n\x11\x63onfigureServices\x12\'.Devialet.GetThePartyStarted.SetupToken\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12s\n\x17\x65nableOpticalDirectMode\x12\x39.Devialet.GetThePartyStarted.Player.OpticalModeParameters\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12`\n\x16\x65nableMotionDesignMode\x12\'.Devialet.GetThePartyStarted.SetupToken\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12\x80\x01\n\x19\x65nableAppleWacAccessPoint\x12\x44.Devialet.GetThePartyStarted.Player.AppleWacAccessPointConfiguration\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12X\n\x1a\x64isableAppleWacAccessPoint\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12\x81\x01\n\x1ajoinDestinationWiFiNetwork\x12\x44.Devialet.GetThePartyStarted.Player.AppleWacWiFiNetworkConfiguration\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12_\n\x1c\x64\x65stinationWiFiNetworkJoined\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x05\x92M\x02\x08\x01\x12\x64\n\x1fwasDestinationWiFiNetworkJoined\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\".Devialet.CallMeMaybe.BoolProperty\"\x00\x12V\n\x0f\x61pplyDeviceName\x12$.Devialet.CallMeMaybe.StringProperty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12S\n\x15\x63ompleteConfiguration\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12s\n\x14\x65nableInstallProMode\x12<.Devialet.GetThePartyStarted.Player.InstallProModeParameters\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x12S\n\x15resetToInstallFactory\x12\x1b.Devialet.CallMeMaybe.Empty\x1a\x1b.Devialet.CallMeMaybe.Empty\"\x00\x1a\xb5\x01\x92M\xb1\x01\nAcom.devialet.getthepartystarted.setup-0.slave-0.remote-0.player-0\x12\x32\x44\x65vialet.GetThePartyStarted.RemoteSlaveDeviceSetup\"8\n6\n,Devialet.GetThePartyStarted.Player.SetupStep\x12\x04step\x18\x01\x42\x03\x90\x01\x01')
   ,
   dependencies=[CallMeMaybe_dot_CommonMessages__pb2.DESCRIPTOR,GetThePartyStarted_dot_GetThePartyStarted__pb2.DESCRIPTOR,CallMeMaybe_dot_CallMeMaybe__pb2.DESCRIPTOR,])
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -121,6 +120,54 @@ _OPTICALMODEPARAMETERS_CHANNEL = _descriptor.EnumDescriptor(
 )
 _sym_db.RegisterEnumDescriptor(_OPTICALMODEPARAMETERS_CHANNEL)
 
+_INSTALLPROMODEPARAMETERS_ROLE = _descriptor.EnumDescriptor(
+  name='Role',
+  full_name='Devialet.GetThePartyStarted.Player.InstallProModeParameters.Role',
+  filename=None,
+  file=DESCRIPTOR,
+  values=[
+    _descriptor.EnumValueDescriptor(
+      name='Master', index=0, number=1,
+      options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='Slave', index=1, number=2,
+      options=None,
+      type=None),
+  ],
+  containing_type=None,
+  options=None,
+  serialized_start=994,
+  serialized_end=1023,
+)
+_sym_db.RegisterEnumDescriptor(_INSTALLPROMODEPARAMETERS_ROLE)
+
+_INSTALLPROMODEPARAMETERS_CHANNEL = _descriptor.EnumDescriptor(
+  name='Channel',
+  full_name='Devialet.GetThePartyStarted.Player.InstallProModeParameters.Channel',
+  filename=None,
+  file=DESCRIPTOR,
+  values=[
+    _descriptor.EnumValueDescriptor(
+      name='Left', index=0, number=1,
+      options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='Right', index=1, number=2,
+      options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='Mix', index=2, number=3,
+      options=None,
+      type=None),
+  ],
+  containing_type=None,
+  options=None,
+  serialized_start=1025,
+  serialized_end=1064,
+)
+_sym_db.RegisterEnumDescriptor(_INSTALLPROMODEPARAMETERS_CHANNEL)
+
 _STANDALONECONFIGURATION_MODE = _descriptor.EnumDescriptor(
   name='Mode',
   full_name='Devialet.GetThePartyStarted.Player.StandaloneConfiguration.Mode',
@@ -138,8 +185,8 @@ _STANDALONECONFIGURATION_MODE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=850,
-  serialized_end=891,
+  serialized_start=1107,
+  serialized_end=1148,
 )
 _sym_db.RegisterEnumDescriptor(_STANDALONECONFIGURATION_MODE)
 
@@ -337,6 +384,88 @@ _OPTICALMODEPARAMETERS = _descriptor.Descriptor(
 )
 
 
+_INSTALLPROMODEPARAMETERS = _descriptor.Descriptor(
+  name='InstallProModeParameters',
+  full_name='Devialet.GetThePartyStarted.Player.InstallProModeParameters',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='role', full_name='Devialet.GetThePartyStarted.Player.InstallProModeParameters.role', index=0,
+      number=1, type=13, cpp_type=3, label=2,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='channel', full_name='Devialet.GetThePartyStarted.Player.InstallProModeParameters.channel', index=1,
+      number=2, type=13, cpp_type=3, label=2,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='volume', full_name='Devialet.GetThePartyStarted.Player.InstallProModeParameters.volume', index=2,
+      number=3, type=13, cpp_type=3, label=2,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='latency', full_name='Devialet.GetThePartyStarted.Player.InstallProModeParameters.latency', index=3,
+      number=4, type=13, cpp_type=3, label=2,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='bluetoothEnabled', full_name='Devialet.GetThePartyStarted.Player.InstallProModeParameters.bluetoothEnabled', index=4,
+      number=5, type=8, cpp_type=7, label=2,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='opticalEnabled', full_name='Devialet.GetThePartyStarted.Player.InstallProModeParameters.opticalEnabled', index=5,
+      number=6, type=8, cpp_type=7, label=2,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='cplEnabled', full_name='Devialet.GetThePartyStarted.Player.InstallProModeParameters.cplEnabled', index=6,
+      number=7, type=8, cpp_type=7, label=2,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='slaveSerials', full_name='Devialet.GetThePartyStarted.Player.InstallProModeParameters.slaveSerials', index=7,
+      number=8, type=12, cpp_type=9, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+    _INSTALLPROMODEPARAMETERS_ROLE,
+    _INSTALLPROMODEPARAMETERS_CHANNEL,
+  ],
+  options=None,
+  is_extendable=False,
+  syntax='proto2',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=810,
+  serialized_end=1064,
+)
+
+
 _STANDALONECONFIGURATION = _descriptor.Descriptor(
   name='StandaloneConfiguration',
   full_name='Devialet.GetThePartyStarted.Player.StandaloneConfiguration',
@@ -364,8 +493,8 @@ _STANDALONECONFIGURATION = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=809,
-  serialized_end=891,
+  serialized_start=1066,
+  serialized_end=1148,
 )
 
 
@@ -395,8 +524,8 @@ _APPLEWACACCESSPOINTCONFIGURATION = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=893,
-  serialized_end=950,
+  serialized_start=1150,
+  serialized_end=1207,
 )
 
 
@@ -433,8 +562,8 @@ _APPLEWACWIFINETWORKCONFIGURATION = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=952,
-  serialized_end=1013,
+  serialized_start=1209,
+  serialized_end=1270,
 )
 
 _WIFINETWORK_SECURITYMODE.containing_type = _WIFINETWORK
@@ -442,15 +571,19 @@ _LISTWIFINETWORKSREPLY.fields_by_name['networks'].message_type = _WIFINETWORK
 _SETUPSTEP_STEP.containing_type = _SETUPSTEP
 _OPTICALMODEPARAMETERS.fields_by_name['token'].message_type = GetThePartyStarted_dot_GetThePartyStarted__pb2._SETUPTOKEN
 _OPTICALMODEPARAMETERS_CHANNEL.containing_type = _OPTICALMODEPARAMETERS
+_INSTALLPROMODEPARAMETERS_ROLE.containing_type = _INSTALLPROMODEPARAMETERS
+_INSTALLPROMODEPARAMETERS_CHANNEL.containing_type = _INSTALLPROMODEPARAMETERS
 _STANDALONECONFIGURATION_MODE.containing_type = _STANDALONECONFIGURATION
 DESCRIPTOR.message_types_by_name['WiFiNetwork'] = _WIFINETWORK
 DESCRIPTOR.message_types_by_name['ListWiFiNetworksReply'] = _LISTWIFINETWORKSREPLY
 DESCRIPTOR.message_types_by_name['EnableStandaloneAccessPointRequest'] = _ENABLESTANDALONEACCESSPOINTREQUEST
 DESCRIPTOR.message_types_by_name['SetupStep'] = _SETUPSTEP
 DESCRIPTOR.message_types_by_name['OpticalModeParameters'] = _OPTICALMODEPARAMETERS
+DESCRIPTOR.message_types_by_name['InstallProModeParameters'] = _INSTALLPROMODEPARAMETERS
 DESCRIPTOR.message_types_by_name['StandaloneConfiguration'] = _STANDALONECONFIGURATION
 DESCRIPTOR.message_types_by_name['AppleWacAccessPointConfiguration'] = _APPLEWACACCESSPOINTCONFIGURATION
 DESCRIPTOR.message_types_by_name['AppleWacWiFiNetworkConfiguration'] = _APPLEWACWIFINETWORKCONFIGURATION
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 WiFiNetwork = _reflection.GeneratedProtocolMessageType('WiFiNetwork', (_message.Message,), dict(
   DESCRIPTOR = _WIFINETWORK,
@@ -487,6 +620,13 @@ OpticalModeParameters = _reflection.GeneratedProtocolMessageType('OpticalModePar
   ))
 _sym_db.RegisterMessage(OpticalModeParameters)
 
+InstallProModeParameters = _reflection.GeneratedProtocolMessageType('InstallProModeParameters', (_message.Message,), dict(
+  DESCRIPTOR = _INSTALLPROMODEPARAMETERS,
+  __module__ = 'GetThePartyStarted.Player_pb2'
+  # @@protoc_insertion_point(class_scope:Devialet.GetThePartyStarted.Player.InstallProModeParameters)
+  ))
+_sym_db.RegisterMessage(InstallProModeParameters)
+
 StandaloneConfiguration = _reflection.GeneratedProtocolMessageType('StandaloneConfiguration', (_message.Message,), dict(
   DESCRIPTOR = _STANDALONECONFIGURATION,
   __module__ = 'GetThePartyStarted.Player_pb2'
@@ -518,8 +658,8 @@ _CONFIGURATION = _descriptor.ServiceDescriptor(
   file=DESCRIPTOR,
   index=0,
   options=_descriptor._ParseOptions(descriptor_pb2.ServiceOptions(), _b('\222Me\n8com.devialet.getthepartystarted.configuration-0.player-0\022)Devialet.GetThePartyStarted.Configuration')),
-  serialized_start=1015,
-  serialized_end=1136,
+  serialized_start=1272,
+  serialized_end=1393,
   methods=[
 ])
 
@@ -541,8 +681,8 @@ _SETUP = _descriptor.ServiceDescriptor(
   file=DESCRIPTOR,
   index=1,
   options=_descriptor._ParseOptions(descriptor_pb2.ServiceOptions(), _b('\222M\261\001\nAcom.devialet.getthepartystarted.setup-0.slave-0.remote-0.player-0\0222Devialet.GetThePartyStarted.RemoteSlaveDeviceSetup\"8\n6\n,Devialet.GetThePartyStarted.Player.SetupStep\022\004step\030\001')),
-  serialized_start=1139,
-  serialized_end=2815,
+  serialized_start=1396,
+  serialized_end=3274,
   methods=[
   _descriptor.MethodDescriptor(
     name='startStandaloneSetup',
@@ -665,6 +805,24 @@ _SETUP = _descriptor.ServiceDescriptor(
     name='completeConfiguration',
     full_name='Devialet.GetThePartyStarted.Player.Setup.completeConfiguration',
     index=13,
+    containing_service=None,
+    input_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='enableInstallProMode',
+    full_name='Devialet.GetThePartyStarted.Player.Setup.enableInstallProMode',
+    index=14,
+    containing_service=None,
+    input_type=_INSTALLPROMODEPARAMETERS,
+    output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='resetToInstallFactory',
+    full_name='Devialet.GetThePartyStarted.Player.Setup.resetToInstallFactory',
+    index=15,
     containing_service=None,
     input_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,
     output_type=CallMeMaybe_dot_CommonMessages__pb2._EMPTY,

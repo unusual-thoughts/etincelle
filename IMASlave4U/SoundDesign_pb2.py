@@ -25,10 +25,10 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   serialized_pb=_b('\n\x1cIMASlave4U/SoundDesign.proto\x12\x13\x44\x65vialet.IMASlave4U\x1a\x1d\x43\x61llMeMaybe/CallMeMaybe.proto2a\n\x0bSoundDesign\x1aR\x92MO\n/com.devialet.twerkit.sounddesign-0.imaslave4u-0\x12\x1c\x44\x65vialet.TwerkIt.SoundDesignB\x03\x90\x01\x01')
   ,
   dependencies=[CallMeMaybe_dot_CallMeMaybe__pb2.DESCRIPTOR,])
+
+
+
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
-
-
-
 
 
 DESCRIPTOR.has_options = True

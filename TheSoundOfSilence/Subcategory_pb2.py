@@ -23,7 +23,6 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   serialized_pb=_b('\n#TheSoundOfSilence/Subcategory.proto\x12\x14\x44\x65vialet.AudioSource\x1a\x1cTheSoundOfSilence/Node.proto\"F\n\x0bSubcategory\x12\x0c\n\x04name\x18\x01 \x02(\t\x12)\n\x05nodes\x18\x02 \x03(\x0b\x32\x1a.Devialet.AudioSource.NodeB\x03\x90\x01\x01')
   ,
   dependencies=[TheSoundOfSilence_dot_Node__pb2.DESCRIPTOR,])
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -67,6 +66,7 @@ _SUBCATEGORY = _descriptor.Descriptor(
 
 _SUBCATEGORY.fields_by_name['nodes'].message_type = TheSoundOfSilence_dot_Node__pb2._NODE
 DESCRIPTOR.message_types_by_name['Subcategory'] = _SUBCATEGORY
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 Subcategory = _reflection.GeneratedProtocolMessageType('Subcategory', (_message.Message,), dict(
   DESCRIPTOR = _SUBCATEGORY,

@@ -23,7 +23,6 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   serialized_pb=_b('\n\x1d\x43\x61llMeMaybe/CallMeMaybe.proto\x12\x14\x44\x65vialet.CallMeMaybe\x1a google/protobuf/descriptor.proto\"&\n\x0c\x46ieldOptions\x12\x16\n\x08logValue\x18\x01 \x01(\x08:\x04true\"x\n\x0fServiceProperty\x12\x0c\n\x04type\x18\x01 \x02(\t\x12\x0c\n\x04name\x18\x02 \x02(\t\x12\x17\n\x08readOnly\x18\x03 \x01(\x08:\x05\x66\x61lse\x12\x17\n\x08\x63onstant\x18\x04 \x01(\x08:\x05\x66\x61lse\x12\x17\n\tlogUpdate\x18\x05 \x01(\x08:\x04true\"L\n\x11ServiceProperties\x12\x37\n\x08property\x18\x01 \x03(\x0b\x32%.Devialet.CallMeMaybe.ServiceProperty\"\x8e\x01\n\x0eServiceOptions\x12\x13\n\x0bserviceName\x18\x01 \x02(\t\x12\x13\n\x0b\x62\x61seService\x18\x02 \x01(\t\x12\x15\n\rerrorEnumName\x18\x03 \x01(\t\x12;\n\nproperties\x18\x04 \x01(\x0b\x32\'.Devialet.CallMeMaybe.ServiceProperties\"\x83\x01\n\rMethodOptions\x12\x1d\n\x0eisNotification\x18\x01 \x01(\x08:\x05\x66\x61lse\x12\x16\n\x07isAsync\x18\x02 \x01(\x08:\x05\x66\x61lse\x12\x1b\n\x0e\x64\x65\x66\x61ultTimeout\x18\x03 \x01(\x05:\x03\x35\x30\x30\x12\x1e\n\x10isLoggingEnabled\x18\x04 \x01(\x08:\x04true\"\'\n\x10\x45numValueOptions\x12\x13\n\x0b\x64\x65scription\x18\x01 \x01(\t:\\\n\x10\x64vltFieldOptions\x12\x1d.google.protobuf.FieldOptions\x18\xd2\t \x01(\x0b\x32\".Devialet.CallMeMaybe.FieldOptions:b\n\x12\x64vltServiceOptions\x12\x1f.google.protobuf.ServiceOptions\x18\xd2\t \x01(\x0b\x32$.Devialet.CallMeMaybe.ServiceOptions:_\n\x11\x64vltMethodOptions\x12\x1e.google.protobuf.MethodOptions\x18\xd2\t \x01(\x0b\x32#.Devialet.CallMeMaybe.MethodOptions:h\n\x14\x64vltEnumValueOptions\x12!.google.protobuf.EnumValueOptions\x18\xd2\t \x01(\x0b\x32&.Devialet.CallMeMaybe.EnumValueOptionsB\x03\x90\x01\x01')
   ,
   dependencies=[google_dot_protobuf_dot_descriptor__pb2.DESCRIPTOR,])
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 DVLTFIELDOPTIONS_FIELD_NUMBER = 1234
@@ -327,6 +326,7 @@ DESCRIPTOR.extensions_by_name['dvltFieldOptions'] = dvltFieldOptions
 DESCRIPTOR.extensions_by_name['dvltServiceOptions'] = dvltServiceOptions
 DESCRIPTOR.extensions_by_name['dvltMethodOptions'] = dvltMethodOptions
 DESCRIPTOR.extensions_by_name['dvltEnumValueOptions'] = dvltEnumValueOptions
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 FieldOptions = _reflection.GeneratedProtocolMessageType('FieldOptions', (_message.Message,), dict(
   DESCRIPTOR = _FIELDOPTIONS,

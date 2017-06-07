@@ -23,7 +23,6 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   serialized_pb=_b('\n\x1fTheSoundOfSilence/Picture.proto\x12\x14\x44\x65vialet.AudioSource\x1a\x1d\x43\x61llMeMaybe/CallMeMaybe.proto\"\x7f\n\x07Picture\x12\x0c\n\x04size\x18\x01 \x02(\r\x12\x0c\n\x04type\x18\x02 \x02(\r\x12\x13\n\x04\x64\x61ta\x18\x03 \x02(\x0c\x42\x05\x92M\x02\x08\x00\"(\n\x04Size\x12\t\n\x05Large\x10\x01\x12\n\n\x06Normal\x10\x02\x12\t\n\x05Small\x10\x03\"\x19\n\x04Type\x12\x08\n\x04Http\x10\x01\x12\x07\n\x03Raw\x10\x02\"\x17\n\tPictureId\x12\n\n\x02id\x18\x01 \x02(\x0c\x42\x03\x90\x01\x01')
   ,
   dependencies=[CallMeMaybe_dot_CallMeMaybe__pb2.DESCRIPTOR,])
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -157,6 +156,7 @@ _PICTURE_SIZE.containing_type = _PICTURE
 _PICTURE_TYPE.containing_type = _PICTURE
 DESCRIPTOR.message_types_by_name['Picture'] = _PICTURE
 DESCRIPTOR.message_types_by_name['PictureId'] = _PICTUREID
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 Picture = _reflection.GeneratedProtocolMessageType('Picture', (_message.Message,), dict(
   DESCRIPTOR = _PICTURE,

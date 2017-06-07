@@ -23,7 +23,6 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   serialized_pb=_b('\n TheSoundOfSilence/Playlist.proto\x12\x14\x44\x65vialet.AudioSource\x1a\x1cTheSoundOfSilence/Node.proto\"C\n\x08Playlist\x12\x0c\n\x04name\x18\x01 \x02(\t\x12)\n\x05nodes\x18\x02 \x02(\x0b\x32\x1a.Devialet.AudioSource.NodeB\x03\x90\x01\x01')
   ,
   dependencies=[TheSoundOfSilence_dot_Node__pb2.DESCRIPTOR,])
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -67,6 +66,7 @@ _PLAYLIST = _descriptor.Descriptor(
 
 _PLAYLIST.fields_by_name['nodes'].message_type = TheSoundOfSilence_dot_Node__pb2._NODE
 DESCRIPTOR.message_types_by_name['Playlist'] = _PLAYLIST
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 Playlist = _reflection.GeneratedProtocolMessageType('Playlist', (_message.Message,), dict(
   DESCRIPTOR = _PLAYLIST,
