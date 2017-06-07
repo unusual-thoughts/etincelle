@@ -35,6 +35,9 @@ message RegistrarErrors {
 message WhatsUpNetwork {
 	required string ip = 1 ;
 	required int32 prefix = 2 ;
+	optional bytes mac = 3 ;
+	optional uint32 tx = 4 ;
+	optional uint32 rx = 5 ;
 }
 
 message WhatsUpNetworkInterface {

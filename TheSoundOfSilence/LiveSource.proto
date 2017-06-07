@@ -37,6 +37,14 @@ message LiveSourceAvailableMethods {
 	required bool isNameUserEditable = 2 ;
 	required bool isSelectable = 3 ;
 	optional bool allowToDisableAutoSwitch = 4 [default = true] ;
+	optional bool allowSetLatency = 5 [default = false] ;
+}
+
+message LiveSourceLatency {
+	required uint32 currentLatency = 1 ;
+	required uint32 defaultLatency = 2 ;
+	required uint32 maxLatency = 3 ;
+	required uint32 minLatency = 4 ;
 }
 
 message LoadSessionQuery {
@@ -51,6 +59,16 @@ service LiveSourceSession {
 	rpc picture(.Devialet.CallMeMaybe.Empty) returns (.Devialet.AudioSource.Picture) {
 	}
 	rpc defaultVolume(.Devialet.CallMeMaybe.Empty) returns (.Devialet.CallMeMaybe.DoubleProperty) {
+	}
+	rpc latency(.Devialet.CallMeMaybe.Empty) returns (.Devialet.AudioSource.LiveSourceLatency) {
+	}
+	rpc setLatency(.Devialet.CallMeMaybe.UInt32Property) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc latencyChanged(.Devialet.CallMeMaybe.UInt32Property) returns (.Devialet.CallMeMaybe.Empty) {
+		option (Devialet.CallMeMaybe.dvltMethodOptions) = {
+			isNotification: true
+			
+		};
 	}
 	option (Devialet.CallMeMaybe.dvltServiceOptions) = {
 		serviceName: "com.devialet.source-session-0.live-0"

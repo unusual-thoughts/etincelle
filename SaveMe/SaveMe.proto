@@ -119,7 +119,7 @@ service SavePlaylist {
 		errorEnumName: "Devialet.SaveMe.SavePlaylistError.Code"
 		properties {
 		  property {
-		    type: "Devialet.SaveMe.PlaylistSaved"
+		    type: "PlaylistSaved"
 		    name: "playlists"
 		    constant: true
 		  }

@@ -11,6 +11,8 @@ message IndexMsg {
 message ProgressionMsg {
 	required int64 position = 1 ;
 	required int64 duration = 2 ;
+	optional int64 buffering = 3 ;
+	optional uint32 preloading = 4 ;
 }
 
 message StateMsg {

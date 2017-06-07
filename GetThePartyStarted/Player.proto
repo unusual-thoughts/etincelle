@@ -51,6 +51,28 @@ message OpticalModeParameters {
 	}
 }
 
+message InstallProModeParameters {
+	required uint32 role = 1 ;
+	required uint32 channel = 2 ;
+	required uint32 volume = 3 ;
+	required uint32 latency = 4 ;
+	required bool bluetoothEnabled = 5 ;
+	required bool opticalEnabled = 6 ;
+	required bool cplEnabled = 7 ;
+	repeated bytes slaveSerials = 8 ;
+	
+	enum Role {
+		Master = 1;
+		Slave = 2;
+	}
+	
+	enum Channel {
+		Left = 1;
+		Right = 2;
+		Mix = 3;
+	}
+}
+
 message StandaloneConfiguration {
 	required uint32 mode = 1 ;
 	
@@ -109,6 +131,10 @@ service Setup {
 	rpc applyDeviceName(.Devialet.CallMeMaybe.StringProperty) returns (.Devialet.CallMeMaybe.Empty) {
 	}
 	rpc completeConfiguration(.Devialet.CallMeMaybe.Empty) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc enableInstallProMode(.Devialet.GetThePartyStarted.Player.InstallProModeParameters) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc resetToInstallFactory(.Devialet.CallMeMaybe.Empty) returns (.Devialet.CallMeMaybe.Empty) {
 	}
 	option (Devialet.CallMeMaybe.dvltServiceOptions) = {
 		serviceName: "com.devialet.getthepartystarted.setup-0.slave-0.remote-0.player-0"

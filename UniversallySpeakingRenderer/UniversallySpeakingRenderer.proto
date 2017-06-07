@@ -1,0 +1,59 @@
+syntax = "proto2";
+package Devialet.UniversallySpeakingRenderer;
+import "CallMeMaybe/CommonMessages.proto";
+import "CallMeMaybe/CallMeMaybe.proto";
+option py_generic_services = true;
+
+service Agent {
+	rpc play(.Devialet.CallMeMaybe.Empty) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc pause(.Devialet.CallMeMaybe.Empty) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc stop(.Devialet.CallMeMaybe.Empty) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc next(.Devialet.CallMeMaybe.Empty) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc previous(.Devialet.CallMeMaybe.Empty) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	rpc seek(.Devialet.CallMeMaybe.UInt64Property) returns (.Devialet.CallMeMaybe.Empty) {
+	}
+	option (Devialet.CallMeMaybe.dvltServiceOptions) = {
+		serviceName: "com.devialet.source-session-0.live-0.universallyspeakingrenderer-0"
+		baseService: "Devialet.AudioSource.LiveSourceSession"
+		properties {
+		  property {
+		    type: "Devialet.CallMeMaybe.BytesProperty"
+		    name: "playerId"
+		    readOnly: true
+		  }
+		  property {
+		    type: "Devialet.CallMeMaybe.BoolProperty"
+		    name: "isPlaying"
+		    readOnly: true
+		  }
+		  property {
+		    type: "Devialet.CallMeMaybe.StringProperty"
+		    name: "userAgent"
+		    readOnly: true
+		  }
+		  property {
+		    type: "Devialet.CallMeMaybe.UInt64Property"
+		    name: "size"
+		    readOnly: true
+		  }
+		  property {
+		    type: "Devialet.CallMeMaybe.UInt64Property"
+		    name: "duration"
+		    readOnly: true
+		    logUpdate: false
+		  }
+		  property {
+		    type: "Devialet.CallMeMaybe.UInt64Property"
+		    name: "position"
+		    readOnly: true
+		    logUpdate: false
+		  }
+		}
+		
+	};
+}
