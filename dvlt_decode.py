@@ -3,11 +3,10 @@ import re
 import struct
 from datetime import datetime
 from io import BytesIO
+from collections import deque
 
 from dvlt_messages import interpret_as, raw_decode
 from dvlt_services import DevialetRPCProcessor
-
-# import RPCMessages_pb2
 from dvlt_output import print_error, print_warning, print_info, print_data
 
 
@@ -18,6 +17,7 @@ class DevialetSection:
         self.raw_fields = raw_section
         self.time = time
 
+        # Sanity Checks
         try:
             self.magic = raw_section[0]['firstbyte']
             # Delimiter, always empty
@@ -55,13 +55,11 @@ class DevialetFlow:
 
         self.incoming_buf = BytesIO()
         self.outgoing_buf = BytesIO()
-        self.incoming_sections = []
-        self.outgoing_sections = []
+        self.incoming_sections = deque()
+        self.outgoing_sections = deque()
         self.magics = [0xC2, 0xC3]
         self.warnings = []
         self.rpc_server_is_phantom = True
-
-    # def read_interleaved
 
     def read_one_section(self, buf, dest, time=None):
         pos = buf.tell()
@@ -86,7 +84,6 @@ class DevialetFlow:
             # print_error("bad section: {}, seeking back to {}", field_header, pos)
             return False
 
-        # print('.')
         dest.append(DevialetSection(raw_section, time=(time if time else self.start_time)))
         return True
 
@@ -131,20 +128,17 @@ class DevialetFlow:
 
     def rpc_walk(self):
         # Each section should correspond to a RPC request/reply,
-        # with 2 protobufs each time
-
-        # The "uid" parameter in the section, when present (== when magic is C3, and only on incoming packets)
-        # is apparently equal to the first member of a 4 element protobuf in the same section
+        # with 2 outgoing protobufs and 2 (or more for propertyget/multipart) incoming,
+        # or an RPC event, with 2 (or more?) incoming, and no outgoing
 
         rpc_processor = DevialetRPCProcessor()
-        incoming_iterator = iter(self.incoming_sections)
-        outgoing_iterator = iter(self.outgoing_sections)
 
         print_info("Walking {}", self.name)
-        # this may cut out some protobufs at the end (shortest of incoming or outgoing)
-        # for (incoming_section, outgoing_section) in zip(incoming_iterator, outgoing_iterator):
-        for incoming_section in incoming_iterator:
-            print_data("-------")
+        print_data('=' * 32)
+
+        for i in range(len(self.incoming_sections)):
+            print_data('-' * 16)
+            incoming_section = self.incoming_sections.popleft()
             incoming_pb = incoming_section.raw_protobufs
 
             if incoming_section.magic == 0xC3:
@@ -154,6 +148,9 @@ class DevialetFlow:
 
                     # service_name, package, service, method = find_method(evt, service_list)
                     rpc_processor.process_rpc(evt, incoming_pb[1], incoming_pb[1:], is_event=True)
+
+                    # The "uid" parameter in the section, when present (== when magic is C3, and only on incoming packets)
+                    # should be equal to the server ID
                     print_info("in_time:{} evt:{} {}/{:>10d}/{:>12d}{:31s} {} E",
                         incoming_section.time,
                         evt.serverId[:4].hex(), evt.type, evt.subTypeId, evt.serviceId,
@@ -166,29 +163,34 @@ class DevialetFlow:
 
             else:
                 try:
-                    outgoing_section = next(outgoing_iterator)
+                    outgoing_section = self.outgoing_sections.popleft()
                     outgoing_pb = outgoing_section.raw_protobufs
                     req = interpret_as(outgoing_pb[0], "Devialet.CallMeMaybe.Request")
                     rep = interpret_as(incoming_pb[0], "Devialet.CallMeMaybe.Reply")
+                    bad_reqs = deque()
 
-                    if rep.requestId != req.requestId:
+                    # (First two bytes (or more) of request id appear to be sequential)
+                    while rep.requestId != req.requestId:
+                        bad_reqs.appendleft(outgoing_section)
                         # print("Error: Inconstistent requestId, maybe protobufs not in lockstep. requestId/type/subTypeId/serviceId: req:{}/{}/{}/{}, rep:{}/{}/{}/{}".format(
                         #     req.requestId.hex(), req.type, req.subTypeId, req.serviceId, rep.requestId.hex(), rep.type, rep.subTypeId, rep.serviceId,
                         # ))
-                        print_warning("Dropping request {}", req.requestId.hex())
+                        print_warning("Request id {} out of order", req.requestId.hex())
                         try:
-                            next(outgoing_iterator)
-                        except StopIteration:
-                            pass
+                            outgoing_section = self.outgoing_sections.popleft()
+                            outgoing_pb = outgoing_section.raw_protobufs
+                            req = interpret_as(outgoing_pb[0], "Devialet.CallMeMaybe.Request")
+                        except IndexError:
+                            # Reached end of outgoing_sections
+                            break
+                    self.outgoing_sections.extendleft(bad_reqs)
 
-                    # TODO: handle multipart
-                    if rep.isMultipart:
-                        print_warning("multipart")
-                        if len(incoming_pb) == 2:
-                            print_error('multipart but only 2 incoming protobufs')
-                        # pprint(protobuf_to_dict(rep))
-                    elif len(incoming_pb) > 2:
-                        print_error('we got more incoming protobufs than we should have, not Multipart')
+                    # if rep.isMultipart:
+                    #     print_warning("multipart")
+                    #     if len(incoming_pb) == 2:
+                    #         print_error('multipart but only 2 incoming protobufs')
+                    if not rep.isMultipart and len(incoming_pb) > 2:
+                        print_warning('we got more incoming protobufs than we should have, not Multipart')
 
                     if len(outgoing_pb) > 2:
                         print_error('we got more than 2 outgoing protobufs')
@@ -206,11 +208,10 @@ class DevialetFlow:
                         req.requestId[:4].hex(), req.type, req.subTypeId, req.serviceId, rep.requestId[:4].hex(), rep.type, rep.subTypeId, rep.serviceId,
                         'M' if rep.isMultipart else ' ',
                         ' ' if method.name == 'ping' else 'C' if method.name == 'openConnection' else '.',
-                        # 'u' if incoming_section.uid else ' ',
                         '<' if rep.requestId != req.requestId else ' ',
                     )
 
-                except StopIteration:
+                except IndexError:
                     print_error('Stream ended prematurely, missing outgoing section')
                 except Exception as e:
                     print_error("Looks like we are out of sync or something: {} {}", type(e), e)
@@ -229,19 +230,11 @@ class DevialetFlow:
                     #     "magic": incoming_section.magic
                     # })
 
-        i = 0
-        for incoming in incoming_iterator:
-            i += 1
+        if len(self.incoming_sections)  != 0:
+            print_error('There were {} incoming sections remaining', len(self.incoming_sections))
 
-        if i != 0:
-            print_error('There were {} incoming sections remaining', i)
-
-        i = 0
-        for outgoing in outgoing_iterator:
-            i += 1
-
-        if i != 0:
-            print_error('There were {} outgoing sections remaining', i)
+        if len(self.outgoing_sections) != 0:
+            print_error('There were {} outgoing sections remaining', len(self.outgoing_sections))
 
 
 class DevialetManyFlows:
@@ -266,8 +259,21 @@ class AndroidFlows(DevialetManyFlows):
                 flow = DevialetFlow(name=capture, phantom_port=port, spark_port=port, start_time=datetime.fromtimestamp(int(time)/1000))
                 self.add_flow(flow)
 
-            for packet in self.packet_iter(os.path.join(self.dirname, capture)):
-                flow.decode(packet['data'], time=packet['time'], incoming=packet['direction'])
+            it = self.packet_iter(os.path.join(self.dirname, capture))
+            try:
+                first_packet = next(it)
+                # If first packet is incoming, then rpc server is Spark
+                flow.rpc_server_is_phantom = not first_packet['direction']
+                flow.decode(first_packet['data'], time=first_packet['time'], incoming=False)
+                if not flow.rpc_server_is_phantom:
+                    print_info("Found flow where Spark appears to be RPC server")
+                for packet in it:
+                    # Switch incoming/outgoing if rpc server is spark
+                    is_incoming = packet['direction'] ^ (not flow.rpc_server_is_phantom)
+                    flow.decode(packet['data'], time=packet['time'], incoming=is_incoming)
+            except:
+                # Empty flow
+                pass
 
         for key in self.flows:
             self.flows[key].close()
