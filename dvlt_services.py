@@ -58,10 +58,10 @@ class DevialetRPCProcessor:
                 .properties \
                 .property
         try:
-            # print("Trying to get property {} from {}".format(property_id, service_desc.full_name))
+            # print('Trying to get property {} from {}'.format(property_id, service_desc.full_name))
             # return props[property_id]
             prop = interpret_as(output_raw, props[property_id].type)
-            print_data("property {}:".format(props[property_id].name), prop)
+            print_data('property {}:'.format(props[property_id].name), prop)
             return prop
         except IndexError:
             print_error('Too many multiparts for propertyget({}), {} >= {}', 
@@ -72,13 +72,13 @@ class DevialetRPCProcessor:
         try:
             if rep.serviceId == 0 and not self.service_list:
                 service = RPCMessages_pb2.Connection()
-                service_name_full = "Devialet.CallMeMaybe.Connection"
+                service_name_full = 'Devialet.CallMeMaybe.Connection'
             else:
                 service_name_full = [service.name for service in self.service_list if service.id == rep.serviceId][0]
                 service_name = '.'.join(service_name_full.split('.')[:-1])
                 while service_name not in self.service_by_name and len(service_name.split('.')) > 1:
                     service_name = '.'.join(service_name.split('.')[:-1])
-                    print_info("truncating {} to {}".format(service_name_full, service_name))
+                    print_info('truncating {} to {}'.format(service_name_full, service_name))
                 service = self.service_by_name[service_name]()
 
             service_desc = service.GetDescriptor()
@@ -86,10 +86,10 @@ class DevialetRPCProcessor:
             if rep.subTypeId == 0xFFFFFFFF and rep.type == 1: # These should all be equivalent? Nope at least not for events
                 # Get Properties / No actual method
                 # Usually Multipart is set
-                print_info("PropertyGet details: {} / {} outputs, type={} subtype={}".format(
+                print_info('PropertyGet details: {} / {} outputs, type={} subtype={}'.format(
                     service_name_full, len(outputs_raw), rep.type, rep.subTypeId))
                 if len(input_raw):
-                    print_error('propertyget but input type not empty')
+                    print_error('PropertyGet but input type not empty')
                 outputs_pb = []
                 for i, output_raw in enumerate(outputs_raw):
                     # prop = service_desc.GetOptions().Extensions[CallMeMaybe.CallMeMaybe_pb2.dvltServiceOptions].properties.property[i]
@@ -99,45 +99,59 @@ class DevialetRPCProcessor:
                 return (service_desc, descriptor_pb2.MethodDescriptorProto(), CallMeMaybe.CommonMessages_pb2.Empty(), outputs_pb)
             elif rep.type == 1 and is_event:
                 # Property Update Event?
-                print_info("PropertyUpdate details: {}, type={} subtype={}".format(
+                print_info('PropertyUpdate details: {}, type={} subtype={}'.format(
                     service_name_full, rep.type, rep.subTypeId))
                 prop = self.get_property(service_desc, rep.subTypeId, input_raw)
                 return(service_desc, descriptor_pb2.MethodDescriptorProto(), prop, CallMeMaybe.CommonMessages_pb2.Empty())
             else:
                 # Regular RPC Method, Response + Request (including regular events where output type = CmmEmpty)
                 try:
+                    # For 1000-logic see 
+                    # Devialet::AudioSource::Svc::AuthenticatedOnlineSource::dispatchCall(
+                    #   class Devialet::CallMeMaybe::RequestContext const &,class QByteArray const &)
+                    # in TsosOnlineSourceServer.dll
+                    # rep.subTypeId = rep.subTypeId % 1000
+
+                    if rep.subTypeId >= 1000:
+                        print_warning('Old subTypeId {}', rep.subTypeId)
+                        rep.subTypeId -= 1000
+                        rep.subTypeId += self.method_offset_by_full_name[service_desc.full_name]
+                        print_warning('Using {} for subTypeId', rep.subTypeId)
+                        for i, method in enumerate(service_desc.methods):
+                            print(i, method.full_name)
+
                     method = service_desc.methods[rep.subTypeId]
 
-                    print_info("RPC/Event details: {} -> {} [{} -> {}] {}".format(
+                    print_info('RPC/Event details: {} -> {} [{} -> {}] {}'.format(
                         service_name_full, method.full_name, method.input_type.full_name, method.output_type.full_name, method.output_type.full_name))
 
                     input_pb = service.GetRequestClass(method)()
                     input_pb.ParseFromString(input_raw)
                     if input_pb.FindInitializationErrors():
-                        print_warning("There were uninitialized fields in input proto of type {}: {}",
+                        print_warning('There were uninitialized fields in input proto of type {}: {}',
                                       method.input_type.full_name, input_pb.FindInitializationErrors())
 
                     output_pb = service.GetResponseClass(method)()
                     output_pb.ParseFromString(outputs_raw[0])
                     if output_pb.FindInitializationErrors():
-                        print_warning("There were uninitialized fields in output proto of type {}: {}",
+                        print_warning('There were uninitialized fields in output proto of type {}: {}',
                                       method.output_type.full_name, output_pb.FindInitializationErrors())
 
-                    print_data("input  ({}):".format(method.input_type.full_name), input_pb)
-                    print_data("output ({}):".format(method.output_type.full_name), output_pb)
+                    print_data('input  ({}):'.format(method.input_type.full_name), input_pb)
+                    print_data('output ({}):'.format(method.output_type.full_name), output_pb)
 
-                    if service.DESCRIPTOR.full_name == "Devialet.CallMeMaybe.Connection":
-                        if method.name == "openConnection":
+                    if service.DESCRIPTOR.full_name == 'Devialet.CallMeMaybe.Connection':
+                        if method.name == 'openConnection':
                             self.service_list = output_pb.services
                         if method.name == 'serviceAdded':
-                            print_info("Extending list of services")
+                            print_info('Extending list of services')
                             self.service_list.add(name=input_pb.name, id=input_pb.id)
 
 
                     return(service_desc, method, input_pb, [output_pb])
                 except IndexError as e:
-                    print_error("{} too big for {} that has only {} methods: {}", rep.subTypeId, service_desc.full_name, len(service_desc.methods), e)
-                except message.DecodeError as e:
+                    print_error('{} too big for {} that has only {} methods: {}', rep.subTypeId, service_desc.full_name, len(service_desc.methods), e)
+                except (message.DecodeError, UnicodeDecodeError) as e:
                     print_error('Failed to decode incoming or outgoing protobuf: {}', e)
         except IndexError:
             print_error('Service ID {} not in list {}', rep.serviceId, ' '.join(str(self.service_list).split('\n')))
@@ -150,7 +164,7 @@ class DevialetRPCProcessor:
         method = {'name': 'not found'}
         service = {'name': 'not found'}
         package = {'package_name': 'not found'}
-        service_name_full = ""
+        service_name_full = ''
 
         # if not(self.service_list):
         if rep.serviceId == 0 and not self.service_list:
@@ -281,6 +295,8 @@ class DevialetRPCProcessor:
             WhatsUp_pb2,
         ]
 
+        # Offset of original methods (for 1000 codes)
+        self.method_offset_by_full_name = {}
         # lowercase name with -0 for inheritance
         self.service_by_name = {}
         # Class name
@@ -295,6 +311,7 @@ class DevialetRPCProcessor:
             opts = service.GetDescriptor().GetOptions().Extensions[CallMeMaybe.CallMeMaybe_pb2.dvltServiceOptions]
             service_properties = opts.properties
 
+            original_amount_of_methods = len(service.GetDescriptor().methods)
             new_props = CallMeMaybe.CallMeMaybe_pb2.ServiceProperties()
             # new_props.MergeFrom(service_properties)
             # new_props.Clear()
@@ -321,12 +338,12 @@ class DevialetRPCProcessor:
                         new_props.property[-1].MergeFrom(prop)
                     else:
                         # Should probably replace old with new instead
-                        # print_warning("Duplicate property {} not added", prop.name)
+                        # print_warning('Duplicate property {} not added', prop.name)
                         pass
 
                 service_properties.CopyFrom(new_props)
 
-                # print("Extending props {} with {} : {}".format(service_name, baseservice_name, [p.name for p in service_properties.property]))
+                # print('Extending props {} with {} : {}'.format(service_name, baseservice_name, [p.name for p in service_properties.property]))
 
                 # Extend methods... not working yet
                 # service.GetDescriptor().methods.extend(self.service_by_full_name[baseservice_name].GetDescriptor().methods)
@@ -344,7 +361,7 @@ class DevialetRPCProcessor:
                     service.GetDescriptor().methods = [new_method] + service.GetDescriptor().methods
                     # service.GetDescriptor().methods[-1].containing_service = service.GetDescriptor()
                 # if baseservice_methods:
-                #     print_info("Added {} inherited methods left of original {} from {} to {},",
+                #     print_info('Added {} inherited methods left of original {} from {} to {},',
                 #                len(baseservice_methods),
                 #                len(service.GetDescriptor().methods) - len(baseservice_methods),
                 #                baseservice_name,
@@ -354,6 +371,12 @@ class DevialetRPCProcessor:
 
             # service_desc.GetOptions().Extensions[CallMeMaybe.CallMeMaybe_pb2.dvltServiceOptions].properties.Clear()
             # service_desc.GetOptions().Extensions[CallMeMaybe.CallMeMaybe_pb2.dvltServiceOptions].properties.property.MergeFrom(props)
-
+            self.method_offset_by_full_name[service_name] = len(service.GetDescriptor().methods) - original_amount_of_methods
+            if self.method_offset_by_full_name[service_name] != 0:
+                print_info('Added {} inherited methods left of original {} IN TOTAL to {}, now {} methods',
+                           self.method_offset_by_full_name[service_name],
+                           original_amount_of_methods,
+                           service_name,
+                           len(service.GetDescriptor().methods))
         # pprint(self.service_by_name)
         

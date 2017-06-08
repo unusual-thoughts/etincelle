@@ -1,6 +1,7 @@
 import os
 import xml.etree.ElementTree as etree
 from functools import partial
+from collections import deque
 
 from dvlt_decode import DevialetManyFlows, DevialetFlow
 from dvlt_output import *
@@ -37,28 +38,28 @@ class TCPFlows(DevialetManyFlows):
                         is_incoming = True
                     if spark_port >= 0:
                         with open(os.path.join(dirname, os.path.basename(filename.text)), 'rb') as datafile:
-                            print_info("Decoding {}", filename.text)
+                            print_info('Decoding {}', filename.text)
                             if (phantom_port, spark_port) in self.flows:
                                 flow = self.flows[(phantom_port, spark_port)]
 
                                 # Find flows where Spark is the RPC server
                                 if flow.outgoing_sections and not flow.incoming_sections and flow.start_time > time and is_incoming:
-                                    print_info("Found flow where Spark appears to be RPC server")
+                                    print_info('Found flow where Spark appears to be RPC server')
                                     flow.incoming_sections = flow.outgoing_sections
-                                    flow.outgoing_sections = []
+                                    flow.outgoing_sections = deque()
                                     is_incoming = False
                                     flow.rpc_server_is_phantom = False
                                 if flow.incoming_sections and not flow.outgoing_sections and flow.start_time < time and not is_incoming:
-                                    print_info("Found flow where Spark appears to be RPC server")
+                                    print_info('Found flow where Spark appears to be RPC server')
                                     flow.outgoing_sections = flow.incoming_sections
-                                    flow.incoming_sections = []
+                                    flow.incoming_sections = deque()
                                     is_incoming = True
                                     flow.rpc_server_is_phantom = False
                             else:
                                 flow = DevialetFlow(name=datafile.name, phantom_port=phantom_port, spark_port=spark_port, start_time=time)
                                 self.add_flow(flow)
                             for buf in iter(partial(datafile.read, self.bufsize), b''):
-                                # print_info("Partial decode")
+                                # print_info('Partial decode')
                                 flow.decode(buf, time=time, incoming=is_incoming)
 
     def decode_all(self):
@@ -67,5 +68,6 @@ class TCPFlows(DevialetManyFlows):
             flow.rpc_walk()
 
 if __name__ == '__main__':
-    flows = TCPFlows('/tmp/tcpflow', '192.168.178.37', '192.168.178.133')
+    flows = TCPFlows('/path/to/captures/mp3streaming_tcpflow', '192.168.178.37', '192.168.178.133')
+    # flows = TCPFlows('/path/to/captures/boot_phantom_then_spark2', '192.168.178.66', '192.168.178.43')
     flows.decode_all()
