@@ -1,44 +1,44 @@
-import SaveMe.SaveMe_pb2
-import WhatsUp_pb2
-import google.protobuf.descriptor_pb2
-import MasterOfPuppets.Configuration_pb2
 import AppleAirPlay.Playback_pb2
-import LeftAlone.Configuration_pb2
-import TwerkIt.SoundDesign_pb2
-import TheSoundOfSilence.Playlist_pb2
-import TheSoundOfSilence.OnlineSource_pb2
-import TheSoundOfSilence.Artist_pb2
-import TheSoundOfSilence.LiveSource_pb2
-import TheSoundOfSilence.Session_pb2
-import TheSoundOfSilence.Subcategory_pb2
-import TheSoundOfSilence.Source_pb2
-import TheSoundOfSilence.Node_pb2
-import TheSoundOfSilence.TrackDetails_pb2
-import TheSoundOfSilence.Collection_pb2
-import TheSoundOfSilence.Picture_pb2
-import TheSoundOfSilence.Album_pb2
-import TheSoundOfSilence.Category_pb2
-import TheSoundOfSilence.Track_pb2
-import TooManyFlows.Playback_pb2
-import TooManyFlows.Playlist_pb2
-import TooManyFlows.History_pb2
-import TooManyFlows.SoundControl_pb2
-import TooManyFlows.Configuration_pb2
-import TooManyFlows.Metadata_pb2
-import TooManyFlows.SoundDesign_pb2
-import TooManyFlows.Identifier_pb2
-import Fresh.Fresh_pb2
-import IMASlave4U.SoundControl_pb2
-import IMASlave4U.Configuration_pb2
-import IMASlave4U.SoundDesign_pb2
-import RPCMessages_pb2
-import SpotifyConnect.SpotifyConnect_pb2
 import CallMeMaybe.CallMeMaybe_pb2
 import CallMeMaybe.CommonMessages_pb2
-import GetThePartyStarted.Player_pb2
+import Fresh.Fresh_pb2
+import GetThePartyStarted.Aerobase_pb2
 import GetThePartyStarted.GetThePartyStarted_pb2
 import GetThePartyStarted.Logging_pb2
-import GetThePartyStarted.Aerobase_pb2
+import GetThePartyStarted.Player_pb2
+import IMASlave4U.Configuration_pb2
+import IMASlave4U.SoundControl_pb2
+import IMASlave4U.SoundDesign_pb2
+import LeftAlone.Configuration_pb2
+import MasterOfPuppets.Configuration_pb2
+import RPCMessages_pb2
+import SaveMe.SaveMe_pb2
+import SpotifyConnect.SpotifyConnect_pb2
+import TheSoundOfSilence.Album_pb2
+import TheSoundOfSilence.Artist_pb2
+import TheSoundOfSilence.Category_pb2
+import TheSoundOfSilence.Collection_pb2
+import TheSoundOfSilence.LiveSource_pb2
+import TheSoundOfSilence.Node_pb2
+import TheSoundOfSilence.OnlineSource_pb2
+import TheSoundOfSilence.Picture_pb2
+import TheSoundOfSilence.Playlist_pb2
+import TheSoundOfSilence.Session_pb2
+import TheSoundOfSilence.Source_pb2
+import TheSoundOfSilence.Subcategory_pb2
+import TheSoundOfSilence.Track_pb2
+import TheSoundOfSilence.TrackDetails_pb2
+import TooManyFlows.Configuration_pb2
+import TooManyFlows.History_pb2
+import TooManyFlows.Identifier_pb2
+import TooManyFlows.Metadata_pb2
+import TooManyFlows.Playback_pb2
+import TooManyFlows.Playlist_pb2
+import TooManyFlows.SoundControl_pb2
+import TooManyFlows.SoundDesign_pb2
+import TwerkIt.SoundDesign_pb2
+import UniversallySpeakingRenderer.UniversallySpeakingRenderer_pb2
+import WhatsUp_pb2
 
 import subprocess
 from protobuf_to_dict import protobuf_to_dict
@@ -135,24 +135,6 @@ all_msgs = {
     'Devialet.WhatsUp.RegistryFindServicesQuery': WhatsUp_pb2.RegistryFindServicesQuery,
     'Devialet.WhatsUp.RegistryNetworkConfigurationChangedNotification': WhatsUp_pb2.RegistryNetworkConfigurationChangedNotification,
     'Devialet.WhatsUp.RegistryHostUpdatedNotification': WhatsUp_pb2.RegistryHostUpdatedNotification,
-    'google.protobuf.FileDescriptorSet': google.protobuf.descriptor_pb2.FileDescriptorSet,
-    'google.protobuf.FileDescriptorProto': google.protobuf.descriptor_pb2.FileDescriptorProto,
-    'google.protobuf.DescriptorProto': google.protobuf.descriptor_pb2.DescriptorProto,
-    'google.protobuf.FieldDescriptorProto': google.protobuf.descriptor_pb2.FieldDescriptorProto,
-    'google.protobuf.OneofDescriptorProto': google.protobuf.descriptor_pb2.OneofDescriptorProto,
-    'google.protobuf.EnumDescriptorProto': google.protobuf.descriptor_pb2.EnumDescriptorProto,
-    'google.protobuf.EnumValueDescriptorProto': google.protobuf.descriptor_pb2.EnumValueDescriptorProto,
-    'google.protobuf.ServiceDescriptorProto': google.protobuf.descriptor_pb2.ServiceDescriptorProto,
-    'google.protobuf.MethodDescriptorProto': google.protobuf.descriptor_pb2.MethodDescriptorProto,
-    'google.protobuf.FileOptions': google.protobuf.descriptor_pb2.FileOptions,
-    'google.protobuf.MessageOptions': google.protobuf.descriptor_pb2.MessageOptions,
-    'google.protobuf.FieldOptions': google.protobuf.descriptor_pb2.FieldOptions,
-    'google.protobuf.EnumOptions': google.protobuf.descriptor_pb2.EnumOptions,
-    'google.protobuf.EnumValueOptions': google.protobuf.descriptor_pb2.EnumValueOptions,
-    'google.protobuf.ServiceOptions': google.protobuf.descriptor_pb2.ServiceOptions,
-    'google.protobuf.MethodOptions': google.protobuf.descriptor_pb2.MethodOptions,
-    'google.protobuf.UninterpretedOption': google.protobuf.descriptor_pb2.UninterpretedOption,
-    'google.protobuf.SourceCodeInfo': google.protobuf.descriptor_pb2.SourceCodeInfo,
     'Devialet.MasterOfPuppets.GroupId': MasterOfPuppets.Configuration_pb2.GroupId,
     'Devialet.MasterOfPuppets.BouquetId': MasterOfPuppets.Configuration_pb2.BouquetId,
     'Devialet.MasterOfPuppets.RendererId': MasterOfPuppets.Configuration_pb2.RendererId,
@@ -197,6 +179,7 @@ all_msgs = {
     'Devialet.AudioSource.InputTypeMsg': TheSoundOfSilence.LiveSource_pb2.InputTypeMsg,
     'Devialet.AudioSource.LiveSourceStateMsg': TheSoundOfSilence.LiveSource_pb2.LiveSourceStateMsg,
     'Devialet.AudioSource.LiveSourceAvailableMethods': TheSoundOfSilence.LiveSource_pb2.LiveSourceAvailableMethods,
+    'Devialet.AudioSource.LiveSourceLatency': TheSoundOfSilence.LiveSource_pb2.LiveSourceLatency,
     'Devialet.AudioSource.LoadSessionQuery': TheSoundOfSilence.LiveSource_pb2.LoadSessionQuery,
     'Devialet.AudioSource.UnloadSessionQuery': TheSoundOfSilence.LiveSource_pb2.UnloadSessionQuery,
     'Devialet.AudioSource.SessionId': TheSoundOfSilence.Session_pb2.SessionId,
@@ -291,11 +274,48 @@ all_msgs = {
     'Devialet.CallMeMaybe.StringProperty': CallMeMaybe.CommonMessages_pb2.StringProperty,
     'Devialet.CallMeMaybe.StringListProperty': CallMeMaybe.CommonMessages_pb2.StringListProperty,
     'Devialet.CallMeMaybe.BytesProperty': CallMeMaybe.CommonMessages_pb2.BytesProperty,
+    'google.protobuf.FileDescriptorSet': protobufs.google.protobuf.descriptor.old._pb2.FileDescriptorSet,
+    'google.protobuf.FileDescriptorProto': protobufs.google.protobuf.descriptor.old._pb2.FileDescriptorProto,
+    'google.protobuf.DescriptorProto': protobufs.google.protobuf.descriptor.old._pb2.DescriptorProto,
+    'google.protobuf.FieldDescriptorProto': protobufs.google.protobuf.descriptor.old._pb2.FieldDescriptorProto,
+    'google.protobuf.OneofDescriptorProto': protobufs.google.protobuf.descriptor.old._pb2.OneofDescriptorProto,
+    'google.protobuf.EnumDescriptorProto': protobufs.google.protobuf.descriptor.old._pb2.EnumDescriptorProto,
+    'google.protobuf.EnumValueDescriptorProto': protobufs.google.protobuf.descriptor.old._pb2.EnumValueDescriptorProto,
+    'google.protobuf.ServiceDescriptorProto': protobufs.google.protobuf.descriptor.old._pb2.ServiceDescriptorProto,
+    'google.protobuf.MethodDescriptorProto': protobufs.google.protobuf.descriptor.old._pb2.MethodDescriptorProto,
+    'google.protobuf.FileOptions': protobufs.google.protobuf.descriptor.old._pb2.FileOptions,
+    'google.protobuf.MessageOptions': protobufs.google.protobuf.descriptor.old._pb2.MessageOptions,
+    'google.protobuf.FieldOptions': protobufs.google.protobuf.descriptor.old._pb2.FieldOptions,
+    'google.protobuf.EnumOptions': protobufs.google.protobuf.descriptor.old._pb2.EnumOptions,
+    'google.protobuf.EnumValueOptions': protobufs.google.protobuf.descriptor.old._pb2.EnumValueOptions,
+    'google.protobuf.ServiceOptions': protobufs.google.protobuf.descriptor.old._pb2.ServiceOptions,
+    'google.protobuf.MethodOptions': protobufs.google.protobuf.descriptor.old._pb2.MethodOptions,
+    'google.protobuf.UninterpretedOption': protobufs.google.protobuf.descriptor.old._pb2.UninterpretedOption,
+    'google.protobuf.SourceCodeInfo': protobufs.google.protobuf.descriptor.old._pb2.SourceCodeInfo,
+    'google.protobuf.FileDescriptorSet': protobufs.google.protobuf.descriptor_mod_pb2.FileDescriptorSet,
+    'google.protobuf.FileDescriptorProto': protobufs.google.protobuf.descriptor_mod_pb2.FileDescriptorProto,
+    'google.protobuf.DescriptorProto': protobufs.google.protobuf.descriptor_mod_pb2.DescriptorProto,
+    'google.protobuf.FieldDescriptorProto': protobufs.google.protobuf.descriptor_mod_pb2.FieldDescriptorProto,
+    'google.protobuf.OneofDescriptorProto': protobufs.google.protobuf.descriptor_mod_pb2.OneofDescriptorProto,
+    'google.protobuf.EnumDescriptorProto': protobufs.google.protobuf.descriptor_mod_pb2.EnumDescriptorProto,
+    'google.protobuf.EnumValueDescriptorProto': protobufs.google.protobuf.descriptor_mod_pb2.EnumValueDescriptorProto,
+    'google.protobuf.ServiceDescriptorProto': protobufs.google.protobuf.descriptor_mod_pb2.ServiceDescriptorProto,
+    'google.protobuf.MethodDescriptorProto': protobufs.google.protobuf.descriptor_mod_pb2.MethodDescriptorProto,
+    'google.protobuf.FileOptions': protobufs.google.protobuf.descriptor_mod_pb2.FileOptions,
+    'google.protobuf.MessageOptions': protobufs.google.protobuf.descriptor_mod_pb2.MessageOptions,
+    'google.protobuf.FieldOptions': protobufs.google.protobuf.descriptor_mod_pb2.FieldOptions,
+    'google.protobuf.EnumOptions': protobufs.google.protobuf.descriptor_mod_pb2.EnumOptions,
+    'google.protobuf.EnumValueOptions': protobufs.google.protobuf.descriptor_mod_pb2.EnumValueOptions,
+    'google.protobuf.ServiceOptions': protobufs.google.protobuf.descriptor_mod_pb2.ServiceOptions,
+    'google.protobuf.MethodOptions': protobufs.google.protobuf.descriptor_mod_pb2.MethodOptions,
+    'google.protobuf.UninterpretedOption': protobufs.google.protobuf.descriptor_mod_pb2.UninterpretedOption,
+    'google.protobuf.SourceCodeInfo': protobufs.google.protobuf.descriptor_mod_pb2.SourceCodeInfo,
     'Devialet.GetThePartyStarted.Player.WiFiNetwork': GetThePartyStarted.Player_pb2.WiFiNetwork,
     'Devialet.GetThePartyStarted.Player.ListWiFiNetworksReply': GetThePartyStarted.Player_pb2.ListWiFiNetworksReply,
     'Devialet.GetThePartyStarted.Player.EnableStandaloneAccessPointRequest': GetThePartyStarted.Player_pb2.EnableStandaloneAccessPointRequest,
     'Devialet.GetThePartyStarted.Player.SetupStep': GetThePartyStarted.Player_pb2.SetupStep,
     'Devialet.GetThePartyStarted.Player.OpticalModeParameters': GetThePartyStarted.Player_pb2.OpticalModeParameters,
+    'Devialet.GetThePartyStarted.Player.InstallProModeParameters': GetThePartyStarted.Player_pb2.InstallProModeParameters,
     'Devialet.GetThePartyStarted.Player.StandaloneConfiguration': GetThePartyStarted.Player_pb2.StandaloneConfiguration,
     'Devialet.GetThePartyStarted.Player.AppleWacAccessPointConfiguration': GetThePartyStarted.Player_pb2.AppleWacAccessPointConfiguration,
     'Devialet.GetThePartyStarted.Player.AppleWacWiFiNetworkConfiguration': GetThePartyStarted.Player_pb2.AppleWacWiFiNetworkConfiguration,
@@ -313,5 +333,5 @@ all_msgs = {
     'Devialet.GetThePartyStarted.SetConfigurationRequest': GetThePartyStarted.GetThePartyStarted_pb2.SetConfigurationRequest,
     'Devialet.GetThePartyStarted.UploadLogsRequest': GetThePartyStarted.Logging_pb2.UploadLogsRequest,
     'Devialet.GetThePartyStarted.Aerobase.SetupStep': GetThePartyStarted.Aerobase_pb2.SetupStep,
-    'Devialet.GetThePartyStarted.Aerobase.SetTopologyConfigurationRequest': GetThePartyStarted.Aerobase_pb2.SetTopologyConfigurationRequest
+    'Devialet.GetThePartyStarted.Aerobase.SetTopologyConfigurationRequest': GetThePartyStarted.Aerobase_pb2.SetTopologyConfigurationRequest,
 }

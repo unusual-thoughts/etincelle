@@ -29,8 +29,8 @@ import TheSoundOfSilence.Playlist_pb2
 import TheSoundOfSilence.Session_pb2
 import TheSoundOfSilence.Source_pb2
 import TheSoundOfSilence.Subcategory_pb2
-import TheSoundOfSilence.TrackDetails_pb2
 import TheSoundOfSilence.Track_pb2
+import TheSoundOfSilence.TrackDetails_pb2
 import TooManyFlows.Configuration_pb2
 import TooManyFlows.History_pb2
 import TooManyFlows.Identifier_pb2
@@ -40,6 +40,7 @@ import TooManyFlows.Playlist_pb2
 import TooManyFlows.SoundControl_pb2
 import TooManyFlows.SoundDesign_pb2
 import TwerkIt.SoundDesign_pb2
+import UniversallySpeakingRenderer.UniversallySpeakingRenderer_pb2
 import WhatsUp_pb2
 
 from google.protobuf import descriptor_pb2, message, descriptor
@@ -159,58 +160,9 @@ class DevialetRPCProcessor:
             print_error("Can't find service {} in database", service_name)
         return (descriptor_pb2.ServiceDescriptorProto(), descriptor_pb2.MethodDescriptorProto(), CallMeMaybe.CommonMessages_pb2.Empty(), [])
 
-
-    def find_method(self, rep):
-        method = {'name': 'not found'}
-        service = {'name': 'not found'}
-        package = {'package_name': 'not found'}
-        service_name_full = ''
-
-        # if not(self.service_list):
-        if rep.serviceId == 0 and not self.service_list:
-            # Assume initial service is CallmeMaybe.Connection, which is placed first
-            package = self.all_services_old[0]
-            service = package['services'][rep.type]
-            method = service['methods'][rep.subTypeId]
-
-        elif rep.serviceId in [service.id for service in self.service_list]:
-            service_name_full = [service.name for service in self.service_list if service.id == rep.serviceId][0]
-            # package_name = '.'.join(service_name.split('.')[1:-2])
-            # service_name = '.'.join(service_name.split('.')[-2:-1])
-            package_name, service_name = re.match(
-                '^[^\.]+\.(.*?)(?:-0)?\.([^\.]+?)(?:-0)?\.[^\.]+$', service_name_full).groups()
-            # this isnt perfect, apparently sometimes more than one service: com.devialet.getthepartystarted.configuration-0.player-0.ece3ce2e
-
-            # print(package_name, service_name)
-            
-            for p in self.all_services_old:
-                if p['package_name'].lower() == package_name:
-                    for s in p['services']:
-                        if s['name'].lower() == service_name:
-                            # for m in s['methods']:
-                            #     if m['name'] == 
-                            service = s
-                            package = p
-                            print_warning('service {} from {} appears to correspond to type {}, subtype {} ({})',
-                                service_name, package_name, rep.type, rep.subTypeId, service_name_full
-                            )
-                            try:
-                                method = service['methods'][rep.subTypeId]
-                            except IndexError:
-                                print_error('subTypeId {} too big for {} ({}->{})', 
-                                    rep.subTypeId, service_name_full, package_name, service_name
-                                )
-            if package == {} or service == {}:
-                print_error('service "{}" or package "{}" not found in database', service_name, package_name)
-        else:
-            print_error('Unknown service ID {}', rep.serviceId)
-
-        return (service_name_full, package, service, method)
-
     def find_and_extend_services(self):
         self.all_services = [
             # First one should always be Connection
-            RPCMessages_pb2.Connection,
             SaveMe.SaveMe_pb2.SavePlaylist,
             WhatsUp_pb2.Registrar,
             WhatsUp_pb2.Registry,
@@ -238,7 +190,9 @@ class DevialetRPCProcessor:
             IMASlave4U.SoundControl_pb2.SoundControl,
             IMASlave4U.Configuration_pb2.Configuration,
             IMASlave4U.SoundDesign_pb2.SoundDesign,
+            RPCMessages_pb2.Connection,
             SpotifyConnect.SpotifyConnect_pb2.Agent,
+            UniversallySpeakingRenderer.UniversallySpeakingRenderer_pb2.Agent,
             GetThePartyStarted.Player_pb2.Configuration,
             GetThePartyStarted.Player_pb2.Setup,
             GetThePartyStarted.GetThePartyStarted_pb2.Configuration,
