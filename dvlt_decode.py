@@ -5,9 +5,11 @@ from datetime import datetime
 from io import BytesIO
 from collections import deque
 
-from dvlt_messages import interpret_as, raw_decode
-from dvlt_services import DevialetRPCProcessor
 from dvlt_output import print_error, print_warning, print_info, print_data
+from dvlt_pool import dvlt_pool
+
+import RPCMessages_pb2
+import CallMeMaybe.CallMeMaybe_pb2
 
 
 class DevialetSection:
@@ -60,6 +62,7 @@ class DevialetFlow:
         self.magics = [0xC2, 0xC3]
         self.warnings = []
         self.rpc_server_is_phantom = True
+        self.service_list = RPCMessages_pb2.ServicesList().services
 
     def read_one_section(self, buf, dest, time=None):
         pos = buf.tell()
@@ -87,7 +90,6 @@ class DevialetFlow:
         dest.append(DevialetSection(raw_section, time=(time if time else self.start_time)))
         return True
 
-
     def decode(self, raw=b'', incoming=True, time=None):
         if incoming:
             buf = self.incoming_buf
@@ -99,7 +101,6 @@ class DevialetFlow:
         buf.seek(0, 2)
         buf.write(raw)
         buf.seek(pos)
-        # print('Decoding {}'.format(self.name))
         while self.read_one_section(buf, dest, time=time):
             pass
         # if buf.tell() > pos:
@@ -126,12 +127,25 @@ class DevialetFlow:
         self.incoming_buf.close()
         self.outgoing_buf.close()
 
+    def find_service(self, rep):
+        service_name = 'com.devialet.callmemaybe.connection'
+        try:
+            if rep.serviceId != 0 or self.service_list:
+                service_lowercase_name = [service.name for service in self.service_list if service.id == rep.serviceId][0]
+                # PlayThatFunkyMusic is nowhere in protobufs
+                # service_lowercase_name = service_lowercase_name.replace('playthatfunkymusic', 'toomanyflows')
+                service_name = '.'.join(service_lowercase_name.split('.')[:-1])
+                while service_name not in dvlt_pool.service_by_name and len(service_name.split('.')) > 1:
+                    service_name = '.'.join(service_name.split('.')[:-1])
+                    print_info('truncating {} to {}'.format(service_lowercase_name, service_name))
+        except IndexError:
+            print_error('Service ID {} not in list {}', rep.serviceId, ' '.join(str(self.service_list).split('\n')))
+        return service_name
+
     def rpc_walk(self):
         # Each section should correspond to a RPC request/reply,
         # with 2 outgoing protobufs and 2 (or more for propertyget/multipart) incoming,
         # or an RPC event, with 2 (or more?) incoming, and no outgoing
-
-        rpc_processor = DevialetRPCProcessor()
 
         print_info('Walking {}', self.name)
         if not self.rpc_server_is_phantom:
@@ -147,9 +161,14 @@ class DevialetFlow:
             if incoming_section.magic == 0xC3:
                 # Event?
                 try:
-                    evt = interpret_as(incoming_pb[0], 'Devialet.CallMeMaybe.Event')
+                    evt = dvlt_pool.interpret_as(incoming_pb[0], 'Devialet.CallMeMaybe.Event')
+                    service_name = self.find_service(evt)
 
-                    rpc_processor.process_rpc(evt, incoming_pb[1], incoming_pb[1:], is_event=True)
+                    method, input_pb, outputs_pb = dvlt_pool.process_rpc(service_name, evt, incoming_pb[1], incoming_pb[1:], is_event=True)
+                    if method.containing_service.full_name == 'Devialet.CallMeMaybe.Connection':
+                        if method.name == 'serviceAdded':
+                            print_info('Extending list of services')
+                            self.service_list.add(name=input_pb.name, id=input_pb.id)
 
                     # The 'uid' parameter in the section, when present (== when magic is C3, and only on incoming packets)
                     # should be equal to the server ID
@@ -162,35 +181,30 @@ class DevialetFlow:
                     )
                 except IndexError:
                     print_error('not enough incoming protos for event ({}) < 2', len(incoming_pb))
+                except AttributeError:
+                    pass
 
             else:
                 try:
                     outgoing_section = self.outgoing_sections.popleft()
                     outgoing_pb = outgoing_section.raw_protobufs
-                    req = interpret_as(outgoing_pb[0], 'Devialet.CallMeMaybe.Request')
-                    rep = interpret_as(incoming_pb[0], 'Devialet.CallMeMaybe.Reply')
+                    req = dvlt_pool.interpret_as(outgoing_pb[0], 'Devialet.CallMeMaybe.Request')
+                    rep = dvlt_pool.interpret_as(incoming_pb[0], 'Devialet.CallMeMaybe.Reply')
                     bad_reqs = deque()
 
                     # (First two bytes (or more) of request id appear to be sequential)
                     while rep.requestId != req.requestId:
                         bad_reqs.appendleft(outgoing_section)
-                        # print('Error: Inconstistent requestId, maybe protobufs not in lockstep. requestId/type/subTypeId/serviceId: req:{}/{}/{}/{}, rep:{}/{}/{}/{}'.format(
-                        #     req.requestId.hex(), req.type, req.subTypeId, req.serviceId, rep.requestId.hex(), rep.type, rep.subTypeId, rep.serviceId,
-                        # ))
                         print_warning('Request id {} out of order', req.requestId.hex())
                         try:
                             outgoing_section = self.outgoing_sections.popleft()
                             outgoing_pb = outgoing_section.raw_protobufs
-                            req = interpret_as(outgoing_pb[0], 'Devialet.CallMeMaybe.Request')
+                            req = dvlt_pool.interpret_as(outgoing_pb[0], 'Devialet.CallMeMaybe.Request')
                         except IndexError:
                             # Reached end of outgoing_sections
                             break
                     self.outgoing_sections.extendleft(bad_reqs)
 
-                    # if rep.isMultipart:
-                    #     print_warning('multipart')
-                    #     if len(incoming_pb) == 2:
-                    #         print_error('multipart but only 2 incoming protobufs')
                     if not rep.isMultipart and len(incoming_pb) > 2:
                         print_warning('we got more incoming protobufs than we should have, not Multipart')
 
@@ -202,8 +216,14 @@ class DevialetFlow:
 
                     if len(incoming_pb) < 2:
                         print_error('we got less than 2 incoming protobufs')
-                    # service_name, package, service, method = find_method(rep, service_list)
-                    service, method, input_pb, outputs_pb = rpc_processor.process_rpc(rep, outgoing_pb[1], incoming_pb[1:])
+
+                    service_name = self.find_service(rep)
+                    method, input_pb, outputs_pb = dvlt_pool.process_rpc(
+                        service_name, rep, outgoing_pb[1], incoming_pb[1:])
+
+                    if method.containing_service.full_name == 'Devialet.CallMeMaybe.Connection':
+                        if method.name == 'openConnection':
+                            self.service_list = outputs_pb[0].services
 
                     print_info('out_time:{} in_time:{} req:{}/{}/{:>10d}/{:>12d}, rep:{}/{}/{:>10d}/{:>12d} {}{}{}',
                         outgoing_section.time, incoming_section.time,
@@ -216,21 +236,7 @@ class DevialetFlow:
                 except IndexError:
                     print_error('Stream ended prematurely, missing outgoing section')
                 except Exception as e:
-                    print_error('Looks like we are out of sync or something: {} {}', type(e), e)
-                    print_error('{}', {
-                        'raw_incoming': [raw_decode(raw) for raw in incoming_pb],
-                        'raw_outgoing': [raw_decode(raw) for raw in outgoing_pb]
-                        })
-                    # pprint({
-                    #     'rpc_input_unknown': heuristic_search(outgoing_pb[1]),
-                    #     'rpc_output_unknown': [heuristic_search(x) for x in incoming_pb[1:]],
-                    #     'service_name': service_name,
-                    #     'exception': [type(e), e],
-                    #     'raw_decode_input': raw_decode(outgoing_pb[1]),
-                    #     'raw_decode_output': [raw_decode(x) for x in incoming_pb[1:]],
-                    #     'service_list': service_list,
-                    #     'magic': incoming_section.magic
-                    # })
+                    print_error('Unexpected {} {}', type(e), e)
 
         if len(self.incoming_sections)  != 0:
             print_error('There were {} incoming sections remaining', len(self.incoming_sections))

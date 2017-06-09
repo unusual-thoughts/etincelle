@@ -26,3 +26,11 @@ def print_data(txt, *args, loglevel=DEFAULT_LOGLEVEL):
             for line in pformat(arg).split('\n'):
                 print(termcolor.colored("\t"+line, "white"))
         # print(termcolor.colored(str(txt).format(*[pformat(arg) for arg in args])   , "green"))
+
+
+def print_errordata(txt, *args, loglevel=DEFAULT_LOGLEVEL):
+    if loglevel > 1:
+        print(termcolor.colored(txt, "red"))
+        for arg in args:
+            for line in pformat(arg).split('\n'):
+                print(termcolor.colored("\t"+line, "white"))
