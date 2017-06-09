@@ -3,15 +3,13 @@ import subprocess
 
 from google.protobuf.descriptor_pool import DescriptorPool
 from google.protobuf.message_factory import MessageFactory
-from google.protobuf.descriptor_pb2 import FileDescriptorProto, MethodDescriptorProto
+from google.protobuf.descriptor_pb2 import FileDescriptorProto, ServiceOptions
 import google.protobuf.descriptor
 import google.protobuf.message
 
 from protobuf_to_dict import protobuf_to_dict
 
-import CallMeMaybe.CallMeMaybe_pb2
-import CallMeMaybe.CommonMessages_pb2
-from dvlt_output import *
+from dvlt_output import print_warning, print_error, print_info, print_data, print_errordata
 
 
 def full_len(d):
@@ -44,17 +42,19 @@ def raw_decode(data):
 class DevialetDescriptorPool(DescriptorPool):
     def __init__(self):
         DescriptorPool.__init__(self)
+        # Needed by Extensions
+        self.AddDescriptor(ServiceOptions.DESCRIPTOR)
 
         protoc_filenames = [
             'AppleAirPlay_Playback.protoc',
-            'CallMeMaybe_CallMeMaybe.protoc',
+            # 'CallMeMaybe_CallMeMaybe.protoc',
             'CallMeMaybe_CommonMessages.protoc',
             'Fresh_Fresh.protoc',
             'GetThePartyStarted_Aerobase.protoc',
             'GetThePartyStarted_GetThePartyStarted.protoc',
             'GetThePartyStarted_Logging.protoc',
             'GetThePartyStarted_Player.protoc',
-            'google_protobuf_descriptor.protoc',
+            # 'google_protobuf_descriptor.protoc',
             'IMASlave4U_Configuration.protoc',
             'IMASlave4U_SoundControl.protoc',
             'IMASlave4U_SoundDesign.protoc',
@@ -92,15 +92,24 @@ class DevialetDescriptorPool(DescriptorPool):
 
         proto_filenames = []
 
-        for filename in protoc_filenames:
+        factory = MessageFactory(pool=self)
+        self.messages = {}
+
+        def import_protoc(filename):
             pb_raw = open(os.path.join('protoc', filename), 'rb').read()
             filedesc = FileDescriptorProto()
             filedesc.ParseFromString(pb_raw)
             self.Add(filedesc)
             proto_filenames.append(filedesc.name)
+            # self.messages.update(factory.GetMessages([filedesc.name]))
 
-        for filename in proto_filenames:
-            self.FindFileByName(filename)
+        # Need to import dvltServiceOptions first
+        import_protoc('CallMeMaybe_CallMeMaybe.protoc')
+        self.messages.update(factory.GetMessages(proto_filenames))
+
+        for filename in protoc_filenames:
+            import_protoc(filename)
+        self.messages.update(factory.GetMessages(proto_filenames))
 
         # Offsets of original methods (for 1000 codes)
         self.method_offset_by_full_name = {}
@@ -108,16 +117,17 @@ class DevialetDescriptorPool(DescriptorPool):
         # lowercase names with -0 for inheritance
         self.service_by_name = {}
 
+        # Both will be populated by method below
         self.extend_services()
 
-        factory = MessageFactory(pool=self)
-        self.messages = factory.GetMessages(proto_filenames)
-
     def extend_services(self):
+        service_options_ext = self.FindExtensionByName('Devialet.CallMeMaybe.dvltServiceOptions')
+        service_properties_msg = self.FindMessageTypeByName('Devialet.CallMeMaybe.ServiceProperties')
+        empty_msg = self.FindMessageTypeByName('Devialet.CallMeMaybe.Empty')
         # Extend services with base service props and methods
         for service_name, service in self._service_descriptors.items():
             opts = service.GetOptions().\
-                Extensions[CallMeMaybe.CallMeMaybe_pb2.dvltServiceOptions]
+                Extensions[service_options_ext]
             service_properties = opts.properties
 
             self.service_by_name[opts.serviceName] = service
@@ -129,10 +139,10 @@ class DevialetDescriptorPool(DescriptorPool):
                 # Extending Properties from base service
                 baseservice_opts = self._service_descriptors[baseservice_name]\
                     .GetOptions()\
-                    .Extensions[CallMeMaybe.CallMeMaybe_pb2.dvltServiceOptions]
+                    .Extensions[service_options_ext]
                 base_props = baseservice_opts.properties
 
-                new_props = CallMeMaybe.CallMeMaybe_pb2.ServiceProperties()
+                new_props = self.messages['Devialet.CallMeMaybe.ServiceProperties']()
                 new_props.MergeFrom(base_props)
                 # new_props.property.extend(service_properties.property)
                 for prop in service_properties.property:
@@ -159,7 +169,6 @@ class DevialetDescriptorPool(DescriptorPool):
                     new_methods.append(new_method)
                 service.methods = new_methods + service.methods
 
-
                 # Moving up in base service tree
                 baseservice_name = baseservice_opts.baseService
 
@@ -167,32 +176,25 @@ class DevialetDescriptorPool(DescriptorPool):
             if self.method_offset_by_full_name[service_name] != 0:
                 print_info('Added {} inherited methods left of original {} to {}',
                            self.method_offset_by_full_name[service_name],
-                           original_amount_of_methods,
-                           service_name)
+                           original_amount_of_methods, service_name)
 
         # Add 2 special methods
         for service_name, service in self._service_descriptors.items():
             propertyget = google.protobuf.descriptor.MethodDescriptor(
-                        'propertyGet', service_name + '.propertyGet',
-                        len(service.methods),
-                        service, CallMeMaybe.CommonMessages_pb2.Empty.DESCRIPTOR,
-                        CallMeMaybe.CallMeMaybe_pb2.ServiceProperties.DESCRIPTOR)
+                'propertyGet', service_name + '.propertyGet',
+                len(service.methods), service, empty_msg, service_properties_msg)
             service.methods.append(propertyget)
             service.methods_by_name['propertyGet'] = propertyget
 
             propertyupdate = google.protobuf.descriptor.MethodDescriptor(
-                        'propertyUpdate', service_name + '.propertyUpdate',
-                        len(service.methods),
-                        service, CallMeMaybe.CallMeMaybe_pb2.ServiceProperty.DESCRIPTOR,
-                        CallMeMaybe.CommonMessages_pb2.Empty.DESCRIPTOR)
+                'propertyUpdate', service_name + '.propertyUpdate',
+                len(service.methods), service, service_properties_msg, empty_msg)
             service.methods.append(propertyupdate)
             service.methods_by_name['propertyUpdate'] = propertyupdate
 
             propertyset = google.protobuf.descriptor.MethodDescriptor(
-                        'propertySet', service_name + '.propertyUpdate',
-                        len(service.methods),
-                        service, CallMeMaybe.CallMeMaybe_pb2.ServiceProperty.DESCRIPTOR,
-                        CallMeMaybe.CommonMessages_pb2.Empty.DESCRIPTOR)
+                'propertySet', service_name + '.propertyUpdate',
+                len(service.methods), service, service_properties_msg, empty_msg)
             service.methods.append(propertyset)
             service.methods_by_name['propertySet'] = propertyset
 
@@ -208,15 +210,15 @@ class DevialetDescriptorPool(DescriptorPool):
             return ret
         except Exception as e:
             print_error("Can't interpret protobuf {{{}}} as {}: {}",
-                ' '.join(raw_decode(raw_protobuf)['protoc'].split('\n')), proto_name, e)
+                        ' '.join(raw_decode(raw_protobuf)['protoc'].split('\n')), proto_name, e)
             print_errordata("Possible matches:", self.heuristic_search(raw_protobuf))
             pass
-        return CallMeMaybe.CommonMessages_pb2.Empty()
+        return self.messages['Devialet.CallMeMaybe.Empty']()
 
     def heuristic_search(self, raw_protobuf, filter='', strict=True):
         results = {}
         if len(raw_protobuf) == 0:
-            return { 'empty protobuf' }
+            return {'empty protobuf'}
         for proto in self.messages:
             if proto.startswith(filter):
                 try:
@@ -230,15 +232,13 @@ class DevialetDescriptorPool(DescriptorPool):
                     results[proto] = -1
             else:
                 results[proto] = -1
-        return sorted([(proto, length) for (proto, length) in  results.items() if length > 2 and (length > 0 or length > max(results[x] for x in results)/2)
-            ], key=lambda x:x[1]) 
+        return sorted([
+            (proto, length) for (proto, length) in results.items() if length > 2 and (length > 0 or length > max(results[x] for x in results)/2)
+        ], key=lambda x: x[1])
 
     def get_property(self, service_desc, property_id, output_raw):
-        props = service_desc \
-                .GetOptions() \
-                .Extensions[CallMeMaybe.CallMeMaybe_pb2.dvltServiceOptions] \
-                .properties \
-                .property
+        service_options_ext = self.FindExtensionByName('Devialet.CallMeMaybe.dvltServiceOptions')
+        props = service_desc.GetOptions().Extensions[service_options_ext].properties.property
         try:
             # Fix for PlaylistSaved
             if props[property_id].type not in self.messages:
@@ -247,16 +247,17 @@ class DevialetDescriptorPool(DescriptorPool):
             print_data('property {}:'.format(props[property_id].name), prop)
             return prop
         except IndexError:
-            print_error('Too many multiparts for propertyget({}), {} >= {}, raw {}', 
-                service_desc.full_name, property_id, len(props),
-                ' '.join(raw_decode(output_raw)['protoc'].split('\n')))
-            return CallMeMaybe.CommonMessages_pb2.Empty()
+            print_error('Too many multiparts for propertyget({}), {} >= {}, raw {}',
+                        service_desc.full_name, property_id, len(props),
+                        ' '.join(raw_decode(output_raw)['protoc'].split('\n')))
+            return self.messages['Devialet.CallMeMaybe.Empty']()
 
     def process_rpc(self, service_name, rep, input_raw, outputs_raw, is_event=False):
-        try:         
+        empty = self.messages['Devialet.CallMeMaybe.Empty']()
+        try:
             service_desc = self.service_by_name[service_name]
 
-            if rep.subTypeId == 0xFFFFFFFF and rep.type == 1: # These should all be equivalent? Nope at least not for events
+            if rep.subTypeId == 0xFFFFFFFF and rep.type == 1:
                 # Get Properties / No actual method
                 # Usually Multipart is set
                 print_info('PropertyGet details: {} / {} outputs, type={} subtype={}'.format(
@@ -268,23 +269,23 @@ class DevialetDescriptorPool(DescriptorPool):
                     prop = self.get_property(service_desc, i, output_raw)
                     outputs_pb.append(prop)
                     # print_data(prop.name, interpret_as(output_raw, prop.type))
-                return (service_desc.methods_by_name['propertyGet'], CallMeMaybe.CommonMessages_pb2.Empty(), outputs_pb)
+                return (service_desc.methods_by_name['propertyGet'], empty, outputs_pb)
             elif rep.type == 1 and is_event:
                 # Property Update Event
                 print_info('PropertyUpdate details: {}, type={} subtype={}'.format(
                     service_name, rep.type, rep.subTypeId))
                 prop = self.get_property(service_desc, rep.subTypeId, input_raw)
-                return (service_desc.methods_by_name['propertyUpdate'], prop, CallMeMaybe.CommonMessages_pb2.Empty())
+                return (service_desc.methods_by_name['propertyUpdate'], prop, empty)
             elif rep.type == 1 and not is_event:
                 # Property Set Request
                 print_info('PropertySet details: {}, type={} subtype={}'.format(
                     service_name, rep.type, rep.subTypeId))
                 prop = self.get_property(service_desc, rep.subTypeId, input_raw)
-                return (service_desc.methods_by_name['propertySet'], prop, CallMeMaybe.CommonMessages_pb2.Empty())
+                return (service_desc.methods_by_name['propertySet'], prop, empty)
             else:
                 # Regular RPC Method, Response + Request (including regular events where output type = CmmEmpty)
                 try:
-                    # For 1000-logic see 
+                    # For 1000-logic see
                     # Devialet::AudioSource::Svc::AuthenticatedOnlineSource::dispatchCall(
                     #   class Devialet::CallMeMaybe::RequestContext const &,class QByteArray const &)
                     # in TsosOnlineSourceServer.dll
@@ -316,6 +317,6 @@ class DevialetDescriptorPool(DescriptorPool):
                     print_error('Failed to decode incoming or outgoing protobuf: {}', e)
         except KeyError:
             print_error("Can't find service {} in database", service_name)
-        return (None, CallMeMaybe.CommonMessages_pb2.Empty(), [])
+        return (None, empty, [])
 
 dvlt_pool = DevialetDescriptorPool()

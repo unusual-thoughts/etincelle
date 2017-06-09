@@ -8,9 +8,6 @@ from collections import deque
 from dvlt_output import print_error, print_warning, print_info, print_data
 from dvlt_pool import dvlt_pool
 
-import RPCMessages_pb2
-import CallMeMaybe.CallMeMaybe_pb2
-
 
 class DevialetSection:
     def __init__(self, raw_section, time=None):
@@ -62,7 +59,7 @@ class DevialetFlow:
         self.magics = [0xC2, 0xC3]
         self.warnings = []
         self.rpc_server_is_phantom = True
-        self.service_list = RPCMessages_pb2.ServicesList().services
+        self.service_list = dvlt_pool.messages['Devialet.CallMeMaybe.ServicesList']().services
 
     def read_one_section(self, buf, dest, time=None):
         pos = buf.tell()
@@ -122,7 +119,7 @@ class DevialetFlow:
             print_warning(self.warnings)
 
         print_info('flow {} has {} incoming and {} outgoing sections',
-            self.name, len(self.incoming_sections), len(self.outgoing_sections))
+                   self.name, len(self.incoming_sections), len(self.outgoing_sections))
 
         self.incoming_buf.close()
         self.outgoing_buf.close()
@@ -173,12 +170,10 @@ class DevialetFlow:
                     # The 'uid' parameter in the section, when present (== when magic is C3, and only on incoming packets)
                     # should be equal to the server ID
                     print_info('in_time:{} evt:{} {}/{:>10d}/{:>12d}{:31s} {} E',
-                        incoming_section.time,
-                        evt.serverId[:4].hex(), evt.type, evt.subTypeId, evt.serviceId,
-                        '',
-                        incoming_section.uid[:4].hex(),
-                        # 'u' if incoming_section.uid else ' ',
-                    )
+                               incoming_section.time,
+                               evt.serverId[:4].hex(), evt.type, evt.subTypeId, evt.serviceId,
+                               '',
+                               incoming_section.uid[:4].hex())
                 except IndexError:
                     print_error('not enough incoming protos for event ({}) < 2', len(incoming_pb))
                 except AttributeError:
@@ -226,19 +221,18 @@ class DevialetFlow:
                             self.service_list = outputs_pb[0].services
 
                     print_info('out_time:{} in_time:{} req:{}/{}/{:>10d}/{:>12d}, rep:{}/{}/{:>10d}/{:>12d} {}{}{}',
-                        outgoing_section.time, incoming_section.time,
-                        req.requestId[:4].hex(), req.type, req.subTypeId, req.serviceId, rep.requestId[:4].hex(), rep.type, rep.subTypeId, rep.serviceId,
-                        'M' if rep.isMultipart else ' ',
-                        ' ' if method.name == 'ping' else 'C' if method.name == 'openConnection' else '.',
-                        '<' if rep.requestId != req.requestId else ' ',
-                    )
+                               outgoing_section.time, incoming_section.time,
+                               req.requestId[:4].hex(), req.type, req.subTypeId, req.serviceId, rep.requestId[:4].hex(), rep.type, rep.subTypeId, rep.serviceId,
+                               'M' if rep.isMultipart else ' ',
+                               ' ' if method.name == 'ping' else 'C' if method.name == 'openConnection' else '.',
+                               '<' if rep.requestId != req.requestId else ' ')
 
                 except IndexError:
                     print_error('Stream ended prematurely, missing outgoing section')
                 except Exception as e:
                     print_error('Unexpected {} {}', type(e), e)
 
-        if len(self.incoming_sections)  != 0:
+        if len(self.incoming_sections) != 0:
             print_error('There were {} incoming sections remaining', len(self.incoming_sections))
 
         if len(self.outgoing_sections) != 0:
@@ -295,7 +289,7 @@ class AndroidFlows(DevialetManyFlows):
                 tstamp, direction, pad1, pad2, length, pad3 = struct.unpack('<qBBHhH', header)
                 packet = {
                     'time': datetime.fromtimestamp(tstamp / 1000),
-                    'direction': direction, #'->' if direction else '<-'
+                    'direction': direction,
                     'number': i,
                     'length': length,
                     'merged': 1,
@@ -304,12 +298,6 @@ class AndroidFlows(DevialetManyFlows):
                 header = file.read(16)
                 i += 1
                 yield packet
-
-
-    # def decode_sessions(self):
-    #     for dir in self.dirs:
-    #         self.decode_session(dir)
-    #     return [self.decode_session(dir) for dir in self.dirs]
 
 if __name__ == '__main__':
     flows = AndroidFlows('/path/to/android_capture/tmp/sess1')
