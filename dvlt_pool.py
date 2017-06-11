@@ -1,15 +1,22 @@
 import os
+import sys
+import types
 import subprocess
 
 from google.protobuf.descriptor_pool import DescriptorPool
 from google.protobuf.message_factory import MessageFactory
 from google.protobuf.descriptor_pb2 import FileDescriptorProto, ServiceOptions
+from google.protobuf.service_reflection import GeneratedServiceStubType
+import google.protobuf.service
 import google.protobuf.descriptor
 import google.protobuf.message
 
 from protobuf_to_dict import protobuf_to_dict
 
 from dvlt_output import print_warning, print_error, print_info, print_data, print_errordata
+
+sys.modules['Devialet'] = types.ModuleType('Devialet')
+import Devialet
 
 
 def full_len(d):
@@ -91,6 +98,7 @@ class DevialetDescriptorPool(DescriptorPool):
         ]
 
         proto_filenames = []
+        packages = []
 
         factory = MessageFactory(pool=self)
         self.messages = {}
@@ -99,8 +107,10 @@ class DevialetDescriptorPool(DescriptorPool):
             pb_raw = open(os.path.join('protoc', filename), 'rb').read()
             filedesc = FileDescriptorProto()
             filedesc.ParseFromString(pb_raw)
+            # print_data(filedesc.name, filedesc)
             self.Add(filedesc)
             proto_filenames.append(filedesc.name)
+            packages.append(filedesc.package)
             # self.messages.update(factory.GetMessages([filedesc.name]))
 
         # Need to import dvltServiceOptions first
@@ -111,6 +121,28 @@ class DevialetDescriptorPool(DescriptorPool):
             import_protoc(filename)
         self.messages.update(factory.GetMessages(proto_filenames))
 
+        for pkgname in packages:
+            mod = Devialet
+            path = "Devialet"
+            for submodname in pkgname.split('.')[1:]:
+                path += '.' + submodname
+                if hasattr(mod, submodname):
+                    submod = getattr(mod, submodname)
+                else:
+                    submod = sys.modules[path] = types.ModuleType(path)
+                    setattr(mod, submodname, submod)
+                mod = submod
+
+        def get_mod(objname):
+            mod = Devialet
+            for submodname in objname.split('.')[1:-1]:
+                mod = getattr(mod, submodname)
+            return mod
+
+        # Import message classes into modules
+        for msgname, msg in self.messages.items():
+            setattr(get_mod(msgname), msgname.split('.')[-1], msg)
+
         # Offsets of original methods (for 1000 codes)
         self.method_offset_by_full_name = {}
 
@@ -120,10 +152,18 @@ class DevialetDescriptorPool(DescriptorPool):
         # Both will be populated by method below
         self.extend_services()
 
+        # Define service classes and add them to modules
+        for srvname, srvdesc in self._service_descriptors.items():
+            srvtype = GeneratedServiceStubType(srvname, (google.protobuf.service.Service,), {
+                'DESCRIPTOR': srvdesc,
+                '__module__': srvname.split('.')[:-1]
+            })
+            setattr(get_mod(srvname), srvname.split('.')[-1], srvtype)
+
     def extend_services(self):
         service_options_ext = self.FindExtensionByName('Devialet.CallMeMaybe.dvltServiceOptions')
-        service_properties_msg = self.FindMessageTypeByName('Devialet.CallMeMaybe.ServiceProperties')
-        empty_msg = self.FindMessageTypeByName('Devialet.CallMeMaybe.Empty')
+        service_properties_msg = Devialet.CallMeMaybe.ServiceProperties.DESCRIPTOR
+        empty_msg = Devialet.CallMeMaybe.Empty.DESCRIPTOR
         # Extend services with base service props and methods
         for service_name, service in self._service_descriptors.items():
             opts = service.GetOptions().\
@@ -142,7 +182,7 @@ class DevialetDescriptorPool(DescriptorPool):
                     .Extensions[service_options_ext]
                 base_props = baseservice_opts.properties
 
-                new_props = self.messages['Devialet.CallMeMaybe.ServiceProperties']()
+                new_props = Devialet.CallMeMaybe.ServiceProperties()
                 new_props.MergeFrom(base_props)
                 # new_props.property.extend(service_properties.property)
                 for prop in service_properties.property:
@@ -173,10 +213,10 @@ class DevialetDescriptorPool(DescriptorPool):
                 baseservice_name = baseservice_opts.baseService
 
             self.method_offset_by_full_name[service_name] = len(service.methods) - original_amount_of_methods
-            if self.method_offset_by_full_name[service_name] != 0:
-                print_info('Added {} inherited methods left of original {} to {}',
-                           self.method_offset_by_full_name[service_name],
-                           original_amount_of_methods, service_name)
+            # if self.method_offset_by_full_name[service_name] != 0:
+            #     print_info('Added {} inherited methods left of original {} to {}',
+            #                self.method_offset_by_full_name[service_name],
+            #                original_amount_of_methods, service_name)
 
         # Add 2 special methods
         for service_name, service in self._service_descriptors.items():
@@ -213,7 +253,7 @@ class DevialetDescriptorPool(DescriptorPool):
                         ' '.join(raw_decode(raw_protobuf)['protoc'].split('\n')), proto_name, e)
             print_errordata("Possible matches:", self.heuristic_search(raw_protobuf))
             pass
-        return self.messages['Devialet.CallMeMaybe.Empty']()
+        return Devialet.CallMeMaybe.Empty()
 
     def heuristic_search(self, raw_protobuf, filter='', strict=True):
         results = {}
@@ -250,10 +290,10 @@ class DevialetDescriptorPool(DescriptorPool):
             print_error('Too many multiparts for propertyget({}), {} >= {}, raw {}',
                         service_desc.full_name, property_id, len(props),
                         ' '.join(raw_decode(output_raw)['protoc'].split('\n')))
-            return self.messages['Devialet.CallMeMaybe.Empty']()
+            return Devialet.CallMeMaybe.Empty()
 
     def process_rpc(self, service_name, rep, input_raw, outputs_raw, is_event=False):
-        empty = self.messages['Devialet.CallMeMaybe.Empty']()
+        empty = Devialet.CallMeMaybe.Empty()
         try:
             service_desc = self.service_by_name[service_name]
 
@@ -285,11 +325,7 @@ class DevialetDescriptorPool(DescriptorPool):
             else:
                 # Regular RPC Method, Response + Request (including regular events where output type = CmmEmpty)
                 try:
-                    # For 1000-logic see
-                    # Devialet::AudioSource::Svc::AuthenticatedOnlineSource::dispatchCall(
-                    #   class Devialet::CallMeMaybe::RequestContext const &,class QByteArray const &)
-                    # in TsosOnlineSourceServer.dll
-
+                    # subtypes > 1000 mean original methods (non-extended)
                     if rep.subTypeId >= 1000:
                         rep.subTypeId -= 1000
                         rep.subTypeId += self.method_offset_by_full_name[service_desc.full_name]
