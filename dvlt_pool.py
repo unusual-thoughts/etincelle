@@ -218,7 +218,7 @@ class DevialetDescriptorPool(DescriptorPool):
             #                self.method_offset_by_full_name[service_name],
             #                original_amount_of_methods, service_name)
 
-        # Add 2 special methods
+        # Add 3 special methods
         for service_name, service in self._service_descriptors.items():
             propertyget = google.protobuf.descriptor.MethodDescriptor(
                 'propertyGet', service_name + '.propertyGet',
@@ -233,7 +233,7 @@ class DevialetDescriptorPool(DescriptorPool):
             service.methods_by_name['propertyUpdate'] = propertyupdate
 
             propertyset = google.protobuf.descriptor.MethodDescriptor(
-                'propertySet', service_name + '.propertyUpdate',
+                'propertySet', service_name + '.propertySet',
                 len(service.methods), service, service_properties_msg, empty_msg)
             service.methods.append(propertyset)
             service.methods_by_name['propertySet'] = propertyset
@@ -272,7 +272,7 @@ class DevialetDescriptorPool(DescriptorPool):
                     results[proto] = -1
             else:
                 results[proto] = -1
-        return sorted([
+        return [raw_decode(raw_protobuf)] + sorted([
             (proto, length) for (proto, length) in results.items() if length > 2 and (length > 0 or length > max(results[x] for x in results)/2)
         ], key=lambda x: x[1])
 

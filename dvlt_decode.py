@@ -5,7 +5,7 @@ from datetime import datetime
 from io import BytesIO
 from collections import deque
 
-from dvlt_output import print_error, print_warning, print_info, print_data
+from dvlt_output import print_error, print_warning, print_info, print_data, print_errordata
 from dvlt_pool import dvlt_pool, Devialet
 
 
@@ -139,16 +139,16 @@ class DevialetFlow:
             print_error('Service ID {} not in list {}', rep.serviceId, ' '.join(str(self.service_list).split('\n')))
         return service_name
 
-    def rpc_walk(self, consume_incoming=True):
+    def rpc_walk(self, consume_incoming=True, verbose=True):
         # Each section should correspond to a RPC request/reply,
         # with 2 outgoing protobufs and 2 (or more for propertyget/multipart) incoming,
         # or an RPC event, with 2 (or more?) incoming, and no outgoing
 
-        print_info('Walking {}', self.name)
+        if verbose:
+            print_info('Walking {}', self.name)
+            print_data('=' * 32)
         if not self.rpc_server_is_phantom:
             print_warning('RPC server appears to be Spark here')
-
-        print_data('=' * 32)
 
         if consume_incoming:
             for i in range(len(self.incoming_sections)):
@@ -209,6 +209,7 @@ class DevialetFlow:
                 while rep.requestId != req.requestId:
                     bad_reqs.appendleft(outgoing_section)
                     print_warning('Request id {} out of order', req.requestId.hex())
+                    # print_errordata('Full Request:', req)
                     try:
                         outgoing_section = self.outgoing_sections.popleft()
                         outgoing_pb = outgoing_section.raw_protobufs
