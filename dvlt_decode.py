@@ -238,7 +238,7 @@ class DevialetFlow:
 
                 if method.containing_service.full_name == 'Devialet.CallMeMaybe.Connection':
                     if method.name == 'openConnection':
-                        self.service_list.services = outputs_pb[0].services
+                        self.service_list = outputs_pb[0]
 
                 print_info('out_time:{} in_time:{} req:{}/{}/{:>10d}/{:>12d}, rep:{}/{}/{:>10d}/{:>12d} {}{}{}',
                            outgoing_section.time, incoming_section.time,
