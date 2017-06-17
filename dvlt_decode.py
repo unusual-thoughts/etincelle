@@ -59,7 +59,7 @@ class DevialetFlow:
         self.magics = [0xC2, 0xC3]
         self.warnings = []
         self.rpc_server_is_phantom = True
-        self.service_list = Devialet.CallMeMaybe.ServicesList().services
+        self.service_list = Devialet.CallMeMaybe.ServicesList()
 
     def read_one_section(self, buf, dest, time=None):
         pos = buf.tell()
@@ -127,8 +127,8 @@ class DevialetFlow:
     def find_service(self, rep):
         service_name = 'com.devialet.callmemaybe.connection'
         try:
-            if rep.serviceId != 0 or self.service_list:
-                service_lowercase_name = [service.name for service in self.service_list if service.id == rep.serviceId][0]
+            if rep.serviceId != 0 or self.service_list.services:
+                service_lowercase_name = [service.name for service in self.service_list.services if service.id == rep.serviceId][0]
                 # PlayThatFunkyMusic is nowhere in protobufs
                 # service_lowercase_name = service_lowercase_name.replace('playthatfunkymusic', 'toomanyflows')
                 service_name = '.'.join(service_lowercase_name.split('.')[:-1])
@@ -136,7 +136,8 @@ class DevialetFlow:
                     service_name = '.'.join(service_name.split('.')[:-1])
                     print_info('truncating {} to {}'.format(service_lowercase_name, service_name))
         except IndexError:
-            print_error('Service ID {} not in list {}', rep.serviceId, ' '.join(str(self.service_list).split('\n')))
+            print_error('Service ID {} not in list {}', rep.serviceId, ' '.join(str(self.service_list.services).split('\n')))
+            return None
         return service_name
 
     def rpc_walk(self, consume_incoming=True, verbose=True):
@@ -181,7 +182,7 @@ class DevialetFlow:
                 if method.containing_service.full_name == 'Devialet.CallMeMaybe.Connection':
                     if method.name == 'serviceAdded':
                         print_info('Extending list of services')
-                        self.service_list.add(name=input_pb.name, id=input_pb.id)
+                        self.service_list.services.add(name=input_pb.name, id=input_pb.id)
 
                 # The 'uid' parameter in the section, when present (== when magic is C3, and only on incoming packets)
                 # should be equal to the server ID
@@ -237,7 +238,7 @@ class DevialetFlow:
 
                 if method.containing_service.full_name == 'Devialet.CallMeMaybe.Connection':
                     if method.name == 'openConnection':
-                        self.service_list = outputs_pb[0].services
+                        self.service_list.services = outputs_pb[0].services
 
                 print_info('out_time:{} in_time:{} req:{}/{}/{:>10d}/{:>12d}, rep:{}/{}/{:>10d}/{:>12d} {}{}{}',
                            outgoing_section.time, incoming_section.time,
