@@ -10,13 +10,7 @@ Request:
 00000000: 4456 4c01 5748 4f3f                      DVL.WHO?
 ```
 
-Response (In Android capture): (maybe Spark version ID)
-```
-00000000: 4456 4c01 4845 5245 0000 0008 **** ****  DVL.HERE.....\s.
-00000010: **** ****                                S...
-```
-
-In Windows capture
+Response:
 ```
                                      serial length
                                      vv 
