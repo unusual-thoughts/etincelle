@@ -7,25 +7,15 @@ from google.protobuf.descriptor_pool import DescriptorPool
 from google.protobuf.message_factory import MessageFactory
 from google.protobuf.descriptor_pb2 import FileDescriptorProto, ServiceOptions
 from google.protobuf.service_reflection import GeneratedServiceStubType
+from google.protobuf.json_format import MessageToDict
 import google.protobuf.service
 import google.protobuf.descriptor
 import google.protobuf.message
-
-from protobuf_to_dict import protobuf_to_dict
 
 from dvlt_output import print_warning, print_error, print_info, print_data, print_errordata
 
 sys.modules['Devialet'] = types.ModuleType('Devialet')
 import Devialet
-
-
-def full_len(d):
-    if type(d) == dict:
-        return 1 + sum(full_len(v) for v in d.values())
-    elif type(d) == list:
-        return 1 + sum(full_len(v) for v in d)
-    else:
-        return 1
 
 
 def raw_decode(data):
@@ -117,10 +107,12 @@ class DevialetDescriptorPool(DescriptorPool):
         import_protoc('CallMeMaybe_CallMeMaybe.protoc')
         self.messages.update(factory.GetMessages(proto_filenames))
 
+        # Import the rest
         for filename in protoc_filenames:
             import_protoc(filename)
         self.messages.update(factory.GetMessages(proto_filenames))
 
+        # Define modules and submodules
         for pkgname in packages:
             mod = Devialet
             path = "Devialet"
@@ -133,38 +125,31 @@ class DevialetDescriptorPool(DescriptorPool):
                     setattr(mod, submodname, submod)
                 mod = submod
 
-        def get_mod(objname):
-            mod = Devialet
-            for submodname in objname.split('.')[1:-1]:
-                mod = getattr(mod, submodname)
-            return mod
-
         # Import message classes into modules
         for msgname, msg in self.messages.items():
-            setattr(get_mod(msgname), msgname.split('.')[-1], msg)
-
-        # Offsets of original methods (for 1000 codes)
-        self.method_offset_by_full_name = {}
+            setattr(self.get_mod(msgname), msgname.split('.')[-1], msg)
 
         # lowercase names with -0 for inheritance
         self.service_by_name = {}
 
-        # Both will be populated by method below
+        # Extend service descriptors with parent methods and properties,
+        # and create service stub classes
         self.extend_services()
 
-        # Define service classes and add them to modules
-        for srvname, srvdesc in self._service_descriptors.items():
-            srvtype = GeneratedServiceStubType(srvname, (google.protobuf.service.Service,), {
-                'DESCRIPTOR': srvdesc,
-                '__module__': srvname.split('.')[:-1]
-            })
-            setattr(get_mod(srvname), srvname.split('.')[-1], srvtype)
+    # Get module object from fully-qualified message or service name
+    def get_mod(self, objname):
+        mod = Devialet
+        for submodname in objname.split('.')[1:-1]:
+            mod = getattr(mod, submodname)
+        return mod
 
     def extend_services(self):
         service_options_ext = self.FindExtensionByName('Devialet.CallMeMaybe.dvltServiceOptions')
+        method_options_ext = self.FindExtensionByName('Devialet.CallMeMaybe.dvltMethodOptions')
         service_properties_msg = Devialet.CallMeMaybe.ServiceProperties.DESCRIPTOR
         empty_msg = Devialet.CallMeMaybe.Empty.DESCRIPTOR
-        # Extend services with base service props and methods
+
+        # Extend services with base service props and methods, and define service classes
         for service_name, service in self._service_descriptors.items():
             opts = service.GetOptions().\
                 Extensions[service_options_ext]
@@ -172,7 +157,8 @@ class DevialetDescriptorPool(DescriptorPool):
 
             self.service_by_name[opts.serviceName] = service
 
-            original_amount_of_methods = len(service.methods)
+            service.methods_by_id = {1000 + id: method for (id, method) in enumerate(service.methods)}
+            method_id_offset = 2000
 
             baseservice_name = opts.baseService
             while baseservice_name in self._service_descriptors:
@@ -199,7 +185,7 @@ class DevialetDescriptorPool(DescriptorPool):
                 # Extending Methods from base service
                 baseservice_methods = self._service_descriptors[baseservice_name].methods
                 new_methods = []
-                for method in baseservice_methods:
+                for method_id, method in enumerate(baseservice_methods):
                     new_method = google.protobuf.descriptor.MethodDescriptor(
                         method.name, method.full_name,
                         len(service.methods),
@@ -207,19 +193,26 @@ class DevialetDescriptorPool(DescriptorPool):
                         method.output_type, options=method.GetOptions())
                     service.methods_by_name[method.name] = new_method
                     new_methods.append(new_method)
+                    service.methods_by_id[method_id_offset + method_id] = method
                 service.methods = new_methods + service.methods
 
                 # Moving up in base service tree
                 baseservice_name = baseservice_opts.baseService
+                method_id_offset += 1000
 
-            self.method_offset_by_full_name[service_name] = len(service.methods) - original_amount_of_methods
+            # Fix for PlaylistSaved
+            for prop in service_properties.property:
+                if prop.type not in self.messages:
+                    prop.type = service.file.package + '.' + prop.type
+
+            # self.method_offset_by_full_name[service_name] = len(service.methods) - original_amount_of_methods
             # if self.method_offset_by_full_name[service_name] != 0:
             #     print_info('Added {} inherited methods left of original {} to {}',
             #                self.method_offset_by_full_name[service_name],
             #                original_amount_of_methods, service_name)
 
-        # Add 3 special methods
-        for service_name, service in self._service_descriptors.items():
+            # Add 3 special methods
+            # They don't actually return this...
             propertyget = google.protobuf.descriptor.MethodDescriptor(
                 'propertyGet', service_name + '.propertyGet',
                 len(service.methods), service, empty_msg, service_properties_msg)
@@ -228,7 +221,9 @@ class DevialetDescriptorPool(DescriptorPool):
 
             propertyupdate = google.protobuf.descriptor.MethodDescriptor(
                 'propertyUpdate', service_name + '.propertyUpdate',
-                len(service.methods), service, service_properties_msg, empty_msg)
+                len(service.methods), service, service_properties_msg, empty_msg,
+                options={})
+            propertyupdate.GetOptions().Extensions[method_options_ext].isNotification = True
             service.methods.append(propertyupdate)
             service.methods_by_name['propertyUpdate'] = propertyupdate
 
@@ -237,6 +232,25 @@ class DevialetDescriptorPool(DescriptorPool):
                 len(service.methods), service, service_properties_msg, empty_msg)
             service.methods.append(propertyset)
             service.methods_by_name['propertySet'] = propertyset
+
+            # Add regular method ids
+            for method_id, method in enumerate(service.methods):
+                service.methods_by_id[method_id] = method
+
+            # Define service class and add it to module
+            srvtype = GeneratedServiceStubType(service_name, (DevialetService,), {
+                'DESCRIPTOR': service,
+                'serviceName': opts.serviceName,
+                'baseService': opts.baseService,
+                'errorEnumName': opts.errorEnumName,
+                'methods_by_id': service.methods_by_id,
+                'property_descs_by_id': service_properties.property,
+                'property_descs_by_name': {prop.name: prop for prop in service_properties.property},
+                '__module__': '.'.join(service_name.split('.')[:-1])
+            })
+            setattr(self.get_mod(service_name), service_name.split('.')[-1], srvtype)
+            # Link to class in service descriptor
+            service._concrete_class = srvtype
 
     def interpret_as(self, raw_protobuf, proto_name):
         try:
@@ -256,16 +270,24 @@ class DevialetDescriptorPool(DescriptorPool):
         return Devialet.CallMeMaybe.Empty()
 
     def heuristic_search(self, raw_protobuf, filter='', strict=True):
+        def full_len(d):
+            if type(d) == dict:
+                return 1 + sum(full_len(v) for v in d.values())
+            elif type(d) == list:
+                return 1 + sum(full_len(v) for v in d)
+            else:
+                return 1
         results = {}
         if len(raw_protobuf) == 0:
             return {'empty protobuf'}
         for proto in self.messages:
             if proto.startswith(filter):
                 try:
-                    tmp = self.messages[proto]()
-                    tmp.ParseFromString(raw_protobuf)
-                    results[proto] = full_len(protobuf_to_dict(tmp))
-                    if strict and len(tmp.FindInitializationErrors()) > 0:
+                    tmp = self.messages[proto].FromString(raw_protobuf)
+                    results[proto] = full_len(MessageToDict(tmp))
+                    if strict and (tmp.FindInitializationErrors() or
+                                   tmp._unknown_fields or
+                                   tmp.SerializeToString() != raw_protobuf):
                         results[proto] = -1
                 except Exception as e:
                     # print('Error in heuristic:',    type(e), e)
@@ -273,7 +295,7 @@ class DevialetDescriptorPool(DescriptorPool):
             else:
                 results[proto] = -1
         return [raw_decode(raw_protobuf)] + sorted([
-            (proto, length) for (proto, length) in results.items() if length > 2 and (length > 0 or length > max(results[x] for x in results)/2)
+            (proto, length) for (proto, length) in results.items() if length > 2 or (length > 0 and length >= max(results[x] for x in results)/2)
         ], key=lambda x: x[1])
 
     def get_property(self, service_desc, property_id, output_raw):
@@ -285,12 +307,12 @@ class DevialetDescriptorPool(DescriptorPool):
                 props[property_id].type = service_desc.file.package + '.' + props[property_id].type
             prop = self.interpret_as(output_raw, props[property_id].type)
             print_data('property {}:'.format(props[property_id].name), prop)
-            return prop
+            return props[property_id].name, prop
         except IndexError:
             print_error('Too many multiparts for propertyget({}), {} >= {}, raw {}',
                         service_desc.full_name, property_id, len(props),
                         ' '.join(raw_decode(output_raw)['protoc'].split('\n')))
-            return Devialet.CallMeMaybe.Empty()
+            return '', Devialet.CallMeMaybe.Empty()
 
     def process_rpc(self, service_name, rep, input_raw, outputs_raw, is_event=False):
         empty = Devialet.CallMeMaybe.Empty()
@@ -306,7 +328,7 @@ class DevialetDescriptorPool(DescriptorPool):
                     print_error('PropertyGet but input type not empty')
                 outputs_pb = []
                 for i, output_raw in enumerate(outputs_raw):
-                    prop = self.get_property(service_desc, i, output_raw)
+                    name, prop = self.get_property(service_desc, i, output_raw)
                     outputs_pb.append(prop)
                     # print_data(prop.name, interpret_as(output_raw, prop.type))
                 return (service_desc.methods_by_name['propertyGet'], empty, outputs_pb)
@@ -314,23 +336,20 @@ class DevialetDescriptorPool(DescriptorPool):
                 # Property Update Event
                 print_info('PropertyUpdate details: {}, type={} subtype={}'.format(
                     service_name, rep.type, rep.subTypeId))
-                prop = self.get_property(service_desc, rep.subTypeId, input_raw)
+                name, prop = self.get_property(service_desc, rep.subTypeId, input_raw)
                 return (service_desc.methods_by_name['propertyUpdate'], prop, empty)
             elif rep.type == 1 and not is_event:
                 # Property Set Request
                 print_info('PropertySet details: {}, type={} subtype={}'.format(
                     service_name, rep.type, rep.subTypeId))
-                prop = self.get_property(service_desc, rep.subTypeId, input_raw)
+                name, prop = self.get_property(service_desc, rep.subTypeId, input_raw)
                 return (service_desc.methods_by_name['propertySet'], prop, empty)
             else:
+                if rep.type != 0:
+                    print_error('Got strange response type {}', rep.type)
                 # Regular RPC Method, Response + Request (including regular events where output type = CmmEmpty)
                 try:
-                    # subtypes > 1000 mean original methods (non-extended)
-                    if rep.subTypeId >= 1000:
-                        rep.subTypeId -= 1000
-                        rep.subTypeId += self.method_offset_by_full_name[service_desc.full_name]
-
-                    method = service_desc.methods[rep.subTypeId]
+                    method = service_desc.methods_by_id[rep.subTypeId]
 
                     print_info('RPC/Event details: {} -> {} [{} -> {}]'.format(
                         service_name, method.full_name, method.input_type.full_name, method.output_type.full_name))
@@ -354,5 +373,171 @@ class DevialetDescriptorPool(DescriptorPool):
         except KeyError:
             print_error("Can't find service {} in database", service_name)
         return (None, empty, [])
+
+
+class DevialetController(google.protobuf.service.RpcController):
+    def __init__(self, parent_service):
+        self.failed = False
+        self.canceled = False
+        self.cancel_callback = None
+        self.error = ""
+        self.parent_service = parent_service
+
+    def Reset(self):
+        # Resets the RpcController to its initial state.
+        self.__init__()
+
+    def Failed(self):
+        # Returns true if the call failed.
+        return self.failed
+
+    def ErrorText(self):
+        # If Failed is true, returns a human-readable description of the error.
+        return self.error
+
+    def StartCancel(self):
+        # Initiate cancellation.
+        self.canceled = True
+        if self.cancel_callback is not None:
+            self.cancel_callback()
+
+    def SetFailed(self, reason):
+        # Sets a failure reason.
+        self.failed = True
+        self.error = self.parent_service.get_error(reason)
+        print_error("Got error code: {} ({})", self.error, reason)
+
+    def IsCanceled(self):
+        # Checks if the client cancelled the RPC.
+        return self.canceled
+
+    def NotifyOnCancel(self, callback):
+        # Sets a callback to invoke on cancel.
+        self.cancel_callback = callback
+
+
+class DevialetService(google.protobuf.service.Service):
+    serviceName = ''
+    baseService = ''
+    errorEnumName = ''
+    methods_by_id = {}
+    property_descs_by_name = {}
+    property_descs_by_id = []
+
+    # Overriden, doesn't do anything
+    # def __init__(self, *args, **kwargs):
+        # google.protobuf.service.Service.__init__(self, *args, **kwargs)
+        # self.properties = {}
+        # # self.service_id = self.rpc_channel.find_service_id(self.serviceName)
+        # # self.unique_name = [srv.name for srv in self.rpc_channel.service_list.services if srv.id == self.service_id][0]
+        # print_info('Getting properties')
+        # self.propertyGet(DevialetController(self), None, self.set_properties)
+        # self.propertyGet(controller, Devialet.CallMeMaybe.Empty(), callback_test)
+        # self.rpc_channel.
+
+    def set_properties(self, raw_property_list):
+        # print_info('Found {} properties for {}', len(raw_property_list),
+        #            self.service_name_unique if hasattr(self, 'service_name_unique') else self.serviceName)
+        for property_id, raw_property in enumerate(raw_property_list):
+            self.set_property(property_id, raw_property)
+
+    def set_property(self, property_id, output_raw):
+        try:
+            prop = self.property_descs_by_id[property_id]
+            prop_pb = dvlt_pool.interpret_as(output_raw, prop.type)
+            print_data('property {} from {}:'.format(prop.name,
+                       self.service_name_unique if hasattr(self, 'service_name_unique') else self.serviceName), prop_pb)
+            self.properties[prop.name] = prop_pb
+        except IndexError:
+            print_error('Too many multiparts for propertyget({}), {} >= {}',
+                        self.DESCRIPTOR.full_name, property_id, len(self.property_descs_by_id))
+            print_errordata('Raw output', output_raw.hex())
+
+    # def set_property_by_pb(self, property_pb)
+
+    def get_property(self, property_name):
+        return self.properties[property_name]
+
+    def propertyGet(self, controller, request, callback):
+        raise NotImplementedError
+
+    def watch_properties(self, service_id=None, service_name=None):
+        self.properties = {}
+        # if service_name is not None:
+        #     service_opt_ext = dvlt_pool.FindExtensionByName('Devialet.CallMeMaybe.dvltServiceOptions')
+        #     opt = self.DESCRIPTOR.GetOptions().Extensions[service_opt_ext]
+        #     new_opt = ServiceOptions.FromString(opt.SerializeToString())
+        #     new_opt.Extensions[service_opt_ext].serviceName = service_name
+
+        #     new_desc = google.protobuf.descriptor.ServiceDescriptor(
+        #         self.DESCRIPTOR.name,
+        #         self.DESCRIPTOR.full_name,
+        #         self.DESCRIPTOR.index,
+        #         [],
+        #         options=new_opt,
+        #         file=self.DESCRIPTOR.file)
+
+        #     for method in self.DESCRIPTOR.methods:
+        #         new_desc.methods.append(google.protobuf.descriptor.MethodDescriptor(
+        #             method.name,
+        #             method.full_name,
+        #             method.index,
+        #             new_desc,
+        #             method.input_type,
+        #             method.output_type,
+        #             options=method.GetOptions()))
+            # print(new_desc.methods[0].containing_service)
+            # self.serviceName = service_name
+            # print_info('Changing descriptor from {} to {}', self.DESCRIPTOR, new_desc)
+            # self.DESCRIPTOR = new_desc
+        # self.service_id = self.rpc_channel.find_service_id(self.serviceName)
+        # self.unique_name = [srv.name for srv in self.rpc_channel.service_list.services if srv.id == self.service_id][0]
+        if service_id is not None:
+            self.service_id = service_id
+        if service_name is not None:
+            self.service_name_unique = service_name
+        print_info('Getting properties for {}', self.serviceName)
+        props = self.propertyGet(DevialetController(self), Devialet.CallMeMaybe.Empty(), None)
+        if props is not None:
+            self.set_properties(props)
+        self.propertyUpdate(DevialetController(self), None, self.set_property)
+
+    def get_error(self, errorcode):
+        if errorcode > Devialet.CallMeMaybe.BaseError.MAX_ERROR:
+            errorcode -= Devialet.CallMeMaybe.BaseError.MAX_ERROR
+            try:
+                error_enum = dvlt_pool.FindEnumTypeByName(self.errorEnumName)
+                return error_enum.values_by_number[errorcode].name
+            except KeyError:
+                return 'unknownError'
+        else:
+            return Devialet.CallMeMaybe.BaseError.Code.Name(errorcode)
+
+    # def CallUnknownMethod(self, subTypeId, request, done):
+    #     print_info('Calling unknown method #{} from service #{} on port {}', subTypeId, self.service_id, self.rpc_channel.port)
+    #     reqUUID = uuid.uuid4().bytes
+    #     cmm_request = Devialet.CallMeMaybe.Request(
+    #         serverId=self.rpc_channel.serverId,
+    #         serviceId=self.service_id,
+    #         requestId=reqUUID, type=0,
+    #         subTypeId=subTypeId)
+    #     if done is None:
+    #         # Blocking call
+    #         self.rpc_channel.blocking_response = None
+    #         self.rpc_channel.request_queue[reqUUID] = (None, None, DevialetController(), self.rpc_channel.unblock_call)
+    #         self.write_rpc(cmm_request.SerializeToString(), request.SerializeToString())
+    #         while self.rpc_channel.blocking_response is None and self.rpc_channel.receive():
+    #             # print_info("Waiting for response on unknown method (serviceId {}, subTypeId {})",
+    #             #            serviceId, subTypeId)
+    #             # time.sleep(1)
+    #             pass
+    #         if self.rpc_channel.blocking_response is None:
+    #             self.rpc_channel.close()
+    #             print_error("Server hung up before response")
+    #         return self.rpc_channel.blocking_response
+    #     else:
+    #         self.rpc_channel.request_queue[reqUUID] = (None, None, DevialetController(), done)
+    #         self.write_rpc(cmm_request.SerializeToString(), request.SerializeToString())
+
 
 dvlt_pool = DevialetDescriptorPool()

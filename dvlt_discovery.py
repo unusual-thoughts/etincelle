@@ -2,25 +2,25 @@ import socket
 import struct
 import uuid
 import re
+import sys
+import time
 from datetime import datetime
 from select import select
 from dvlt_decode import DevialetFlow
-from dvlt_pool import dvlt_pool, Devialet
+from dvlt_pool import dvlt_pool, Devialet, DevialetController
 from dvlt_output import print_error, print_warning, print_info, print_data, print_errordata
-
-from google.protobuf.service import RpcController
 
 dvltServiceOptions = dvlt_pool.FindExtensionByName('Devialet.CallMeMaybe.dvltServiceOptions')
 dvltMethodOptions = dvlt_pool.FindExtensionByName('Devialet.CallMeMaybe.dvltMethodOptions')
 
 
+# Implements RpcChannel
 class DevialetConnection(DevialetFlow):
     def __init__(self, *args, addr='127.0.0.1', port=24242, analyze=False, **kwargs):
         DevialetFlow.__init__(self, *args, phantom_port=port, **kwargs)
         self.analyze = analyze
-        self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.sock.connect((addr, port))
-        self.file = self.sock.makefile(mode='wb')
+        self.sock = None
+        self.file = None
         self.serverId = b'\x00'*16
         self.request_queue = {}  # {requestid: (method_descriptor response_class, controller, callback)}
         self.event_callbacks = {}  # {method_descriptor.full_name: (response_class, callback)}
@@ -31,21 +31,78 @@ class DevialetConnection(DevialetFlow):
         self.service_list = Devialet.CallMeMaybe.ServicesList()
 
     def open(self):
-        ctrl = DevialetController()
-        self.conn = Devialet.CallMeMaybe.Connection(self)
-        # No Callback - does a blocking RPC
-        conn_reply = self.conn.openConnection(ctrl, Devialet.CallMeMaybe.ConnectionRequest(version=1), None)
-        self.serverId = conn_reply.serverId
-        self.service_list = Devialet.CallMeMaybe.ServicesList(services=conn_reply.services)
-        # Register event callbacks for added/deleted services
-        self.conn.serviceAdded(ctrl, None, self.add_service)
-        self.conn.serviceRemoved(ctrl, None, self.remove_service)
-        self.conn.serverQuit(ctrl, None, self.close)
+        try:
+            self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            self.sock.connect((self.addr, self.port))
+            self.file = self.sock.makefile(mode='wb')
+
+            self.conn = Devialet.CallMeMaybe.Connection(self)
+            ctrl = DevialetController(self.conn)
+            # No Callback - does a blocking RPC
+            conn_reply = self.conn.openConnection(ctrl, Devialet.CallMeMaybe.ConnectionRequest(version=1), None)
+            self.serverId = conn_reply.serverId
+            self.service_list = Devialet.CallMeMaybe.ServicesList(services=conn_reply.services)
+            # Register event callbacks for added/deleted services
+            self.conn.serviceAdded(ctrl, None, self.add_service)
+            self.conn.serviceRemoved(ctrl, None, self.remove_service)
+            self.conn.serverQuit(ctrl, None, self.close)
+            print_info('Opened connection to {} on port {}', self.addr, self.port)
+            return True
+        except ConnectionRefusedError:
+            exc_type, exc_obj, exc_tb = sys.exc_info()
+            print_error("Can't Connect to {} on port {}, error {}",
+                        self.addr, self.port, exc_obj)
+            self.sock = None
+            return False
 
     def close(self, arg=None):
-        print_warning("Closing Connection")
-        # self.sock.shutdown()
-        self.sock.close()
+        if self.sock is not None:
+            print_warning('Closing Connection to {} on port {}', self.addr, self.port)
+            self.sock.shutdown(2)
+            self.sock.close()
+            self.file.close()
+            self.sock = None
+            self.file = None
+
+    def reconnect(self, timeout=3):
+        count = 0
+        while not self.open() and count < timeout*10:
+            time.sleep(.1)
+            count += 1
+        if count == timeout*10:
+            print_error('Could not reconnect on port {}', self.port)
+
+    def receive(self, timeout=None):
+        try:
+            if timeout is not None:
+                ready = select([self.sock], [], [], timeout)
+                if ready[0]:
+                    data = self.sock.recv(2048)
+                else:
+                    print_warning('Timed out on port {}', self.port)
+                    return False
+            else:
+                data = self.sock.recv(2048)
+            if self.analyze:
+                print_data("Raw response", data.hex())
+            if not data:
+                print_error("Got 0 bytes from socket")
+                self.close()
+                return False
+            else:
+                self.decode(data)
+                if self.analyze:
+                    self.rpc_walk(consume_incoming=False, verbose=False)
+                self.find_responses()
+                return True
+        except ConnectionResetError:
+            print_error('Server hung up during receive')
+            return False
+
+    def keep_receiving(self, timeout=None):
+        while self.receive(timeout):
+            pass
+        # self.close()
 
     def add_service(self, service):
         print_info("New Service added: {}", service.name)
@@ -86,25 +143,6 @@ class DevialetConnection(DevialetFlow):
     def unblock_call(self, response):
         self.blocking_response = response
 
-    def receive(self):
-        data = self.sock.recv(2048)
-        if self.analyze:
-            print_data("Raw response", data.hex())
-        if not data:
-            print_error("Got 0 bytes from socket")
-            return False
-        else:
-            self.decode(data)
-            if self.analyze:
-                self.rpc_walk(consume_incoming=False, verbose=False)
-            self.find_responses()
-            return True
-
-    def keep_receiving(self):
-        while self.receive():
-            pass
-        self.close()
-
     def CallMethod(self, method_descriptor, rpc_controller, request, response_class, done):
         # For event methods, only register callback, don't send anything
         if method_descriptor.GetOptions().Extensions[dvltMethodOptions].isNotification:
@@ -113,37 +151,41 @@ class DevialetConnection(DevialetFlow):
                 dvlt_pool.messages[method_descriptor.input_type.full_name], done)
         else:
             reqUUID = uuid.uuid4().bytes
+            serviceId = rpc_controller.parent_service.service_id if hasattr(
+                rpc_controller.parent_service, 'service_id') else self.find_service_id(method_descriptor.containing_service)
             typeId, subTypeId = (1, 0xFFFFFFFF) if method_descriptor.name == 'propertyGet' else (0, method_descriptor.index)
             cmm_request = Devialet.CallMeMaybe.Request(
                 serverId=self.serverId,
-                serviceId=self.find_service_id(method_descriptor.containing_service),
+                serviceId=serviceId,
                 requestId=reqUUID,
                 type=typeId, subTypeId=subTypeId)
+            self.request_queue[reqUUID] = (method_descriptor, response_class, rpc_controller, done if done else self.unblock_call)
             self.write_rpc(cmm_request.SerializeToString(), request.SerializeToString())
 
             if done is None:
                 # Blocking call
                 self.blocking_response = None
-                self.request_queue[reqUUID] = (method_descriptor, response_class, rpc_controller, self.unblock_call)
-                while self.blocking_response is None:
-                    self.receive()
+                while self.blocking_response is None and self.receive():
+                    pass
+                if self.blocking_response is None:
+                    self.close()
+                    print_error("Server hung up before response")
                 return self.blocking_response
-            else:
-                self.request_queue[reqUUID] = (method_descriptor, response_class, rpc_controller, done)
 
-    def CallUnknownMethod(self, serviceId, subTypeId, request, done):
+    def CallUnknownMethod(self, serviceId, subTypeId, request, done, typeId=0):
+        print_info('Calling unknown method #{} from service #{} on port {}', subTypeId, serviceId, self.port)
         reqUUID = uuid.uuid4().bytes
         cmm_request = Devialet.CallMeMaybe.Request(
             serverId=self.serverId,
             serviceId=serviceId,
-            requestId=reqUUID, type=0,
+            requestId=reqUUID, type=typeId,
             subTypeId=subTypeId)
+        self.request_queue[reqUUID] = (None, None, DevialetController(self.conn), done if done else self.unblock_call)
         self.write_rpc(cmm_request.SerializeToString(), request.SerializeToString())
 
         if done is None:
             # Blocking call
             self.blocking_response = None
-            self.request_queue[reqUUID] = (None, None, DevialetController(), self.unblock_call)
             while self.blocking_response is None and self.receive():
                 # print_info("Waiting for response on unknown method (serviceId {}, subTypeId {})",
                 #            serviceId, subTypeId)
@@ -153,8 +195,6 @@ class DevialetConnection(DevialetFlow):
                 self.close()
                 print_error("Server hung up before response")
             return self.blocking_response
-        else:
-            self.request_queue[reqUUID] = (None, None, DevialetController(), done)
 
     def find_responses(self):
         for i in range(len(self.incoming_sections)):
@@ -164,14 +204,17 @@ class DevialetConnection(DevialetFlow):
             if incoming_section.magic == 0xC3:
                 print_warning("Found Event")
                 # try:
-                evt = dvlt_pool.interpret_as(incoming_pb[0], 'Devialet.CallMeMaybe.Event')
+                evt = Devialet.CallMeMaybe.Event.FromString(incoming_pb[0])
                 service_name = self.find_service(evt)
 
                 method, input_pb, outputs_pb = dvlt_pool.process_rpc(service_name, evt, incoming_pb[1], incoming_pb[1:], is_event=True)
                 try:
                     (response_class, callback) = self.event_callbacks[method.full_name]
-                    reponse = response_class.FromString(incoming_pb[1])
-                    callback(reponse)
+                    if evt.type == 1:
+                        # PropertyUpdate special event
+                        callback(evt.subTypeId, incoming_pb[1])
+                    else:
+                        callback(response_class.FromString(incoming_pb[1]))
                 except KeyError:
                     print_error('Unhandled event {}', method.full_name)
                     print_errordata('Registered Callbacks', self.event_callbacks)
@@ -190,14 +233,19 @@ class DevialetConnection(DevialetFlow):
                     method_descriptor, response_class, controller, callback = self.request_queue.pop(rep.requestId)
 
                     if rep.errorCode != 0:
-                        print_warning("Got error code {}", rep.errorCode)
+                        # print_warning("Got error code: {} ({})", controller.parent_service.get_error(rep.errorCode), rep.errorCode)
+                        controller.SetFailed(rep.errorCode)
                         # use errorEnumName, controller...
 
                     # None is used for unknown method calls
                     if response_class is not None:
                         # PropertyGet special "method"
                         if rep.subTypeId == 0xFFFFFFFF and rep.type == 1:
-                            response = [dvlt_pool.get_property(method_descriptor.containing_service, i, raw) for i, raw in enumerate(incoming_pb[1:])]
+                            # response = {}
+                            # for i, raw in enumerate(incoming_pb[1:]):
+                            #     name, prop = dvlt_pool.get_property(method_descriptor.containing_service, i, raw)
+                            #     response[name] = prop
+                            response = incoming_pb[1:]
                         else:
                             response = response_class.FromString(incoming_pb[1])
                         # print_data("Found Response", response)
@@ -205,7 +253,10 @@ class DevialetConnection(DevialetFlow):
                     else:
                         # print_data('Response with unknown message type:',
                         #            dvlt_pool.heuristic_search(incoming_pb[1]))
-                        callback(dvlt_pool.heuristic_search(incoming_pb[1]))
+                        if rep.subTypeId == 0xFFFFFFFF and rep.type == 1:
+                            callback([dvlt_pool.heuristic_search(x) for x in incoming_pb[1:]])
+                        else:
+                            callback(dvlt_pool.heuristic_search(incoming_pb[1]))
 
                     if not rep.isMultipart and len(incoming_pb) > 2:
                         print_warning('we got more incoming protobufs than we should have, not Multipart')
@@ -215,12 +266,14 @@ class DevialetConnection(DevialetFlow):
 
                     # print_info('out_time:{} in_time:{} req:{}/{}/{:>10d}/{:>12d}, rep:{}/{}/{:>10d}/{:>12d} {}{}{}',
                     #            outgoing_section.time, incoming_section.time,
-                    #            req.requestId[:4].hex(), req.type, req.subTypeId, req.serviceId, rep.requestId[:4].hex(), rep.type, rep.subTypeId, rep.serviceId,
+                    #            req.requestId[:4].hex(), req.type, req.subTypeId, req.serviceId,
+                    #            rep.requestId[:4].hex(), rep.type, rep.subTypeId, rep.serviceId,
                     #            'M' if rep.isMultipart else ' ',
                     #            ' ' if method.name == 'ping' else 'C' if method.name == 'openConnection' else '.',
                     #            '<' if rep.requestId != req.requestId else ' ')
                 except KeyError:
                     print_error('Response to unknown request id {}', rep.requestId.hex())
+                    print_errordata('Request queue', self.request_queue)
                 # except Exception as e:
                 #     print_error('Unexpected {} {}', type(e), e)
 
@@ -230,115 +283,129 @@ class WhatsUpConnection(DevialetConnection):
         DevialetConnection.__init__(self, *args, **kwargs)
         self.wu_service_list = Devialet.WhatsUp.WhatsUpServicesList()
         self.reg = None
+        self.connections = {self.port: self}
+        self.services_by_port = {}
+        self.ports_by_service = {}
+        self.discovered_services = {(self.port, "com.devialet.whatsup.registry")}
 
     def run(self):
-        wu_ctrl = DevialetController()
         self.reg = Devialet.WhatsUp.Registry(self)
+        wu_ctrl = DevialetController(self.reg)
         # self.reg.getNetworkConfiguration(wu_ctrl, Devialet.CallMeMaybe.Empty(), callback_test)
         self.reg.listServices(wu_ctrl, Devialet.CallMeMaybe.Empty(), self.update_wu_services)
         self.reg.servicesAdded(wu_ctrl, None, self.add_wu_services)
         self.reg.servicesUpdated(wu_ctrl, None, self.update_wu_services)
         self.reg.servicesRemoved(wu_ctrl, None, self.remove_wu_services)
+        self.reg.watch_properties()
         # self.reg.listServices(wu_ctrl, Devialet.CallMeMaybe.Empty(), self.service_discovery)
 
     def add_wu_services(self, wu_services):
-        print_info("New WhatsUp services added: {}", wu_services)
         self.wu_service_list.services.extend(wu_services.services)
-        self.service_discovery(wu_services)
+        for wu_service in wu_services.services:
+            m = re.match('tcp://127.0.0.1:([0-9]+)', wu_service.endpoint)
+            truncated_name = '.'.join(wu_service.name.split('.')[:-1])
+            if m is not None:
+                port = int(m.groups()[0])
+                self.services_by_port.setdefault(port, []).append(truncated_name)
+                self.ports_by_service.setdefault(truncated_name, []).append(port)
+        print_info("New WhatsUp services added: {}", wu_services)
+        self.service_discovery()
 
     def remove_wu_services(self, wu_removal):
         for srv in wu_removal.services:
             try:
                 self.wu_service_list.services.remove(srv)
+                m = re.match('tcp://127.0.0.1:([0-9]+)', srv.endpoint)
+                truncated_name = '.'.join(srv.name.split('.')[:-1])
+                if m is not None:
+                    port = int(m.groups()[0])
+                    self.services_by_port[port].remove(truncated_name)
+                    self.ports_by_service[truncated_name].remove(port)
+                    if not self.services_by_port[port]:
+                        self.services_by_port.pop(port)
+                    if not self.ports_by_service[truncated_name]:
+                        self.ports_by_service.pop(truncated_name)
                 print_info('WhatsUp service "{}" removed', srv.name)
             except ValueError:
                 print_errordata('WhatsUp service could not be removed', srv)
                 print_errordata('From list', self.wu_service_list)
 
     def update_wu_services(self, wu_update):
-        print_data("WhatsUp services updated", wu_update)
         self.wu_service_list = Devialet.WhatsUp.WhatsUpServicesList(services=wu_update.services)
-        self.service_discovery(wu_update)
-
-    def service_discovery(self, wu_list):
-        services_by_port = {}
-        ports_by_service = {}
-        ports_by_unknown_service = {}
-        for wu_service in wu_list.services:
+        self.services_by_port = {}
+        self.ports_by_service = {}
+        for wu_service in wu_update.services:
             m = re.match('tcp://127.0.0.1:([0-9]+)', wu_service.endpoint)
             truncated_name = '.'.join(wu_service.name.split('.')[:-1])
             if m is not None:
                 port = int(m.groups()[0])
-                services_by_port.setdefault(port, []).append(truncated_name)
-                ports_by_service.setdefault(truncated_name, []).append(port)
-                if truncated_name not in dvlt_pool.service_by_name:
-                    ports_by_unknown_service.setdefault(truncated_name, []).append(port)
+                self.services_by_port.setdefault(port, []).append(truncated_name)
+                self.ports_by_service.setdefault(truncated_name, []).append(port)
+        print_data("WhatsUp services updated", wu_update)
+        self.service_discovery()
+
+    def connect_to_service(self, service_name, port=None):
+        pass
+
+    def service_discovery(self):
+                # if truncated_name not in dvlt_pool.service_by_name:
+                #     ports_by_unknown_service.setdefault(truncated_name, []).append(port)
 
         # print_data("Services by port", services_by_port)
         # print_data("Ports by Service", ports_by_service)
-        print_data("Ports by (Unknown) Service", ports_by_unknown_service)
+        # print_data("Ports by (Unknown) Service", ports_by_unknown_service)
 
-        for port, services in services_by_port.items():
-            if [0 for srvname in services if srvname not in dvlt_pool.service_by_name]:
+        for port, services in self.services_by_port.items():
+            # if [0 for srvname in services if srvname not in dvlt_pool.service_by_name]:
             # for service in services:
             #     if srvname not in dvlt_pool.service_by_name:
-                try:
-                    new_conn = DevialetConnection(name='Port ' + str(port), addr=self.addr, port=port, start_time=datetime.now())
-                    new_conn.open()
+            if port not in self.connections:
+                new_conn = DevialetConnection(name='Port ' + str(port), addr=self.addr, port=port, start_time=datetime.now())
+                new_conn.open()
+                self.connections[port] = new_conn
 
-                    # Connect to unknown service
-                    for service in new_conn.service_list.services:
-                        truncated_name = '.'.join(service.name.split('.')[:-1])
-                        if truncated_name not in dvlt_pool.service_by_name:
-                            print_info('Testing 10 methods from service {}', truncated_name)
-                            for subTypeId in range(10):
-                                result = new_conn.CallUnknownMethod(service.id, subTypeId, Devialet.CallMeMaybe.Empty(), None)
-                                print_data("Response from method id {} from service {}".format(subTypeId, truncated_name),
-                                           result)
-                                if result is None:
-                                    break
-                    new_conn.close()
-                except ConnectionRefusedError:
-                    print_error("Can't Connect to {} on port {}", self.addr, port)
-
-
-class DevialetController(RpcController):
-    def __init__(self):
-        self.failed = False
-        self.canceled = False
-        self.cancel_callback = None
-        self.error = ""
-
-    def Reset(self):
-        # Resets the RpcController to its initial state.
-        self.__init__()
-
-    def Failed(self):
-        # Returns true if the call failed.
-        return self.failed
-
-    def ErrorText(self):
-        # If Failed is true, returns a human-readable description of the error.
-        return self.error
-
-    def StartCancel(self):
-        # Initiate cancellation.
-        self.canceled = True
-        if self.cancel_callback is not None:
-            self.cancel_callback()
-
-    def SetFailed(self, reason):
-        # Sets a failure reason.
-        self.failed = True
-        self.error = reason
-
-    def IsCanceled(self):
-        # Checks if the client cancelled the RPC.
-        return self.canceled
-
-    def NotifyOnCancel(self, callback):
-        # Sets a callback to invoke on cancel.
-        self.cancel_callback = callback
+                # Connect to unknown service
+                for service in new_conn.service_list.services:
+                    # Reopen if connection failed
+                    if new_conn.sock is None:
+                        res = new_conn.reconnect()
+                        if not res:
+                            break
+                    truncated_name = '.'.join(service.name.replace('playthatfunkymusic', 'toomanyflows').split('.')[:-1])
+                    while truncated_name not in dvlt_pool.service_by_name and truncated_name.endswith('-0'):
+                        truncated_name = '.'.join(truncated_name.split('.')[:-1])
+                        print_warning('truncating {} to {}', '.'.join(service.name.split('.')[:-1]), truncated_name)
+                    # if truncated_name not in dvlt_pool.service_by_name:  # and truncated_name.endswith('-0'):
+                    # if (port, truncated_name) not in self.discovered_services and truncated_name not in dvlt_pool.service_by_name:
+                        # print_info('Testing 10 methods from service {}', service.name)
+                        # for subTypeId in range(10):
+                        #     result = new_conn.CallUnknownMethod(service.id, subTypeId, Devialet.CallMeMaybe.Empty(), None)
+                        #     print_data("Response from method id {} from service {}".format(subTypeId, service.name),
+                        #                result)
+                        #     if result is None:
+                        #         break
+                    if (port, truncated_name) not in self.discovered_services:
+                        if truncated_name in dvlt_pool.service_by_name:
+                            srv = dvlt_pool.service_by_name[truncated_name]._concrete_class(new_conn)
+                            srv.watch_properties(service_id=service.id, service_name=service.name)
+                            # srv.service_id = service.id
+                            # srv.service_name_unique = service.name
+                            # srv.propertyGet(DevialetController(srv), Devialet.CallMeMaybe.Empty(), srv.set_properties)
+                            # new_conn.keep_receiving(timeout=2)
+                        else:
+                            result = new_conn.CallUnknownMethod(service.id, 0xFFFFFFFF, Devialet.CallMeMaybe.Empty(), None, typeId=1)
+                            print_data("Unknown properties from service {}".format(service.name),
+                                       result)
+                            pass
+                # new_conn.keep_receiving(timeout=2)
+                new_conn.close()
+                self.connections.pop(port)
+                # except ConnectionRefusedError:
+                #     exc_type, exc_obj, exc_tb = sys.exc_info()
+                #     print_error("Can't Connect to {} on port {}, open connections: {}, line {}, error {}",
+                #         self.addr, port, sorted(list(self.connections.keys())), exc_tb.tb_lineno, exc_obj)
+                    # fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+                    # print(exc_type, fname, exc_tb.tb_lineno)
 
 
 # MultiCast receiver - Discovery protocol
@@ -374,19 +441,26 @@ def callback_test(arg):
 wu_conn = WhatsUpConnection(name="WhatsUp", addr=dvlt_addr, port=24242, start_time=datetime.now())
 wu_conn.open()
 wu_conn.run()
-wu_conn.keep_receiving()
+wu_conn.keep_receiving(timeout=2)
 # reg.propertyGet(cmm_ctrl, Devialet.CallMeMaybe.Empty(), callback_test)
+
+# tmf_conn = DevialetConnection(name='TooManyFlows Configuration', addr=dvlt_addr, port=37610, start_time=datetime.now())
+# tmf_conn.open()
+# tmf_conf = Devialet.TooManyFlows.Configuration(tmf_conn)
+# tmf_ctrl = DevialetController(tmf_conf)
+# tmf_conf.propertyGet(tmf_ctrl, Devialet.CallMeMaybe.Empty(), callback_test)
+# tmf_conn.keep_receiving()
 
 
 def pingback(arg):
     print_info("Pong <--")
 
-while True:  # ~ 20 ms round-trip for pings
-    # time.sleep(1)
-    ready = select([wu_conn.sock], [], [], 1)
-    print_info("One spin of the loop")
-    if ready[0]:
-        wu_conn.receive()
-    else:
-        print_info("Ping -->")
-        wu_conn.conn.ping(DevialetController(), Devialet.CallMeMaybe.Empty(), pingback)
+# while True:  # ~ 20 ms round-trip for pings
+#     # time.sleep(1)
+#     ready = select([wu_conn.sock], [], [], 1)
+#     print_info("One spin of the loop")
+#     if ready[0]:
+#         wu_conn.receive()
+#     else:
+#         print_info("Ping -->")
+#         wu_conn.conn.ping(DevialetController(wu_conn.conn), Devialet.CallMeMaybe.Empty(), pingback)
