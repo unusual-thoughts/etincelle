@@ -217,6 +217,7 @@ class DevialetFlow:
                         req = dvlt_pool.interpret_as(outgoing_pb[0], 'Devialet.CallMeMaybe.Request')
                     except IndexError:
                         # Reached end of outgoing_sections
+                        # print_error("Couldn't find request for reply {}", rep.requestId.hex())
                         break
                 self.outgoing_sections.extendleft(bad_reqs)
 
