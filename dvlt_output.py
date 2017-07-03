@@ -4,6 +4,7 @@ from pprint import pformat
 DEFAULT_LOGLEVEL = 5
 #DEFAULT_LOGLEVEL = 2
 
+
 def print_error(txt, *args, loglevel=DEFAULT_LOGLEVEL):
     if loglevel > 2:
         print(termcolor.colored("Error: " + str(txt).format(*args), "red"))
