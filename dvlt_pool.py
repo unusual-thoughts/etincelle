@@ -88,7 +88,7 @@ class DevialetDescriptorPool(DescriptorPool):
         ]
 
         proto_filenames = []
-        packages = []
+        self.packages = []
 
         factory = MessageFactory(pool=self)
         self.messages = {}
@@ -100,7 +100,8 @@ class DevialetDescriptorPool(DescriptorPool):
             # print_data(filedesc.name, filedesc)
             self.Add(filedesc)
             proto_filenames.append(filedesc.name)
-            packages.append(filedesc.package)
+            if filedesc.package not in self.packages:
+                self.packages.append(filedesc.package)
             # self.messages.update(factory.GetMessages([filedesc.name]))
 
         # Need to import dvltServiceOptions first
@@ -113,7 +114,7 @@ class DevialetDescriptorPool(DescriptorPool):
         self.messages.update(factory.GetMessages(proto_filenames))
 
         # Define modules and submodules
-        for pkgname in packages:
+        for pkgname in self.packages:
             mod = Devialet
             path = "Devialet"
             for submodname in pkgname.split('.')[1:]:
@@ -303,8 +304,8 @@ class DevialetDescriptorPool(DescriptorPool):
         props = service_desc.GetOptions().Extensions[service_options_ext].properties.property
         try:
             # Fix for PlaylistSaved
-            if props[property_id].type not in self.messages:
-                props[property_id].type = service_desc.file.package + '.' + props[property_id].type
+            # if props[property_id].type not in self.messages:
+            #     props[property_id].type = service_desc.file.package + '.' + props[property_id].type
             prop = self.interpret_as(output_raw, props[property_id].type)
             print_data('property {}:'.format(props[property_id].name), prop)
             return props[property_id].name, prop
@@ -373,6 +374,49 @@ class DevialetDescriptorPool(DescriptorPool):
         except KeyError:
             print_error("Can't find service {} in database", service_name)
         return (None, empty, [])
+
+    def print_graph(self):
+        service_options_ext = self.FindExtensionByName('Devialet.CallMeMaybe.dvltServiceOptions')
+        links = set()
+        print('digraph proto {')
+        print('\trankdir=LR;')
+        print('\tnode [shape=Mrecord, fontname = "roboto mono"];')
+        for package in self.packages:
+            print('\tsubgraph "cluster_{}" {{'.format(package))
+            for filename, filedesc in self._file_descriptors.items():
+                if filedesc.package == package:
+                    # print(package, filename)
+                    print('\t\tsubgraph "cluster_{}" {{'.format(filename))
+                    # print()
+                    # label = ''
+                    for i, srv in enumerate(filedesc.services_by_name.values()):
+                        opts = srv.GetOptions().Extensions[service_options_ext]
+                        # print(srv.full_name, opts.baseService, opts.serviceName)
+                        print('\t\t\t"{}";'.format(srv.full_name))
+                        if opts.baseService:
+                            links.add((srv.full_name, opts.baseService))
+                            # base = self._service_descriptors[opts.baseService]
+                            # links.add(('"{}":"{}"'.format(filename, srv.name), '"{}":"{}"'.format(base.file.name, base.name)))
+                            # print('\t\t"{}" -> "{}";'.format(srv.full_name, opts.baseService))
+
+                        # parent_servicename = '.'.join(opts.serviceName.split('.')[:-1])
+                        # if parent_servicename in self.service_by_name:
+                        #     # if opts.baseService != self.service_by_name[parent_servicename].full_name:
+                        #     links.add((srv.full_name, self.service_by_name[parent_servicename].full_name))
+                        #     # parent = self.service_by_name[parent_servicename]
+                        #     # links.add(('"{}":"{}"'.format(filename, srv.name), '"{}":"{}"'.format(parent.file.name, parent.name)))
+                        #         # print('\t\t"{}" -> "{}";'.format(srv.full_name, self.service_by_name[parent_servicename].full_name))
+                    # for dep in filedesc.dependencies:
+                    #     links.add(('"{}"'.format(filename), '"{}"'.format(dep.name)))
+                    print('\t\t}')
+                    # print('\t\t"{}" [label="{}|{}"];'.format(filename, filename, '|'.join([
+                    #     '<{}> {}'.format(srv.name, srv.full_name) for srv in filedesc.services_by_name.values()
+                    # ])))
+            print('\t}')
+        for (left, right) in links:
+            # print('\t{} -> {};'.format(left, right))
+            print('\t"{}" -> "{}";'.format(left, right))
+        print('}')
 
 
 class DevialetController(google.protobuf.service.RpcController):
@@ -539,5 +583,7 @@ class DevialetService(google.protobuf.service.Service):
     #         self.rpc_channel.request_queue[reqUUID] = (None, None, DevialetController(), done)
     #         self.write_rpc(cmm_request.SerializeToString(), request.SerializeToString())
 
-
 dvlt_pool = DevialetDescriptorPool()
+
+if __name__ == '__main__':
+    dvlt_pool.print_graph()
