@@ -122,13 +122,9 @@ class DevialetClient(DevialetFlow):
             # Place outgoing data in queue for rpc_walk to see
             self.decode(raw=field, incoming=False, time=datetime.now())
 
-    def write_rpc(self, raw_request, raw_input, is_event=False):
-        firstbyte = 0xC3 if is_event else 0xC2
-
+    def write_rpc(self, raw_request, raw_input):
+        firstbyte = 0xC2
         self.write_field(b'', firstbyte, 1)
-        if is_event:
-            self.write_field(self.serverId, firstbyte, 1)
-            self.write_field(b'', firstbyte, 1)
         self.write_field(raw_request, firstbyte, 1)
         self.write_field(raw_input, firstbyte, 0)
         self.file.flush()
