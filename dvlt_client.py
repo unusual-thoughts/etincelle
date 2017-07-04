@@ -6,6 +6,7 @@ import sys
 import time
 import google.protobuf.service
 from datetime import datetime
+from threading import Thread
 from select import select
 from dvlt_decode import DevialetFlow
 from dvlt_pool import dvlt_pool, Devialet, DevialetController
@@ -17,8 +18,9 @@ dvltMethodOptions = dvlt_pool.FindExtensionByName('Devialet.CallMeMaybe.dvltMeth
 
 
 # Implements RpcChannel
-class DevialetClient(DevialetFlow):
+class DevialetClient(DevialetFlow, Thread):
     def __init__(self, *args, addr='127.0.0.1', port=24242, analyze=False, **kwargs):
+        Thread.__init__(self)
         DevialetFlow.__init__(self, *args, phantom_port=port, **kwargs)
         self.analyze = analyze
         self.sock = None
@@ -31,6 +33,7 @@ class DevialetClient(DevialetFlow):
         self.port = port
         self.conn = None  # Connection Service
         self.service_list = Devialet.CallMeMaybe.ServicesList()
+        self.shutdown_signal = False
 
     def open(self):
         try:
@@ -66,6 +69,11 @@ class DevialetClient(DevialetFlow):
             self.sock = None
             self.file = None
 
+    def shutdown(self):
+        self.shutdown_signal = True
+        self.close()
+        DevialetFlow.close(self)
+
     def reconnect(self, timeout=3):
         count = 0
         while not self.open() and count < timeout*10:
@@ -78,6 +86,8 @@ class DevialetClient(DevialetFlow):
         try:
             if timeout is not None:
                 ready = select([self.sock], [], [], timeout)
+                if self.shutdown_signal:
+                    return False
                 if ready[0]:
                     data = self.sock.recv(2048)
                 else:
@@ -85,11 +95,13 @@ class DevialetClient(DevialetFlow):
                     return False
             else:
                 data = self.sock.recv(2048)
+            if self.shutdown_signal:
+                return False
             if self.analyze:
                 print_data("Raw response", data.hex())
             if not data:
                 print_error("Got 0 bytes from socket")
-                self.close()
+                # self.close()
                 return False
             else:
                 self.decode(data)
@@ -102,9 +114,12 @@ class DevialetClient(DevialetFlow):
             return False
 
     def keep_receiving(self, timeout=None):
-        while self.receive(timeout):
+        while not self.shutdown_signal and self.receive(timeout):
             pass
         # self.close()
+
+    def run(self):
+        self.keep_receiving()
 
     def add_service(self, service):
         print_info("New Service added: {}", service.name)
@@ -289,7 +304,8 @@ class WhatsUpClient(DevialetClient):
         self.ports_by_service = {}
         self.discovered_services = {(self.port, "com.devialet.whatsup.registry")}
 
-    def run(self):
+    def open(self):
+        DevialetClient.open(self)
         self.reg = Devialet.WhatsUp.Registry(self)
         wu_ctrl = DevialetController(self.reg)
         # self.reg.getNetworkConfiguration(wu_ctrl, Devialet.CallMeMaybe.Empty(), callback_test)

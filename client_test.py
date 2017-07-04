@@ -1,13 +1,14 @@
-import socket
 from datetime import datetime
-from select import select
-from dvlt_pool import dvlt_pool, Devialet, DevialetController
-from dvlt_output import print_info, print_data, print_warning
-from dvlt_client import DevialetClient, WhatsUpClient
+import time
+from dvlt_pool import Devialet, DevialetController
+from dvlt_output import print_info, print_data
+from dvlt_client import WhatsUpClient
 from dvlt_server import DevialetServer
 from dvlt_discovery import DevialetDiscovery
 from queue import Queue
-# from threading import Thread
+
+# import stacktracer
+# stacktracer.trace_start("trace.html", interval=5, auto=True)
 
 
 discovered = Queue()
@@ -23,8 +24,8 @@ def callback_test(arg):
 # Open a WhatsUp connection
 wu_client = WhatsUpClient(name="WhatsUp", addr=dvlt_addr, port=24242, start_time=datetime.now())
 wu_client.open()
-wu_client.run()
-wu_client.keep_receiving(timeout=2)
+wu_client.start()
+# wu_client.keep_receiving(timeout=2)
 # reg.propertyGet(cmm_ctrl, Devialet.CallMeMaybe.Empty(), callback_test)
 
 # tmf_client = DevialetClient(name='TooManyFlows Configuration', addr=dvlt_addr, port=37610, start_time=datetime.now())
@@ -44,18 +45,19 @@ wu_srv.start()
 def pingback(arg):
     print_info("Pong <--")
 
-while True:  # ~ 20 ms round-trip for pings
-    # time.sleep(1)
-    try:
-        ready = select([wu_client.sock], [], [], 1)
-        print_info("One spin of the loop")
-        if ready[0]:
-            wu_client.receive()
-        else:
-            print_info("Ping -->")
-            wu_client.conn.ping(DevialetController(wu_client.conn), Devialet.CallMeMaybe.Empty(), pingback)
-    except KeyboardInterrupt:
-        wu_client.close()
-        wu_srv.shutdown()
-        dscvr.shutdown()
-        break
+try:
+    while True:  # ~ 20 ms round-trip for pings
+        time.sleep(1)
+        print_info("Ping -->")
+        wu_client.conn.ping(DevialetController(wu_client.conn), Devialet.CallMeMaybe.Empty(), pingback)
+except KeyboardInterrupt:
+    wu_client.shutdown()
+    wu_srv.shutdown()
+    dscvr.shutdown()
+
+    print_info('join()ing client...')
+    wu_client.join()
+    print_info('join()ing server...')
+    wu_srv.join()
+    print_info('join()ing discovery..')
+    dscvr.join()
