@@ -1,5 +1,6 @@
 import socket
 import struct
+import time
 import uuid
 from select import select
 from dvlt_output import print_info, print_data, print_warning
@@ -23,17 +24,17 @@ class DevialetDiscovery(Thread):
         self.sock.bind(('', self.port))
 
         self.database = {}  # {serial: addr}
+        self.shutdown_signal = False
         # MCAST_GRP = '224.1.1.1'
         # mreq = struct.pack("4sl", socket.inet_aton(MCAST_GRP), socket.INADDR_ANY)
         # self.sock.setsockopt(socket.IPPROTO_IP, socket.IP_ADD_MEMBERSHIP, mreq)
 
     def run(self):
         print_info('Searching for Devialet Device...')
-        while True:
+        while not self.shutdown_signal:
             ready = select([self.sock], [], [], self.period)
-            if self.advertise:
-                self.sock.sendto(b'DVL\x01HERE\x00\x00\x00' + bytes([len(self.serial)]) + self.serial,
-                                ('255.255.255.255', self.port))
+            if self.shutdown_signal:
+                break
             if ready[0]:
                 data, (sender_addr, sender_port) = self.sock.recvfrom(1024)
 
@@ -43,7 +44,7 @@ class DevialetDiscovery(Thread):
                     if magic == b'DVL\x01HERE' and len(data) == 12 + serial_len:
                         if serial not in self.database or self.database[serial] != sender_addr:
                             self.database[serial] = sender_addr
-                            print_info('Found Devialet Device with serial {} at address {}'.format(serial, sender_addr))
+                            print_info('Found Devialet Device with serial {} at address {}', serial, sender_addr)
                             self.queue.put((serial, sender_addr))
                             if self.callback is not None:
                                 self.callback(serial, sender_addr)
@@ -53,9 +54,20 @@ class DevialetDiscovery(Thread):
                     print_info('Got Discovery request')
                 else:
                     print_warning('Discovery message too short: {}', data.hex())
+            else:
+                if self.advertise:
+                    print_info('Advertising...')
+                    self.sock.sendto(b'DVL\x01HERE\x00\x00\x00' + bytes([len(self.serial)]) + self.serial,
+                                    ('255.255.255.255', self.port))
+                    # TODO: replace 255.255.255.255 with proper broadcast address
+                    # maybe use netifaces
 
     def start_advertising(self):
         self.advertise = True
 
     def stop_advertising(self):
         self.advertise = False
+
+    def shutdown(self):
+        self.shutdown_signal = True
+        self.sock.close()

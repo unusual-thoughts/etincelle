@@ -4,6 +4,7 @@ from select import select
 from dvlt_pool import dvlt_pool, Devialet, DevialetController
 from dvlt_output import print_info, print_data, print_warning
 from dvlt_client import DevialetClient, WhatsUpClient
+from dvlt_server import DevialetServer
 from dvlt_discovery import DevialetDiscovery
 from queue import Queue
 # from threading import Thread
@@ -34,13 +35,10 @@ wu_client.keep_receiving(timeout=2)
 # tmf_client.keep_receiving()
 
 
-# Whatsup Listening socket
-serversocket = socket.socket(
-    socket.AF_INET, socket.SOCK_STREAM)
-serversocket.bind((socket.gethostname(), 24242))
-serversocket.listen(5)
-
+wu_srv = DevialetServer(port=24242)
+wu_srv.open()
 dscvr.start_advertising()
+wu_srv.start()
 
 
 def pingback(arg):
@@ -48,16 +46,16 @@ def pingback(arg):
 
 while True:  # ~ 20 ms round-trip for pings
     # time.sleep(1)
-    ready = select([wu_client.sock], [], [], 1)
-    print_info("One spin of the loop")
-    if ready[0]:
-        wu_client.receive()
-    else:
-        print_info("Ping -->")
-        wu_client.conn.ping(DevialetController(wu_client.conn), Devialet.CallMeMaybe.Empty(), pingback)
-        # sock.sendto(b'DVL\x01HERE\x00\x00\x00\x08\xB0\xB0\xB0\xB0\xB0\xB0\xB0\xB0', ('255.255.255.255', discovery_port))
-        (clientsocket, address) = serversocket.accept()
-        print_info('Client {} connected to us!', address)
-        data = clientsocket.recv(2048)
-        if data:
-            print_info('Received {} on server socket', data.hex())
+    try:
+        ready = select([wu_client.sock], [], [], 1)
+        print_info("One spin of the loop")
+        if ready[0]:
+            wu_client.receive()
+        else:
+            print_info("Ping -->")
+            wu_client.conn.ping(DevialetController(wu_client.conn), Devialet.CallMeMaybe.Empty(), pingback)
+    except KeyboardInterrupt:
+        wu_client.close()
+        wu_srv.shutdown()
+        dscvr.shutdown()
+        break
