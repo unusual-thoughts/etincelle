@@ -81,10 +81,11 @@ class DevialetServer(Thread):
 
     def run(self):
         # self.open()
+        timeout = 2
         while not self.shutdown_signal:
             # print_info('One spin of SERVER loop...')
             socks = [s for s, f, c in self.clientsocks.values()] + [self.sock]
-            readable, writable, errored = select(socks, [], [])
+            readable, writable, errored = select(socks, [], [], timeout)
             if self.shutdown_signal:
                 break
             # if errored:
@@ -94,6 +95,8 @@ class DevialetServer(Thread):
             for s in readable:
                 if s is self.sock:
                     clientsock, (clientaddr, clientport) = self.sock.accept()
+                    if self.shutdown_signal:
+                        break
                     clientfile = clientsock.makefile(mode='wb')
                     self.clientsocks[(clientaddr, clientport)] = (clientsock, clientfile, False)
                     self.flows[(clientaddr, clientport)] = DevialetFlow(
