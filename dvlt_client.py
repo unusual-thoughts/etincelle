@@ -126,6 +126,9 @@ class DevialetClient(DevialetFlow):
         firstbyte = 0xC3 if is_event else 0xC2
 
         self.write_field(b'', firstbyte, 1)
+        if is_event:
+            self.write_field(self.serverId, firstbyte, 1)
+            self.write_field(b'', firstbyte, 1)
         self.write_field(raw_request, firstbyte, 1)
         self.write_field(raw_input, firstbyte, 0)
         self.file.flush()
