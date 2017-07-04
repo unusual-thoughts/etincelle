@@ -311,7 +311,7 @@ class WhatsUpClient(DevialetClient):
                 self.services_by_port.setdefault(port, []).append(truncated_name)
                 self.ports_by_service.setdefault(truncated_name, []).append(port)
         print_info("New WhatsUp services added: {}", wu_services)
-        self.service_discovery()
+        # self.service_discovery()
 
     def remove_wu_services(self, wu_removal):
         for srv in wu_removal.services:
@@ -344,7 +344,7 @@ class WhatsUpClient(DevialetClient):
                 self.services_by_port.setdefault(port, []).append(truncated_name)
                 self.ports_by_service.setdefault(truncated_name, []).append(port)
         print_data("WhatsUp services updated", wu_update)
-        self.service_discovery()
+        # self.service_discovery()
 
     def connect_to_service(self, service_name, port=None):
         pass
