@@ -18,7 +18,7 @@ dvltMethodOptions = dvlt_pool.FindExtensionByName('Devialet.CallMeMaybe.dvltMeth
 
 # Implements RpcChannel
 class DevialetServer(Thread):
-    def __init__(self, *args, addr=socket.gethostname(), port=0, analyze=False, **kwargs):
+    def __init__(self, wu_server, hostUid=uuid.uuid4().bytes, addr=socket.gethostname(), port=0, analyze=False):
         Thread.__init__(self)
         # DevialetFlow.__init__(self, *args, phantom_port=port, **kwargs)  # Do we really need this?
 
@@ -39,6 +39,9 @@ class DevialetServer(Thread):
         self.shutdown_signal = False
         self.rpc_server_is_phantom = False
         self.flows = {}  # {(addr, port): flow}
+        self.wu_server = wu_server
+        self.hostUid = hostUid
+        self.conn = Devialet.CallMeMaybe.Connection(self)
 
     # Callback
     def open_connection(self, conn_request):
@@ -46,6 +49,10 @@ class DevialetServer(Thread):
         return Devialet.CallMeMaybe.ConnectionReply(
             serverId=self.serverId,
             services=self.service_list.services)
+
+    def pong(self, empty):
+        print_info('Server {} ({}): Pong', self.hostUid, self.port)
+        return Devialet.CallMeMaybe.Empty()
 
     def open(self):
         try:
@@ -56,11 +63,11 @@ class DevialetServer(Thread):
             self.addr, self.port = self.sock.getsockname()
             self.sock.listen(5)
 
-            conn = Devialet.CallMeMaybe.Connection(self)
-            self.register_service(conn)
-            ctrl = DevialetController(conn)
+            self.register_service(self.conn)
+            ctrl = DevialetController(self.conn)
             # Register callback for client connection requests
-            conn.openConnection(ctrl, None, self.open_connection)
+            self.conn.openConnection(ctrl, None, self.open_connection)
+            self.conn.ping(ctrl, None, self.pong)
 
             # # No Callback - does a blocking RPC
             # conn_reply = self.conn.openConnection(ctrl, Devialet.CallMeMaybe.ConnectionRequest(version=1), None)
@@ -78,6 +85,8 @@ class DevialetServer(Thread):
                         self.addr, self.port, exc_obj)
             self.sock = None
             return False
+        # Add to endpoint database of parent whatsup servers
+        self.wu_server.register_endpoint(self)
 
     def run(self):
         # self.open()
@@ -117,10 +126,13 @@ class DevialetServer(Thread):
     def register_service(self, srv):
         srv_id = self.srv_max_id + 1
         srv_name = srv.serviceName + '.' + uuid.uuid4().hex
+        # Overload class attribute with instance attribute...
+        srv.serviceName = srv_name
         self.service_list.services.add(id=srv_id, name=srv_name)
         self.services[srv_id] = srv
 
         # TODO: send serviceadded event
+        # TODO: send whatsup servicesadded event
 
         self.srv_max_id = srv_id
 
@@ -208,14 +220,14 @@ class DevialetServer(Thread):
                 dvlt_pool.messages[method_descriptor.input_type.full_name], done)
 
     def find_requests(self, addrport):
-        for outgoing_section in self.flows[addrport].outgoing_sections:
-            # incoming_section = self.incoming_sections.popleft()
-            outgoing_section = outgoing_section.raw_protobufs
+        flow = self.flows[addrport]
+        while flow.outgoing_sections:
+            outgoing_section = flow.outgoing_sections.popleft()
+            outgoing_pb = outgoing_section.raw_protobufs
 
-            print_warning("Found Request")
-            # try:
-            req = Devialet.CallMeMaybe.Request.FromString(outgoing_section[0])
-            if req.serverId != self.serverId:
+            # print_warning("Found Request")
+            req = Devialet.CallMeMaybe.Request.FromString(outgoing_pb[0])
+            if req.serverId != self.serverId and req.serverId != b'\x00' * 16:
                 print_warning('Oops, this request is not for us (unless this is inital conenction request): we are {}, sent to {}',
                               self.serverId.hex(), req.serverId.hex())
             try:
@@ -225,7 +237,7 @@ class DevialetServer(Thread):
                         method_desc = srv.methods_by_id[req.subTypeId]
                         if method_desc.full_name in self.request_callbacks:
                             (request_class, callback) = self.request_callbacks[method_desc.full_name]
-                            response = callback(request_class.FromString(outgoing_section[1]))
+                            response = callback(request_class.FromString(outgoing_pb[1]))
                             rep = Devialet.CallMeMaybe.Reply(
                                 serverId=self.serverId,
                                 serviceId=req.serviceId,
@@ -252,3 +264,81 @@ class DevialetServer(Thread):
                 print_error('Service ID {} not in list {}', req.serviceId, ' '.join(str(self.service_list.services).split('\n')))
 
         self.flows[addrport].outgoing_sections.clear()
+
+
+class WhatsUpServer(DevialetServer):
+    def __init__(self, port=24242, **kwargs):
+        DevialetServer.__init__(self, self, port=port, **kwargs)
+        self.endpoints = {(self.hostUid, port): self}
+        self.reg = Devialet.WhatsUp.Registry(self)
+
+    def open(self):
+        DevialetServer.open(self)
+
+        self.register_service(self.reg)
+        ctrl = DevialetController(self.reg)
+        # Register callbacks for client requests
+        self.reg.listServices(ctrl, None, self.get_service_list)
+        self.reg.listHosts(ctrl, None, self.get_host_list)
+        self.reg.getNetworkConfiguration(ctrl, None, self.get_net_info)
+
+    def register_endpoint(self, srv):
+        if (srv.hostUid, srv.port) not in self.endpoints:
+            self.endpoints[(srv.hostUid, srv.port)] = srv
+        else:
+            print_error('uid {} port {} already used by endpoint', srv.hostUid, srv.port)
+
+    def deregister_endpoint(self, srv):
+        try:
+            self.endpoints.pop((srv.hostUid, srv.port))
+        except KeyError:
+            print_error("Can't deregister: {} is not a registered endpoint", (srv.hostUid, srv.port))
+
+    def get_service_list(self, empty):
+        lst = Devialet.WhatsUp.WhatsUpServicesList()
+        for (hostUid, port), endpoint in self.endpoints.items():
+            if hostUid == self.hostUid:
+                for svc_id, svc in endpoint.services.items():
+                    lst.services.add(
+                        name=svc.serviceName,
+                        hostUid=hostUid,
+                        localOnly=False,
+                        endpoint='tcp://127.0.0.1:{}'.format(port))
+            else:
+                # TODO: add catalog of other hostuids
+                print_error('Unknown hostUid {}', hostUid)
+        print_data('Got service list request:', lst)
+        return lst
+
+    def get_host_list(self, empty):
+        print_info('Got host list request')
+        return Devialet.WhatsUp.WhatsUpHostsList()
+
+    def get_net_info(self, empty):
+        host = Devialet.WhatsUp.WhatsUpHost(
+            hostUid=self.hostUid,
+            hasProxy=False,
+            interfaces=[Devialet.WhatsUp.WhatsUpNetworkInterface(
+                name='eth0',
+                isPrivate=False,
+                quality=-1,
+                priority=4,
+                networks=[Devialet.WhatsUp.WhatsUpNetwork(
+                    ip=self.addr,
+                    prefix=24
+                )]
+            )])
+        print_data('Got Network config request:', host)
+        return host
+
+    # def register_endpoint_service(self, svc, svc_name):
+    #     # srv_name = srv.serviceName + '.' + uuid.uuid4().hex
+    #     self.service_list.services.add(id=srv_id, name=srv_name)
+    #     self.services[srv_id] = srv
+
+    #     # TODO: send serviceadded event
+
+
+    # def deregister_endpoint_service(self, srv_id):
+    #     # TODO
+    #     pass

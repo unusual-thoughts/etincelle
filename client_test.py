@@ -1,18 +1,20 @@
 from datetime import datetime
 import time
+import uuid
 from dvlt_pool import Devialet, DevialetController
 from dvlt_output import print_info, print_data
 from dvlt_client import WhatsUpClient
-from dvlt_server import DevialetServer
+from dvlt_server import WhatsUpServer
 from dvlt_discovery import DevialetDiscovery
 from queue import Queue
 
 # import stacktracer
 # stacktracer.trace_start("trace.html", interval=5, auto=True)
 
+hostUid = b'etincelle-' + bytes(uuid.uuid4().hex, 'ascii')
 
 discovered = Queue()
-dscvr = DevialetDiscovery(discovered)
+dscvr = DevialetDiscovery(discovered, serial=hostUid)
 dscvr.start()
 
 serial, dvlt_addr = discovered.get(block=True)
@@ -35,8 +37,8 @@ wu_client.start()
 # tmf_conf.propertyGet(tmf_ctrl, Devialet.CallMeMaybe.Empty(), callback_test)
 # tmf_client.keep_receiving()
 
-
-wu_srv = DevialetServer(port=24242)
+# Init WhatsUp server
+wu_srv = WhatsUpServer(hostUid=hostUid)
 wu_srv.open()
 dscvr.start_advertising()
 wu_srv.start()
