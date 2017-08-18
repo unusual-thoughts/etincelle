@@ -13,10 +13,10 @@ Request:
 Response:
 ```
                                      serial length
-                                     vv 
+                                     ┌┐ 
 00000000: 4456 4c01 4845 5245 0000 00## **** ****  DVL.HERE...#**** 
-00000010: **** **** **** **** **        ^^^^^^^^^  *********
-          ^^^^^^^^^^^^^^^^^^^^^^        serial
+00000010: **** **** **** **** **        └────────  *********
+          ─────────────────────┘          serial
 ```
 Then Spark establishes first TCP connection (including service `WhatsUp.Registry`), also on port 24242
 
@@ -32,10 +32,10 @@ C2 01 00 00 00 00
 <always empty>
 C2 01 00 00 00 <length>
 <Devialet.CallMeMaybe.Request or Devialet.CallMeMaybe.Reponse>
-...                     \ Usually these are absent,
-C2 01 00 00 00 <length> | as there is only one protobuf
-<nth protobuf>          | for requests or responses.
-...                     / But a special RPC lists all properties
+...                     ┐ Usually these are absent, as there is only one
+C2 01 00 00 00 <length> │ protobuf for requests or responses. But a special 
+<nth protobuf>          │ RPC that lists all properties uses them
+...                     ┘ 
 C2 00 00 00 00 <length> (note second byte == 0)
 <last protobuf>
 ```
@@ -43,10 +43,10 @@ protobuf encapsulation format for RPC events:
 ```
 C3 01 00 00 00 00
 <always empty>
-C3 01 00 00 00 10 (length of 16 byte UID)                    \
-<16 byte UID> (same as Devialet.CallMeMaybe.Event.serverId)  | extra UID field
-C3 01 00 00 00 00                                            |
-<always empty>                                               /
+C3 01 00 00 00 10 (length of 16 byte UID)                    ┐
+<16 byte UID> (same as Devialet.CallMeMaybe.Event.serverId)  │ extra UID field
+C3 01 00 00 00 00                                            │
+<always empty>                                               ┘
 C3 01 00 00 00 <length>
 <Devialet.CallMeMaybe.Event>
 C3 00 00 00 00 <length> (note second byte == 0)
