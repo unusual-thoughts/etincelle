@@ -1,6 +1,7 @@
+import sys
 from datetime import datetime
 from collections import deque
-from dvlt_output import print_warning, print_info, print_error
+from dvlt_output import print_warning, print_info, print_error, print_data
 from dvlt_decode import DevialetManyFlows, DevialetFlow
 
 print_info('Loading scapy...')
@@ -15,11 +16,12 @@ class SeqData:
 
 
 class PcapFlows(DevialetManyFlows):
-    def __init__(self, filename, spark_addr, phantom_addr):
+    def __init__(self, filename, spark_addr, phantom_addr, decode_by_flow=False):
         DevialetManyFlows.__init__(self)
         self.filename = filename
         self.spark_addr = spark_addr
         self.phantom_addr = phantom_addr
+        self.decode_by_flow = decode_by_flow
 
         # print_info('Loading file...')
         # capture = scapy.all.rdpcap(filename)
@@ -45,6 +47,7 @@ class PcapFlows(DevialetManyFlows):
                         if (phantom_port, spark_port) in self.flows:
                             flow = self.flows[(phantom_port, spark_port)]
                         else:
+                            print_warning('New Flow phantom {}, spark {}, time {}', phantom_port, spark_port, time)
                             flow = DevialetFlow(name='phantom {}, spark {}'.format(phantom_port, spark_port),
                                                 phantom_port=phantom_port, spark_port=spark_port, start_time=time)
                             flow.phantom = SeqData()
@@ -89,7 +92,8 @@ class PcapFlows(DevialetManyFlows):
                                 sending.seq = packet[TCP].seq + tcplen
                                 if tcplen:
                                     flow.decode(packet[TCP].load[:tcplen], time=time, incoming=srv_to_client)
-                                    flow.rpc_walk(verbose=False)
+                                    if not self.decode_by_flow:
+                                        flow.rpc_walk(verbose=False)
                                 for p in list(sending.ood):
                                     l = p[IP].len - p[IP].ihl*4 - p[TCP].dataofs*4
                                     d = p[TCP].seq - sending.seq
@@ -97,7 +101,8 @@ class PcapFlows(DevialetManyFlows):
                                         sending.seq = p[TCP].seq + l
                                         if l:
                                             flow.decode(p[TCP].load[:l], time=time, incoming=srv_to_client)
-                                            flow.rpc_walk(verbose=False)
+                                            if not self.decode_by_flow:
+                                                flow.rpc_walk(verbose=False)
                                         sending.ood.remove(p)
                                         print_info('Sp {:6d} {} Ph {:6d} Len {:5d} Seq {:12d} Ack {:12d} Diff {:12d} Flags {:3} Reordered',
                                                    spark_port, '<- ' if phantom_to_spark else ' ->', phantom_port, l,
@@ -114,13 +119,22 @@ class PcapFlows(DevialetManyFlows):
 
 
 if __name__ == '__main__':
-
-    # decoder = PcapDecoder('../spark_mp3_streaming.pcapng', '192.168.178.37', '192.168.178.133')
-    # sessions = decoder.decode_sessions()
-    # pprint(sessions)
-
-    # dump_file = open('pcap_decode.pickle', 'wb')
-    # pickle.dump(sessions, dump_file)
-
-    flows = PcapFlows('/path/to/captures/spark_mp3_streaming.pcapng', '192.168.178.37', '192.168.178.133')
-    # sessions = decoder.decode_sessions()
+    if len(sys.argv) > 3:
+        filename, spark_addr, phantom_addr = sys.argv[1:4]
+        flows = PcapFlows(filename, spark_addr, phantom_addr, decode_by_flow=False)
+        if flows.decode_by_flow:
+            for flow in sorted([f for f in flows.flows.values()], key=lambda x: x.start_time):
+                flow.rpc_walk(verbose=False)
+        print_data('Pcap Flow stats', sorted(
+            [{
+                # 'phantom port': pp,
+                # 'spark port': sp,
+                'ports': f.name,
+                'start time': str(f.start_time),
+                'incoming bytes': len(f.incoming_buf.getbuffer()),
+                'outgoing bytes': len(f.outgoing_buf.getbuffer())
+            } for (pp, sp), f in flows.flows.items()],
+            key=lambda x: x['start time'])
+        )
+    else:
+        print_error('Usage: pcap_decode.py [file.pcapng] [spark_addr] [phantom_addr]')
