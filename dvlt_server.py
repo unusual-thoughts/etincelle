@@ -78,6 +78,10 @@ class DevialetServer(Thread):
             # self.conn.serviceRemoved(ctrl, None, self.remove_service)
             # self.conn.serverQuit(ctrl, None, self.close)
             print_info('Listening on port {}', self.port)
+
+            # Add to endpoint database of parent whatsup servers
+            self.wu_server.register_endpoint(self)
+
             return True
         except ConnectionRefusedError:
             exc_type, exc_obj, exc_tb = sys.exc_info()
@@ -85,8 +89,6 @@ class DevialetServer(Thread):
                         self.addr, self.port, exc_obj)
             self.sock = None
             return False
-        # Add to endpoint database of parent whatsup servers
-        self.wu_server.register_endpoint(self)
 
     def run(self):
         # self.open()
@@ -123,12 +125,16 @@ class DevialetServer(Thread):
                     else:
                         self.close_client(addrport)
 
-    def register_service(self, srv):
+    def register_service(self, srv, srv_uid=None):
+        if srv_uid is None:
+            srv_uid = uuid.uuid4().bytes
         srv_id = self.srv_max_id + 1
-        srv_name = srv.serviceName + '.' + uuid.uuid4().hex
+        # uid suffix on service names
+        srv.uid = srv_uid
+        srv.service_id = srv_id
         # Overload class attribute with instance attribute...
-        srv.serviceName = srv_name
-        self.service_list.services.add(id=srv_id, name=srv_name)
+        srv.serviceName += '.' + srv_uid.hex()
+        self.service_list.services.add(id=srv_id, name=srv.serviceName)
         self.services[srv_id] = srv
 
         # TODO: send serviceadded event
@@ -143,8 +149,15 @@ class DevialetServer(Thread):
     def close_client(self, addrport):
         sock, file, c = self.clientsocks.pop(addrport)
         print_warning('Closing Connection to Client {} on port {}', addrport[0], addrport[1])
-        sock.shutdown(2)
-        sock.close()
+        try:
+            sock.shutdown(2)
+        except OSError as e:
+            print_error('Error in socket shutdown: {}, already closed?', e)
+        try:
+            sock.close()
+        except OSError as e:
+            print_error('Error in socket clse: {}, already closed?', e)
+
         file.close()
 
     def shutdown(self):
@@ -186,15 +199,39 @@ class DevialetServer(Thread):
         self.write_field_to_file(file, raw_event, firstbyte, 0)
         file.flush()
 
-    def write_response_to_addr(self, addrport, raw_cmmreply, raw_reponse):
+    def write_response_to_addr(self, addrport, raw_cmmreply, raw_response):
         firstbyte = 0xC2
         sock, file, is_connected = self.clientsocks[addrport]
 
         # if is_connected:
         self.write_field_to_file(file, b'', firstbyte, 1)
         self.write_field_to_file(file, raw_cmmreply, firstbyte, 1)
-        self.write_field_to_file(file, raw_reponse, firstbyte, 0)
+        self.write_field_to_file(file, raw_response, firstbyte, 0)
         file.flush()
+
+    def write_responses_to_addr(self, addrport, raw_cmmreply, raw_responses):
+        firstbyte = 0xC2
+        sock, file, is_connected = self.clientsocks[addrport]
+
+        # if is_connected:
+        self.write_field_to_file(file, b'', firstbyte, 1)
+        self.write_field_to_file(file, raw_cmmreply, firstbyte, 1)
+        for i, raw_response in enumerate(raw_responses):
+            self.write_field_to_file(file, raw_response, firstbyte, 1 if i < len(raw_responses) - 1 else 0)
+        file.flush()
+
+    # Copied from dvlt_client
+    def find_service_id(self, service_desc):
+        lowercase_name = service_desc.GetOptions().Extensions[dvltServiceOptions].serviceName
+        matching_services = [service.id for service in self.service_list.services if '.'.join(service.name.split('.')[:-1]) == lowercase_name]
+        try:
+            # Service list not yet populated
+            if lowercase_name == "com.devialet.callmemaybe.connection" and not self.service_list.services:
+                return 0
+            return matching_services[0]
+        except IndexError:
+            print_error('Service name {} not in list {}', lowercase_name, ' '.join(str(self.service_list.services).split('\n')))
+        return 0
 
     def CallMethod(self, method_descriptor, rpc_controller, request, response_class, done):
         # Handle events and requests differently: events broadcast to every client;
@@ -212,8 +249,10 @@ class DevialetServer(Thread):
                 serviceId=serviceId,
                 type=typeId, subTypeId=subTypeId)
 
+            print_info('Sending event {}', method_descriptor.full_name)
+
             for addrport in self.clientsocks.keys():
-                self.write_event_to_addr(cmm_event.SerializeToString(), request.SerializeToString())
+                self.write_event_to_addr(addrport, cmm_event.SerializeToString(), request.SerializeToString())
         else:
             # For request methods, only register callback, don't send anything
             self.request_callbacks[method_descriptor.full_name] = (
@@ -253,10 +292,25 @@ class DevialetServer(Thread):
                     except KeyError:
                         print_errordata('Method id {} not in service method dict:'.format(req.subTypeId),
                                         {k: v.full_name for (k, v) in srv.methods_by_id.items()})
+                elif req.type == 1 and req.subTypeId == 0xFFFFFFFF:
+                    # PropertyGet special request
+                    rep = Devialet.CallMeMaybe.Reply(
+                        serverId=self.serverId,
+                        serviceId=req.serviceId,
+                        requestId=req.requestId,
+                        type=1,
+                        subTypeId=0xFFFFFFFF,
+                        errorCode=0,
+                        isMultipart=True)
+                    print_info('Got PropertyGet request:')
+                    for name, prop in srv.properties.items():
+                        print_data(name, prop)
+                    self.write_responses_to_addr(addrport, rep.SerializeToString(), [p.SerializeToString() for p in srv.get_properties()])
                 elif req.type == 1:
                     # PropertySet special request
                     # TODO
-                    print_error('Unhandled propertyset')
+                    print_errordata('Unhandled propertyset subtypeId={}'.format(req.subTypeId),
+                                    [x.hex() for x in outgoing_pb])
                     pass
                 else:
                     print_error('Unknown request type {}', req.type)
@@ -269,7 +323,7 @@ class DevialetServer(Thread):
 class WhatsUpServer(DevialetServer):
     def __init__(self, port=24242, **kwargs):
         DevialetServer.__init__(self, self, port=port, **kwargs)
-        self.endpoints = {(self.hostUid, port): self}
+        self.endpoints = {}  # {(self.hostUid, port): self}
         self.reg = Devialet.WhatsUp.Registry(self)
 
     def open(self):
@@ -284,6 +338,7 @@ class WhatsUpServer(DevialetServer):
 
     def register_endpoint(self, srv):
         if (srv.hostUid, srv.port) not in self.endpoints:
+            print_info('Registering endpoint {}', (srv.hostUid, srv.port))
             self.endpoints[(srv.hostUid, srv.port)] = srv
         else:
             print_error('uid {} port {} already used by endpoint', srv.hostUid, srv.port)
@@ -297,13 +352,15 @@ class WhatsUpServer(DevialetServer):
     def get_service_list(self, empty):
         lst = Devialet.WhatsUp.WhatsUpServicesList()
         for (hostUid, port), endpoint in self.endpoints.items():
+            # print_info('listing services for endpoint {}', (hostUid, port))
             if hostUid == self.hostUid:
                 for svc_id, svc in endpoint.services.items():
-                    lst.services.add(
-                        name=svc.serviceName,
-                        hostUid=hostUid,
-                        localOnly=False,
-                        endpoint='tcp://127.0.0.1:{}'.format(port))
+                    if svc.DESCRIPTOR.full_name != 'Devialet.CallMeMaybe.Connection':
+                        lst.services.add(
+                            name=svc.serviceName,
+                            hostUid=hostUid,
+                            localOnly=False,
+                            endpoint='tcp://127.0.0.1:{}'.format(port))
             else:
                 # TODO: add catalog of other hostuids
                 print_error('Unknown hostUid {}', hostUid)
