@@ -245,7 +245,7 @@ class DevialetDescriptorPool(DescriptorPool):
                 'baseService': opts.baseService,
                 'errorEnumName': opts.errorEnumName,
                 'methods_by_id': service.methods_by_id,
-                'property_descs_by_id': service_properties.property,
+                'property_descs_by_id': list(service_properties.property),
                 'property_descs_by_name': {prop.name: prop for prop in service_properties.property},
                 '__module__': '.'.join(service_name.split('.')[:-1])
             })
@@ -323,8 +323,8 @@ class DevialetDescriptorPool(DescriptorPool):
             if rep.subTypeId == 0xFFFFFFFF and rep.type == 1:
                 # Get Properties / No actual method
                 # Usually Multipart is set
-                print_info('PropertyGet details: {} / {} outputs, type={} subtype={}'.format(
-                    service_name, len(outputs_raw), rep.type, rep.subTypeId))
+                print_info('PropertyGet details: {} / {} outputs, type={} subtype={}',
+                           service_name, len(outputs_raw), rep.type, rep.subTypeId, color='cyan')
                 if len(input_raw):
                     print_error('PropertyGet but input type not empty')
                 outputs_pb = []
@@ -335,14 +335,14 @@ class DevialetDescriptorPool(DescriptorPool):
                 return (service_desc.methods_by_name['propertyGet'], empty, outputs_pb)
             elif rep.type == 1 and is_event:
                 # Property Update Event
-                print_info('PropertyUpdate details: {}, type={} subtype={}'.format(
-                    service_name, rep.type, rep.subTypeId))
+                print_info('PropertyUpdate details: {}, type={} subtype={}',
+                           service_name, rep.type, rep.subTypeId, color='cyan')
                 name, prop = self.get_property(service_desc, rep.subTypeId, input_raw)
                 return (service_desc.methods_by_name['propertyUpdate'], prop, empty)
             elif rep.type == 1 and not is_event:
                 # Property Set Request
-                print_info('PropertySet details: {}, type={} subtype={}'.format(
-                    service_name, rep.type, rep.subTypeId))
+                print_info('PropertySet details: {}, type={} subtype={}',
+                           service_name, rep.type, rep.subTypeId, color='cyan')
                 name, prop = self.get_property(service_desc, rep.subTypeId, input_raw)
                 return (service_desc.methods_by_name['propertySet'], prop, empty)
             else:
@@ -352,8 +352,8 @@ class DevialetDescriptorPool(DescriptorPool):
                 try:
                     method = service_desc.methods_by_id[rep.subTypeId]
 
-                    print_info('RPC/Event details: {} -> {} [{} -> {}]'.format(
-                        service_name, method.full_name, method.input_type.full_name, method.output_type.full_name))
+                    print_info('RPC/Event details: {} [{} -> {}]', method.full_name[9:],
+                               method.input_type.full_name[9:], method.output_type.full_name[9:], color='magenta')
 
                     # input_pb = service.GetRequestClass(method)()
                     # input_pb.ParseFromString(input_raw)
@@ -502,8 +502,14 @@ class DevialetService(google.protobuf.service.Service):
     def get_property(self, property_name):
         return self.properties[property_name]
 
-    def propertyGet(self, controller, request, callback):
-        raise NotImplementedError
+    def get_properties(self):
+        try:
+            return [self.properties[desc.name] for i, desc in enumerate(self.property_descs_by_id)]
+        except KeyError as e:
+            print_error('property {} undefined', e)
+
+    # def propertyGet(self, controller, request, callback):
+    #     raise NotImplementedError
 
     def watch_properties(self, service_id=None, service_name=None):
         self.properties = {}
