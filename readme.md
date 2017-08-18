@@ -18,7 +18,13 @@ Response:
 00000010: **** **** **** **** **        ^^^^^^^^^  *********
           ^^^^^^^^^^^^^^^^^^^^^^        serial
 ```
-Then Spark establishes first TCP connection, also on port 24242
+Then Spark establishes first TCP connection (including service `WhatsUp.Registry`), also on port 24242
+
+On exit:
+```
+00000000: 4456 4c01 4259 4521 0000 00## **** ****  DVL.BYE!...#****
+00000010: **** **** **** **** **                   *********
+```
 
 ## Protobuf encapsulation format for RPC requests/responses:
 ```
