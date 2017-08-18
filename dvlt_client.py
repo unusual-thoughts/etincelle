@@ -4,9 +4,8 @@ import uuid
 import re
 import sys
 import time
-import google.protobuf.service
 from datetime import datetime
-from threading import Thread
+from threading import Thread, Event
 from select import select
 from dvlt_decode import DevialetFlow
 from dvlt_pool import dvlt_pool, Devialet, DevialetController
@@ -29,6 +28,7 @@ class DevialetClient(DevialetFlow, Thread):
         self.request_queue = {}  # {requestid: (method_descriptor response_class, controller, callback)}
         self.event_callbacks = {}  # {method_descriptor.full_name: (response_class, callback)}
         self.blocking_reponse = None
+        self.blocked = Event()
         self.addr = addr
         self.port = port
         self.conn = None  # Connection Service
@@ -40,18 +40,6 @@ class DevialetClient(DevialetFlow, Thread):
             self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             self.sock.connect((self.addr, self.port))
             self.file = self.sock.makefile(mode='wb')
-
-            self.conn = Devialet.CallMeMaybe.Connection(self)
-            ctrl = DevialetController(self.conn)
-            # No Callback - does a blocking RPC
-            conn_reply = self.conn.openConnection(ctrl, Devialet.CallMeMaybe.ConnectionRequest(version=1), None)
-            self.serverId = conn_reply.serverId
-            self.service_list = Devialet.CallMeMaybe.ServicesList(services=conn_reply.services)
-            # Register event callbacks for added/deleted services
-            self.conn.serviceAdded(ctrl, None, self.add_service)
-            self.conn.serviceRemoved(ctrl, None, self.remove_service)
-            self.conn.serverQuit(ctrl, None, self.close)
-            print_info('Opened connection to {} on port {}', self.addr, self.port)
             return True
         except ConnectionRefusedError:
             exc_type, exc_obj, exc_tb = sys.exc_info()
@@ -59,6 +47,26 @@ class DevialetClient(DevialetFlow, Thread):
                         self.addr, self.port, exc_obj)
             self.sock = None
             return False
+
+    def connect(self):
+        self.conn = Devialet.CallMeMaybe.Connection(self)
+        ctrl = DevialetController(self.conn)
+        # No Callback - does a blocking RPC
+        conn_reply = self.conn.openConnection(ctrl, Devialet.CallMeMaybe.ConnectionRequest(version=1), None)
+        self.serverId = conn_reply.serverId
+        self.service_list = Devialet.CallMeMaybe.ServicesList(services=conn_reply.services)
+        # Register event callbacks for added/deleted services
+        self.conn.serviceAdded(ctrl, None, self.add_service)
+        self.conn.serviceRemoved(ctrl, None, self.remove_service)
+        self.conn.serverQuit(ctrl, None, self.close)
+        print_info('Opened connection to {} on port {}', self.addr, self.port)
+        print_data('List of services:', self.service_list)
+
+    def go(self):
+        self.open()
+        # Calls run() in new thread
+        self.start()
+        self.connect()
 
     def close(self, arg=None):
         if self.sock is not None:
@@ -116,7 +124,8 @@ class DevialetClient(DevialetFlow, Thread):
     def keep_receiving(self, timeout=None):
         while not self.shutdown_signal and self.receive(timeout):
             pass
-        # self.close()
+        if not self.shutdown_signal:
+            self.close()
 
     def run(self):
         self.keep_receiving()
@@ -158,8 +167,10 @@ class DevialetClient(DevialetFlow, Thread):
 
     def unblock_call(self, response):
         self.blocking_response = response
+        print_info('Unblocking')
+        self.blocked.set()
 
-    def CallMethod(self, method_descriptor, rpc_controller, request, response_class, done):
+    def CallMethod(self, method_descriptor, rpc_controller, request, response_class, done, timeout=2):
         # For event methods, only register callback, don't send anything
         if method_descriptor.GetOptions().Extensions[dvltMethodOptions].isNotification:
             # For events, response class is always empty, request class is the actual class of the event
@@ -175,16 +186,24 @@ class DevialetClient(DevialetFlow, Thread):
                 serviceId=serviceId,
                 requestId=reqUUID,
                 type=typeId, subTypeId=subTypeId)
+            # First add the callback to the queue...
             self.request_queue[reqUUID] = (method_descriptor, response_class, rpc_controller, done if done else self.unblock_call)
+            if done is None:
+                # Blocking Call
+                self.blocked.clear()
+            # ...Then send the actual request bytes
             self.write_rpc(cmm_request.SerializeToString(), request.SerializeToString())
+            print_info('Calling method {} from service {} ({})...',
+                       method_descriptor.name, rpc_controller.parent_service.serviceName, serviceId)
+            print_data('... with argument:', request)
 
             if done is None:
-                # Blocking call
-                self.blocking_response = None
-                while self.blocking_response is None and self.receive():
-                    pass
+                # Wait for callback to be executed or socket to die
+                while self.sock is not None and not self.shutdown_signal and not self.blocked.wait(timeout=timeout):
+                    # Wait for blocked event to be unset
+                    print_warning('Still blocked on method {}...', method_descriptor.full_name)
                 if self.blocking_response is None:
-                    self.close()
+                    # self.close()
                     print_error("Server hung up before response")
                 return self.blocking_response
 
@@ -304,8 +323,8 @@ class WhatsUpClient(DevialetClient):
         self.ports_by_service = {}
         self.discovered_services = {(self.port, "com.devialet.whatsup.registry")}
 
-    def open(self):
-        DevialetClient.open(self)
+    def connect(self):
+        DevialetClient.connect(self)
         self.reg = Devialet.WhatsUp.Registry(self)
         wu_ctrl = DevialetController(self.reg)
         # self.reg.getNetworkConfiguration(wu_ctrl, Devialet.CallMeMaybe.Empty(), callback_test)
@@ -361,7 +380,22 @@ class WhatsUpClient(DevialetClient):
         print_data("WhatsUp services updated", wu_update)
         # self.service_discovery()
 
-    def connect_to_service(self, service_name, port=None):
+    def try_to_find_service(self, service_name, port=None):
+        try:
+            ports = self.ports_by_service[service_name]
+            if len(ports) > 1:
+                print_warning('More than one possible endpoint match for service {}: {}', service_name, ports)
+            if port is None:
+                port = ports[0]
+            elif port not in ports:
+                print_warning('Requested port not in list of matches')
+                port = ports[0]
+            print_info('Using port {} for service {}', port, service_name)
+            svc_class = dvlt_pool.service_by_name[service_name]._concrete_class
+            client = DevialetClient(name=service_name + ' client', port=port, addr=self.addr)
+            return client, svc_class(client)
+        except KeyError:
+            print_error("Can't find service {} in whatsup services", service_name)
         pass
 
     def service_discovery(self):
