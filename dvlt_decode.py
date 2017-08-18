@@ -46,11 +46,11 @@ class DevialetSection:
 
 
 class DevialetFlow:
-    def __init__(self, name='', phantom_port=0, spark_port=0, start_time=datetime.now()):
+    def __init__(self, name='', phantom_port=0, spark_port=0, start_time=None):
         self.name = name
         self.phantom_port = phantom_port
         self.spark_port = spark_port
-        self.start_time = start_time
+        self.start_time = (start_time if start_time is not None else datetime.now())
 
         self.incoming_buf = BytesIO()
         self.outgoing_buf = BytesIO()
@@ -145,7 +145,7 @@ class DevialetFlow:
         # with 2 outgoing protobufs and 2 (or more for propertyget/multipart) incoming,
         # or an RPC event, with 2 (or more?) incoming, and no outgoing
 
-        if verbose:
+        if verbose or len(self.incoming_sections) != 0:
             print_info('Walking {}', self.name)
             print_data('=' * 32)
         if not self.rpc_server_is_phantom:
