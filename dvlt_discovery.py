@@ -1,6 +1,5 @@
 import socket
 import struct
-import time
 import uuid
 from select import select
 from dvlt_output import print_info, print_data, print_warning
@@ -48,8 +47,12 @@ class DevialetDiscovery(Thread):
                             self.queue.put((serial, sender_addr))
                             if self.callback is not None:
                                 self.callback(serial, sender_addr)
+                    elif magic == b'DVL\x01BYE!' and len(data) == 12 + serial_len:
+                        print_info('Device with serial {} at address {} exited', serial, sender_addr)
+                        self.database.pop(serial)
                     else:
                         print_warning('Unknown data: {}', data.hex())
+                        # Warning: Unknown data: 44564c014259452100000010066787a949a24d37a99c26d3ff193a5a
                 elif data == b'DVL\x01WHO?':
                     print_info('Got Discovery request')
                 else:
