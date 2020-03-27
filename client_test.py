@@ -25,8 +25,7 @@ def callback_test(arg):
 
 # Open a WhatsUp connection
 wu_client = WhatsUpClient(name="WhatsUp", addr=dvlt_addr, port=24242, start_time=datetime.now())
-wu_client.open()
-wu_client.start()
+wu_client.go()
 # wu_client.keep_receiving(timeout=2)
 # reg.propertyGet(cmm_ctrl, Devialet.CallMeMaybe.Empty(), callback_test)
 
