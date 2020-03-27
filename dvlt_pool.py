@@ -3,6 +3,9 @@ import sys
 import types
 import subprocess
 
+from google.protobuf.internal import api_implementation
+api_implementation._SetType("python")
+
 from google.protobuf.descriptor_pool import DescriptorPool
 from google.protobuf.message_factory import MessageFactory
 from google.protobuf.descriptor_pb2 import FileDescriptorProto, ServiceOptions
