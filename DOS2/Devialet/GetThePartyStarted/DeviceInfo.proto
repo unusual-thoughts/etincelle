@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package Devialet.GetThePartyStarted;
+
+message DeviceInfo {
+  string serialNumber = 1;
+  string productId = 2;
+  bytes primaryMacAddress = 3;
+  string modelName = 4;
+  string hardwareVersion = 5;
+  string manufacturerName = 6;
+  string systemName = 7;
+  string systemVersion = 8;
+  string deviceName = 9;
+  bool ethernetEnabled = 10;
+  bool plcEnabled = 11;
+  bool wiFi24Enabled = 12;
+  bool wiFi50Enabled = 13;
+  bool bluetoothClassicEnabled = 14;
+  bool bluetoothSmartEnabled = 15;
+}
+

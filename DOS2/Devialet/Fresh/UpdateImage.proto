@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package Devialet.Fresh;
+
+message UpdateImage {
+  enum Requirement {
+    Unknown = 0;
+    Optional = 1;
+    Required = 2;
+    RequiredImmediately = 3;
+  }
+  bool majorUpdate = 1;
+  bool outOfDate = 2;
+  string productType = 3;
+  string id = 4;
+  string fromVersion = 5;
+  string toVersion = 6;
+  string url = 7;
+  string fileHash = 8;
+  string changelogUrl = 9;
+  string fromFullVersion = 14;
+  string toFullVersion = 15;
+  .Devialet.Fresh.UpdateImage.Requirement requirement = 10;
+  map<string, string> metadata = 11;
+  bool isRequiredAtSetup = 12;
+  bool isForced = 13;
+}
+

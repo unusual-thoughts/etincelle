@@ -1,0 +1,63 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+import "Devialet/CallMeMaybe/CallMeMaybe.proto";
+import "Devialet/CallMeMaybe/DefaultMessages.proto";
+import "Devialet/CallMeMaybe/GeneratorOptions.proto";
+package Devialet.MotherOfAllSources;
+
+message SourceIdentifier {
+  string name = 1;
+  .Devialet.CallMeMaybe.Id system = 2;
+}
+
+message SourceInformation {
+  enum Type {
+    Physical = 0;
+    Virtual = 1;
+  }
+  string name = 1;
+  bool isStarted = 2;
+  .Devialet.MotherOfAllSources.SourceInformation.Type type = 3;
+}
+
+message SourceIndexProperties {
+  .Devialet.CallMeMaybe.InterfaceProperties parent = 1;
+  repeated .Devialet.MotherOfAllSources.SourceInformation sources = 2 [(.Devialet.CallMeMaybe.property) = {
+    readOnly: true
+  }];
+  .Devialet.CallMeMaybe.Id system = 3 [(.Devialet.CallMeMaybe.property) = {
+    readOnly: true
+  }];
+}
+
+service SourcesIndex {
+  option (.Devialet.CallMeMaybe.service) = {
+    apiVersion: 1
+    name: "io.dvlt.motherofallsources.daemon"
+    properties: "SourceIndexProperties"
+  };
+  rpc start(.Devialet.MotherOfAllSources.SourceIdentifier) returns (.google.protobuf.Empty);
+  rpc stop(.Devialet.MotherOfAllSources.SourceIdentifier) returns (.google.protobuf.Empty);
+  rpc sourceStarted(.Devialet.MotherOfAllSources.SourceIdentifier) returns (.google.protobuf.Empty) {
+    option (.Devialet.CallMeMaybe.method) = {
+      notification: true
+    };
+  }
+  rpc sourceStopped(.Devialet.MotherOfAllSources.SourceIdentifier) returns (.google.protobuf.Empty) {
+    option (.Devialet.CallMeMaybe.method) = {
+      notification: true
+    };
+  }
+  rpc sourceStartTimedOut(.Devialet.MotherOfAllSources.SourceIdentifier) returns (.google.protobuf.Empty) {
+    option (.Devialet.CallMeMaybe.method) = {
+      notification: true
+    };
+  }
+  rpc sourceStopTimedOut(.Devialet.MotherOfAllSources.SourceIdentifier) returns (.google.protobuf.Empty) {
+    option (.Devialet.CallMeMaybe.method) = {
+      notification: true
+    };
+  }
+}
+

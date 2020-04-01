@@ -1,0 +1,91 @@
+syntax = "proto3";
+
+import "Devialet/CallMeMaybe/CallMeMaybe.proto";
+import "Devialet/CallMeMaybe/GeneratorOptions.proto";
+import "Devialet/SourceOfAll/BaseService.proto";
+package Devialet.SourceOfAll;
+
+message PictureMessage {
+  enum Type {
+    Unknown = 0;
+    None = 1;
+    Data = 2;
+    Url = 3;
+  }
+  .Devialet.SourceOfAll.PictureMessage.Type type = 1;
+  bytes data = 2 [(.Devialet.CallMeMaybe.bytes) = {
+    logMode: Desc
+  }];
+  string url = 3 [(.Devialet.CallMeMaybe.string) = {
+    type: Url
+  }];
+}
+
+message MetadataProperties {
+  enum MediaType {
+    Unknown = 0;
+    Track = 1;
+    Podcast = 2;
+    Station = 3;
+    Live = 4;
+  }
+  .Devialet.CallMeMaybe.InterfaceProperties parent = 1;
+  string album = 2 [(.Devialet.CallMeMaybe.property) = {
+    readOnly: true
+  }];
+  string albumArtist = 3 [(.Devialet.CallMeMaybe.property) = {
+    readOnly: true
+  }];
+  string artist = 4 [(.Devialet.CallMeMaybe.property) = {
+    readOnly: true
+  }];
+  string composer = 5 [(.Devialet.CallMeMaybe.property) = {
+    readOnly: true
+  }];
+  string genre = 6 [(.Devialet.CallMeMaybe.property) = {
+    readOnly: true
+  }];
+  string location = 7 [(.Devialet.CallMeMaybe.property) = {
+    readOnly: true
+  }];
+  string organization = 8 [(.Devialet.CallMeMaybe.property) = {
+    readOnly: true
+  }];
+  string title = 9 [(.Devialet.CallMeMaybe.property) = {
+    readOnly: true
+  }];
+  string homepage = 10 [(.Devialet.CallMeMaybe.property) = {
+    readOnly: true
+  }, (.Devialet.CallMeMaybe.string) = {
+    type: Url
+  }];
+  bytes dvltTrack = 11 [(.Devialet.CallMeMaybe.bytes) = {
+    type: JsonObject
+  }, (.Devialet.CallMeMaybe.property) = {
+    readOnly: true
+  }];
+  .Devialet.SourceOfAll.PictureMessage picture = 12 [(.Devialet.CallMeMaybe.property) = {
+    readOnly: true
+  }];
+  int64 duration = 13 [(.Devialet.CallMeMaybe.property) = {
+    readOnly: true
+  }, (.Devialet.CallMeMaybe.int64) = {
+    type: Nanoseconds
+  }];
+  bool isStream = 14 [(.Devialet.CallMeMaybe.property) = {
+    readOnly: true
+  }];
+  .Devialet.SourceOfAll.MetadataProperties.MediaType mediaType = 15 [(.Devialet.CallMeMaybe.property) = {
+    readOnly: true
+  }];
+}
+
+service Metadata {
+  option (.Devialet.CallMeMaybe.service) = {
+    apiVersion: 1
+    parent: "Devialet.SourceOfAll.BaseService"
+    name: ".metadata"
+    properties: "MetadataProperties"
+  };
+}
+

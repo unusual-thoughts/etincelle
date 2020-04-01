@@ -1,0 +1,68 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+import "Devialet/CallMeMaybe/CallMeMaybe.proto";
+import "Devialet/CallMeMaybe/DefaultMessages.proto";
+import "Devialet/CallMeMaybe/GeneratorOptions.proto";
+import "Devialet/GetThePartyStarted/DeviceInfo.proto";
+import "Devialet/GetThePartyStarted/NetworkConfiguration.proto";
+package Devialet.GetThePartyStarted.Installation;
+
+message InstallationInfo {
+  .Devialet.CallMeMaybe.Id id = 1;
+  int64 revision = 2;
+  string name = 3;
+}
+
+message NetworkConfiguration {
+  int64 revision = 1;
+  .Devialet.GetThePartyStarted.NetworkConfiguration configuration = 2;
+}
+
+message DeviceProperties {
+  .Devialet.CallMeMaybe.InterfaceProperties parent = 1;
+  .Devialet.GetThePartyStarted.DeviceInfo device = 2 [(.Devialet.CallMeMaybe.property) = {
+    constant: true
+  }];
+  .Devialet.GetThePartyStarted.Installation.InstallationInfo installation = 3;
+  .Devialet.GetThePartyStarted.Installation.NetworkConfiguration network = 4;
+  .Devialet.GetThePartyStarted.NetworkConfiguration currentNetwork = 5 [(.Devialet.CallMeMaybe.property) = {
+    readOnly: true
+  }];
+  bool doesNotSupportUserInteraction = 6 [(.Devialet.CallMeMaybe.property) = {
+    constant: true
+  }];
+  bool doesNotRequireSystem = 7 [(.Devialet.CallMeMaybe.property) = {
+    constant: true
+  }];
+}
+
+message JoinInstallationRequest {
+  int64 revision = 1;
+  .Devialet.CallMeMaybe.Id id = 2;
+  string name = 3;
+  .Devialet.GetThePartyStarted.NetworkConfiguration configuration = 4;
+}
+
+service Device {
+  option (.Devialet.CallMeMaybe.service) = {
+    apiVersion: 1
+    name: "io.dvlt.getthepartystarted.device"
+    properties: "DeviceProperties"
+  };
+  rpc identify(.google.protobuf.Empty) returns (.google.protobuf.Empty);
+  rpc requestUserInteraction(.google.protobuf.Empty) returns (.google.protobuf.Empty);
+  rpc pairingRequested(.google.protobuf.Empty) returns (.google.protobuf.Empty) {
+    option (.Devialet.CallMeMaybe.method) = {
+      notification: true
+    };
+  }
+  rpc pairingSuccess(.google.protobuf.Empty) returns (.google.protobuf.Empty);
+  rpc readyToPlay(.google.protobuf.Empty) returns (.google.protobuf.Empty);
+  rpc joinInstallation(.Devialet.GetThePartyStarted.Installation.JoinInstallationRequest) returns (.google.protobuf.Empty);
+  rpc leaveInstallation(.Devialet.CallMeMaybe.Id) returns (.google.protobuf.Empty);
+  rpc reboot(.google.protobuf.Empty) returns (.google.protobuf.Empty);
+  rpc suspend(.google.protobuf.Empty) returns (.google.protobuf.Empty);
+  rpc shutdown(.google.protobuf.Empty) returns (.google.protobuf.Empty);
+}
+

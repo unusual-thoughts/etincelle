@@ -1,0 +1,74 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+import "Devialet/CallMeMaybe/CallMeMaybe.proto";
+import "Devialet/CallMeMaybe/DefaultMessages.proto";
+import "Devialet/CallMeMaybe/GeneratorOptions.proto";
+package Devialet.MasterOfPuppets;
+
+message NodeMessage {
+  enum Type {
+    Unknown = 0;
+    Renderer = 1;
+    System = 2;
+  }
+  .Devialet.CallMeMaybe.Id id = 1;
+  .Devialet.MasterOfPuppets.NodeMessage.Type type = 2;
+  string name = 3;
+}
+
+message TreeMessage {
+  .Devialet.MasterOfPuppets.NodeMessage root = 1;
+  repeated .Devialet.MasterOfPuppets.NodeMessage subnodes = 2;
+  bool isDefault = 3;
+}
+
+message UpdateTreesRequest {
+  repeated .Devialet.CallMeMaybe.Id removed = 1;
+  repeated .Devialet.MasterOfPuppets.TreeMessage added = 2;
+  int64 time = 3 [(.Devialet.CallMeMaybe.int64) = {
+    type: Milliseconds
+  }];
+}
+
+message EntityNodeProperties {
+  .Devialet.CallMeMaybe.InterfaceProperties parent = 1;
+  string name = 2 [(.Devialet.CallMeMaybe.property) = {
+    readOnly: true
+  }];
+  repeated .Devialet.MasterOfPuppets.TreeMessage trees = 3 [(.Devialet.CallMeMaybe.property) = {
+    readOnly: true
+  }];
+  bool hasTransaction = 4 [(.Devialet.CallMeMaybe.property) = {
+    readOnly: true
+  }];
+}
+
+message KeepAliveMessage {
+  .Devialet.CallMeMaybe.Id entity = 1;
+  int64 time = 2 [(.Devialet.CallMeMaybe.int64) = {
+    type: Milliseconds
+  }];
+}
+
+message CompletionMessage {
+  .Devialet.CallMeMaybe.Id entity = 1;
+}
+
+service EntityNode {
+  option (.Devialet.CallMeMaybe.service) = {
+    apiVersion: 1
+    name: "io.dvlt.masterofpuppets.entity"
+    properties: "EntityNodeProperties"
+  };
+  rpc updateTrees(.Devialet.MasterOfPuppets.UpdateTreesRequest) returns (.google.protobuf.Empty);
+  rpc keepTransactionAlive(.Devialet.MasterOfPuppets.KeepAliveMessage) returns (.google.protobuf.Empty);
+  rpc commitEntityCreation(.Devialet.MasterOfPuppets.CompletionMessage) returns (.google.protobuf.Empty);
+  rpc rollbackEntityCreation(.Devialet.MasterOfPuppets.CompletionMessage) returns (.google.protobuf.Empty);
+  rpc nodeUpdated(.Devialet.MasterOfPuppets.NodeMessage) returns (.google.protobuf.Empty) {
+    option (.Devialet.CallMeMaybe.method) = {
+      notification: true
+    };
+  }
+}
+

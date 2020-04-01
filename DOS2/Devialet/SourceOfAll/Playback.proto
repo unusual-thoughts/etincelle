@@ -1,0 +1,115 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+import "Devialet/CallMeMaybe/CallMeMaybe.proto";
+import "Devialet/CallMeMaybe/GeneratorOptions.proto";
+import "Devialet/SourceOfAll/BaseService.proto";
+package Devialet.SourceOfAll;
+
+message PlaybackMethodsMessage {
+  bool hasNext = 1;
+  bool hasPause = 2;
+  bool hasPlay = 3;
+  bool hasPlayAt = 4;
+  bool hasPlayTrack = 5;
+  bool hasPlayTrackAt = 6;
+  bool hasPrevious = 7;
+  bool hasProgression = 8;
+  bool hasRandom = 9;
+  bool hasRepeatAll = 10;
+  bool hasRepeatOne = 11;
+  bool hasSeek = 12;
+  bool hasStop = 13;
+  bool hasTogglePause = 14;
+  bool hasToggleRepeat = 15;
+  bool hasToggleRandom = 16;
+}
+
+message ProgressionMessage {
+  int64 position = 1 [(.Devialet.CallMeMaybe.int64) = {
+    type: Nanoseconds
+  }];
+  int64 duration = 2 [(.Devialet.CallMeMaybe.int64) = {
+    type: Nanoseconds
+  }];
+  int64 buffering = 3 [(.Devialet.CallMeMaybe.int64) = {
+    type: Nanoseconds
+  }];
+  uint32 preloading = 4;
+}
+
+message PlaybackProperties {
+  enum RepeatMode {
+    UnknownRepeatMode = 0;
+    NoRepeat = 1;
+    RepeatOne = 2;
+    RepeatAll = 3;
+  }
+  enum State {
+    UnknownState = 0;
+    Stopped = 1;
+    Paused = 2;
+    Playing = 3;
+  }
+  .Devialet.CallMeMaybe.InterfaceProperties parent = 1;
+  .Devialet.SourceOfAll.PlaybackMethodsMessage availableMethods = 2 [(.Devialet.CallMeMaybe.property) = {
+    readOnly: true
+  }];
+  .Devialet.SourceOfAll.ProgressionMessage progression = 3 [(.Devialet.CallMeMaybe.property) = {
+    readOnly: true
+    disableUpdateLogging: true
+  }];
+  .Devialet.SourceOfAll.PlaybackProperties.State state = 4 [(.Devialet.CallMeMaybe.property) = {
+    readOnly: true
+  }];
+  bool isReadyToPlay = 5 [(.Devialet.CallMeMaybe.property) = {
+    readOnly: true
+  }];
+  bool random = 6;
+  .Devialet.SourceOfAll.PlaybackProperties.RepeatMode repeat = 7;
+}
+
+message PlayAtQuery {
+  uint32 index = 1;
+}
+
+message PlayTrackQuery {
+  bytes track = 1 [(.Devialet.CallMeMaybe.bytes) = {
+    type: JsonObject
+  }];
+}
+
+message PlayTrackAtQuery {
+  uint32 index = 1;
+  bytes track = 2 [(.Devialet.CallMeMaybe.bytes) = {
+    type: JsonObject
+  }];
+}
+
+message SeekQuery {
+  int64 time = 1 [(.Devialet.CallMeMaybe.int64) = {
+    type: Nanoseconds
+  }];
+}
+
+service Playback {
+  option (.Devialet.CallMeMaybe.service) = {
+    apiVersion: 1
+    parent: "Devialet.SourceOfAll.BaseService"
+    name: ".playback"
+    properties: "PlaybackProperties"
+  };
+  rpc play(.google.protobuf.Empty) returns (.google.protobuf.Empty);
+  rpc playAt(.Devialet.SourceOfAll.PlayAtQuery) returns (.google.protobuf.Empty);
+  rpc playTrack(.Devialet.SourceOfAll.PlayTrackQuery) returns (.google.protobuf.Empty);
+  rpc playTrackAt(.Devialet.SourceOfAll.PlayTrackAtQuery) returns (.google.protobuf.Empty);
+  rpc togglePause(.google.protobuf.Empty) returns (.google.protobuf.Empty);
+  rpc toggleRandom(.google.protobuf.Empty) returns (.google.protobuf.Empty);
+  rpc toggleRepeat(.google.protobuf.Empty) returns (.google.protobuf.Empty);
+  rpc pause(.google.protobuf.Empty) returns (.google.protobuf.Empty);
+  rpc stop(.google.protobuf.Empty) returns (.google.protobuf.Empty);
+  rpc next(.google.protobuf.Empty) returns (.google.protobuf.Empty);
+  rpc prev(.google.protobuf.Empty) returns (.google.protobuf.Empty);
+  rpc seek(.Devialet.SourceOfAll.SeekQuery) returns (.google.protobuf.Empty);
+}
+

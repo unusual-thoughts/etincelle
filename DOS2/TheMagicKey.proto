@@ -1,0 +1,61 @@
+syntax = "proto2";
+
+import "google/protobuf/empty.proto";
+import "Devialet/CallMeMaybe/GeneratorOptions.proto";
+package Devialet.TheMagicKey;
+
+message Request {
+  required bytes serverId = 1 [(.Devialet.CallMeMaybe.bytes) = {
+    type: Uuid
+  }];
+  required fixed32 serviceId = 2;
+  required bytes requestId = 3 [(.Devialet.CallMeMaybe.bytes) = {
+    type: Uuid
+  }];
+  required uint32 type = 4;
+  required uint32 subTypeId = 5;
+}
+
+message Reply {
+  required bytes serverId = 1 [(.Devialet.CallMeMaybe.bytes) = {
+    type: Uuid
+  }];
+  required fixed32 serviceId = 2;
+  required bytes requestId = 3 [(.Devialet.CallMeMaybe.bytes) = {
+    type: Uuid
+  }];
+  required uint32 type = 4;
+  required uint32 subTypeId = 5;
+  required sint32 errorCode = 6;
+  required bool isMultipart = 7;
+}
+
+message ConnectionRequest {
+  required uint32 version = 1;
+}
+
+message Service {
+  required uint32 id = 1;
+  required string name = 2;
+}
+
+message ConnectionReply {
+  required bytes serverId = 1 [(.Devialet.CallMeMaybe.bytes) = {
+    type: Uuid
+  }];
+  repeated .Devialet.TheMagicKey.Service services = 2;
+}
+
+message AuthenticationBlob {
+  required bytes data = 1;
+}
+
+message SetAuthorizedKeysRequest {
+  required bytes signature = 1;
+  required bytes authorizedKeysData = 2;
+}
+
+message GenericRequest {
+  required bytes signature = 1;
+}
+

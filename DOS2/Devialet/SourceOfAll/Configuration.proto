@@ -1,0 +1,63 @@
+syntax = "proto3";
+
+import "Devialet/CallMeMaybe/CallMeMaybe.proto";
+import "Devialet/CallMeMaybe/DefaultMessages.proto";
+import "Devialet/CallMeMaybe/GeneratorOptions.proto";
+import "Devialet/SourceOfAll/BaseService.proto";
+package Devialet.SourceOfAll;
+
+message ConfigurationTargetMessage {
+  enum TargetType {
+    UnknownTargetType = 0;
+    Group = 1;
+    System = 2;
+  }
+  .Devialet.SourceOfAll.ConfigurationTargetMessage.TargetType type = 1;
+}
+
+message PlaybackTargetMessage {
+  .Devialet.SourceOfAll.ConfigurationTargetMessage target = 1;
+  .Devialet.CallMeMaybe.Id system = 2;
+}
+
+message ConfigurationProperties {
+  .Devialet.CallMeMaybe.InterfaceProperties parent = 1;
+  string prettyName = 2;
+  bool canChangePrettyName = 3 [(.Devialet.CallMeMaybe.property) = {
+    constant: true
+  }];
+  .Devialet.SourceOfAll.PlaybackTargetMessage playbackTarget = 4;
+  .Devialet.SourceOfAll.ConfigurationTargetMessage remoteTarget = 5;
+  uint32 defaultVolume = 6;
+  bool canChangeLatency = 7 [(.Devialet.CallMeMaybe.property) = {
+    constant: true
+  }];
+  int64 latency = 8 [(.Devialet.CallMeMaybe.int64) = {
+    type: Milliseconds
+  }];
+  int64 defaultLatency = 9 [(.Devialet.CallMeMaybe.property) = {
+    readOnly: true
+  }, (.Devialet.CallMeMaybe.int64) = {
+    type: Milliseconds
+  }];
+  int64 minimumLatency = 10 [(.Devialet.CallMeMaybe.property) = {
+    readOnly: true
+  }, (.Devialet.CallMeMaybe.int64) = {
+    type: Milliseconds
+  }];
+  int64 maximumLatency = 11 [(.Devialet.CallMeMaybe.property) = {
+    readOnly: true
+  }, (.Devialet.CallMeMaybe.int64) = {
+    type: Milliseconds
+  }];
+}
+
+service Configuration {
+  option (.Devialet.CallMeMaybe.service) = {
+    apiVersion: 1
+    parent: "Devialet.SourceOfAll.BaseService"
+    name: ".configuration"
+    properties: "ConfigurationProperties"
+  };
+}
+

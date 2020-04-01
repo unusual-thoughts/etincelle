@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+import "Devialet/CallMeMaybe/GeneratorOptions.proto";
+package Devialet.GetThePartyStarted;
+
+message NetworkConfiguration {
+  message WiFi {
+    message Network {
+      enum Type {
+        Station = 0;
+        Mesh = 1;
+        AccessPoint = 2;
+      }
+      .Devialet.GetThePartyStarted.NetworkConfiguration.WiFi.Network.Type type = 1;
+      bytes serviceSetIdentifier = 2;
+      bytes preSharedKey = 3 [(.Devialet.CallMeMaybe.field) = {
+        secret: true
+      }];
+    }
+    repeated .Devialet.GetThePartyStarted.NetworkConfiguration.WiFi.Network networks = 1;
+    bool enabled = 2;
+  }
+  message Plc {
+    bytes networkMembershipKey = 1 [(.Devialet.CallMeMaybe.field) = {
+      secret: true
+    }];
+    bool enabled = 2;
+  }
+  .Devialet.GetThePartyStarted.NetworkConfiguration.WiFi wiFi = 1;
+  .Devialet.GetThePartyStarted.NetworkConfiguration.Plc plc = 2;
+}
+

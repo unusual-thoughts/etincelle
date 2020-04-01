@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+import "Devialet/CallMeMaybe/CallMeMaybe.proto";
+import "Devialet/CallMeMaybe/GeneratorOptions.proto";
+package Devialet.UnderTheBridge;
+
+message ConfigurationProperties {
+  enum AudioRoutingPolicy {
+    Unknown = 0;
+    Auto = 1;
+    WifiOverPlc = 2;
+    PlcOverWifi = 3;
+  }
+  .Devialet.CallMeMaybe.InterfaceProperties parent = 1;
+  .Devialet.UnderTheBridge.ConfigurationProperties.AudioRoutingPolicy audioRoutingPolicy = 2;
+}
+
+service Configuration {
+  option (.Devialet.CallMeMaybe.service) = {
+    apiVersion: 1
+    name: "io.dvlt.underthebridge.configuration"
+    properties: "ConfigurationProperties"
+  };
+}
+

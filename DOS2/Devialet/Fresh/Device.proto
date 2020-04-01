@@ -1,0 +1,55 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+import "Devialet/CallMeMaybe/CallMeMaybe.proto";
+import "Devialet/CallMeMaybe/GeneratorOptions.proto";
+import "Devialet/Fresh/UpdateImage.proto";
+package Devialet.Fresh;
+
+message InstallationProcess {
+  .Devialet.Fresh.UpdateImage image = 1;
+}
+
+message DeviceProperties {
+  enum State {
+    Unknown = 0;
+    UpToDate = 1;
+    ReadyForUpdate = 2;
+    NeedUpdate = 3;
+  }
+  .Devialet.CallMeMaybe.InterfaceProperties parent = 1;
+  .Devialet.Fresh.DeviceProperties.State state = 2 [(.Devialet.CallMeMaybe.property) = {
+    readOnly: true
+  }];
+  .Devialet.Fresh.UpdateImage currentImage = 3 [(.Devialet.CallMeMaybe.property) = {
+    constant: true
+  }];
+  .Devialet.Fresh.UpdateImage desiredImage = 4 [(.Devialet.CallMeMaybe.property) = {
+    readOnly: true
+  }];
+  .Devialet.Fresh.UpdateImage preparedImage = 5 [(.Devialet.CallMeMaybe.property) = {
+    readOnly: true
+  }];
+  .Devialet.Fresh.InstallationProcess installationProcess = 6 [(.Devialet.CallMeMaybe.property) = {
+    readOnly: true
+  }];
+  .Devialet.Fresh.UpdateImage lastSkippedImage = 7 [(.Devialet.CallMeMaybe.property) = {
+    readOnly: true
+  }];
+}
+
+service Device {
+  option (.Devialet.CallMeMaybe.service) = {
+    apiVersion: 1
+    name: "io.dvlt.fresh.device"
+    properties: "DeviceProperties"
+  };
+  rpc check(.google.protobuf.Empty) returns (.google.protobuf.Empty);
+  rpc finalizeUpdate(.google.protobuf.Empty) returns (.google.protobuf.Empty);
+  rpc skip(.Devialet.Fresh.UpdateImage) returns (.google.protobuf.Empty) {
+    option (.Devialet.CallMeMaybe.method) = {
+      useMessageAsArgument: true
+    };
+  }
+}
+

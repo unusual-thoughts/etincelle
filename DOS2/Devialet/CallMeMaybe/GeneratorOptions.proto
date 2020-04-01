@@ -1,0 +1,119 @@
+syntax = "proto3";
+
+import "google/protobuf/descriptor.proto";
+package Devialet.CallMeMaybe;
+
+message ExtendedFieldOptions {
+  bool secret = 1;
+  bool disableLogging = 2;
+}
+
+message ExtendedBytesFieldOptions {
+  enum Type {
+    Default = 0;
+    Uuid = 1;
+    JsonObject = 2;
+  }
+  enum LogMode {
+    Auto = 0;
+    Base64 = 1;
+    Raw = 2;
+    Desc = 3;
+  }
+  .Devialet.CallMeMaybe.ExtendedBytesFieldOptions.Type type = 1;
+  .Devialet.CallMeMaybe.ExtendedBytesFieldOptions.LogMode logMode = 2;
+  int32 logMaxLength = 3;
+}
+
+message ExtendedStringFieldOptions {
+  enum Type {
+    Default = 0;
+    Url = 1;
+  }
+  .Devialet.CallMeMaybe.ExtendedStringFieldOptions.Type type = 1;
+}
+
+message ExtendedInt64FieldOptions {
+  enum Type {
+    Default = 0;
+    DateTime = 1;
+    Seconds = 2;
+    Milliseconds = 3;
+    Microseconds = 4;
+    Nanoseconds = 5;
+  }
+  .Devialet.CallMeMaybe.ExtendedInt64FieldOptions.Type type = 1;
+}
+
+message ExtendedRepeatedFieldOptions {
+  enum Type {
+    Default = 0;
+    Set = 1;
+  }
+  .Devialet.CallMeMaybe.ExtendedRepeatedFieldOptions.Type type = 1;
+}
+
+message ExtendedMapFieldOptions {
+  enum Type {
+    Map = 0;
+    Hash = 1;
+  }
+  enum KeyType {
+    Default = 0;
+    Uuid = 1;
+  }
+  .Devialet.CallMeMaybe.ExtendedMapFieldOptions.Type type = 1;
+  .Devialet.CallMeMaybe.ExtendedMapFieldOptions.KeyType keyType = 2;
+}
+
+message ExtendedPropertyFieldOptions {
+  uint32 minimumApiVersion = 1;
+  uint32 maximumApiVersion = 2;
+  bool readOnly = 3;
+  bool constant = 4;
+  bool disableLogging = 5;
+  bool disableUpdateLogging = 6;
+  bool supportsReplace = 7;
+}
+
+message ExtendedServiceOptions {
+  uint32 apiVersion = 1;
+  string parent = 2;
+  string name = 3;
+  string properties = 4;
+}
+
+message ExtendedMethodOptions {
+  uint32 minimumApiVersion = 1;
+  uint32 maximumApiVersion = 2;
+  bool notification = 3;
+  bool disableLogging = 4;
+  bool useMessageAsArgument = 5;
+}
+
+message ExtendedEnumValueOptions {
+  string description = 1;
+}
+
+extend .google.protobuf.EnumValueOptions {
+  .Devialet.CallMeMaybe.ExtendedEnumValueOptions enumValue = 1000;
+}
+
+extend .google.protobuf.FieldOptions {
+  .Devialet.CallMeMaybe.ExtendedFieldOptions field = 1000;
+  .Devialet.CallMeMaybe.ExtendedBytesFieldOptions bytes = 1001;
+  .Devialet.CallMeMaybe.ExtendedMapFieldOptions map = 1002;
+  .Devialet.CallMeMaybe.ExtendedPropertyFieldOptions property = 1003;
+  .Devialet.CallMeMaybe.ExtendedStringFieldOptions string = 1004;
+  .Devialet.CallMeMaybe.ExtendedInt64FieldOptions int64 = 1005;
+  .Devialet.CallMeMaybe.ExtendedRepeatedFieldOptions repeated = 1006;
+}
+
+extend .google.protobuf.ServiceOptions {
+  .Devialet.CallMeMaybe.ExtendedServiceOptions service = 1000;
+}
+
+extend .google.protobuf.MethodOptions {
+  .Devialet.CallMeMaybe.ExtendedMethodOptions method = 1000;
+}
+

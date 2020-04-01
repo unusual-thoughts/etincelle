@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+import "Devialet/CallMeMaybe/CallMeMaybe.proto";
+import "Devialet/CallMeMaybe/DefaultMessages.proto";
+import "Devialet/CallMeMaybe/GeneratorOptions.proto";
+import "Devialet/SourceOfAll/BaseService.proto";
+package Devialet.SourceOfAll;
+
+message IconsMessage {
+  string low = 1 [(.Devialet.CallMeMaybe.string) = {
+    type: Url
+  }];
+  string medium = 2 [(.Devialet.CallMeMaybe.string) = {
+    type: Url
+  }];
+  string high = 3 [(.Devialet.CallMeMaybe.string) = {
+    type: Url
+  }];
+}
+
+message SourceProperties {
+  .Devialet.CallMeMaybe.InterfaceProperties parent = 1;
+  bool select = 2;
+  .Devialet.SourceOfAll.IconsMessage icons = 3 [(.Devialet.CallMeMaybe.property) = {
+    readOnly: true
+  }];
+}
+
+service Source {
+  option (.Devialet.CallMeMaybe.service) = {
+    apiVersion: 1
+    parent: "Devialet.SourceOfAll.BaseService"
+    name: ".source"
+    properties: "SourceProperties"
+  };
+}
+

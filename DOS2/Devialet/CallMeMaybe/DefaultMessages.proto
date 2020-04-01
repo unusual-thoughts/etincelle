@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+import "Devialet/CallMeMaybe/CallMeMaybe.proto";
+import "Devialet/CallMeMaybe/GeneratorOptions.proto";
+package Devialet.CallMeMaybe;
+
+message DefaultProperties {
+  .Devialet.CallMeMaybe.InterfaceProperties parent = 1;
+}
+
+message Id {
+  bytes id = 1 [(.Devialet.CallMeMaybe.bytes) = {
+    type: Uuid
+  }];
+}
+

@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+import "Devialet/CallMeMaybe/CallMeMaybe.proto";
+import "Devialet/CallMeMaybe/DefaultMessages.proto";
+import "Devialet/CallMeMaybe/GeneratorOptions.proto";
+import "EntityNode.proto";
+package Devialet.MasterOfPuppets;
+
+message GroupMessage {
+  .Devialet.CallMeMaybe.Id id = 1;
+  bool isDefault = 2;
+}
+
+message RendererNodeProperties {
+  .Devialet.CallMeMaybe.InterfaceProperties parent = 1;
+  .Devialet.MasterOfPuppets.GroupMessage group = 2 [(.Devialet.CallMeMaybe.property) = {
+  }];
+}
+
+service RendererNode {
+  option (.Devialet.CallMeMaybe.service) = {
+    apiVersion: 1
+    parent: "Devialet.MasterOfPuppets.EntityNode"
+    name: ".renderer"
+    properties: "RendererNodeProperties"
+  };
+  rpc identificationRequested(.google.protobuf.Empty) returns (.google.protobuf.Empty) {
+    option (.Devialet.CallMeMaybe.method) = {
+      notification: true
+    };
+  }
+}
+

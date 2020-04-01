@@ -1,0 +1,61 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+import "Devialet/CallMeMaybe/CallMeMaybe.proto";
+import "Devialet/CallMeMaybe/DefaultMessages.proto";
+import "Devialet/CallMeMaybe/GeneratorOptions.proto";
+import "Devialet/SourceOfAll/BaseService.proto";
+package Devialet.SourceOfAll;
+
+message MuteMessage {
+  .Devialet.CallMeMaybe.Id source = 1;
+  bool isEnabled = 2;
+}
+
+message VolumeMessage {
+  .Devialet.CallMeMaybe.Id source = 1;
+  uint32 value = 2;
+}
+
+message VolumeDeltaMessage {
+  .Devialet.CallMeMaybe.Id source = 1;
+  .Devialet.CallMeMaybe.Id target = 2;
+  uint32 amount = 3;
+}
+
+message SoundControlProperties {
+  .Devialet.CallMeMaybe.InterfaceProperties parent = 1;
+  bool isActive = 2 [(.Devialet.CallMeMaybe.property) = {
+    readOnly: true
+  }];
+  .Devialet.CallMeMaybe.Id currentTarget = 3 [(.Devialet.CallMeMaybe.property) = {
+    readOnly: true
+  }];
+  repeated bytes targets = 4 [(.Devialet.CallMeMaybe.bytes) = {
+    type: Uuid
+  }, (.Devialet.CallMeMaybe.property) = {
+    readOnly: true
+  }, (.Devialet.CallMeMaybe.repeated) = {
+    type: Set
+  }];
+  map<string, .Devialet.SourceOfAll.MuteMessage> mutes = 5 [(.Devialet.CallMeMaybe.map) = {
+    type: Hash
+    keyType: Uuid
+  }];
+  map<string, .Devialet.SourceOfAll.VolumeMessage> volumes = 6 [(.Devialet.CallMeMaybe.map) = {
+    type: Hash
+    keyType: Uuid
+  }];
+}
+
+service SoundControl {
+  option (.Devialet.CallMeMaybe.service) = {
+    apiVersion: 1
+    parent: "Devialet.SourceOfAll.BaseService"
+    name: ".soundcontrol"
+    properties: "SoundControlProperties"
+  };
+  rpc volumeIncrease(.Devialet.SourceOfAll.VolumeDeltaMessage) returns (.google.protobuf.Empty);
+  rpc volumeDecrease(.Devialet.SourceOfAll.VolumeDeltaMessage) returns (.google.protobuf.Empty);
+}
+

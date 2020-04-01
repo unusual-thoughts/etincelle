@@ -1,0 +1,92 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+import "Devialet/CallMeMaybe/CallMeMaybe.proto";
+import "Devialet/CallMeMaybe/DefaultMessages.proto";
+import "Devialet/CallMeMaybe/GeneratorOptions.proto";
+import "Devialet/GetThePartyStarted/DeviceInfo.proto";
+import "Devialet/GetThePartyStarted/NetworkConfiguration.proto";
+package Devialet.GetThePartyStarted.Setup;
+
+message DeviceSetupProperties {
+  enum Technology {
+    Unsupported = 0;
+    Ethernet = 1;
+    Plc = 2;
+    BluetoothSmart = 3;
+    WiFiCredentials = 4;
+    WiFiProtectedSetup = 5;
+  }
+  .Devialet.CallMeMaybe.InterfaceProperties parent = 1;
+  .Devialet.GetThePartyStarted.DeviceInfo info = 2 [(.Devialet.CallMeMaybe.property) = {
+    constant: true
+  }];
+  .Devialet.GetThePartyStarted.Setup.DeviceSetupProperties.Technology technology = 3 [(.Devialet.CallMeMaybe.property) = {
+    constant: true
+  }];
+  bool isDelegate = 4 [(.Devialet.CallMeMaybe.property) = {
+    readOnly: true
+  }];
+  bool isWiredConnected = 5 [(.Devialet.CallMeMaybe.property) = {
+    readOnly: true
+  }];
+}
+
+message SetupToken {
+  bytes value = 1 [(.Devialet.CallMeMaybe.field) = {
+    secret: true
+  }];
+}
+
+message ConfigureNetworkRequest {
+  .Devialet.GetThePartyStarted.Setup.SetupToken token = 1;
+  .Devialet.GetThePartyStarted.NetworkConfiguration configuration = 2;
+}
+
+message CancelSetupRequest {
+  .Devialet.GetThePartyStarted.Setup.SetupToken token = 1;
+}
+
+message CompleteSetupRequest {
+  .Devialet.GetThePartyStarted.Setup.SetupToken token = 1;
+}
+
+message StartAccessPointRequest {
+  bytes customInformationElement = 1;
+}
+
+message SetDeviceNameRequest {
+  string name = 1;
+}
+
+service DeviceSetup {
+  option (.Devialet.CallMeMaybe.service) = {
+    apiVersion: 1
+    name: "io.dvlt.getthepartystarted.setup"
+    properties: "DeviceSetupProperties"
+  };
+  rpc identify(.google.protobuf.Empty) returns (.google.protobuf.Empty);
+  rpc configureNetwork(.Devialet.GetThePartyStarted.Setup.ConfigureNetworkRequest) returns (.google.protobuf.Empty);
+  rpc configurationStarted(.google.protobuf.Empty) returns (.google.protobuf.Empty) {
+    option (.Devialet.CallMeMaybe.method) = {
+      notification: true
+    };
+  }
+  rpc completeSetup(.Devialet.GetThePartyStarted.Setup.CompleteSetupRequest) returns (.google.protobuf.Empty);
+  rpc cancelSetup(.google.protobuf.Empty) returns (.google.protobuf.Empty);
+}
+
+service AppleWacDeviceSetup {
+  option (.Devialet.CallMeMaybe.service) = {
+    apiVersion: 1
+    parent: "DeviceSetup"
+    name: ".apple-wac"
+    properties: "Devialet.CallMeMaybe.DefaultProperties"
+  };
+  rpc startAccessPoint(.Devialet.GetThePartyStarted.Setup.StartAccessPointRequest) returns (.google.protobuf.Empty);
+  rpc stopAccessPoint(.google.protobuf.Empty) returns (.google.protobuf.Empty);
+  rpc setDeviceName(.Devialet.GetThePartyStarted.Setup.SetDeviceNameRequest) returns (.google.protobuf.Empty);
+  rpc joinDestinationWiFiNetwork(.Devialet.GetThePartyStarted.NetworkConfiguration.WiFi.Network) returns (.google.protobuf.Empty);
+  rpc completeWacSetup(.google.protobuf.Empty) returns (.google.protobuf.Empty);
+}
+

@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+import "Devialet/CallMeMaybe/CallMeMaybe.proto";
+import "Devialet/CallMeMaybe/GeneratorOptions.proto";
+import "Devialet/SourceOfAll/Configuration.proto";
+package Devialet.Blue;
+
+message PeerDevice {
+  uint64 macAddress = 1;
+  string name = 2;
+  bool paired = 3;
+  bool connected = 4;
+}
+
+message ConfigurationProperties {
+  .Devialet.CallMeMaybe.InterfaceProperties parent = 1;
+  bool isDiscoverable = 2 [(.Devialet.CallMeMaybe.property) = {
+    readOnly: true
+  }];
+  int64 discoverabilityDuration = 3 [(.Devialet.CallMeMaybe.property) = {
+    constant: true
+  }, (.Devialet.CallMeMaybe.int64) = {
+    type: Seconds
+  }];
+  bool hasRemoteDevice = 4 [(.Devialet.CallMeMaybe.property) = {
+    readOnly: true
+  }];
+  uint64 currentPeerDevice = 5 [(.Devialet.CallMeMaybe.property) = {
+    readOnly: true
+  }];
+  map<uint64, .Devialet.Blue.PeerDevice> peerDevices = 6 [(.Devialet.CallMeMaybe.map) = {
+    type: Hash
+  }, (.Devialet.CallMeMaybe.property) = {
+    readOnly: true
+    supportsReplace: true
+  }];
+}
+
+service Configuration {
+  option (.Devialet.CallMeMaybe.service) = {
+    apiVersion: 1
+    parent: "Devialet.SourceOfAll.Configuration"
+    name: ".blue"
+    properties: "ConfigurationProperties"
+  };
+  rpc startDiscoverability(.google.protobuf.Empty) returns (.google.protobuf.Empty);
+  rpc stopDiscoverability(.google.protobuf.Empty) returns (.google.protobuf.Empty);
+  rpc toggleDiscoverability(.google.protobuf.Empty) returns (.google.protobuf.Empty);
+}
+

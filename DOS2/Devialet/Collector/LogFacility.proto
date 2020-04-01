@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+import "Devialet/CallMeMaybe/GeneratorOptions.proto";
+package Devialet.Collector;
+
+message StorageKey {
+  string serialNumber = 1;
+  int64 timestamp = 2 [(.Devialet.CallMeMaybe.int64) = {
+    type: DateTime
+  }];
+}
+
+service LogFacility {
+  option (.Devialet.CallMeMaybe.service) = {
+    apiVersion: 1
+    name: "io.dvlt.collector.logfacility"
+  };
+  rpc uploadLogs(.Devialet.Collector.StorageKey) returns (.google.protobuf.Empty);
+}
+

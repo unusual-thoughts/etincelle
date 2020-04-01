@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+import "Devialet/CallMeMaybe/CallMeMaybe.proto";
+import "Devialet/CallMeMaybe/GeneratorOptions.proto";
+package Devialet.IMASlave4U;
+
+message RoleMessage {
+  enum Role {
+    Unknown = 0;
+    Custom = 1;
+    FrontCenter = 2;
+    FrontLeft = 3;
+    FrontRight = 4;
+    RearCenter = 5;
+    RearLeft = 6;
+    RearRight = 7;
+    Mono = 8;
+  }
+  .Devialet.IMASlave4U.RoleMessage.Role role = 1;
+}
+
+message ConfigurationProperties {
+  .Devialet.CallMeMaybe.InterfaceProperties parent = 1;
+  .Devialet.IMASlave4U.RoleMessage role = 2;
+  uint32 volumeOffset = 3;
+  uint32 volumeLimit = 4;
+}
+
+service Configuration {
+  option (.Devialet.CallMeMaybe.service) = {
+    apiVersion: 1
+    name: "io.dvlt.imaslave4u.configuration"
+    properties: "ConfigurationProperties"
+  };
+}
+

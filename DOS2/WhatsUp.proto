@@ -1,0 +1,223 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+import "Devialet/CallMeMaybe/CallMeMaybe.proto";
+import "Devialet/CallMeMaybe/GeneratorOptions.proto";
+package Devialet.WhatsUp;
+
+enum EntityRemovalReason {
+  UnknownEntityRemovalReason = 0;
+  ActiveInstallationChanged = 1;
+  PassiveInstallationsChanged = 2;
+  CleanRemoval = 3;
+  Timeout = 4;
+}
+
+message EndpointMessage {
+  string address = 1 [(.Devialet.CallMeMaybe.string) = {
+    type: Url
+  }];
+  bool localOnly = 2;
+}
+
+message ServiceIdMessage {
+  string name = 1;
+  uint32 id = 2;
+}
+
+message ServiceMessage {
+  .Devialet.WhatsUp.ServiceIdMessage id = 1;
+  bytes properties = 2 [(.Devialet.CallMeMaybe.bytes) = {
+    type: JsonObject
+  }];
+  bool localOnly = 3;
+}
+
+message PoolRegistryProperties {
+  .Devialet.CallMeMaybe.InterfaceProperties parent = 1;
+  string applicationName = 2 [(.Devialet.CallMeMaybe.property) = {
+    constant: true
+  }];
+  int64 processId = 3 [(.Devialet.CallMeMaybe.property) = {
+    constant: true
+  }];
+  .Devialet.CallMeMaybe.LinkPoolIdMessage id = 4 [(.Devialet.CallMeMaybe.property) = {
+    constant: true
+  }];
+  repeated .Devialet.WhatsUp.ServiceMessage services = 5 [(.Devialet.CallMeMaybe.property) = {
+    readOnly: true
+  }];
+  repeated .Devialet.WhatsUp.EndpointMessage endpoints = 6 [(.Devialet.CallMeMaybe.property) = {
+    readOnly: true
+  }];
+}
+
+message InstallationMessage {
+  bytes id = 1 [(.Devialet.CallMeMaybe.bytes) = {
+    type: Uuid
+  }];
+  string name = 2;
+}
+
+message AgentIdMessage {
+  bytes installationId = 1 [(.Devialet.CallMeMaybe.bytes) = {
+    type: Uuid
+  }];
+  bytes hostId = 2 [(.Devialet.CallMeMaybe.bytes) = {
+    type: Uuid
+  }];
+  bytes poolId = 3 [(.Devialet.CallMeMaybe.bytes) = {
+    type: Uuid
+  }];
+}
+
+message AgentMessage {
+  .Devialet.WhatsUp.AgentIdMessage id = 1;
+  string name = 2;
+  string hostname = 3;
+  string serialNumber = 4;
+}
+
+message PoolMessage {
+  .Devialet.WhatsUp.AgentIdMessage agentId = 1;
+  .Devialet.CallMeMaybe.LinkPoolIdMessage poolId = 2;
+  repeated .Devialet.WhatsUp.ServiceMessage services = 3;
+  repeated .Devialet.WhatsUp.EndpointMessage endpoints = 4;
+  .Devialet.WhatsUp.EntityRemovalReason reason = 5;
+}
+
+message PoolMessageList {
+  repeated .Devialet.WhatsUp.PoolMessage entries = 1;
+}
+
+message DaemonRegistryProperties {
+  .Devialet.CallMeMaybe.InterfaceProperties parent = 1;
+  .Devialet.WhatsUp.InstallationMessage activeInstallation = 2 [(.Devialet.CallMeMaybe.property) = {
+    readOnly: true
+  }];
+  .Devialet.WhatsUp.AgentMessage currentAgent = 3 [(.Devialet.CallMeMaybe.property) = {
+    readOnly: true
+  }];
+}
+
+message DaemonRegistrarProperties {
+  .Devialet.CallMeMaybe.InterfaceProperties parent = 1;
+  repeated .Devialet.WhatsUp.InstallationMessage availableInstallations = 2 [(.Devialet.CallMeMaybe.property) = {
+    readOnly: true
+  }];
+  repeated bytes passiveInstallations = 3 [(.Devialet.CallMeMaybe.bytes) = {
+    type: Uuid
+  }, (.Devialet.CallMeMaybe.property) = {
+    readOnly: true
+  }];
+  repeated .Devialet.WhatsUp.AgentMessage agents = 4 [(.Devialet.CallMeMaybe.property) = {
+    readOnly: true
+    supportsReplace: true
+  }];
+}
+
+message SetActiveInstallationQuery {
+  .Devialet.WhatsUp.InstallationMessage installation = 1;
+  bool updateName = 2;
+}
+
+message FindServicesQuery {
+  string prefix = 1;
+}
+
+service PoolRegistry {
+  option (.Devialet.CallMeMaybe.service) = {
+    apiVersion: 1
+    name: "io.dvlt.whatsup.pool.registry"
+    properties: "PoolRegistryProperties"
+  };
+}
+
+service DaemonRegistry {
+  option (.Devialet.CallMeMaybe.service) = {
+    apiVersion: 1
+    name: "io.dvlt.whatsup.daemon.registry"
+    properties: "DaemonRegistryProperties"
+  };
+  rpc poolAdded(.Devialet.WhatsUp.PoolMessage) returns (.google.protobuf.Empty) {
+    option (.Devialet.CallMeMaybe.method) = {
+      notification: true
+    };
+  }
+  rpc poolRemoved(.Devialet.WhatsUp.PoolMessage) returns (.google.protobuf.Empty) {
+    option (.Devialet.CallMeMaybe.method) = {
+      notification: true
+    };
+  }
+  rpc servicesAdded(.Devialet.WhatsUp.PoolMessage) returns (.google.protobuf.Empty) {
+    option (.Devialet.CallMeMaybe.method) = {
+      notification: true
+    };
+  }
+  rpc servicesRemoved(.Devialet.WhatsUp.PoolMessage) returns (.google.protobuf.Empty) {
+    option (.Devialet.CallMeMaybe.method) = {
+      notification: true
+    };
+  }
+  rpc endpointsAdded(.Devialet.WhatsUp.PoolMessage) returns (.google.protobuf.Empty) {
+    option (.Devialet.CallMeMaybe.method) = {
+      notification: true
+    };
+  }
+  rpc endpointsRemoved(.Devialet.WhatsUp.PoolMessage) returns (.google.protobuf.Empty) {
+    option (.Devialet.CallMeMaybe.method) = {
+      notification: true
+    };
+  }
+  rpc listAllServices(.google.protobuf.Empty) returns (.Devialet.WhatsUp.PoolMessageList);
+}
+
+service DaemonRegistrar {
+  option (.Devialet.CallMeMaybe.service) = {
+    apiVersion: 1
+    parent: "DaemonRegistry"
+    name: ".registrar"
+    properties: "DaemonRegistrarProperties"
+  };
+  rpc poolAdded(.Devialet.WhatsUp.PoolMessage) returns (.google.protobuf.Empty) {
+    option (.Devialet.CallMeMaybe.method) = {
+      notification: true
+    };
+  }
+  rpc poolsMoved(.Devialet.WhatsUp.PoolMessageList) returns (.google.protobuf.Empty) {
+    option (.Devialet.CallMeMaybe.method) = {
+      notification: true
+    };
+  }
+  rpc poolRemoved(.Devialet.WhatsUp.PoolMessage) returns (.google.protobuf.Empty) {
+    option (.Devialet.CallMeMaybe.method) = {
+      notification: true
+    };
+  }
+  rpc servicesAdded(.Devialet.WhatsUp.PoolMessage) returns (.google.protobuf.Empty) {
+    option (.Devialet.CallMeMaybe.method) = {
+      notification: true
+    };
+  }
+  rpc servicesRemoved(.Devialet.WhatsUp.PoolMessage) returns (.google.protobuf.Empty) {
+    option (.Devialet.CallMeMaybe.method) = {
+      notification: true
+    };
+  }
+  rpc endpointsAdded(.Devialet.WhatsUp.PoolMessage) returns (.google.protobuf.Empty) {
+    option (.Devialet.CallMeMaybe.method) = {
+      notification: true
+    };
+  }
+  rpc endpointsRemoved(.Devialet.WhatsUp.PoolMessage) returns (.google.protobuf.Empty) {
+    option (.Devialet.CallMeMaybe.method) = {
+      notification: true
+    };
+  }
+  rpc registerPool(.google.protobuf.Empty) returns (.google.protobuf.Empty);
+  rpc unregisterPool(.google.protobuf.Empty) returns (.google.protobuf.Empty);
+  rpc findServices(.Devialet.WhatsUp.FindServicesQuery) returns (.Devialet.WhatsUp.PoolMessageList);
+  rpc setActiveInstallation(.Devialet.WhatsUp.InstallationMessage) returns (.google.protobuf.Empty);
+  rpc joinPassiveInstallation(.Devialet.WhatsUp.InstallationMessage) returns (.google.protobuf.Empty);
+}
+

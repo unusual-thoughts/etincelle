@@ -1,0 +1,73 @@
+syntax = "proto3";
+
+import "google/protobuf/any.proto";
+import "Devialet/CallMeMaybe/GeneratorOptions.proto";
+package Devialet.CallMeMaybe;
+
+message RequestTarget {
+  fixed32 serviceId = 1;
+  uint32 interfaceDepth = 2;
+  uint32 id = 3;
+}
+
+message TrackingInfo {
+  bytes id = 1 [(.Devialet.CallMeMaybe.bytes) = {
+    type: Uuid
+  }];
+  bytes parentId = 2 [(.Devialet.CallMeMaybe.bytes) = {
+    type: Uuid
+  }];
+}
+
+message ExceptionWrapper {
+  string what = 1;
+  bytes data = 2 [(.Devialet.CallMeMaybe.bytes) = {
+    type: JsonObject
+  }];
+}
+
+message BaseRequest {
+  enum Type {
+    InvalidType = 0;
+    Request = 1;
+    Reply = 2;
+    Notification = 3;
+  }
+  enum SubType {
+    InvalidSubType = 0;
+    Open = 1;
+    Close = 2;
+    Call = 3;
+    PropertySet = 4;
+    PropertyAdd = 5;
+    PropertyRemove = 6;
+    Exception = 7;
+    PropertyReplace = 8;
+  }
+  .Devialet.CallMeMaybe.BaseRequest.Type type = 1;
+  .Devialet.CallMeMaybe.BaseRequest.SubType subType = 2;
+  .Devialet.CallMeMaybe.TrackingInfo tracking = 3;
+  .Devialet.CallMeMaybe.RequestTarget target = 4;
+  .google.protobuf.Any body = 5;
+}
+
+message InterfaceProperties {
+  uint32 apiVersion = 1;
+  .google.protobuf.Any properties = 2;
+}
+
+message LinkPoolIdMessage {
+  bytes hostId = 1 [(.Devialet.CallMeMaybe.bytes) = {
+    type: Uuid
+  }];
+  bytes poolId = 2 [(.Devialet.CallMeMaybe.bytes) = {
+    type: Uuid
+  }];
+}
+
+message RawLinkProtocolHeader {
+  .Devialet.CallMeMaybe.LinkPoolIdMessage source = 1;
+  .Devialet.CallMeMaybe.LinkPoolIdMessage target = 2;
+  map<string, string> headers = 3;
+}
+
